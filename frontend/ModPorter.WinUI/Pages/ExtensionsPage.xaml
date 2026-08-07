@@ -1,0 +1,20 @@
+<Page
+    x:Class="ModPorter.WinUI.Pages.ExtensionsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ScrollViewer Padding="32,24">
+        <StackPanel Spacing="16" MaxWidth="860" HorizontalAlignment="Left">
+            <TextBlock Text="扩展功能" Style="{StaticResource TitleTextBlockStyle}"/>
+            <TextBlock Style="{StaticResource BodyTextBlockStyle}"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       TextWrapping="Wrap"
+                       Text="本页由后端能力清单（capabilities）动态生成。后端实现新功能后，这里会自动出现可用入口，前端无需更新。标注「待后端实现」的功能为已规划入口。"/>
+
+            <InfoBar x:Name="BackendBar" IsOpen="False" Severity="Error" IsClosable="False"/>
+
+            <!-- 动作卡片由代码动态生成 -->
+            <StackPanel x:Name="ActionsPanel" Spacing="12"/>
+        </StackPanel>
+    </ScrollViewer>
+</Page>
