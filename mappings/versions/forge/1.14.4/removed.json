@@ -1,0 +1,8 @@
+{
+  "classes": {
+    "net.minecraftforge.fml.client.registry.ClientRegistry": {
+      "concept": "input.glfw",
+      "message": "ClientRegistry 是 1.13~1.18 的客户端注册入口；1.14.4 的方法为 registerKeyBinding / bindTileEntitySpecialRenderer(Class, 渲染器)（1.15 起 TESR 绑定才改名 bindTileEntityRenderer），1.19 改为 Mod 总线事件（RegisterKeyMappingsEvent / EntityRenderersEvent）"
+    }
+  }
+}

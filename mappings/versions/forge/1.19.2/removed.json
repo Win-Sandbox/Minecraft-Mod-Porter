@@ -1,0 +1,25 @@
+{
+  "classes": {
+    "net.minecraftforge.registries.DeferredRegister": {
+      "concept": "registry.deferred",
+      "message": "DeferredRegister 是 1.13+ 的注册机制，旧版本不存在"
+    },
+    "net.minecraftforge.fml.DistExecutor": {
+      "concept": "proxy.sided",
+      "message": "DistExecutor 是 1.13+ 的分侧执行机制"
+    },
+    "net.minecraftforge.network.simple.SimpleChannel": {
+      "concept": "network.channel",
+      "message": "SimpleChannel 是 1.13+ 的网络机制"
+    },
+    "net.minecraftforge.fluids.FluidType": {
+      "concept": "fluid.system",
+      "message": "FluidType 是 1.19.2+ 的流体机制，旧版本不存在"
+    },
+    "net.minecraftforge.fluids.ForgeFlowingFluid": {
+      "concept": "fluid.system",
+      "message": "ForgeFlowingFluid 是 1.13+ 的流体机制"
+    }
+  },
+  "members": {}
+}

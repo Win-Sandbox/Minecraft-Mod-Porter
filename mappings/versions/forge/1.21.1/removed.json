@@ -1,0 +1,49 @@
+{
+  "classes": {
+    "net.minecraft.core.component.DataComponents": {
+      "concept": "item.components",
+      "message": "DataComponents 是 1.20.5+ 的物品数据机制，旧版本无对应物"
+    },
+    "net.minecraft.core.component.DataComponentType": {
+      "concept": "item.components",
+      "message": "DataComponentType 是 1.20.5+ 的物品数据机制，旧版本无对应物"
+    },
+    "net.minecraft.world.item.component.CustomData": {
+      "concept": "item.components",
+      "message": "CustomData 是 1.20.5+ 的自定义物品数据载体，旧版本用 ItemStack NBT"
+    },
+    "net.minecraft.world.item.alchemy.PotionContents": {
+      "concept": "item.components",
+      "message": "PotionContents 是 1.20.5+ 的药水数据组件，旧版本用 PotionUtils / ItemStack NBT"
+    },
+    "net.minecraft.world.food.FoodProperties": {
+      "concept": "item.food",
+      "message": "1.20.5+ FoodProperties 为数据组件记录类（DataComponents.FOOD），旧版本为 Item.Properties 上的构建器属性或 ItemFood"
+    },
+    "net.minecraft.world.item.enchantment.ItemEnchantments": {
+      "concept": "enchantment.datadriven",
+      "message": "ItemEnchantments（附魔数据组件）是 1.20.5+/1.21 数据驱动附魔机制的一部分，旧版本附魔为代码注册对象 + NBT 列表"
+    },
+    "net.minecraft.network.codec.StreamCodec": {
+      "concept": "network.channel",
+      "message": "StreamCodec 是 1.20.5+ 的网络编解码机制，旧版本用手写 encoder/decoder(FriendlyByteBuf)"
+    },
+    "net.minecraftforge.network.ChannelBuilder": {
+      "concept": "network.channel",
+      "message": "ChannelBuilder 是新版 Forge（1.20.2+ 网络重构）的通道构建器，旧版本用 NetworkRegistry.newSimpleChannel / SimpleNetworkWrapper"
+    },
+    "net.minecraftforge.client.event.AddGuiOverlayLayersEvent": {
+      "concept": "gui.overlay",
+      "message": "AddGuiOverlayLayersEvent 是 Forge 1.20.5+ 的 HUD 分层注册事件，旧版本用 RegisterGuiOverlaysEvent/RenderGuiOverlayEvent（更早为 RenderGameOverlayEvent）"
+    },
+    "net.minecraftforge.client.gui.overlay.ForgeLayeredDraw": {
+      "concept": "gui.overlay",
+      "message": "ForgeLayeredDraw 是 Forge 1.20.5+ 的 HUD 分层容器，旧版本无对应物"
+    },
+    "net.minecraft.world.level.portal.DimensionTransition": {
+      "concept": "dimension",
+      "message": "DimensionTransition 是 1.21 的跨维度传送参数对象，旧版本用 changeDimension(ServerLevel[, ITeleporter]) / PortalInfo"
+    }
+  },
+  "members": {}
+}

@@ -1,0 +1,93 @@
+{
+  "version": 8,
+  "illegalIdentifiers": [],
+  "restrictedTypeNames": [],
+  "removedClasses": {
+    "java.net.http.*": "java.net.http（HttpClient）是 Java 11 新增：Java 8 下改用 HttpURLConnection 或 OkHttp/Apache HttpClient 依赖",
+    "java.util.random.*": "java.util.random（RandomGenerator 接口族）是 Java 17 新增：Java 8 下改用 java.util.Random / ThreadLocalRandom",
+    "java.lang.foreign.*": "java.lang.foreign（FFM API）是 Java 21+ 新增：Java 8 下无对应物，需改用 JNI 或移除相关功能",
+    "jdk.incubator.*": "孵化器模块在 Java 8 不存在：需移除相关功能或改用第三方库",
+    "java.lang.ProcessHandle": "ProcessHandle 是 Java 9 新增：Java 8 下改用 Process API 的有限能力或第三方库"
+  },
+  "encapsulatedPackages": {},
+  "removedMethods": {
+    "List#of": "List.of 是 Java 9 新增：Java 8 下改用 Arrays.asList(...) 或 Collections.unmodifiableList(new ArrayList<>(...))",
+    "Set#of": "Set.of 是 Java 9 新增：Java 8 下改用 new HashSet<>(Arrays.asList(...))",
+    "Map#of": "Map.of 是 Java 9 新增：Java 8 下改用手工 put 构建 HashMap 或 Guava ImmutableMap",
+    "Map#entry": "Map.entry 是 Java 9 新增：Java 8 下改用 new AbstractMap.SimpleEntry<>(k, v)",
+    "List#copyOf": "List.copyOf 是 Java 10 新增：Java 8 下改用 Collections.unmodifiableList(new ArrayList<>(src))",
+    "Set#copyOf": "Set.copyOf 是 Java 10 新增：Java 8 下改用 Collections.unmodifiableSet(new HashSet<>(src))",
+    "Map#copyOf": "Map.copyOf 是 Java 10 新增：Java 8 下改用 Collections.unmodifiableMap(new HashMap<>(src))",
+    "Path#of": "Path.of 是 Java 11 新增：Java 8 下改用 Paths.get(...)",
+    "Files#readString": "Files.readString 是 Java 11 新增：Java 8 下改用 new String(Files.readAllBytes(path), StandardCharsets.UTF_8)",
+    "Files#writeString": "Files.writeString 是 Java 11 新增：Java 8 下改用 Files.write(path, text.getBytes(StandardCharsets.UTF_8))",
+    "Collectors#toUnmodifiableList": "Collectors.toUnmodifiableList 是 Java 10 新增：Java 8 下改用 Collectors.toList() 再包 Collections.unmodifiableList",
+    "Collectors#toUnmodifiableSet": "Collectors.toUnmodifiableSet 是 Java 10 新增：Java 8 下改用 Collectors.toSet() 再包 Collections.unmodifiableSet",
+    "Collectors#toUnmodifiableMap": "Collectors.toUnmodifiableMap 是 Java 10 新增：Java 8 下改用 Collectors.toMap 再包 Collections.unmodifiableMap",
+    "Objects#requireNonNullElse": "Objects.requireNonNullElse 是 Java 9 新增：Java 8 下改用三元表达式或 Optional.ofNullable(x).orElse(y)",
+    "Objects#requireNonNullElseGet": "Objects.requireNonNullElseGet 是 Java 9 新增：Java 8 下改用三元表达式或 Optional.ofNullable(x).orElseGet(...)",
+    "Predicate#not": "Predicate.not 是 Java 11 新增：Java 8 下改用 p.negate() 或显式 lambda",
+    "String#isBlank": {
+      "message": "String.isBlank 是 Java 11 新增：Java 8 下改用 s.trim().isEmpty()",
+      "anyReceiver": true
+    },
+    "String#strip": {
+      "message": "String.strip 是 Java 11 新增：Java 8 下改用 s.trim()（注意 strip 按 Unicode 空白、trim 按 <= U+0020，语义略有差异）",
+      "anyReceiver": true
+    },
+    "String#stripLeading": {
+      "message": "String.stripLeading 是 Java 11 新增：Java 8 下需手工实现",
+      "anyReceiver": true
+    },
+    "String#stripTrailing": {
+      "message": "String.stripTrailing 是 Java 11 新增：Java 8 下需手工实现",
+      "anyReceiver": true
+    },
+    "String#repeat": "String.repeat 是 Java 11 新增：Java 8 下改用循环 StringBuilder 或第三方 StringUtils.repeat",
+    "String#lines": "String.lines 是 Java 11 新增：Java 8 下改用 Arrays.stream(s.split(\"\\\\R\"))",
+    "String#formatted": {
+      "message": "String.formatted 是 Java 15 新增：Java 8 下改用 String.format(s, args)",
+      "anyReceiver": true
+    },
+    "Optional#isEmpty": "Optional.isEmpty 是 Java 11 新增：Java 8 下改用 !opt.isPresent()",
+    "Optional#or": "Optional.or 是 Java 9 新增：Java 8 下改用 isPresent 判断后手工回退",
+    "Optional#ifPresentOrElse": "Optional.ifPresentOrElse 是 Java 9 新增：Java 8 下改用 if (opt.isPresent()) ... else ...",
+    "Optional#stream": "Optional.stream 是 Java 9 新增：Java 8 下改用 opt.map(Stream::of).orElseGet(Stream::empty)",
+    "Stream#toList": {
+      "message": "Stream.toList 是 Java 16 新增：Java 8 下改用 .collect(Collectors.toList())",
+      "anyReceiver": true
+    },
+    "Stream#takeWhile": {
+      "message": "Stream.takeWhile 是 Java 9 新增：Java 8 无对应物，需改写为循环或先 collect 再截断",
+      "anyReceiver": true
+    },
+    "Stream#dropWhile": {
+      "message": "Stream.dropWhile 是 Java 9 新增：Java 8 无对应物，需改写为循环或先 collect 再截断",
+      "anyReceiver": true
+    },
+    "Stream#ofNullable": "Stream.ofNullable 是 Java 9 新增：Java 8 下改用 x == null ? Stream.empty() : Stream.of(x)",
+    "Stream#iterate": "Stream.iterate 的三参重载（带断言）是 Java 9 新增：Java 8 只有两参版本，需改写为 limit(...)",
+    "InputStream#readAllBytes": {
+      "message": "InputStream.readAllBytes 是 Java 9 新增：Java 8 下改用循环读入 ByteArrayOutputStream 或 IOUtils.toByteArray",
+      "anyReceiver": true
+    },
+    "InputStream#readNBytes": {
+      "message": "InputStream.readNBytes 是 Java 9 新增：Java 8 下需手工循环读取",
+      "anyReceiver": true
+    },
+    "InputStream#transferTo": {
+      "message": "InputStream.transferTo 是 Java 9 新增：Java 8 下需手工缓冲区循环拷贝",
+      "anyReceiver": true
+    },
+    "Thread#onSpinWait": "Thread.onSpinWait 是 Java 9 新增：Java 8 下删除该调用即可",
+    "Arrays#compare": "Arrays.compare 是 Java 9 新增：Java 8 下需手工比较",
+    "Arrays#mismatch": "Arrays.mismatch 是 Java 9 新增：Java 8 下需手工比较",
+    "Runtime#version": "Runtime.version() 是 Java 9 新增：Java 8 下改用 System.getProperty(\"java.version\")",
+    "ProcessHandle#current": "ProcessHandle 是 Java 9 新增：Java 8 无对应物"
+  },
+  "argumentIssues": {},
+  "reflectiveLookups": [
+    "Class#forName",
+    "ClassLoader#loadClass"
+  ]
+}

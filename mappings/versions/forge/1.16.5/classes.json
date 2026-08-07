@@ -1,0 +1,253 @@
+{
+  "mc.item.Item": "net.minecraft.item.Item",
+  "mc.item.ItemStack": "net.minecraft.item.ItemStack",
+  "mc.item.ItemBlock": {
+    "name": "net.minecraft.item.BlockItem",
+    "note": "BlockItem 构造需要 (Block, Item.Properties)，签名与 1.12 的 ItemBlock 不同"
+  },
+  "mc.item.Items": "net.minecraft.item.Items",
+  "mc.item.CreativeModeTab": {
+    "name": "net.minecraft.item.ItemGroup",
+    "note": "创造标签页为 ItemGroup，常量如 ItemGroup.MISC；物品通过 Item.Properties#group(...) 加入"
+  },
+  "mc.item.Rarity": "net.minecraft.item.Rarity",
+  "mc.item.DyeColor": "net.minecraft.item.DyeColor",
+  "mc.item.EquipmentSlot": "net.minecraft.inventory.EquipmentSlotType",
+  "mc.item.Ingredient": "net.minecraft.item.crafting.Ingredient",
+  "mc.block.Block": "net.minecraft.block.Block",
+  "mc.block.Blocks": "net.minecraft.block.Blocks",
+  "mc.block.state.BlockState": "net.minecraft.block.BlockState",
+  "mc.block.SoundType": "net.minecraft.block.SoundType",
+  "mc.block.material.Material": "net.minecraft.block.material.Material",
+  "mc.blockentity.BlockEntity": {
+    "name": "net.minecraft.tileentity.TileEntity",
+    "note": "TileEntity 构造需要 (TileEntityType<?>)，且需注册 TileEntityType（DeferredRegister<TileEntityType<?>>），与 1.12 的无参构造和 1.19 的 (type, pos, state) 构造均不同"
+  },
+  "mc.world.Level": "net.minecraft.world.World",
+  "mc.world.ServerLevel": "net.minecraft.world.server.ServerWorld",
+  "mc.world.ChunkAccess": {
+    "name": "net.minecraft.world.chunk.IChunk",
+    "note": "1.16 的抽象为 IChunk 接口；已加载区块实现类为 net.minecraft.world.chunk.Chunk"
+  },
+  "mc.world.ChunkPos": "net.minecraft.util.math.ChunkPos",
+  "mc.world.biome.Biome": "net.minecraft.world.biome.Biome",
+  "mc.entity.Entity": "net.minecraft.entity.Entity",
+  "mc.entity.LivingEntity": "net.minecraft.entity.LivingEntity",
+  "mc.entity.Mob": "net.minecraft.entity.MobEntity",
+  "mc.entity.AgeableMob": "net.minecraft.entity.AgeableEntity",
+  "mc.entity.PathfinderMob": "net.minecraft.entity.CreatureEntity",
+  "mc.entity.animal.Animal": "net.minecraft.entity.passive.AnimalEntity",
+  "mc.entity.monster.Monster": "net.minecraft.entity.monster.MonsterEntity",
+  "mc.entity.player.Player": "net.minecraft.entity.player.PlayerEntity",
+  "mc.entity.player.ServerPlayer": "net.minecraft.entity.player.ServerPlayerEntity",
+  "mc.entity.player.Abilities": "net.minecraft.entity.player.PlayerAbilities",
+  "mc.entity.item.ItemEntity": "net.minecraft.entity.item.ItemEntity",
+  "mc.entity.EntityType": {
+    "name": "net.minecraft.entity.EntityType",
+    "note": "EntityType.Builder.create(工厂, EntityClassification.XXX).size(w, h).build(id)，需注册（DeferredRegister<EntityType<?>>）"
+  },
+  "mc.core.BlockPos": "net.minecraft.util.math.BlockPos",
+  "mc.core.Direction": "net.minecraft.util.Direction",
+  "mc.core.Vec3": "net.minecraft.util.math.vector.Vector3d",
+  "mc.core.Vec3i": "net.minecraft.util.math.vector.Vector3i",
+  "mc.core.AABB": "net.minecraft.util.math.AxisAlignedBB",
+  "mc.core.RayTraceResult": {
+    "name": "net.minecraft.util.math.RayTraceResult",
+    "note": "1.16 已拆分为 BlockRayTraceResult / EntityRayTraceResult 子类，按用途选择"
+  },
+  "mc.core.NonNullList": "net.minecraft.util.NonNullList",
+  "mc.resources.ResourceLocation": "net.minecraft.util.ResourceLocation",
+  "mc.nbt.CompoundTag": "net.minecraft.nbt.CompoundNBT",
+  "mc.nbt.ListTag": "net.minecraft.nbt.ListNBT",
+  "mc.nbt.Tag": "net.minecraft.nbt.INBT",
+  "mc.chat.Component": {
+    "name": "net.minecraft.util.text.ITextComponent",
+    "note": "可变文本组件为 IFormattableTextComponent；StringTextComponent / TranslationTextComponent 均实现它"
+  },
+  "mc.chat.Style": {
+    "name": "net.minecraft.util.text.Style",
+    "note": "1.16 的 Style 为不可变对象：setColor 等返回新实例，从 Style.EMPTY 链式构建"
+  },
+  "mc.chat.ChatFormatting": "net.minecraft.util.text.TextFormatting",
+  "mc.chat.ClickEvent": "net.minecraft.util.text.event.ClickEvent",
+  "mc.chat.HoverEvent": {
+    "name": "net.minecraft.util.text.event.HoverEvent",
+    "note": "1.16 起 HoverEvent 构造为 (HoverEvent.Action<T>, T)，Action 常量为泛型，与 1.12 不同"
+  },
+  "mc.util.InteractionHand": "net.minecraft.util.Hand",
+  "mc.util.InteractionResult": "net.minecraft.util.ActionResultType",
+  "mc.util.InteractionResultHolder": {
+    "name": "net.minecraft.util.ActionResult",
+    "note": "ActionResult<T> 为泛型，静态工厂 resultSuccess / resultConsume / resultPass / resultFail"
+  },
+  "mc.util.Mth": "net.minecraft.util.math.MathHelper",
+  "mc.util.GsonHelper": "net.minecraft.util.JSONUtils",
+  "mc.damage.DamageSource": "net.minecraft.util.DamageSource",
+  "mc.effect.MobEffect": {
+    "name": "net.minecraft.potion.Effect",
+    "note": "1.12 的 Potion(效果) 对应 Effect；药水类型是 net.minecraft.potion.Potion，勿混淆"
+  },
+  "mc.effect.MobEffectInstance": "net.minecraft.potion.EffectInstance",
+  "mc.effect.MobEffects": "net.minecraft.potion.Effects",
+  "mc.enchant.Enchantment": "net.minecraft.enchantment.Enchantment",
+  "mc.enchant.Enchantments": "net.minecraft.enchantment.Enchantments",
+  "mc.enchant.EnchantmentHelper": "net.minecraft.enchantment.EnchantmentHelper",
+  "mc.particles.ParticleTypes": {
+    "name": "net.minecraft.particles.ParticleTypes",
+    "note": "1.16 粒子常量名已扁平化（如 SMOKE），API 使用 IParticleData，与 1.12 的 EnumParticleTypes 不同"
+  },
+  "mc.stats.Stats": "net.minecraft.stats.Stats",
+  "mc.syncher.SynchedEntityData": "net.minecraft.network.datasync.EntityDataManager",
+  "mc.syncher.EntityDataAccessor": "net.minecraft.network.datasync.DataParameter",
+  "mc.syncher.EntityDataSerializers": "net.minecraft.network.datasync.DataSerializers",
+  "mc.sound.SoundEvent": "net.minecraft.util.SoundEvent",
+  "mc.sound.SoundEvents": "net.minecraft.util.SoundEvents",
+  "mc.sound.SoundSource": "net.minecraft.util.SoundCategory",
+  "mc.inventory.AbstractContainerMenu": {
+    "name": "net.minecraft.inventory.container.Container",
+    "note": "1.16 的 Container 需注册 ContainerType（DeferredRegister<ContainerType<?>>）并配合 NetworkHooks.openGui 打开，与 1.12 的 Container/IGuiHandler 机制不同"
+  },
+  "mc.inventory.Slot": "net.minecraft.inventory.container.Slot",
+  "mc.inventory.Container": {
+    "name": "net.minecraft.inventory.IInventory",
+    "note": "模组自身容器推荐改用 IItemHandler/ItemStackHandler 能力而非直接实现 IInventory"
+  },
+  "mc.client.Minecraft": "net.minecraft.client.Minecraft",
+  "mc.client.I18n": "net.minecraft.client.resources.I18n",
+  "mc.client.ClientLevel": "net.minecraft.client.world.ClientWorld",
+  "mc.client.LocalPlayer": "net.minecraft.client.entity.player.ClientPlayerEntity",
+  "mc.client.Screen": {
+    "name": "net.minecraft.client.gui.screen.Screen",
+    "note": "GuiScreen -> Screen：1.16 渲染方法带 MatrixStack 参数，控件/输入 API 与 1.12 差异大，需人工重写渲染与交互代码"
+  },
+  "mc.client.AbstractContainerScreen": {
+    "name": "net.minecraft.client.gui.screen.inventory.ContainerScreen",
+    "note": "GuiContainer -> ContainerScreen<T extends Container>，渲染方法带 MatrixStack，签名全变"
+  },
+  "mc.client.Font": "net.minecraft.client.gui.FontRenderer",
+  "mc.client.KeyMapping": "net.minecraft.client.settings.KeyBinding",
+  "mc.client.BlockEntityRenderer": {
+    "name": "net.minecraft.client.renderer.tileentity.TileEntityRenderer",
+    "note": "TESR -> TileEntityRenderer<T>，构造接收 TileEntityRendererDispatcher，render 签名为 (T, float, MatrixStack, IRenderTypeBuffer, int, int)，用 ClientRegistry.bindTileEntityRenderer 注册"
+  },
+  "mc.server.MinecraftServer": "net.minecraft.server.MinecraftServer",
+  "forge.Mod": "net.minecraftforge.fml.common.Mod",
+  "forge.Mod.EventBusSubscriber": "net.minecraftforge.fml.common.Mod.EventBusSubscriber",
+  "forge.SubscribeEvent": "net.minecraftforge.eventbus.api.SubscribeEvent",
+  "forge.Event": "net.minecraftforge.eventbus.api.Event",
+  "forge.EventPriority": "net.minecraftforge.eventbus.api.EventPriority",
+  "forge.Cancelable": "net.minecraftforge.eventbus.api.Cancelable",
+  "forge.MinecraftForge": "net.minecraftforge.common.MinecraftForge",
+  "forge.ForgeRegistries": "net.minecraftforge.registries.ForgeRegistries",
+  "forge.IForgeRegistry": "net.minecraftforge.registries.IForgeRegistry",
+  "forge.Dist": "net.minecraftforge.api.distmarker.Dist",
+  "forge.OnlyIn": "net.minecraftforge.api.distmarker.OnlyIn",
+  "forge.DeferredRegister": "net.minecraftforge.registries.DeferredRegister",
+  "forge.RegistryObject": {
+    "name": "net.minecraftforge.fml.RegistryObject",
+    "note": "1.16.5 的 RegistryObject 在 net.minecraftforge.fml 包（1.19 移至 net.minecraftforge.registries）"
+  },
+  "forge.FMLJavaModLoadingContext": "net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext",
+  "forge.DistExecutor": "net.minecraftforge.fml.DistExecutor",
+  "forge.ServerLifecycleHooks": {
+    "name": "net.minecraftforge.fml.server.ServerLifecycleHooks",
+    "note": "1.16.5 的 ServerLifecycleHooks 在 net.minecraftforge.fml.server 包（1.19 移至 net.minecraftforge.server）"
+  },
+  "forge.ModList": "net.minecraftforge.fml.ModList",
+  "forge.ForgeConfigSpec": "net.minecraftforge.common.ForgeConfigSpec",
+  "forge.NetworkHooks": {
+    "name": "net.minecraftforge.fml.network.NetworkHooks",
+    "note": "1.16.5 的 NetworkHooks 在 net.minecraftforge.fml.network 包（1.19 移至 net.minecraftforge.network）；打开容器用 NetworkHooks.openGui"
+  },
+  "forge.capabilities.Capability": {
+    "name": "net.minecraftforge.common.capabilities.Capability",
+    "note": "1.16 中 getCapability 返回 LazyOptional<T>，需用 .orElse(...) / .ifPresent(...) 解包"
+  },
+  "forge.capabilities.ICapabilityProvider": {
+    "name": "net.minecraftforge.common.capabilities.ICapabilityProvider",
+    "note": "getCapability(cap, side) 返回 LazyOptional<T>，hasCapability 已移除"
+  },
+  "forge.capabilities.CapabilityManager": {
+    "name": "net.minecraftforge.common.capabilities.CapabilityManager",
+    "note": "1.16.5 注册方式仍为 CapabilityManager.INSTANCE.register(Class, IStorage, factory) 配合 @CapabilityInject（与 1.19 的 CapabilityToken 机制不同）"
+  },
+  "forge.items.IItemHandler": "net.minecraftforge.items.IItemHandler",
+  "forge.items.ItemStackHandler": "net.minecraftforge.items.ItemStackHandler",
+  "forge.energy.IEnergyStorage": "net.minecraftforge.energy.IEnergyStorage",
+  "forge.energy.EnergyStorage": "net.minecraftforge.energy.EnergyStorage",
+  "forge.util.INBTSerializable": "net.minecraftforge.common.util.INBTSerializable",
+  "forge.fluids.FluidStack": {
+    "name": "net.minecraftforge.fluids.FluidStack",
+    "note": "FluidStack 包装原版 net.minecraft.fluid.Fluid，构造与 1.12 的 Forge Fluid 不同"
+  },
+  "forge.fluids.IFluidHandler": "net.minecraftforge.fluids.capability.IFluidHandler",
+  "forge.fluids.FluidUtil": "net.minecraftforge.fluids.FluidUtil",
+  "forge.fluids.FluidTank": {
+    "name": "net.minecraftforge.fluids.capability.templates.FluidTank",
+    "note": "FluidTank 在 capability.templates 包，构造参数为 (capacity[, validator])"
+  },
+  "forge.lifecycle.commonSetup": {
+    "name": "net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent",
+    "note": "FMLCommonSetupEvent 需通过 Mod 事件总线监听；注册类内容应改用 DeferredRegister 而不是在此事件中注册"
+  },
+  "forge.lifecycle.init": {
+    "name": "net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent",
+    "note": "1.12 的 init 阶段与 preInit 在 1.16 中合并为 FMLCommonSetupEvent，注意两个方法可能合并"
+  },
+  "forge.lifecycle.loadComplete": {
+    "name": "net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent",
+    "note": "FMLLoadCompleteEvent 需通过 Mod 事件总线监听"
+  },
+  "forge.lifecycle.serverStarting": {
+    "name": "net.minecraftforge.fml.event.server.FMLServerStartingEvent",
+    "note": "FMLServerStartingEvent 在 Forge 总线（MinecraftForge.EVENT_BUS）上监听，用 @SubscribeEvent（不再是 @Mod.EventHandler）"
+  },
+  "forge.lifecycle.serverStopping": {
+    "name": "net.minecraftforge.fml.event.server.FMLServerStoppingEvent",
+    "note": "FMLServerStoppingEvent 在 Forge 总线（MinecraftForge.EVENT_BUS）上监听，用 @SubscribeEvent"
+  },
+  "forge.event.RegisterEvent": {
+    "name": "net.minecraftforge.event.RegistryEvent",
+    "note": "1.16.5 使用 RegistryEvent.Register<T>（Mod 总线），与 1.19 的 RegisterEvent 签名不同；推荐改用 DeferredRegister"
+  },
+  "forge.event.AttachCapabilitiesEvent": "net.minecraftforge.event.AttachCapabilitiesEvent",
+  "forge.event.EntityJoinLevelEvent": "net.minecraftforge.event.entity.EntityJoinWorldEvent",
+  "forge.event.PlayerEvent": "net.minecraftforge.event.entity.player.PlayerEvent",
+  "forge.event.PlayerEventFml": {
+    "name": "net.minecraftforge.event.entity.player.PlayerEvent",
+    "note": "1.12 的 gameevent.PlayerEvent（登录/登出/合成/拾取）在 1.16 已并入 event.entity.player.PlayerEvent 的内部类（PlayerLoggedInEvent 等）"
+  },
+  "forge.event.PlayerInteractEvent": "net.minecraftforge.event.entity.player.PlayerInteractEvent",
+  "forge.event.LivingDeathEvent": "net.minecraftforge.event.entity.living.LivingDeathEvent",
+  "forge.event.LivingHurtEvent": "net.minecraftforge.event.entity.living.LivingHurtEvent",
+  "forge.event.BlockEvent": "net.minecraftforge.event.world.BlockEvent",
+  "forge.event.BlockBreakEvent": "net.minecraftforge.event.world.BlockEvent.BreakEvent",
+  "forge.event.TickEvent": "net.minecraftforge.event.TickEvent",
+  "forge.event.PlayerTickEvent": "net.minecraftforge.event.TickEvent.PlayerTickEvent",
+  "forge.event.ServerTickEvent": "net.minecraftforge.event.TickEvent.ServerTickEvent",
+  "forge.event.ClientTickEvent": "net.minecraftforge.event.TickEvent.ClientTickEvent",
+  "forge.event.InputEvent": {
+    "name": "net.minecraftforge.client.event.InputEvent",
+    "note": "1.16 的 InputEvent 在 client.event 包，内部类为 KeyInputEvent / MouseInputEvent（与 1.19 的 InputEvent.Key 命名不同）"
+  },
+  "forge.event.ScreenEvent": {
+    "name": "net.minecraftforge.client.event.GuiScreenEvent",
+    "note": "1.16.5 仍为 GuiScreenEvent，内部类命名与 1.12 相近、与 1.19 的 ScreenEvent 不同，需逐个核对"
+  },
+  "forge.event.RenderGuiOverlayEvent": {
+    "name": "net.minecraftforge.client.event.RenderGameOverlayEvent",
+    "note": "1.16.5 仍为 RenderGameOverlayEvent，用 ElementType 区分层（与 1.19 的 RenderGuiOverlayEvent/overlay id 不同）"
+  },
+  "forge.event.RenderLevelStageEvent": {
+    "name": "net.minecraftforge.client.event.RenderWorldLastEvent",
+    "note": "1.16.5 仍为 RenderWorldLastEvent（1.19 起改为 RenderLevelStageEvent）；事件携带 MatrixStack"
+  },
+  "mc.core.registries.Registries": {
+    "name": "net.minecraft.util.registry.Registry",
+    "note": "1.16 注册表键与静态注册表都在 net.minecraft.util.registry.Registry（1.19.3 起才拆分为 Registries / BuiltInRegistries）"
+  },
+  "mc.core.registries.BuiltInRegistries": {
+    "name": "net.minecraft.util.registry.Registry",
+    "note": "1.16 注册表键与静态注册表都在 net.minecraft.util.registry.Registry（1.19.3 起才拆分为 Registries / BuiltInRegistries）"
+  }
+}

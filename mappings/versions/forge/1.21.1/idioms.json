@@ -1,0 +1,30 @@
+{
+  "forms": {
+    "resourcelocation.parse": {
+      "type": "staticCall",
+      "class": "net.minecraft.resources.ResourceLocation",
+      "method": "parse",
+      "arity": 1
+    },
+    "resourcelocation.fromNamespaceAndPath": {
+      "type": "staticCall",
+      "class": "net.minecraft.resources.ResourceLocation",
+      "method": "fromNamespaceAndPath",
+      "arity": 2
+    }
+  },
+  "guidance": {
+    "item.components": "1.20.5+ 物品数据用数据组件：读 stack.get(DataComponents.XXX)、写 stack.set(DataComponents.XXX, value)、判断 stack.has(...)、删除 stack.remove(...)；自定义数据用 DataComponents.CUSTOM_DATA + CustomData.update(...)；原版组件类在 net.minecraft.world.item.component 包；药水数据用 DataComponents.POTION_CONTENTS（PotionContents，取代 PotionUtils）；旧 ItemStack NBT（getTag/setTag）无直接对应物，需按语义逐项迁移",
+    "item.durability": "1.21.1 的 hurtAndBreak 签名：服务端通用为 stack.hurtAndBreak(amount, serverLevel, serverPlayer, item -> {损坏回调})；装备损耗用 stack.hurtAndBreak(amount, livingEntity, EquipmentSlot.MAINHAND)（自动按槽位广播破坏事件）；1.20 的 broadcastBreakEvent Consumer 回调形式已移除",
+    "item.food": "食物用 new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(营养).saturationModifier(饱和).build()))；1.20.5 起 FoodProperties 为数据组件（DataComponents.FOOD）且 Builder 方法改名：saturationMod -> saturationModifier、alwaysEat -> alwaysEdible，fast/meat 已移除（肉类改用物品 Tag 如 minecraft:wolf_food）",
+    "network.channel": "Forge 1.21.1（网络重构后）用 ChannelBuilder 流式构建：SimpleChannel CHANNEL = ChannelBuilder.named(ResourceLocation.fromNamespaceAndPath(MODID, \"main\")).networkProtocolVersion(1).simpleChannel(); 消息注册用 CHANNEL.messageBuilder(MyMsg.class).encoder(MyMsg::encode).decoder(MyMsg::new).consumerMainThread((msg, ctx) -> ...).add()（handler 上下文为 CustomPayloadEvent.Context，处理后 ctx.setPacketHandled(true)）；发送用 CHANNEL.send(msg, PacketDistributor.PLAYER.with(player)) 等；旧 NetworkRegistry.newSimpleChannel(...) 三函数注册写法已不存在",
+    "gui.menu": "注册 MenuType<T>（DeferredRegister<MenuType<?>>）不变；服务端打开改用 serverPlayer.openMenu(menuProvider, pos) 或 openMenu(menuProvider, buf -> ...)（Forge 对 ServerPlayer 的扩展方法，NetworkHooks 已在新版 Forge 移除）；客户端仍在 FMLClientSetupEvent 中 MenuScreens.register(menuType, Screen 构造) 绑定；Screen 渲染参数为 GuiGraphics",
+    "gui.overlay": "Forge 1.20.5+ 已移除 RenderGuiOverlayEvent/RegisterGuiOverlaysEvent/RenderGuiEvent/VanillaGuiOverlay（原版引入 LayeredDraw 分层渲染）：自定义 HUD 改为在 Mod 总线监听 AddGuiOverlayLayersEvent，用 event.getLayeredDraw().add(id, (guiGraphics, deltaTracker) -> ...) 或 addAbove/addBelow(newId, ForgeLayeredDraw.HOTBAR 等原版层 id, layer) 插入层；修改原版元素（boss 血条/调试文本/聊天位置）仍可用 CustomizeGuiOverlayEvent（Forge 总线）",
+    "enchantment.datadriven": "1.21 附魔完全数据驱动：定义附魔用数据包 data/<ns>/enchantment/*.json（supported_items、effects 等字段），代码侧用 ResourceKey<Enchantment>（Registries.ENCHANTMENT）引用，需要实例时经 registryAccess.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(key) 取 Holder；附魔等级/效果查询用 EnchantmentHelper 的 Holder 化 API（getItemEnchantmentLevel(Holder, ItemStack) 等）；代码子类化 Enchantment 无对应物",
+    "resourcelocation.factory": "1.21 起 ResourceLocation 构造器私有：双参用 ResourceLocation.fromNamespaceAndPath(namespace, path)，单参解析用 ResourceLocation.parse(\"ns:path\")，minecraft 命名空间用 ResourceLocation.withDefaultNamespace(path)；容错解析用 tryParse/tryBuild",
+    "tags.oredict": "矿物词典改为 Tag 系统：数据包 data/<ns>/tags/items|blocks/*.json（通用命名空间为 forge:，如 forge:ingots/copper；工具类 Tag 用原版 minecraft:swords/pickaxes/axes/shovels/hoes）；代码判断用 stack.is(tagKey)，TagKey 用 ItemTags.create(ResourceLocation.fromNamespaceAndPath(ns, path)) 创建（1.21 起不能再 new ResourceLocation）",
+    "dimension": "自定义维度已数据驱动：data/<modid>/dimension/*.json 与 dimension_type/*.json 定义，代码侧用 ResourceKey<Level> 引用；1.21 起跨维度传送改为 Entity#changeDimension(DimensionTransition)（PortalInfo 已被 DimensionTransition 取代，Forge 的 ITeleporter 已移除），需人工核对",
+    "forge.NetworkHooks": "NetworkHooks 已在新版 Forge 移除：打开菜单用 serverPlayer.openMenu(menuProvider[, buf -> ...])（Forge 对 ServerPlayer 的扩展）；网络通道见 network.channel 指导",
+    "forge.event.RenderGuiOverlayEvent": "RenderGuiOverlayEvent/RegisterGuiOverlaysEvent 已在 Forge 1.20.5+ 移除：自定义 HUD 改为 Mod 总线 AddGuiOverlayLayersEvent + ForgeLayeredDraw 分层；修改原版元素用 CustomizeGuiOverlayEvent"
+  }
+}

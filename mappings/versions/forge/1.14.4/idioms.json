@@ -1,0 +1,9 @@
+{
+  "guidance": {
+    "registry.imperative": "改用 DeferredRegister：static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, MODID)（1.14.4/Forge 28.2.x 没有静态 create 工厂，1.15 才加入）; ITEMS.register(\"name\", () -> new Item(new Item.Properties())); 并在 Mod 构造器中 ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus())；RegistryObject 在 net.minecraftforge.fml.RegistryObject",
+    "registry.deferred": "1.14.4 已有 DeferredRegister（net.minecraftforge.registries.DeferredRegister），但 28.2.x 没有静态 create 工厂：把 DeferredRegister.create(注册表, modid) 改写为 new DeferredRegister<>(注册表, modid)，其余用法（register(\"name\", supplier) / register(modEventBus)）不变；注意 RegistryObject 的包为 net.minecraftforge.fml.RegistryObject（1.19 为 registries 包）",
+    "proxy.sided": "改用 DistExecutor.runWhenOn(Dist.CLIENT, () -> ...)（net.minecraftforge.fml.DistExecutor；1.14.4 只有 runWhenOn / callWhenOn / runForDist，没有 1.15.2 后期加入的 unsafe*/safe* 变体）或将客户端逻辑放入 FMLClientSetupEvent / 仅客户端事件监听器",
+    "worldgen": "1.14.4 没有 BiomeLoadingEvent（1.16.2 才引入），也没有 1.15 的 withConfiguration/withPlacement 链式写法：在 FMLCommonSetupEvent 中（用 DeferredWorkQueue.runLater 包裹）遍历 ForgeRegistries.BIOMES，调用 biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(Feature.ORE, new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, 方块状态, 矿簇大小), Placement.COUNT_RANGE, new CountRangeConfig(次数, 底部, 0, 顶部)))（Biome.createDecoratedFeature 是 Biome 的静态方法）；IWorldGenerator 无对应物",
+    "input.glfw": "LWJGL3：键码常量改用 org.lwjgl.glfw.GLFW.GLFW_KEY_*；键位绑定 new KeyBinding(...) 后在 FMLClientSetupEvent 中 ClientRegistry.registerKeyBinding(key)（net.minecraftforge.fml.client.registry.ClientRegistry）；按键状态用 InputMappings.isKeyDown(Minecraft.getInstance().mainWindow.getHandle(), key)——1.14.4 的 mainWindow 是 Minecraft 上的公有字段，没有 getMainWindow() 方法（1.15 才加入）"
+  }
+}

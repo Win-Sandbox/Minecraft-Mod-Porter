@@ -1,0 +1,45 @@
+{
+  "classes": {
+    "net.minecraftforge.registries.DeferredRegister": {
+      "concept": "registry.deferred",
+      "message": "DeferredRegister 是 1.13+ 的注册机制，旧版本不存在"
+    },
+    "net.minecraftforge.fml.DistExecutor": {
+      "concept": "proxy.sided",
+      "message": "DistExecutor 是 1.13+ 的分侧执行机制"
+    },
+    "net.minecraftforge.network.simple.SimpleChannel": {
+      "concept": "network.channel",
+      "message": "SimpleChannel 是 1.13+ 的网络机制"
+    },
+    "net.minecraftforge.fluids.FluidType": {
+      "concept": "fluid.system",
+      "message": "FluidType 是 1.19.2+ 的流体机制，旧版本不存在"
+    },
+    "net.minecraftforge.fluids.ForgeFlowingFluid": {
+      "concept": "fluid.system",
+      "message": "ForgeFlowingFluid 是 1.13+ 的流体机制"
+    },
+    "net.minecraftforge.event.CreativeModeTabEvent": {
+      "concept": "creative.fill",
+      "message": "CreativeModeTabEvent（Register/BuildContents）是 1.19.3–1.19.4 Forge 的创造标签页注册/填充机制，旧版本不存在（1.20+ 改为 BuildCreativeModeTabContentsEvent + Registries.CREATIVE_MODE_TAB）"
+    },
+    "net.minecraft.world.item.CreativeModeTabs": {
+      "concept": "creative.fill",
+      "message": "CreativeModeTabs（原版页签常量/注册表键）是 1.19.3+ 的机制，旧版本不存在"
+    },
+    "net.minecraft.core.registries.BuiltInRegistries": {
+      "concept": "registry.builtin",
+      "message": "BuiltInRegistries 是 1.19.3+ 的静态注册表访问入口，旧版本用 net.minecraft.core.Registry 的静态常量（更早为 Registry.ITEM/Registry.BLOCK 等）或 ForgeRegistries"
+    },
+    "net.minecraft.world.damagesource.DamageTypes": {
+      "concept": "damage.types",
+      "message": "DamageTypes/DamageType 是 1.19.4 的数据驱动伤害类型机制，旧版本用 DamageSource 静态常量（DamageSource.GENERIC 等）"
+    },
+    "net.minecraft.world.damagesource.DamageSources": {
+      "concept": "damage.types",
+      "message": "DamageSources（level.damageSources()）是 1.19.4 的伤害来源获取方式，旧版本用 DamageSource 静态常量或直接构造"
+    }
+  },
+  "members": {}
+}

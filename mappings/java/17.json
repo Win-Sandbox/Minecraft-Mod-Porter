@@ -1,0 +1,64 @@
+{
+  "version": 17,
+  "illegalIdentifiers": [
+    "_"
+  ],
+  "restrictedTypeNames": [
+    "var",
+    "record",
+    "sealed",
+    "permits",
+    "yield"
+  ],
+  "removedClasses": {
+    "javax.xml.bind.*": "JAXB 自 Java 11 起从 JDK 移除（JEP 320）：添加 jakarta.xml.bind（或旧 javax 坐标的 jaxb-api 独立依赖），或改用 Gson 等序列化方案",
+    "javax.activation.*": "JAF 自 Java 11 起从 JDK 移除（JEP 320）：需要时添加 jakarta.activation 依赖",
+    "javax.annotation.PostConstruct": "Common Annotations 自 Java 11 起从 JDK 移除（JEP 320；Forge 环境的 @Nullable/@Nonnull 来自 JSR-305 库、不受影响）：需要时添加 jakarta.annotation 依赖",
+    "javax.annotation.PreDestroy": "Common Annotations 自 Java 11 起从 JDK 移除（JEP 320）：需要时添加 jakarta.annotation 依赖",
+    "javax.annotation.Resource": "Common Annotations 自 Java 11 起从 JDK 移除（JEP 320）：需要时添加 jakarta.annotation 依赖",
+    "javax.annotation.Resources": "Common Annotations 自 Java 11 起从 JDK 移除（JEP 320）：需要时添加 jakarta.annotation 依赖",
+    "javax.annotation.Generated": "javax.annotation.Generated 自 Java 11 起从 JDK 移除（JEP 320）：改用 javax.annotation.processing.Generated（JDK 内置）或添加 jakarta.annotation 依赖",
+    "javax.xml.ws.*": "JAX-WS 自 Java 11 起从 JDK 移除（JEP 320）：添加 jakarta.xml.ws 相关依赖",
+    "javax.xml.soap.*": "SAAJ（随 JAX-WS 模块）自 Java 11 起从 JDK 移除（JEP 320）：添加 jakarta.xml.soap 相关依赖",
+    "javax.jws.*": "JAX-WS 注解自 Java 11 起从 JDK 移除（JEP 320）：添加 jakarta.jws 相关依赖",
+    "jdk.nashorn.*": "Nashorn JS 引擎自 Java 15 移除（JEP 372）：添加独立的 org.openjdk.nashorn 依赖或改用 GraalJS 等脚本引擎；注意 ScriptEngineManager.getEngineByName(\"nashorn\") 也随之失效",
+    "sun.misc.BASE64Encoder": "自 Java 9 移除：改用 java.util.Base64.getEncoder()",
+    "sun.misc.BASE64Decoder": "自 Java 9 移除：改用 java.util.Base64.getDecoder()",
+    "sun.reflect.Reflection": "自 Java 9 移入内部模块（getCallerClass 不再可用）：改用 StackWalker（RETAIN_CLASS_REFERENCE 选项 + getCallerClass()）",
+    "org.omg.*": "CORBA 自 Java 11 从 JDK 移除（JEP 320），JDK 无内置替代：确需 CORBA 可添加 org.glassfish.corba 依赖，通常应移除相关功能",
+    "java.rmi.activation.*": "RMI Activation 自 Java 17 移除（JEP 407），无替代：移除相关功能，普通 RMI（java.rmi 其余部分）仍可用"
+  },
+  "encapsulatedPackages": {
+    "sun.misc.*": "JDK 内部 API 已被模块系统封锁（sun.misc.Unsafe 暂可通过 jdk.unsupported 模块访问但不保证长期可用）：优先改用 VarHandle/标准 API，必要时运行参数加 --add-opens",
+    "sun.reflect.*": "JDK 内部 API 已封锁：改用标准反射 API 或 StackWalker，必要时 --add-opens",
+    "com.sun.imageio.*": "JDK 内部 API，默认不可访问：改用 javax.imageio 标准 API",
+    "sun.security.*": "JDK 内部 API 已封锁：改用 java.security 标准 API"
+  },
+  "removedMethods": {
+    "System#runFinalizersOnExit": "System.runFinalizersOnExit 自 Java 11 移除（编译错误）：删除该调用，用 try-with-resources / Cleaner 管理资源",
+    "Runtime#runFinalizersOnExit": "Runtime.runFinalizersOnExit 自 Java 11 移除（编译错误）：删除该调用，用 try-with-resources / Cleaner 管理资源",
+    "Class#newInstance": "Class.newInstance() 自 Java 9 弃用（会吞掉构造器异常）：改用 clazz.getDeclaredConstructor().newInstance()",
+    "Thread#stop": "Thread.stop() 在 Java 17 仍可编译，但自 Java 20 起直接抛 UnsupportedOperationException（JDK-8293852）：改为协作式停止（volatile 标志位或 interrupt()）",
+    "Thread#suspend": "Thread.suspend() 在 Java 17 仍可编译，但自 Java 20 起直接抛 UnsupportedOperationException（JDK-8293975）：改用等待/通知或并发工具",
+    "Thread#resume": "Thread.resume() 在 Java 17 仍可编译，但自 Java 20 起直接抛 UnsupportedOperationException（JDK-8293975）：改用等待/通知或并发工具",
+    "ThreadGroup#stop": "ThreadGroup.stop() 自 Java 19 起抛 UnsupportedOperationException：改为逐线程协作式停止",
+    "ThreadGroup#suspend": "ThreadGroup.suspend() 自 Java 19 起抛 UnsupportedOperationException",
+    "ThreadGroup#resume": "ThreadGroup.resume() 自 Java 19 起抛 UnsupportedOperationException"
+  },
+  "argumentIssues": {
+    "ScriptEngineManager#getEngineByName": {
+      "values": [
+        "nashorn",
+        "javascript",
+        "js",
+        "ecmascript",
+        "JavaScript"
+      ],
+      "message": "Nashorn 自 Java 15 从 JDK 移除（JEP 372）：getEngineByName 会返回 null 导致 NPE。改用独立的 org.openjdk.nashorn 依赖或 GraalJS"
+    }
+  },
+  "reflectiveLookups": [
+    "Class#forName",
+    "ClassLoader#loadClass"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "mc.entity.Entity": {
+    "getX": {
+      "name": "posX", "kind": "field",
+      "note": "1.14.4 的 posX/posY/posZ 为公有字段（1.15 起才私有化并改用 getPosX() 等方法）"
+    },
+    "getY": {"name": "posY", "kind": "field"},
+    "getZ": {"name": "posZ", "kind": "field"},
+    "isShiftKeyDown": {
+      "name": "isSneaking", "kind": "method",
+      "note": "1.14.4 只有 isSneaking()（Entity 上的 isCrouching 姿态判断是 1.15 才拆分出来的），Shift 键与姿态语义尚未分离"
+    }
+  },
+  "mc.block.Block": {
+    "use": {
+      "name": "onBlockActivated", "kind": "method",
+      "note": "1.14 返回 boolean（1.15 起才改为 ActionResultType），签名 onBlockActivated(BlockState, World, BlockPos, PlayerEntity, Hand, BlockRayTraceResult)"
+    }
+  }
+}

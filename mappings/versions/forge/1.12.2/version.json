@@ -1,0 +1,34 @@
+{
+  "mcVersion": "1.12.2",
+  "loader": "forge",
+  "javaVersion": 8,
+  "metadataFormat": "mcmod.info",
+  "metadataPath": "src/main/resources/mcmod.info",
+  "langFormat": "lang",
+  "langKeys": {
+    "block": "tile.{modid}.{name}.name",
+    "item": "item.{modid}.{name}.name",
+    "group": "itemGroup.{name}"
+  },
+  "texturePrefixes": {
+    "block": "blocks/",
+    "item": "items/"
+  },
+  "modAnnotationStyle": "attributes",
+  "lifecycleStyle": "eventHandler",
+  "packFormat": 3,
+  "forgeVersion": "14.23.5.2860",
+  "gradleVersion": "4.9",
+  "loaderVersionRange": "[14.23.5,)",
+  "mappingsChannel": "stable_39",
+  "aliases": {
+    "1.12.1": {
+      "forgeVersion": "14.22.1.2485",
+      "loaderVersionRange": "[14.22,)"
+    },
+    "1.12": {
+      "forgeVersion": "14.21.1.2443",
+      "loaderVersionRange": "[14.21,)"
+    }
+  }
+}

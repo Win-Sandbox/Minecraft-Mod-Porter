@@ -1,0 +1,12 @@
+{
+  "mcVersion": "1.18.1",
+  "basedOn": "1.18.2",
+  "forgeVersion": "39.1.2",
+  "loaderVersionRange": "[39,)",
+  "aliases": {
+    "1.18": {
+      "forgeVersion": "38.0.17",
+      "loaderVersionRange": "[38,)"
+    }
+  }
+}

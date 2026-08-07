@@ -1,0 +1,7 @@
+{
+  "supported": ["capability.provider"],
+  "guidance": {
+    "capability.provider": "1.19/1.19.1 仍使用 CapabilityItemHandler.ITEM_HANDLER / CapabilityEnergy.ENERGY / CapabilityFluidHandler.FLUID_HANDLER 常量类（ForgeCapabilities 是 1.19.2 才引入的）；getCapability 返回 LazyOptional<T>",
+    "fluid.system": "1.19/1.19.1 尚无 FluidType（1.19.2 引入）：流体注册用 DeferredRegister 注册 ForgeFlowingFluid.Source/Flowing + LiquidBlock + BucketItem，属性用 FluidAttributes.builder(still, flowing) 经 ForgeFlowingFluid.Properties 关联"
+  }
+}

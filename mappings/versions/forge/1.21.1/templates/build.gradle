@@ -1,0 +1,46 @@
+plugins {
+    id 'java'
+    id 'eclipse'
+    id 'idea'
+    id 'net.minecraftforge.gradle' version '[7.0.3,8)'
+}
+
+version = '${version}'
+group = '${group}'
+
+base {
+    archivesName = '${modid}'
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(${javaVersion})
+
+minecraft {
+    mappings channel: '${mappingsChannel}', version: '${mcVersion}'
+
+    runs {
+        configureEach {
+            workingDir = layout.projectDirectory.dir('run')
+        }
+
+        register('client')
+
+        register('server') {
+            args '--nogui'
+        }
+    }
+}
+
+repositories {
+    minecraft.mavenizer(it)
+    maven fg.forgeMaven
+    maven fg.minecraftLibsMaven
+    mavenCentral()
+}
+
+dependencies {
+    implementation minecraft.dependency('net.minecraftforge:forge:${mcVersion}-${forgeVersion}')
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}

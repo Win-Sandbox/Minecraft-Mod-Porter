@@ -1,0 +1,18 @@
+{
+  "mc.client.BlockEntityRenderer": {
+    "name": "net.minecraft.client.renderer.tileentity.TileEntityRenderer",
+    "note": "1.14 的 TESR：无参构造（1.15 才需要传 TileEntityRendererDispatcher），render 签名为 (T, double x, double y, double z, float partialTicks, int destroyStage)，尚无 MatrixStack/IRenderTypeBuffer（1.15 渲染重构才引入），渲染直接用 GlStateManager 压栈；用 ClientRegistry.bindTileEntitySpecialRenderer(TileEntity 类, 渲染器) 注册（1.15 起才改名 bindTileEntityRenderer）"
+  },
+  "mc.util.InteractionResultHolder": {
+    "name": "net.minecraft.util.ActionResult",
+    "note": "1.14.4 的 ActionResult<T> 没有 resultSuccess / resultConsume / resultPass / resultFail 静态工厂（1.15 才加入）：用 new ActionResult<>(ActionResultType.SUCCESS, value) 构造"
+  },
+  "forge.DeferredRegister": {
+    "name": "net.minecraftforge.registries.DeferredRegister",
+    "note": "1.14.4（Forge 28.2.x）的 DeferredRegister 没有静态 create 工厂（1.15 才加入）：用 new DeferredRegister<>(ForgeRegistries.ITEMS, MODID) 构造；RegistryObject 在 net.minecraftforge.fml.RegistryObject"
+  },
+  "forge.event.RenderLevelStageEvent": {
+    "name": "net.minecraftforge.client.event.RenderWorldLastEvent",
+    "note": "1.14.4 仍为 RenderWorldLastEvent，且没有 getMatrixStack()（1.15 渲染重构才携带）：只有 getContext()（WorldRenderer）与 getPartialTicks()，自定义世界渲染用 GlStateManager"
+  }
+}

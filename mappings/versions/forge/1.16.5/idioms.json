@@ -1,0 +1,70 @@
+{
+  "forms": {
+    "chat.literal": {
+      "type": "constructor",
+      "class": "net.minecraft.util.text.StringTextComponent"
+    },
+    "chat.translatable": {
+      "type": "constructor",
+      "class": "net.minecraft.util.text.TranslationTextComponent"
+    },
+    "resourcelocation.parse": {
+      "type": "constructor",
+      "class": "net.minecraft.util.ResourceLocation",
+      "arity": 1
+    },
+    "resourcelocation.fromNamespaceAndPath": {
+      "type": "constructor",
+      "class": "net.minecraft.util.ResourceLocation",
+      "arity": 2
+    }
+  },
+  "supported": [
+    "registry.name",
+    "capability.inject",
+    "capability.provider"
+  ],
+  "guidance": {
+    "registry.imperative": "改用 DeferredRegister：static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID); ITEMS.register(\"name\", () -> new Item(new Item.Properties())); 并在 Mod 构造器中 ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus())；RegistryObject 在 net.minecraftforge.fml.RegistryObject",
+    "registry.deferred": "1.16.5 已有 DeferredRegister（net.minecraftforge.registries.DeferredRegister），可原样使用；注意 RegistryObject 的包为 net.minecraftforge.fml.RegistryObject（1.19 为 registries 包）",
+    "registry.name": "1.16.5 仍支持 setRegistryName(...) / getRegistryName()；推荐改用 DeferredRegister.register(\"name\", ...) 在注册时指定注册名",
+    "lifecycle.eventHandler": "在 @Mod 类构造器中注册：FMLJavaModLoadingContext.get().getModEventBus().addListener(this::方法名)；或将方法设为 static 并在类上加 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)",
+    "lifecycle.serverEvents": "服务器生命周期改为 Forge 总线事件：FMLServerStartingEvent / FMLServerStoppingEvent（net.minecraftforge.fml.event.server.*），用 @SubscribeEvent 监听（不再是 @Mod.EventHandler）",
+    "proxy.sided": "改用 DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> ...)（net.minecraftforge.fml.DistExecutor）或将客户端逻辑放入 FMLClientSetupEvent / 仅客户端事件监听器",
+    "item.propertiesBuilder": "物品属性在构造时传入：new Item(new Item.Properties().group(ItemGroup.MISC).maxStackSize(64).maxDamage(250))；显示名称写在语言文件 item.<modid>.<name>",
+    "block.propertiesBuilder": "方块属性在构造时传入：new Block(AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(硬度, 抗性).sound(SoundType.STONE).setLightLevel(s -> 15))；1.16 挖掘等级仍可在 Properties 上用 harvestTool(ToolType.PICKAXE).harvestLevel(n) 指定",
+    "recipes.data": "合成/熔炼配方改为数据包：src/main/resources/data/<modid>/recipes/*.json",
+    "metadata.meta": "1.13+ 扁平化后没有 metadata/damage 子类型：每个子类型需拆分为独立注册的物品/方块（或方块状态属性）；耐久用 getDamage/setDamage（1.16 MCP 名）",
+    "network.channel": "改用 SimpleChannel：NetworkRegistry.newSimpleChannel(new ResourceLocation(MODID, \"main\"), 版本 supplier×3)（net.minecraftforge.fml.network.NetworkRegistry），消息为 POJO，channel.registerMessage(index, 类, encoder, decoder, handler) 注册；handler 中用 ctx.get().enqueueWork(...) 回主线程",
+    "model.registration": "1.13+ 物品模型按注册名自动从 assets/<modid>/models/item/<name>.json 加载，删除手动绑定代码即可",
+    "server.hooks": "获取服务器实例改用 ServerLifecycleHooks.getCurrentServer()（1.16.5 位于 net.minecraftforge.fml.server.ServerLifecycleHooks）",
+    "mod.list": "判断模组是否加载改用 ModList.get().isLoaded(\"modid\")（net.minecraftforge.fml.ModList）",
+    "enum.extension": "EnumHelper 已移除：盔甲材质实现 net.minecraft.item.IArmorMaterial 接口，工具材质实现 net.minecraft.item.IItemTier 接口，稀有度等枚举各有专用扩展点",
+    "tags.oredict": "矿物词典改为 Tag 系统：数据包 data/<ns>/tags/items|blocks/*.json（通用命名空间为 forge:，如 forge:ingots/copper）；代码侧用 ItemTags.createOptional(new ResourceLocation(...)) 创建 tag，判断用 item.isIn(tag) / stack.getItem().isIn(tag)",
+    "blockentity.ticker": "1.16.5 中 TileEntity 实现 net.minecraft.tileentity.ITickableTileEntity 的 tick() 方法（与 1.12 的 ITickable#update 对应，与 1.19 的 EntityBlock#getTicker 不同）",
+    "blockentity.entityblock": "BlockContainer 已移除：1.16.5 方块覆写 Forge 扩展方法 hasTileEntity(BlockState) 返回 true，并覆写 createTileEntity(BlockState, IBlockReader) 创建 TileEntity（需先注册 TileEntityType）",
+    "item.food": "ItemFood 已移除：new Item(new Item.Properties().food(new Food.Builder().hunger(营养).saturation(饱和).build()))（net.minecraft.item.Food）",
+    "config": "旧 Configuration/@Config 已移除：使用 ForgeConfigSpec.Builder 构建配置并在 Mod 构造器中 ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, SPEC)",
+    "commands.brigadier": "命令系统改为 Brigadier：监听 RegisterCommandsEvent（net.minecraftforge.event.RegisterCommandsEvent，Forge 总线），用 Commands.literal(...)/Commands.argument(...) 声明式构建命令树",
+    "entity.registration": "实体注册改为 EntityType + DeferredRegister<EntityType<?>>：EntityType.Builder.create(工厂, EntityClassification.XXX).size(w, h).build(id)；渲染器在 FMLClientSetupEvent 中用 RenderingRegistry.registerEntityRenderingHandler(type, 渲染器工厂)（net.minecraftforge.fml.client.registry.RenderingRegistry）注册",
+    "gui.menu": "IGuiHandler 已移除：注册 ContainerType<T>（DeferredRegister<ContainerType<?>>，可用 IForgeContainerType.create 携带额外数据），服务端用 NetworkHooks.openGui(serverPlayer, containerProvider, pos) 打开，客户端在 FMLClientSetupEvent 中 ScreenManager.registerFactory(containerType, ContainerScreen 构造) 绑定",
+    "capability.inject": "1.16.5 仍用 @CapabilityInject(T.class) 注入能力实例，注册用 CapabilityManager.INSTANCE.register(Class, IStorage, factory)（与 1.12 写法一致，与 1.19 的 CapabilityToken 不同）；注意 getCapability 返回 LazyOptional",
+    "capability.provider": "1.16.5 仍用 CapabilityItemHandler.ITEM_HANDLER_CAPABILITY / CapabilityEnergy.ENERGY / CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY 常量；但 hasCapability 已移除，getCapability 返回 LazyOptional<T>，用 .orElse(...) / .ifPresent(...) / .isPresent() 处理",
+    "entity.motion": "motionX/Y/Z 已合并为 Vector3d：读取用 getMotion().x/.y/.z，写入用 setMotion(new Vector3d(x, y, z)) 或 setMotion(getMotion().add(...))",
+    "entity.alive": "isDead 字段已移除：判断用 !isAlive()，移除实体用 remove()",
+    "item.durability": "damageItem 签名已变化：stack.damageItem(amount, livingEntity, e -> e.sendBreakAnimation(hand))（1.16 MCP 名，带 onBroken 回调）",
+    "creative.fill": "getSubItems/getSubBlocks 已移除：1.16.5 覆写 Item#fillItemGroup(ItemGroup, NonNullList<ItemStack>) 提供变体",
+    "worldgen": "1.16.5 世界生成：代码注册 ConfiguredFeature（WorldGenRegistries.CONFIGURED_FEATURE），并监听 BiomeLoadingEvent（net.minecraftforge.event.world.BiomeLoadingEvent，Forge 总线，建议 EventPriority.HIGH）在 event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, feature) 注入；IWorldGenerator 无对应物",
+    "fluid.system": "流体注册改为原版 FlowingFluid + Forge 的 ForgeFlowingFluid：用 DeferredRegister 注册 ForgeFlowingFluid.Source/Flowing、FlowingFluidBlock、BucketItem，属性经 ForgeFlowingFluid.Properties(still, flowing, FluidAttributes.builder(stillTexture, flowingTexture)) 关联（1.16 无 FluidType，属性用 FluidAttributes）",
+    "fluid.block": "流体方块改用 net.minecraft.block.FlowingFluidBlock，构造传入流体 Supplier 与 AbstractBlock.Properties.create(Material.WATER).doesNotBlockMovement().noDrops()",
+    "dimension": "1.16.5 自定义维度已数据驱动：data/<modid>/dimension/*.json 与 dimension_type/*.json 定义，代码侧用 RegistryKey<World>（RegistryKey.getOrCreateKey(Registry.WORLD_KEY, id)）引用；跨维度传送用 Entity#changeDimension(ServerWorld[, ITeleporter])",
+    "input.glfw": "LWJGL3：键码常量改用 org.lwjgl.glfw.GLFW.GLFW_KEY_*；键位绑定 new KeyBinding(...) 后在 FMLClientSetupEvent 中 ClientRegistry.registerKeyBinding(key)（net.minecraftforge.fml.client.registry.ClientRegistry）；按键状态用 InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), key)",
+    "lifecycle.deferredWork": "1.16.5 起用生命周期事件的 event.enqueueWork(() -> ...) 做主线程同步（DeferredWorkQueue 已过时）",
+    "registry.builtin": "本版本静态注册表访问用 ForgeRegistries.BLOCKS/ITEMS 等（无 BuiltInRegistries）",
+    "damage.types": "本版本伤害类型用 DamageSource 静态常量（DamageSource.GENERIC 等），1.19.4 起才数据驱动化",
+    "item.components": "本版本物品数据用 NBT：stack.getTag()/setTag()/getOrCreateTag()（CompoundNBT）",
+    "gui.overlay": "本版本 HUD 绘制监听 RenderGameOverlayEvent（ElementType 判断元素）",
+    "enchantment.datadriven": "本版本附魔为代码注册：继承 net.minecraft.enchantment.Enchantment，用 DeferredRegister<Enchantment>（ForgeRegistries.ENCHANTMENTS）注册；等级查询 EnchantmentHelper.getEnchantmentLevel",
+    "resourcelocation.factory": "本版本直接 new ResourceLocation(namespace, path) / new ResourceLocation(\"ns:path\")（net.minecraft.util.ResourceLocation）"
+  }
+}

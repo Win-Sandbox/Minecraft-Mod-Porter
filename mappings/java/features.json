@@ -1,0 +1,8 @@
+{
+  "var": 10,
+  "switch-expressions": 14,
+  "text-blocks": 15,
+  "records": 16,
+  "instanceof-patterns": 16,
+  "sealed-classes": 17
+}

@@ -1,0 +1,6 @@
+{
+  "mc.damage.DamageSource": "net.minecraft.world.damagesource.DamageSource",
+  "mc.world.Level": "net.minecraft.world.level.Level",
+  "mc.item.EquipmentSlot": "net.minecraft.world.entity.EquipmentSlot",
+  "mc.world.biome.Biome": "net.minecraft.world.level.biome.Biome"
+}

@@ -1,0 +1,65 @@
+{
+  "forms": {
+    "chat.literal": {
+      "type": "constructor",
+      "class": "net.minecraft.util.text.TextComponentString"
+    },
+    "chat.translatable": {
+      "type": "constructor",
+      "class": "net.minecraft.util.text.TextComponentTranslation"
+    },
+    "resourcelocation.parse": {
+      "type": "constructor",
+      "class": "net.minecraft.util.ResourceLocation",
+      "arity": 1
+    },
+    "resourcelocation.fromNamespaceAndPath": {
+      "type": "constructor",
+      "class": "net.minecraft.util.ResourceLocation",
+      "arity": 2
+    }
+  },
+  "guidance": {
+    "registry.imperative": "1.12.2 使用 GameRegistry.register(...) 或 RegistryEvent.Register<T> 事件注册",
+    "registry.deferred": "1.12.2 没有 DeferredRegister：改用 RegistryEvent.Register<T> 事件 + setRegistryName",
+    "registry.name": "1.12.2 注册名用 setRegistryName(...) 指定，getRegistryName() 读取",
+    "lifecycle.eventHandler": "1.12.2 生命周期方法写在 @Mod 类中并标注 @Mod.EventHandler",
+    "lifecycle.serverEvents": "1.12.2 服务器生命周期为 @Mod.EventHandler + FMLServerStartingEvent/FMLServerStoppingEvent",
+    "proxy.sided": "1.12.2 使用 @SidedProxy 分离客户端/服务端逻辑",
+    "item.propertiesBuilder": "1.12.2 物品属性用链式 setter：setUnlocalizedName/setCreativeTab/setMaxStackSize/setMaxDamage",
+    "block.propertiesBuilder": "1.12.2 方块属性用链式 setter：setHardness/setResistance/setSoundType/setHarvestLevel",
+    "recipes.data": "1.12.2 可在代码中用 GameRegistry.addShapedRecipe 等注册合成表（或 assets 下的 _factories/recipes JSON）",
+    "metadata.meta": "1.12.2 物品/方块可通过 metadata 表达子类型",
+    "network.channel": "1.12.2 使用 SimpleNetworkWrapper + IMessage/IMessageHandler 注册网络通道",
+    "model.registration": "1.12.2 需在 ModelRegistryEvent 中用 ModelLoader.setCustomModelResourceLocation 绑定物品模型",
+    "server.hooks": "1.12.2 用 FMLCommonHandler.instance().getMinecraftServerInstance() 获取服务器实例",
+    "mod.list": "1.12.2 用 Loader.isModLoaded(\"modid\") 判断模组是否加载",
+    "enum.extension": "1.12.2 用 EnumHelper.addArmorMaterial / addToolMaterial 扩展枚举",
+    "tags.oredict": "1.12.2 使用 OreDictionary.registerOre / getOres 做矿物词典",
+    "blockentity.ticker": "1.12.2 TileEntity 实现 net.minecraft.util.ITickable 的 update() 方法",
+    "blockentity.entityblock": "1.12.2 方块继承 BlockContainer 或覆写 hasTileEntity/createTileEntity",
+    "item.food": "1.12.2 食物物品继承 ItemFood",
+    "config": "1.12.2 使用 net.minecraftforge.common.config.Configuration 或 @Config 注解",
+    "commands.brigadier": "1.12.2 命令继承 CommandBase 并在 FMLServerStartingEvent 中 registerServerCommand 注册",
+    "entity.registration": "1.12.2 用 EntityRegistry.registerModEntity(...) 注册实体，RenderingRegistry 注册渲染器",
+    "gui.menu": "1.12.2 实现 IGuiHandler 并用 NetworkRegistry.registerGuiHandler 注册，player.openGui 打开",
+    "capability.inject": "1.12.2 用 @CapabilityInject(T.class) 注入能力实例，CapabilityManager.INSTANCE.register 注册",
+    "capability.provider": "1.12.2 用 CapabilityItemHandler.ITEM_HANDLER_CAPABILITY / CapabilityEnergy.ENERGY 常量，hasCapability/getCapability 直接返回值",
+    "entity.motion": "1.12.2 实体速度为三个 public 字段 motionX/motionY/motionZ",
+    "entity.alive": "1.12.2 用 isDead 字段或 isEntityAlive() 判断",
+    "item.durability": "1.12.2 用 stack.damageItem(amount, entityLiving)",
+    "creative.fill": "1.12.2 覆写 Item#getSubItems(CreativeTabs, NonNullList<ItemStack>) 提供子类型",
+    "worldgen": "1.12.2 实现 IWorldGenerator 并用 GameRegistry.registerWorldGenerator 注册",
+    "fluid.system": "1.12.2 用 FluidRegistry.registerFluid(new Fluid(name, still, flowing)) 注册流体",
+    "fluid.block": "1.12.2 流体方块继承 BlockFluidClassic",
+    "dimension": "1.12.2 用 DimensionType.register + WorldProvider 子类实现自定义维度",
+    "input.glfw": "1.12.2 为 LWJGL2：键码用 org.lwjgl.input.Keyboard.KEY_*，键位绑定用 ClientRegistry.registerKeyBinding",
+    "registry.builtin": "1.12.2 无 BuiltInRegistries：静态注册表访问用 ForgeRegistries.BLOCKS/ITEMS 等，或旧式 Block.REGISTRY",
+    "damage.types": "1.12.2 伤害类型用 DamageSource 静态常量（DamageSource.GENERIC 等）或直接子类化 DamageSource",
+    "lifecycle.deferredWork": "1.12.2 无并行模组加载，生命周期方法本身就在主线程执行，无需 DeferredWorkQueue/enqueueWork，直接调用即可",
+    "item.components": "1.12.2 物品数据用 NBT：stack.getTagCompound()/setTagCompound(new NBTTagCompound())/hasTagCompound()",
+    "gui.overlay": "本版本 HUD 绘制监听 RenderGameOverlayEvent（ElementType 判断元素，Pre 可取消）",
+    "enchantment.datadriven": "1.12.2 附魔为代码注册：继承 net.minecraft.enchantment.Enchantment 并经 RegistryEvent.Register<Enchantment> 注册；等级查询 EnchantmentHelper.getEnchantmentLevel(Enchantment, ItemStack)，常量在 net.minecraft.init.Enchantments",
+    "resourcelocation.factory": "本版本直接 new ResourceLocation(namespace, path) / new ResourceLocation(\"ns:path\")（net.minecraft.util.ResourceLocation）"
+  }
+}

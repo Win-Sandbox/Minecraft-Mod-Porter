@@ -1,0 +1,90 @@
+{
+  "mc.item.ItemStack": {
+    "getTag": {
+      "name": "getTag", "kind": "method",
+      "note": "1.20.5+ ItemStack NBT API 已移除：改用数据组件（stack.get(DataComponents.CUSTOM_DATA) 等），此处需人工按语义迁移"
+    },
+    "setTag": {
+      "name": "setTag", "kind": "method",
+      "note": "1.20.5+ ItemStack NBT API 已移除：改用数据组件（stack.set(DataComponents.XXX, value) / CustomData.update），此处需人工按语义迁移"
+    },
+    "hasTag": {
+      "name": "hasTag", "kind": "method",
+      "note": "1.20.5+ ItemStack NBT API 已移除：判断组件用 stack.has(DataComponents.XXX)，此处需人工按语义迁移"
+    },
+    "getOrCreateTag": {
+      "name": "getOrCreateTag", "kind": "method",
+      "note": "1.20.5+ ItemStack NBT API 已移除：自定义数据改用 CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> ...)，读取用 stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag()，需人工按语义迁移"
+    },
+    "getTagElement": {
+      "name": "getTagElement", "kind": "method",
+      "note": "1.20.5+ ItemStack NBT API 已移除（getTagElement/addTagElement/getOrCreateTagElement/removeTagKey 均无对应物）：改用数据组件，需人工按语义迁移"
+    },
+    "addTagElement": {
+      "name": "addTagElement", "kind": "method",
+      "note": "1.20.5+ ItemStack NBT API 已移除：改用数据组件（CustomData.update 或专用组件），需人工按语义迁移"
+    },
+    "removeTagKey": {
+      "name": "removeTagKey", "kind": "method",
+      "note": "1.20.5+ ItemStack NBT API 已移除：删除组件用 stack.remove(DataComponents.XXX)，需人工按语义迁移"
+    },
+    "save": {
+      "name": "save", "kind": "method",
+      "note": "1.20.5+ 为 save(HolderLookup.Provider)（或 save(HolderLookup.Provider, Tag)、saveOptional），需要注册表访问参数；读取用静态 ItemStack.parse/parseOptional(HolderLookup.Provider, Tag)，签名与旧版 save(CompoundTag) 不同"
+    },
+    "sameItem": {
+      "name": "isSameItem", "kind": "method",
+      "note": "静态方法 ItemStack.isSameItem(ItemStack, ItemStack) 不变；连同数据比较在 1.20.5+ 由 isSameItemSameTags 改名为 isSameItemSameComponents"
+    },
+    "isSameItemSameTags": {
+      "name": "isSameItemSameComponents", "kind": "method",
+      "note": "1.20.5+ isSameItemSameTags 改名为 isSameItemSameComponents（比较数据组件而非 NBT）"
+    },
+    "hurtAndBreak": {
+      "name": "hurtAndBreak", "kind": "method",
+      "note": "1.21 签名再次变化：hurtAndBreak(int, ServerLevel, ServerPlayer, Consumer<Item>)（服务端，损坏回调收到损坏的 Item）或 hurtAndBreak(int, LivingEntity, EquipmentSlot)（按装备槽广播破坏事件）；1.20.1 的 (int, LivingEntity, Consumer<LivingEntity>) broadcastBreakEvent 回调形式已不存在，需人工改写"
+    },
+    "getEnchantmentLevel": {
+      "name": "getEnchantmentLevel", "kind": "method",
+      "note": "1.21 起（Forge IForgeItemStack 扩展）参数改为 Holder<Enchantment>：Enchantments 常量现为 ResourceKey，需经注册表 lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(key) 取 Holder"
+    }
+  },
+  "mc.blockentity.BlockEntity": {
+    "load": {
+      "name": "loadAdditional", "kind": "method",
+      "note": "1.20.5+ BlockEntity#load 改名为 loadAdditional(CompoundTag, HolderLookup.Provider)：覆写声明、super 调用需同步改名并补 Provider 参数"
+    },
+    "saveAdditional": {
+      "name": "saveAdditional", "kind": "method",
+      "note": "1.20.5+ 签名为 protected void saveAdditional(CompoundTag, HolderLookup.Provider)：覆写与 super 调用需人工补第二个参数"
+    },
+    "getUpdateTag": {
+      "name": "getUpdateTag", "kind": "method",
+      "note": "1.20.5+ 签名为 getUpdateTag(HolderLookup.Provider)，handleUpdateTag 等同步方法也新增 Provider 参数"
+    }
+  },
+  "mc.entity.LivingEntity": {
+    "hasEffect": {
+      "name": "hasEffect", "kind": "method",
+      "note": "1.20.5+ 参数为 Holder<MobEffect>：MobEffects 常量本身就是 Holder，直接传即可；自定义效果传 RegistryObject.getHolder() 等"
+    },
+    "getEffect": {
+      "name": "getEffect", "kind": "method",
+      "note": "1.20.5+ 参数为 Holder<MobEffect>，返回 MobEffectInstance 不变"
+    },
+    "removeEffect": {
+      "name": "removeEffect", "kind": "method",
+      "note": "1.20.5+ 参数为 Holder<MobEffect>"
+    },
+    "addEffect": {
+      "name": "addEffect", "kind": "method",
+      "note": "addEffect(MobEffectInstance) 形态不变；MobEffectInstance 构造改为接收 Holder<MobEffect>"
+    }
+  },
+  "mc.item.Item": {
+    "appendHoverText": {
+      "name": "appendHoverText", "kind": "method",
+      "note": "1.20.5+ 签名: appendHoverText(ItemStack, Item.TooltipContext, List<Component>, TooltipFlag)：第二参数由 Level 改为 Item.TooltipContext（可经 context.level() 取 Level，可能为 null），覆写声明需人工改"
+    }
+  }
+}

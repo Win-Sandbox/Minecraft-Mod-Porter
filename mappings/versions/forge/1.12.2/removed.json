@@ -1,0 +1,294 @@
+{
+  "classes": {
+    "net.minecraftforge.fml.common.registry.GameRegistry": {
+      "concept": "registry.imperative",
+      "message": "GameRegistry 已在后续版本移除，注册方式需要按目标版本重写"
+    },
+    "net.minecraftforge.fml.common.Mod.EventHandler": {
+      "concept": "lifecycle.eventHandler",
+      "message": "@Mod.EventHandler 已在后续版本移除"
+    },
+    "net.minecraftforge.fml.common.SidedProxy": {
+      "concept": "proxy.sided",
+      "message": "@SidedProxy 已在后续版本移除"
+    },
+    "net.minecraftforge.fml.common.FMLCommonHandler": {
+      "concept": "server.hooks",
+      "message": "FMLCommonHandler 已移除"
+    },
+    "net.minecraftforge.fml.common.Loader": {
+      "concept": "mod.list",
+      "message": "Loader 已移除"
+    },
+    "net.minecraftforge.common.util.EnumHelper": {
+      "concept": "enum.extension",
+      "message": "EnumHelper 已移除"
+    },
+    "net.minecraftforge.oredict.OreDictionary": {
+      "concept": "tags.oredict",
+      "message": "矿物词典已被 Tag 系统取代"
+    },
+    "net.minecraftforge.oredict.ShapedOreRecipe": {
+      "concept": "recipes.data",
+      "message": "矿典合成表已被数据包配方 + Tag 取代"
+    },
+    "net.minecraftforge.fml.common.network.NetworkRegistry": {
+      "concept": "network.channel",
+      "message": "旧网络注册已移除"
+    },
+    "net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper": {
+      "concept": "network.channel",
+      "message": "SimpleNetworkWrapper 已在后续版本移除"
+    },
+    "net.minecraftforge.fml.common.network.simpleimpl.IMessage": {
+      "concept": "network.channel",
+      "message": "IMessage 已移除"
+    },
+    "net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler": {
+      "concept": "network.channel",
+      "message": "IMessageHandler 已移除"
+    },
+    "net.minecraftforge.fml.common.network.simpleimpl.MessageContext": {
+      "concept": "network.channel",
+      "message": "MessageContext 已移除"
+    },
+    "net.minecraftforge.fml.common.network.IGuiHandler": {
+      "concept": "gui.menu",
+      "message": "IGuiHandler 已移除"
+    },
+    "net.minecraft.util.ITickable": {
+      "concept": "blockentity.ticker",
+      "message": "ITickable 已移除"
+    },
+    "net.minecraft.block.BlockContainer": {
+      "concept": "blockentity.entityblock",
+      "message": "BlockContainer 已移除"
+    },
+    "net.minecraft.item.ItemFood": {
+      "concept": "item.food",
+      "message": "ItemFood 已移除"
+    },
+    "net.minecraftforge.client.event.ModelRegistryEvent": {
+      "concept": "model.registration",
+      "message": "ModelRegistryEvent 已移除，模型按注册名自动加载"
+    },
+    "net.minecraftforge.client.model.ModelLoader": {
+      "concept": "model.registration",
+      "message": "ModelLoader.setCustomModelResourceLocation 已移除，模型按注册名自动加载"
+    },
+    "net.minecraft.client.renderer.block.model.ModelResourceLocation": {
+      "concept": "model.registration",
+      "message": "1.13+ 物品模型按注册名自动加载，无需手动绑定 ModelResourceLocation"
+    },
+    "net.minecraft.client.renderer.ItemMeshDefinition": {
+      "concept": "model.registration",
+      "message": "ItemMeshDefinition 已移除"
+    },
+    "net.minecraftforge.common.config.Configuration": {
+      "concept": "config",
+      "message": "旧配置系统已移除"
+    },
+    "net.minecraftforge.common.config.Config": {
+      "concept": "config",
+      "message": "@Config 注解配置已移除"
+    },
+    "net.minecraft.command.CommandBase": {
+      "concept": "commands.brigadier",
+      "message": "CommandBase 已移除"
+    },
+    "net.minecraft.command.ICommand": {
+      "concept": "commands.brigadier",
+      "message": "ICommand 已移除"
+    },
+    "net.minecraftforge.fml.common.registry.EntityRegistry": {
+      "concept": "entity.registration",
+      "message": "EntityRegistry 已移除"
+    },
+    "net.minecraft.entity.EntityList": {
+      "concept": "entity.registration",
+      "message": "EntityList 已移除"
+    },
+    "net.minecraftforge.common.capabilities.CapabilityInject": {
+      "concept": "capability.inject",
+      "message": "@CapabilityInject 已移除"
+    },
+    "net.minecraftforge.items.CapabilityItemHandler": {
+      "concept": "capability.provider",
+      "message": "CapabilityItemHandler 常量类已移除"
+    },
+    "net.minecraftforge.energy.CapabilityEnergy": {
+      "concept": "capability.provider",
+      "message": "CapabilityEnergy 常量类已移除"
+    },
+    "net.minecraft.item.crafting.IRecipe": {
+      "concept": "recipes.data",
+      "message": "代码合成表接口已移除"
+    },
+    "net.minecraft.item.crafting.CraftingManager": {
+      "concept": "recipes.data",
+      "message": "CraftingManager 已移除"
+    },
+    "net.minecraftforge.fml.common.IWorldGenerator": {
+      "concept": "worldgen",
+      "message": "IWorldGenerator 已移除，世界生成完全重构"
+    },
+    "net.minecraftforge.fluids.Fluid": {
+      "concept": "fluid.system",
+      "message": "Forge 自有 Fluid 类已移除，流体并入原版体系"
+    },
+    "net.minecraftforge.fluids.FluidRegistry": {
+      "concept": "fluid.system",
+      "message": "FluidRegistry 已移除"
+    },
+    "net.minecraftforge.fluids.BlockFluidBase": {
+      "concept": "fluid.block",
+      "message": "BlockFluidBase 已移除"
+    },
+    "net.minecraftforge.fluids.BlockFluidClassic": {
+      "concept": "fluid.block",
+      "message": "BlockFluidClassic 已移除"
+    },
+    "net.minecraftforge.fluids.capability.CapabilityFluidHandler": {
+      "concept": "capability.provider",
+      "message": "CapabilityFluidHandler 常量类已移除"
+    },
+    "net.minecraft.world.WorldProvider": {
+      "concept": "dimension",
+      "message": "WorldProvider 已移除，维度改为数据驱动"
+    },
+    "net.minecraftforge.common.DimensionManager": {
+      "concept": "dimension",
+      "message": "DimensionManager 已移除"
+    },
+    "net.minecraft.world.Teleporter": {
+      "concept": "dimension",
+      "message": "Teleporter 机制已重构"
+    },
+    "org.lwjgl.input.Keyboard": {
+      "concept": "input.glfw",
+      "message": "LWJGL2 的 Keyboard 已移除（LWJGL3/GLFW）"
+    },
+    "org.lwjgl.input.Mouse": {
+      "concept": "input.glfw",
+      "message": "LWJGL2 的 Mouse 已移除（LWJGL3/GLFW）"
+    }
+  },
+  "members": {
+    "setRegistryName": {
+      "concept": "registry.name",
+      "message": "setRegistryName 已移除，注册名在注册时指定"
+    },
+    "getRegistryName": {
+      "concept": "registry.name",
+      "message": "getRegistryName 已移除，用对应 ForgeRegistries.XXX.getKey(entry) 获取"
+    },
+    "setUnlocalizedName": {
+      "concept": "item.propertiesBuilder",
+      "message": "setUnlocalizedName 已移除，显示名称由语言文件按注册名生成"
+    },
+    "setCreativeTab": {
+      "concept": "item.propertiesBuilder",
+      "message": "setCreativeTab 已移除，改为构造属性"
+    },
+    "setMaxStackSize": {
+      "concept": "item.propertiesBuilder",
+      "message": "setMaxStackSize 已移除，改为构造属性"
+    },
+    "setMaxDamage": {
+      "concept": "item.propertiesBuilder",
+      "message": "setMaxDamage 已移除，改为构造属性 durability(...)"
+    },
+    "setHardness": {
+      "concept": "block.propertiesBuilder",
+      "message": "setHardness 已移除，改为方块属性构建器"
+    },
+    "setResistance": {
+      "concept": "block.propertiesBuilder",
+      "message": "setResistance 已移除，改为方块属性构建器"
+    },
+    "setSoundType": {
+      "concept": "block.propertiesBuilder",
+      "message": "setSoundType 已移除，改为方块属性构建器"
+    },
+    "setLightLevel": {
+      "concept": "block.propertiesBuilder",
+      "message": "setLightLevel 已移除，改为方块属性构建器 lightLevel(...)"
+    },
+    "setHarvestLevel": {
+      "concept": "block.propertiesBuilder",
+      "message": "setHarvestLevel 已移除，挖掘等级改由方块 Tag（needs_iron_tool 等）控制"
+    },
+    "getMetadata": {
+      "concept": "metadata.meta",
+      "message": "1.13+ 扁平化后不再有 metadata"
+    },
+    "getItemDamage": {
+      "concept": "metadata.meta",
+      "message": "1.13+ 扁平化后 damage 仅用于耐久，子类型需拆分为独立物品"
+    },
+    "setItemDamage": {
+      "concept": "metadata.meta",
+      "message": "1.13+ 扁平化后子类型需拆分，耐久用 setDamageValue"
+    },
+    "getStateFromMeta": {
+      "concept": "metadata.meta",
+      "message": "方块 meta 已移除，全部状态由 BlockState 属性表达"
+    },
+    "getMetaFromState": {
+      "concept": "metadata.meta",
+      "message": "方块 meta 已移除，全部状态由 BlockState 属性表达"
+    },
+    "addShapedRecipe": {
+      "concept": "recipes.data",
+      "message": "代码注册合成表已移除，改为数据包 JSON"
+    },
+    "addShapelessRecipe": {
+      "concept": "recipes.data",
+      "message": "代码注册合成表已移除，改为数据包 JSON"
+    },
+    "addSmelting": {
+      "concept": "recipes.data",
+      "message": "代码注册熔炼配方已移除，改为数据包 JSON"
+    },
+    "motionX": {
+      "concept": "entity.motion",
+      "message": "motionX/Y/Z 已合并为 Vec3"
+    },
+    "motionY": {
+      "concept": "entity.motion",
+      "message": "motionX/Y/Z 已合并为 Vec3"
+    },
+    "motionZ": {
+      "concept": "entity.motion",
+      "message": "motionX/Y/Z 已合并为 Vec3"
+    },
+    "isDead": {
+      "concept": "entity.alive",
+      "message": "isDead 字段已移除"
+    },
+    "damageItem": {
+      "concept": "item.durability",
+      "message": "damageItem 签名已变化"
+    },
+    "registerServerCommand": {
+      "concept": "commands.brigadier",
+      "message": "registerServerCommand 已移除"
+    },
+    "getSubItems": {
+      "concept": "creative.fill",
+      "message": "getSubItems 已移除"
+    },
+    "getSubBlocks": {
+      "concept": "creative.fill",
+      "message": "getSubBlocks 已移除"
+    },
+    "hasCapability": {
+      "concept": "capability.provider",
+      "message": "hasCapability 已移除，getCapability 返回 LazyOptional，用 isPresent()/ifPresent() 判断"
+    },
+    "registerTileEntity": {
+      "concept": "registry.imperative",
+      "message": "TileEntity 注册改为 BlockEntityType + DeferredRegister"
+    }
+  }
+}

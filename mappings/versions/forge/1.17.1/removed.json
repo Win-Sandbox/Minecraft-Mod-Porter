@@ -1,0 +1,58 @@
+{
+  "classes": {
+    "net.minecraftforge.registries.DeferredRegister": {
+      "concept": "registry.deferred",
+      "message": "DeferredRegister 是 1.13+ 的注册机制，旧版本不存在"
+    },
+    "net.minecraftforge.fml.DistExecutor": {
+      "concept": "proxy.sided",
+      "message": "DistExecutor 是 1.13+ 的分侧执行机制"
+    },
+    "net.minecraftforge.fmllegacy.network.simple.SimpleChannel": {
+      "concept": "network.channel",
+      "message": "SimpleChannel 是 1.13+ 的网络机制，1.17.1 位于 net.minecraftforge.fmllegacy.network.simple 包（1.18 起移至 net.minecraftforge.network.simple）"
+    },
+    "net.minecraftforge.fluids.ForgeFlowingFluid": {
+      "concept": "fluid.system",
+      "message": "ForgeFlowingFluid 是 1.13+ 的流体机制"
+    },
+    "net.minecraftforge.fluids.FluidAttributes": {
+      "concept": "fluid.system",
+      "message": "FluidAttributes 仅存在于 1.13~1.18：1.19.2 起被 FluidType 取代，旧版本亦无此类"
+    },
+    "net.minecraftforge.items.CapabilityItemHandler": {
+      "concept": "capability.provider",
+      "message": "CapabilityItemHandler 常量类在 1.19.2 起并入 ForgeCapabilities，1.12.2 亦有同名类"
+    },
+    "net.minecraftforge.energy.CapabilityEnergy": {
+      "concept": "capability.provider",
+      "message": "CapabilityEnergy 常量类在 1.19.2 起并入 ForgeCapabilities"
+    },
+    "net.minecraftforge.fluids.capability.CapabilityFluidHandler": {
+      "concept": "capability.provider",
+      "message": "CapabilityFluidHandler 常量类在 1.19.2 起并入 ForgeCapabilities"
+    },
+    "net.minecraftforge.common.capabilities.CapabilityInject": {
+      "concept": "capability.inject",
+      "message": "@CapabilityInject 在 1.17.1 仍存在但已标记弃用（1.18 移除），新写法为 CapabilityManager.get(new CapabilityToken<>(){})"
+    },
+    "net.minecraftforge.fmlclient.registry.ClientRegistry": {
+      "concept": "input.glfw",
+      "message": "ClientRegistry（registerKeyBinding 等）在 1.17.1 位于 net.minecraftforge.fmlclient.registry 包（1.18 移回 net.minecraftforge.client），1.19 起移除，键位注册改为 RegisterKeyMappingsEvent"
+    },
+    "net.minecraftforge.event.world.BiomeLoadingEvent": {
+      "concept": "worldgen",
+      "message": "BiomeLoadingEvent 仅存在于 1.16~1.18：1.19 起被数据驱动的 BiomeModifier 取代，1.12.2 用 IWorldGenerator"
+    }
+  },
+  "members": {
+    "setRegistryName": {
+      "concept": "registry.name",
+      "message": "setRegistryName 在 1.19+ 已移除，注册名改为在注册时指定"
+    },
+    "getRegistryName": {
+      "concept": "registry.name",
+      "message": "getRegistryName 在 1.19+ 已移除，改用对应 ForgeRegistries.XXX.getKey(entry) 获取"
+    }
+  }
+}

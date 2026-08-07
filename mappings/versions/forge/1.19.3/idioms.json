@@ -1,0 +1,5 @@
+{
+  "guidance": {
+    "damage.types": "1.19.3 伤害仍是 DamageSource 静态常量（DamageSource.GENERIC 等），1.19.4 起才数据驱动化"
+  }
+}

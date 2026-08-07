@@ -1,0 +1,7 @@
+{
+  "mcVersion": "1.19.3",
+  "basedOn": "1.19.4",
+  "packFormat": 12,
+  "forgeVersion": "44.1.23",
+  "loaderVersionRange": "[44,)"
+}

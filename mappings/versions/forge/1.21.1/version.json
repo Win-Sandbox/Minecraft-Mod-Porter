@@ -1,0 +1,15 @@
+{
+  "mcVersion": "1.21.1",
+  "basedOn": "1.20.1",
+  "javaVersion": 21,
+  "packFormat": 34,
+  "forgeVersion": "52.1.0",
+  "gradleVersion": "8.12.1",
+  "loaderVersionRange": "[52,)",
+  "aliases": {
+    "1.21": {
+      "forgeVersion": "51.0.33",
+      "loaderVersionRange": "[51,)"
+    }
+  }
+}

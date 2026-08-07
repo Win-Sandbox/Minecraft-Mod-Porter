@@ -1,0 +1,5 @@
+{
+  "guidance": {
+    "tags.oredict": "1.18/1.18.1 尚无 TagKey（1.18.2 引入）：数据包 Tag JSON 写法相同（data/<ns>/tags/items|blocks/*.json，通用命名空间 forge:），代码侧用 ItemTags.bind(\"forge:ingots/copper\") 得到 Tag.Named<Item>，判断用 stack.is(tag)"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "!remove": [
+    "forge.NetworkHooks",
+    "forge.event.RenderGuiOverlayEvent"
+  ],
+  "mc.item.ItemStack": {
+    "name": "net.minecraft.world.item.ItemStack",
+    "note": "1.20.5+ 物品数据由 NBT 改为数据组件（DataComponents）：getTag/setTag/hasTag/getOrCreateTag/addTagElement/getTagElement/removeTagKey 已移除，读写用 stack.get/set/update/remove(DataComponents.XXX)，自定义数据用 DataComponents.CUSTOM_DATA（CustomData）；序列化 save/parse 需 HolderLookup.Provider"
+  },
+  "mc.resources.ResourceLocation": {
+    "name": "net.minecraft.resources.ResourceLocation",
+    "note": "1.21 起构造器私有化：new ResourceLocation(ns, path) -> ResourceLocation.fromNamespaceAndPath(ns, path)；new ResourceLocation(str) -> ResourceLocation.parse(str)；minecraft 命名空间用 ResourceLocation.withDefaultNamespace(path)；ResourceLocation.of -> bySeparator，tryParse/tryBuild 保留，isValidResourceLocation 已移除"
+  },
+  "mc.enchant.Enchantment": {
+    "name": "net.minecraft.world.item.enchantment.Enchantment",
+    "note": "1.21 起附魔数据驱动：代码中不再子类化/直接构造 Enchantment，改为数据包 data/<ns>/enchantment/*.json + ResourceKey/Holder 引用；EnchantmentHelper API 也随之 Holder 化"
+  },
+  "mc.enchant.Enchantments": {
+    "name": "net.minecraft.world.item.enchantment.Enchantments",
+    "note": "1.21 起 Enchantments 常量类型由 Enchantment 改为 ResourceKey<Enchantment>：不能再直接当附魔实例用，需经注册表取 Holder，如 registryAccess.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.SHARPNESS)（HolderLookup.Provider 可从 level.registryAccess() 获得）"
+  },
+  "mc.enchant.EnchantmentHelper": {
+    "name": "net.minecraft.world.item.enchantment.EnchantmentHelper",
+    "note": "1.21 起 EnchantmentHelper 全面 Holder 化并配合数据驱动附魔：等级查询用 getItemEnchantmentLevel(Holder<Enchantment>, ItemStack)/getTagEnchantmentLevel，效果应用改为 runIterationOn* 访问者形式，多数旧方法签名已变，需人工核对"
+  },
+  "mc.effect.MobEffects": {
+    "name": "net.minecraft.world.effect.MobEffects",
+    "note": "1.20.5+ MobEffects 常量类型为 Holder<MobEffect>，MobEffectInstance 构造直接接收 Holder"
+  },
+  "mc.effect.MobEffectInstance": {
+    "name": "net.minecraft.world.effect.MobEffectInstance",
+    "note": "1.20.5+ 构造签名为 MobEffectInstance(Holder<MobEffect>, ...)，传 MobEffects 常量即可"
+  },
+  "mc.entity.EntityType": {
+    "name": "net.minecraft.world.entity.EntityType",
+    "note": "1.20.5+ EntityType#spawn/create 的 CompoundTag 参数改为 Consumer<Entity>（生成后回调），updateCustomEntityTag 改用 CustomData；EntityType.Builder.of(...).build(id) 形式在 1.21.1 不变"
+  },
+  "mc.blockentity.BlockEntity": {
+    "name": "net.minecraft.world.level.block.entity.BlockEntity",
+    "note": "BlockEntity 构造需要 (BlockEntityType, BlockPos, BlockState)，且需注册 BlockEntityType；1.20.5+ NBT 读写方法改签名：load -> loadAdditional(CompoundTag, HolderLookup.Provider)，saveAdditional/saveWithId/saveWithoutMetadata/getUpdateTag 等均新增 HolderLookup.Provider 参数"
+  },
+  "forge.util.INBTSerializable": {
+    "name": "net.minecraftforge.common.util.INBTSerializable",
+    "note": "Forge 1.20.5+ 签名带注册表访问：T serializeNBT(HolderLookup.Provider) / void deserializeNBT(HolderLookup.Provider, T)，实现类需人工补参数"
+  },
+  "forge.FMLJavaModLoadingContext": {
+    "name": "net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext",
+    "note": "类仍存在，但静态 FMLJavaModLoadingContext.get() 自 1.21.1 起 @Deprecated(forRemoval)：推荐让 @Mod 构造器声明 FMLJavaModLoadingContext 参数（Forge 自动注入），再 context.getModEventBus()"
+  }
+}

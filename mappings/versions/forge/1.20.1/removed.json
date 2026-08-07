@@ -1,0 +1,37 @@
+{
+  "classes": {
+    "net.minecraftforge.registries.DeferredRegister": {
+      "concept": "registry.deferred",
+      "message": "DeferredRegister 是 1.13+ 的注册机制，旧版本不存在"
+    },
+    "net.minecraftforge.fml.DistExecutor": {
+      "concept": "proxy.sided",
+      "message": "DistExecutor 是 1.13+ 的分侧执行机制"
+    },
+    "net.minecraftforge.network.simple.SimpleChannel": {
+      "concept": "network.channel",
+      "message": "SimpleChannel 是 1.13+ 的网络机制"
+    },
+    "net.minecraftforge.fluids.FluidType": {
+      "concept": "fluid.system",
+      "message": "FluidType 是 1.19.2+ 的流体机制，旧版本不存在"
+    },
+    "net.minecraftforge.fluids.ForgeFlowingFluid": {
+      "concept": "fluid.system",
+      "message": "ForgeFlowingFluid 是 1.13+ 的流体机制"
+    },
+    "net.minecraftforge.event.BuildCreativeModeTabContentsEvent": {
+      "concept": "creative.fill",
+      "message": "BuildCreativeModeTabContentsEvent 是 1.20+ 的创造标签页填充机制，旧版本不存在"
+    },
+    "net.minecraft.world.item.CreativeModeTabs": {
+      "concept": "creative.fill",
+      "message": "CreativeModeTabs（原版页签常量/注册表键）是 1.19.3+ 的机制，旧版本不存在"
+    },
+    "net.minecraft.world.level.material.Material": {
+      "concept": "block.propertiesBuilder",
+      "message": "占位条目（见报告）：net.minecraft.world.level.material.Material 在 1.20 已被移除，1.20.1 中不存在此类；方块属性用 BlockBehaviour.Properties.of()（无参）+ mapColor(...) 表达。IR id mc.block.material.Material 因此不在本版本 classes.json 中"
+    }
+  },
+  "members": {}
+}

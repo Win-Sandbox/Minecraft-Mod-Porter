@@ -1,0 +1,123 @@
+{
+  "mc.entity.Entity": {
+    "getDisplayName": {
+      "name": "getDisplayName", "kind": "method",
+      "note": "Entity/Player 的 getDisplayName 在 1.19 仍存在且同名；仅 ItemStack 的对应方法改名为 getHoverName——请按接收者类型二选一"
+    },
+    "level": {"name": "level", "kind": "field"},
+    "getX": {"name": "getX", "kind": "method"},
+    "getY": {"name": "getY", "kind": "method"},
+    "getZ": {"name": "getZ", "kind": "method"},
+    "getYRot": {"name": "getYRot", "kind": "method"},
+    "getXRot": {"name": "getXRot", "kind": "method"},
+    "blockPosition": {"name": "blockPosition", "kind": "method"},
+    "isAlive": {"name": "isAlive", "kind": "method"},
+    "discard": {
+      "name": "discard", "kind": "method",
+      "note": "discard() 直接静默移除实体；若需要死亡逻辑（掉落等）请改用 kill()"
+    },
+    "isShiftKeyDown": {
+      "name": "isShiftKeyDown", "kind": "method",
+      "note": "1.13+ 潜行语义拆分为 isShiftKeyDown（按住 Shift）与 isCrouching（姿态），请确认语义"
+    }
+  },
+  "mc.world.Level": {
+    "isClientSide": {"name": "isClientSide", "kind": "field"},
+    "random": {
+      "name": "random", "kind": "field",
+      "note": "字段类型由 java.util.Random 改为 net.minecraft.util.RandomSource，API 基本兼容"
+    },
+    "players": {"name": "players", "kind": "method"},
+    "getBlockEntity": {"name": "getBlockEntity", "kind": "method"},
+    "removeBlock": {
+      "name": "removeBlock", "kind": "method",
+      "note": "removeBlock(BlockPos, boolean isMoving) 需要补第二个参数，一般传 false"
+    },
+    "getEntitiesOfClass": {
+      "name": "getEntitiesOfClass", "kind": "method",
+      "note": "getEntitiesOfClass(Class, AABB[, Predicate])，与 1.12 的 getEntitiesWithinAABB 参数基本对应"
+    }
+  },
+  "mc.entity.player.Player": {
+    "sendSystemMessage": {"name": "sendSystemMessage", "kind": "method"},
+    "getInventory": {"name": "getInventory", "kind": "method"},
+    "getAbilities": {"name": "getAbilities", "kind": "method"},
+    "displayClientMessage": {
+      "name": "displayClientMessage", "kind": "method",
+      "note": "displayClientMessage(Component, boolean actionBar)，消息参数需为 Component"
+    }
+  },
+  "mc.entity.player.Abilities": {
+    "instabuild": {"name": "instabuild", "kind": "field"},
+    "mayfly": {"name": "mayfly", "kind": "field"},
+    "flying": {"name": "flying", "kind": "field"},
+    "invulnerable": {"name": "invulnerable", "kind": "field"}
+  },
+  "mc.item.ItemStack": {
+    "getHoverName": {
+      "name": "getHoverName", "kind": "method",
+      "note": "getHoverName 返回 Component 而不是 String，如需字符串用 .getString()"
+    },
+    "save": {
+      "name": "save", "kind": "method",
+      "note": "save(CompoundTag) 语义同 writeToNBT，返回传入的 tag"
+    }
+  },
+  "mc.item.Item": {
+    "getDescriptionId#a": {"name": "getDescriptionId", "kind": "method"},
+    "getDescriptionId#b": {"name": "getDescriptionId", "kind": "method"},
+    "appendHoverText": {
+      "name": "appendHoverText", "kind": "method",
+      "note": "签名: appendHoverText(ItemStack, Level, List<Component>, TooltipFlag)，tooltip 列表元素改为 Component"
+    },
+    "use": {
+      "name": "use", "kind": "method",
+      "note": "签名: use(Level, Player, InteractionHand) 返回 InteractionResultHolder<ItemStack>"
+    },
+    "useOn": {
+      "name": "useOn", "kind": "method",
+      "note": "参数合并为 UseOnContext，返回 InteractionResult"
+    }
+  },
+  "mc.block.Block": {
+    "use": {
+      "name": "use", "kind": "method",
+      "note": "签名: use(BlockState, Level, BlockPos, Player, InteractionHand, BlockHitResult) 返回 InteractionResult，且方法在 BlockBehaviour 上"
+    }
+  },
+  "mc.blockentity.BlockEntity": {
+    "setChanged": {"name": "setChanged", "kind": "method"},
+    "getLevel": {"name": "getLevel", "kind": "method"},
+    "getBlockPos": {"name": "getBlockPos", "kind": "method"},
+    "load": {
+      "name": "load", "kind": "method",
+      "note": "1.19 的 load(CompoundTag) 无返回值且不再调用 super 链读取坐标，签名需人工核对"
+    },
+    "saveAdditional": {
+      "name": "saveAdditional", "kind": "method",
+      "note": "1.19 为 protected void saveAdditional(CompoundTag)，无返回值，签名需人工核对"
+    }
+  },
+  "mc.chat.Component": {
+    "append#sibling": {
+      "name": "append", "kind": "method",
+      "note": "append 定义在 MutableComponent 上；若变量声明类型是 Component，需要改为 MutableComponent（Component.literal 等工厂返回的即是）"
+    },
+    "append#text": {
+      "name": "append", "kind": "method",
+      "note": "append 定义在 MutableComponent 上；若变量声明类型是 Component，需要改为 MutableComponent"
+    },
+    "getString": {"name": "getString", "kind": "method"}
+  },
+  "mc.client.Minecraft": {
+    "getInstance": {"name": "getInstance", "kind": "method"},
+    "setScreen": {"name": "setScreen", "kind": "method"},
+    "font": {"name": "font", "kind": "field"}
+  },
+  "forge.event.BlockEvent": {
+    "getPos": {
+      "name": "getPos", "kind": "method",
+      "note": "BlockEvent 等事件的 getPos 在 1.19 名称不变；仅 BlockEntity 的 getPos 改名为 getBlockPos——请按接收者类型二选一"
+    }
+  }
+}

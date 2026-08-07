@@ -1,0 +1,30 @@
+{
+  "mcVersion": "1.20.1",
+  "loader": "forge",
+  "javaVersion": 17,
+  "metadataFormat": "mods.toml",
+  "metadataPath": "src/main/resources/META-INF/mods.toml",
+  "langFormat": "json",
+  "langKeys": {
+    "block": "block.{modid}.{name}",
+    "item": "item.{modid}.{name}",
+    "group": "itemGroup.{name}"
+  },
+  "texturePrefixes": {
+    "block": "block/",
+    "item": "item/"
+  },
+  "modAnnotationStyle": "value",
+  "lifecycleStyle": "modBus",
+  "packFormat": 15,
+  "forgeVersion": "47.3.0",
+  "gradleVersion": "8.8",
+  "loaderVersionRange": "[47,)",
+  "mappingsChannel": "official",
+  "aliases": {
+    "1.20": {
+      "forgeVersion": "46.0.14",
+      "loaderVersionRange": "[46,)"
+    }
+  }
+}

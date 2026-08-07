@@ -1,0 +1,9 @@
+{
+  "mcVersion": "1.14.4",
+  "basedOn": "1.15.2",
+  "packFormat": 4,
+  "forgeVersion": "28.2.26",
+  "gradleVersion": "4.9",
+  "loaderVersionRange": "[28,)",
+  "mappingsChannel": "snapshot"
+}

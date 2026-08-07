@@ -1,0 +1,131 @@
+{
+  "mc.nbt.CompoundTag": {
+    "putInt": {"name": "setInteger", "kind": "method"},
+    "getInt": {"name": "getInteger", "kind": "method"},
+    "putString": {"name": "setString", "kind": "method"},
+    "putBoolean": {"name": "setBoolean", "kind": "method"},
+    "putDouble": {"name": "setDouble", "kind": "method"},
+    "putFloat": {"name": "setFloat", "kind": "method"},
+    "putLong": {"name": "setLong", "kind": "method"},
+    "putByte": {"name": "setByte", "kind": "method"},
+    "putUUID": {"name": "setUniqueId", "kind": "method"},
+    "getUUID": {"name": "getUniqueId", "kind": "method"},
+    "hasUUID": {"name": "hasUniqueId", "kind": "method"},
+    "put": {"name": "setTag", "kind": "method"},
+    "getCompound": {"name": "getCompoundTag", "kind": "method"},
+    "getList": {"name": "getTagList", "kind": "method"},
+    "contains": {"name": "hasKey", "kind": "method"},
+    "remove": {"name": "removeTag", "kind": "method"},
+    "isEmpty": {"name": "hasNoTags", "kind": "method"}
+  },
+  "mc.item.ItemStack": {
+    "getTag": {"name": "getTagCompound", "kind": "method"},
+    "setTag": {"name": "setTagCompound", "kind": "method"},
+    "hasTag": {"name": "hasTagCompound", "kind": "method"},
+    "split": {"name": "splitStack", "kind": "method"},
+    "getHoverName": {"name": "getDisplayName", "kind": "method"},
+    "setHoverName": {"name": "setStackDisplayName", "kind": "method"},
+    "save": {"name": "writeToNBT", "kind": "method"}
+  },
+  "mc.item.Item": {
+    "getDescriptionId#a": {"name": "getUnlocalizedName", "kind": "method"},
+    "getDescriptionId#b": {"name": "getTranslationKey", "kind": "method"},
+    "appendHoverText": {"name": "addInformation", "kind": "method"},
+    "use": {"name": "onItemRightClick", "kind": "method"},
+    "useOn": {"name": "onItemUse", "kind": "method"}
+  },
+  "mc.block.Block": {
+    "defaultBlockState": {"name": "getDefaultState", "kind": "method"},
+    "getDescriptionId": {"name": "getTranslationKey", "kind": "method"},
+    "use": {"name": "onBlockActivated", "kind": "method"}
+  },
+  "mc.world.Level": {
+    "isClientSide": {"name": "isRemote", "kind": "field"},
+    "random": {"name": "rand", "kind": "field"},
+    "getBlockEntity": {"name": "getTileEntity", "kind": "method"},
+    "getGameTime": {"name": "getTotalWorldTime", "kind": "method"},
+    "getDayTime": {"name": "getWorldTime", "kind": "method"},
+    "players": {"name": "playerEntities", "kind": "field"},
+    "addFreshEntity": {"name": "spawnEntity", "kind": "method"},
+    "isEmptyBlock": {"name": "isAirBlock", "kind": "method"},
+    "hasNeighborSignal": {"name": "isBlockPowered", "kind": "method"},
+    "getEntitiesOfClass": {"name": "getEntitiesWithinAABB", "kind": "method"},
+    "getNearestPlayer": {"name": "getClosestPlayer", "kind": "method"},
+    "getPlayerByUUID": {"name": "getPlayerEntityByUUID", "kind": "method"},
+    "removeBlock": {"name": "setBlockToAir", "kind": "method"},
+    "getServer": {"name": "getMinecraftServer", "kind": "method"}
+  },
+  "mc.entity.Entity": {
+    "getDisplayName": {"name": "getDisplayName", "kind": "method"},
+    "level": {"name": "world", "kind": "field"},
+    "getX": {"name": "posX", "kind": "field"},
+    "getY": {"name": "posY", "kind": "field"},
+    "getZ": {"name": "posZ", "kind": "field"},
+    "getYRot": {"name": "rotationYaw", "kind": "field"},
+    "getXRot": {"name": "rotationPitch", "kind": "field"},
+    "blockPosition": {"name": "getPosition", "kind": "method"},
+    "isAlive": {"name": "isEntityAlive", "kind": "method"},
+    "tick": {"name": "onUpdate", "kind": "method"},
+    "baseTick": {"name": "onEntityUpdate", "kind": "method"},
+    "discard": {"name": "setDead", "kind": "method"},
+    "getUUID": {"name": "getUniqueID", "kind": "method"},
+    "position": {"name": "getPositionVector", "kind": "method"},
+    "distanceTo": {"name": "getDistance", "kind": "method"},
+    "distanceToSqr": {"name": "getDistanceSq", "kind": "method"},
+    "isShiftKeyDown": {"name": "isSneaking", "kind": "method"},
+    "isPassenger": {"name": "isRiding", "kind": "method"},
+    "getVehicle": {"name": "getRidingEntity", "kind": "method"},
+    "stopRiding": {"name": "dismountRidingEntity", "kind": "method"},
+    "hurt": {"name": "attackEntityFrom", "kind": "method"},
+    "getCommandSenderWorld": {"name": "getEntityWorld", "kind": "method"}
+  },
+  "mc.entity.LivingEntity": {
+    "hasEffect": {"name": "isPotionActive", "kind": "method"},
+    "addEffect": {"name": "addPotionEffect", "kind": "method"},
+    "removeEffect": {"name": "removePotionEffect", "kind": "method"},
+    "getEffect": {"name": "getActivePotionEffect", "kind": "method"}
+  },
+  "mc.entity.player.Player": {
+    "sendSystemMessage": {"name": "sendMessage", "kind": "method"},
+    "getInventory": {"name": "inventory", "kind": "field"},
+    "getAbilities": {"name": "capabilities", "kind": "field"},
+    "displayClientMessage": {"name": "sendStatusMessage", "kind": "method"}
+  },
+  "mc.entity.player.Abilities": {
+    "instabuild": {"name": "isCreativeMode", "kind": "field"},
+    "mayfly": {"name": "allowFlying", "kind": "field"},
+    "flying": {"name": "isFlying", "kind": "field"},
+    "invulnerable": {"name": "disableDamage", "kind": "field"}
+  },
+  "mc.blockentity.BlockEntity": {
+    "setChanged": {"name": "markDirty", "kind": "method"},
+    "getLevel": {"name": "getWorld", "kind": "method"},
+    "getBlockPos": {"name": "getPos", "kind": "method"},
+    "load": {"name": "readFromNBT", "kind": "method"},
+    "saveAdditional": {"name": "writeToNBT", "kind": "method"}
+  },
+  "mc.resources.ResourceLocation": {
+    "getPath": {"name": "getResourcePath", "kind": "method"},
+    "getNamespace": {"name": "getResourceDomain", "kind": "method"}
+  },
+  "mc.chat.Component": {
+    "append#sibling": {"name": "appendSibling", "kind": "method"},
+    "append#text": {"name": "appendText", "kind": "method"},
+    "getString": {"name": "getUnformattedText", "kind": "method"}
+  },
+  "mc.client.Minecraft": {
+    "getInstance": {"name": "getMinecraft", "kind": "method"},
+    "setScreen": {"name": "displayGuiScreen", "kind": "method"},
+    "font": {"name": "fontRenderer", "kind": "field"}
+  },
+  "mc.client.KeyMapping": {
+    "isDown": {"name": "isKeyDown", "kind": "method"},
+    "consumeClick": {"name": "isPressed", "kind": "method"}
+  },
+  "mc.client.I18n": {
+    "get": {"name": "format", "kind": "method"}
+  },
+  "forge.event.BlockEvent": {
+    "getPos": {"name": "getPos", "kind": "method"}
+  }
+}

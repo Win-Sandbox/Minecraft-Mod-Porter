@@ -1,0 +1,12 @@
+{
+  "mc.entity.Entity": {
+    "hurt": {"name": "hurt", "kind": "method"}
+  },
+  "mc.world.biome.Biome": {
+    "hasPrecipitation": {"name": "isHumid", "kind": "method"},
+    "getPrecipitationAt": {
+      "name": "getPrecipitation", "kind": "method",
+      "note": "1.19.3 为 getPrecipitation() 无参；1.19.4 起才是 getPrecipitationAt(BlockPos)"
+    }
+  }
+}

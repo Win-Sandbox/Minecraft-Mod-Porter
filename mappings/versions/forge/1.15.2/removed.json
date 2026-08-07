@@ -1,0 +1,86 @@
+{
+  "classes": {
+    "net.minecraftforge.registries.DeferredRegister": {
+      "concept": "registry.deferred",
+      "message": "DeferredRegister 是 1.13+ 的注册机制，旧版本不存在"
+    },
+    "net.minecraftforge.fml.RegistryObject": {
+      "concept": "registry.deferred",
+      "message": "RegistryObject（1.15.2 位于 net.minecraftforge.fml）是 DeferredRegister 配套机制，旧版本不存在"
+    },
+    "net.minecraftforge.fml.DistExecutor": {
+      "concept": "proxy.sided",
+      "message": "DistExecutor 是 1.13+ 的分侧执行机制"
+    },
+    "net.minecraftforge.fml.network.simple.SimpleChannel": {
+      "concept": "network.channel",
+      "message": "SimpleChannel（1.15.2 位于 net.minecraftforge.fml.network.simple）是 1.13+ 的网络机制"
+    },
+    "net.minecraftforge.fml.network.NetworkRegistry": {
+      "concept": "network.channel",
+      "message": "1.15.2 的 NetworkRegistry（fml.network 包）用于创建 SimpleChannel，与 1.12 的旧网络注册和 1.19 的 network 包位置均不同"
+    },
+    "net.minecraftforge.fluids.ForgeFlowingFluid": {
+      "concept": "fluid.system",
+      "message": "ForgeFlowingFluid 是 1.13+ 的流体机制"
+    },
+    "net.minecraftforge.fluids.FluidAttributes": {
+      "concept": "fluid.system",
+      "message": "FluidAttributes 是 1.13~1.18 的流体属性机制（1.19.2 起被 FluidType 取代）"
+    },
+    "net.minecraft.block.FlowingFluidBlock": {
+      "concept": "fluid.block",
+      "message": "FlowingFluidBlock 是 1.13~1.16 的流体方块类（1.17+ 更名为 LiquidBlock）"
+    },
+    "net.minecraftforge.common.capabilities.CapabilityInject": {
+      "concept": "capability.inject",
+      "message": "@CapabilityInject 在 1.15.2 仍可用（1.19+ 已移除，改为 CapabilityToken）"
+    },
+    "net.minecraftforge.items.CapabilityItemHandler": {
+      "concept": "capability.provider",
+      "message": "CapabilityItemHandler 常量类在 1.15.2 仍可用（1.19.2 起合并为 ForgeCapabilities）"
+    },
+    "net.minecraftforge.energy.CapabilityEnergy": {
+      "concept": "capability.provider",
+      "message": "CapabilityEnergy 常量类在 1.15.2 仍可用（1.19.2 起合并为 ForgeCapabilities）"
+    },
+    "net.minecraftforge.fluids.capability.CapabilityFluidHandler": {
+      "concept": "capability.provider",
+      "message": "CapabilityFluidHandler 常量类在 1.15.2 仍可用（1.19.2 起合并为 ForgeCapabilities）"
+    },
+    "net.minecraft.tileentity.ITickableTileEntity": {
+      "concept": "blockentity.ticker",
+      "message": "ITickableTileEntity 是 1.13~1.16 的 TileEntity tick 机制（1.17+ 改为 EntityBlock#getTicker）"
+    },
+    "net.minecraftforge.fml.client.registry.ClientRegistry": {
+      "concept": "input.glfw",
+      "message": "ClientRegistry（registerKeyBinding / bindTileEntityRenderer）是 1.13~1.18 的客户端注册入口，1.19 改为 Mod 总线事件（RegisterKeyMappingsEvent / EntityRenderersEvent）"
+    },
+    "net.minecraftforge.fml.client.registry.RenderingRegistry": {
+      "concept": "entity.registration",
+      "message": "RenderingRegistry.registerEntityRenderingHandler 是 1.13~1.16 的实体渲染器注册方式，1.19 改为 EntityRenderersEvent.RegisterRenderers"
+    },
+    "net.minecraftforge.common.ModDimension": {
+      "concept": "dimension",
+      "message": "ModDimension 是 1.13~1.15 的维度注册机制（1.16 起维度改为数据驱动，旧版本用 WorldProvider）"
+    },
+    "net.minecraftforge.common.DimensionManager": {
+      "concept": "dimension",
+      "message": "1.15.2 的 DimensionManager（registerDimension 等）在 1.16 起被数据驱动维度取代，与 1.12 的同名类用法也不同"
+    },
+    "net.minecraftforge.fml.DeferredWorkQueue": {
+      "concept": "lifecycle.deferredWork",
+      "message": "DeferredWorkQueue.runLater 是 1.13~1.15 的主线程同步机制；1.16+ 改用生命周期事件的 event.enqueueWork(...)，1.12 无此概念（主线程直接执行）"
+    }
+  },
+  "members": {
+    "setRegistryName": {
+      "concept": "registry.name",
+      "message": "setRegistryName 在 1.15.2 仍可用（1.19+ 移除，注册名在注册时指定）"
+    },
+    "getRegistryName": {
+      "concept": "registry.name",
+      "message": "getRegistryName 在 1.15.2 仍可用（1.19+ 移除，用 ForgeRegistries.XXX.getKey(entry) 获取）"
+    }
+  }
+}
