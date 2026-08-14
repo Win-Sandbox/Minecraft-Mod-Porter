@@ -1,5 +1,7 @@
 package io.modporter.passes;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -21,10 +23,18 @@ import java.util.regex.Pattern;
  */
 public final class MetadataPass {
 
+    private static final Gson GSON = new GsonBuilder()
+            .setPrettyPrinting().disableHtmlEscaping().create();
+
     private final PortContext ctx;
 
     public MetadataPass(PortContext ctx) {
         this.ctx = ctx;
+    }
+
+    private static String optString(JsonObject o, String key) {
+        return o.has(key) && !o.get(key).isJsonNull() && o.get(key).isJsonPrimitive()
+                ? o.get(key).getAsString() : null;
     }
 
     /** 解析源元数据文件填充 ctx.modMeta。relPath 仅用于报告。 */
@@ -35,6 +45,8 @@ public final class MetadataPass {
                 parseMcmodInfo(content);
             } else if ("mods.toml".equals(format)) {
                 parseModsToml(content);
+            } else if ("fabric.mod.json".equals(format)) {
+                parseFabricModJson(content);
             } else {
                 ctx.warn(relPath, null, "metadata", "未知元数据格式: " + format);
                 return;
@@ -50,6 +62,21 @@ public final class MetadataPass {
     public OutputFile generate(String sourceRelPath) {
         String targetPath = ctx.target().info.metadataPath;
         String targetFormat = ctx.target().info.metadataFormat;
+
+        // fabric.mod.json -> fabric.mod.json：在原文上按字段打补丁而非套模板重生成。
+        // 该文件含 entrypoints（模组入口类）、mixins、custom 等与 MC 版本无关的内容，
+        // 一旦丢失模组就无法加载，因此同格式时必须走无损路径。
+        if ("fabric.mod.json".equals(targetFormat)
+                && "fabric.mod.json".equals(ctx.source().info.metadataFormat)
+                && ctx.modMeta.rawMetadataJson != null) {
+            String patched = patchFabricModJson(ctx.modMeta.rawMetadataJson, sourceRelPath);
+            if (patched != null) {
+                ctx.info(sourceRelPath, null, "metadata",
+                        "已就地更新 " + targetPath + "（entrypoints / mixins / 自定义字段原样保留）");
+                return new OutputFile(targetPath, patched.getBytes(StandardCharsets.UTF_8));
+            }
+        }
+
         String template = readTemplate(metadataTemplateName(targetFormat));
         if (template == null) {
             ctx.error(sourceRelPath, null, "metadata",
@@ -62,7 +89,83 @@ public final class MetadataPass {
     }
 
     private static String metadataTemplateName(String format) {
-        return "mcmod.info".equals(format) ? "mcmod.info" : "mods.toml";
+        if ("mcmod.info".equals(format)) return "mcmod.info";
+        if ("fabric.mod.json".equals(format)) return "fabric.mod.json";
+        return "mods.toml";
+    }
+
+    // ---- Fabric ----
+
+    private void parseFabricModJson(String content) {
+        JsonObject o = JsonParser.parseString(content).getAsJsonObject();
+        ModMeta meta = ctx.modMeta;
+        meta.rawMetadataJson = content;
+
+        if (o.has("id")) meta.modid = o.get("id").getAsString();
+        if (o.has("version")) meta.version = o.get("version").getAsString();
+        if (o.has("name")) meta.name = o.get("name").getAsString();
+        if (o.has("description")) meta.description = o.get("description").getAsString().trim();
+        if (o.has("icon")) meta.logoFile = o.get("icon").getAsString();
+        if (o.has("authors")) {
+            for (JsonElement a : o.getAsJsonArray("authors")) {
+                // authors 元素可以是字符串，也可以是 {"name": ..., "contact": ...}
+                if (a.isJsonObject()) {
+                    String name = optString(a.getAsJsonObject(), "name");
+                    if (name != null) meta.authors.add(name);
+                } else {
+                    meta.authors.add(a.getAsString());
+                }
+            }
+        }
+        if (o.has("contact")) {
+            JsonObject contact = o.getAsJsonObject("contact");
+            String url = optString(contact, "homepage");
+            if (url == null) url = optString(contact, "sources");
+            if (url != null) meta.url = url;
+        }
+        // 入口类与 mixin 配置：与 MC 版本无关，必须原样带到目标工程
+        if (o.has("entrypoints")) meta.entrypointsJson = GSON.toJson(o.get("entrypoints"));
+        if (o.has("mixins")) meta.mixinsJson = GSON.toJson(o.get("mixins"));
+
+        if ("${version}".equals(meta.version)) {
+            meta.version = "1.0.0";
+            ctx.todo(null, null, "metadata",
+                    "fabric.mod.json 的 version 使用 ${version} 占位符（由 Loom 在构建时注入），已回退为 1.0.0，请确认");
+        }
+    }
+
+    /**
+     * 就地更新 fabric.mod.json 中与 MC 版本相关的字段，其余内容一律保留。
+     * 失败返回 null，由调用方回退到模板生成。
+     */
+    private String patchFabricModJson(String content, String relPath) {
+        try {
+            JsonObject o = JsonParser.parseString(content).getAsJsonObject();
+            var info = ctx.target().info;
+
+            JsonObject depends = o.has("depends") && o.get("depends").isJsonObject()
+                    ? o.getAsJsonObject("depends")
+                    : new JsonObject();
+
+            if (info.mcVersion != null) {
+                depends.addProperty("minecraft", "~" + info.mcVersion);
+            }
+            if (info.loaderVersionRange != null && !info.loaderVersionRange.isBlank()) {
+                depends.addProperty("fabricloader", info.loaderVersionRange);
+            }
+            depends.addProperty("java", ">=" + info.javaVersion);
+            o.add("depends", depends);
+
+            if (depends.has("fabric-api") || depends.has("fabric")) {
+                ctx.todo(relPath, null, "metadata",
+                        "depends 中对 Fabric API 的版本约束未自动修改，请按目标版本可用的 fabric-api 版本核对");
+            }
+            return GSON.toJson(o) + "\n";
+        } catch (Exception e) {
+            ctx.warn(relPath, null, "metadata",
+                    "fabric.mod.json 解析失败，改用模板重新生成（自定义字段可能丢失）: " + e.getMessage());
+            return null;
+        }
     }
 
     private void parseMcmodInfo(String content) {
@@ -149,7 +252,9 @@ public final class MetadataPass {
     String renderTemplate(String template) {
         ModMeta m = ctx.modMeta;
         var info = ctx.target().info;
-        return template
+        String rendered = template
+                .replace("${entrypointsJson}", m.entrypointsJson)
+                .replace("${mixinsJson}", m.mixinsJson)
                 .replace("${modid}", m.modid)
                 .replace("${name}", m.name)
                 .replace("${version}", m.version)
@@ -163,6 +268,13 @@ public final class MetadataPass {
                 .replace("${forgeVersion}", info.forgeVersion == null ? "" : info.forgeVersion)
                 .replace("${loaderVersionRange}", info.loaderVersionRange == null ? "" : info.loaderVersionRange)
                 .replace("${mappingsChannel}", info.mappingsChannel == null ? "" : info.mappingsChannel)
+                .replace("${gradleVersion}", info.gradleVersion == null ? "" : info.gradleVersion)
                 .replace("${javaVersion}", String.valueOf(info.javaVersion));
+
+        // 版本专有变量（Fabric 的 yarnVersion / loomVersion / fabricApiVersion 等）
+        for (var e : info.extras.entrySet()) {
+            rendered = rendered.replace("${" + e.getKey() + "}", e.getValue());
+        }
+        return rendered;
     }
 }

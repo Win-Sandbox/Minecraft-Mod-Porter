@@ -30,6 +30,7 @@ public final class VersionMappings {
             c.loaderVersionRange = loaderVersionRange;
             c.mappingsChannel = mappingsChannel;
             c.gradleVersion = gradleVersion;
+            c.extras = new HashMap<>(extras);
             return c;
         }
 
@@ -47,7 +48,9 @@ public final class VersionMappings {
         public String forgeVersion;
         public String loaderVersionRange;
         public String mappingsChannel;         // 仅供 build.gradle 模板参考
-        public String gradleVersion;           // 本版本 ForgeGradle 对应的 Gradle wrapper 版本
+        public String gradleVersion;           // 本版本构建插件对应的 Gradle wrapper 版本
+        /** 版本专有的模板变量（如 Fabric 的 yarnVersion / loomVersion），以 ${键名} 形式在模板中替换。 */
+        public Map<String, String> extras = new HashMap<>();
     }
 
     /** classes.json 中一个条目：IR id -> 该版本的 FQCN（可附迁移提示）。 */

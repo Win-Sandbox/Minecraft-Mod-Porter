@@ -229,6 +229,11 @@ public final class MappingRepository {
                 info.texturePrefixes.put(e.getKey(), e.getValue().getAsString());
             }
         }
+        if (o.has("extras")) {
+            for (Map.Entry<String, JsonElement> e : o.getAsJsonObject("extras").entrySet()) {
+                info.extras.put(e.getKey(), e.getValue().getAsString());
+            }
+        }
     }
 
     /** classes.json 的值可为字符串（仅 FQCN）或对象 {"name": fqcn, "note": "..."}；"!remove" 为待删 IR id 数组。 */

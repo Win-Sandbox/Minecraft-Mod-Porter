@@ -2,6 +2,8 @@ package io.modporter.engine;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import io.modporter.core.PortEngine;
 import io.modporter.core.PortRequest;
 import io.modporter.core.PortResult;
@@ -211,11 +213,51 @@ public final class DefaultPortEngine implements PortEngine {
                     "Gradle wrapper 原样复制，其版本可能与目标版本 ForgeGradle 不兼容，请按目标版本 MDK 更新");
             return copyVerbatim(rel, file, ctx);
         }
+        // Access Widener（Fabric）：内容是逐行的类/成员名，随版本与映射变化，
+        // 无法可靠自动改写；原样复制但必须提示，否则运行期才会以崩溃形式暴露。
+        if (name.endsWith(".accesswidener")) {
+            ctx.todo(rel, null, "accesswidener",
+                    "Access Widener 中的类名/成员名随 MC 版本与映射变化，本工具不改写其内容，"
+                    + "请逐行核对（首行 namespace 也需与目标工程的映射一致）");
+            return copyVerbatim(rel, file, ctx);
+        }
+        // Mixin 配置（Fabric 模组普遍使用，Forge 侧也有）：compatibilityLevel 必须跟随目标 Java 版本
+        if (name.endsWith("mixins.json")) {
+            OutputFile out = transformMixinConfig(ctx, rel, Files.readString(file, StandardCharsets.UTF_8));
+            return out != null ? out : copyVerbatim(rel, file, ctx);
+        }
         if (name.equals("pack.mcmeta")) {
             OutputFile out = assetPass.transformPackMcmeta(rel, Files.readString(file, StandardCharsets.UTF_8));
             return out != null ? out : copyVerbatim(rel, file, ctx);
         }
         return copyVerbatim(rel, file, ctx);
+    }
+
+    private static final Gson MIXIN_GSON = new GsonBuilder()
+            .setPrettyPrinting().disableHtmlEscaping().create();
+
+    /**
+     * 更新 mixin 配置的 compatibilityLevel（如 JAVA_17 -> JAVA_21）。
+     * 不是 mixin 配置、或无需改动时返回 null，由调用方原样复制。
+     * mixin 的 target 类名本身随映射变化，但那属于字符串引用，无法可靠自动改写，
+     * 因此这里只处理版本相关字段，其余由报告提示人工核对。
+     */
+    private static OutputFile transformMixinConfig(PortContext ctx, String rel, String content) {
+        try {
+            JsonObject o = JsonParser.parseString(content).getAsJsonObject();
+            if (!o.has("compatibilityLevel")) return null;
+            String want = "JAVA_" + ctx.target().info.javaVersion;
+            String current = o.get("compatibilityLevel").getAsString();
+            if (want.equals(current)) return null;
+            o.addProperty("compatibilityLevel", want);
+            ctx.info(rel, null, "mixin-config", "compatibilityLevel " + current + " -> " + want);
+            ctx.todo(rel, null, "mixin-config",
+                    "Mixin 注入目标（@Mixin 的目标类、@Inject 的 method 签名）随版本与映射变化，"
+                    + "本工具无法自动改写，请逐个核对该配置引用的 mixin 类");
+            return new OutputFile(rel, (MIXIN_GSON.toJson(o) + "\n").getBytes(StandardCharsets.UTF_8));
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /** 判断相对路径是否位于 assets/<ns>/<dirName>/ 之下。 */
@@ -226,7 +268,7 @@ public final class DefaultPortEngine implements PortEngine {
 
     private static boolean isMetadataFile(String rel, String name, VersionMappings source) {
         if (rel.equals(source.info.metadataPath)) return true;
-        return name.equals("mcmod.info") || name.equals("mods.toml");
+        return name.equals("mcmod.info") || name.equals("mods.toml") || name.equals("fabric.mod.json");
     }
 
     private static OutputFile copyVerbatim(String rel, Path file, PortContext ctx) {
