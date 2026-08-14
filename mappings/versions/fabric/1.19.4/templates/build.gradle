@@ -1,0 +1,48 @@
+// Fabric Loom 构建脚本（由 mc-mod-porter 按目标版本模板生成）
+//
+// 注意：Loom 插件来自 Fabric 的 Maven，需要在 settings.gradle 里声明 pluginManagement：
+//
+//   pluginManagement {
+//       repositories {
+//           maven { name = 'Fabric'; url = 'https://maven.fabricmc.net/' }
+//           mavenCentral()
+//           gradlePluginPortal()
+//       }
+//   }
+
+plugins {
+    id 'fabric-loom' version '${loomVersion}'
+    id 'maven-publish'
+}
+
+version = '${version}'
+group = '${group}'
+
+base {
+    archivesName = '${modid}'
+}
+
+repositories {
+}
+
+dependencies {
+    minecraft 'com.mojang:minecraft:${mcVersion}'
+    mappings 'net.fabricmc:yarn:${yarnVersion}:v2'
+    modImplementation 'net.fabricmc:fabric-loader:${fabricLoaderVersion}'
+    modImplementation 'net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}'
+}
+
+processResources {
+    inputs.property 'version', project.version
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = 'UTF-8'
+    it.options.release = ${javaVersion}
+}
+
+java {
+    withSourcesJar()
+    sourceCompatibility = JavaVersion.toVersion(${javaVersion})
+    targetCompatibility = JavaVersion.toVersion(${javaVersion})
+}

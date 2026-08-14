@@ -1,0 +1,194 @@
+{
+  "classes": {
+    "net.fabricmc.api.ModInitializer": {
+      "concept": "fabric.entrypoint",
+      "message": "ModInitializer 是 Fabric 的入口接口，其它加载器没有对应物（Forge 用 @Mod 类 + 生命周期事件）"
+    },
+    "net.fabricmc.api.ClientModInitializer": {
+      "concept": "fabric.entrypoint",
+      "message": "ClientModInitializer 是 Fabric 的客户端入口接口（Forge 对应 FMLClientSetupEvent + @OnlyIn(Dist.CLIENT)）"
+    },
+    "net.fabricmc.api.DedicatedServerModInitializer": {
+      "concept": "fabric.entrypoint",
+      "message": "DedicatedServerModInitializer 是 Fabric 的专用服务器入口接口"
+    },
+    "net.fabricmc.api.Environment": {
+      "concept": "proxy.sided",
+      "message": "@Environment(EnvType.CLIENT) 是 Fabric 的分侧标记，Forge 对应 @OnlyIn(Dist.CLIENT)"
+    },
+    "net.fabricmc.api.EnvType": {
+      "concept": "proxy.sided",
+      "message": "EnvType 是 Fabric 的运行端枚举，Forge 对应 Dist"
+    },
+    "net.fabricmc.loader.api.FabricLoader": {
+      "concept": "mod.list",
+      "message": "FabricLoader.getInstance()（isModLoaded / getConfigDir / getEnvironmentType）是 Fabric 专有，Forge 对应 ModList / FMLPaths / FMLEnvironment"
+    },
+    "net.fabricmc.loader.api.ModContainer": {
+      "concept": "mod.list",
+      "message": "ModContainer 是 Fabric Loader 的模组容器类型，Forge 对应 net.minecraftforge.fml.ModContainer/IModInfo"
+    },
+    "net.fabricmc.fabric.api.item.v1.FabricItemSettings": {
+      "concept": "item.propertiesBuilder",
+      "message": "FabricItemSettings 是 Fabric API 对原版 Item.Settings 的扩展，Forge 侧对应 Item.Properties"
+    },
+    "net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings": {
+      "concept": "block.propertiesBuilder",
+      "message": "FabricBlockSettings 是 Fabric API 对原版 AbstractBlock.Settings 的扩展，Forge 侧对应 BlockBehaviour.Properties"
+    },
+    "net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder": {
+      "concept": "fabric.itemgroup",
+      "message": "FabricItemGroupBuilder（fabric-item-groups-v0）用于在 1.19.2 及更早版本创建创造物品栏，Forge 侧为 new CreativeModeTab(...) / CreativeModeTab.builder()"
+    },
+    "net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder": {
+      "concept": "entity.registration",
+      "message": "FabricEntityTypeBuilder 是 Fabric API 的实体类型构建器，Forge 侧为 EntityType.Builder + DeferredRegister"
+    },
+    "net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder": {
+      "concept": "blockentity.entityblock",
+      "message": "FabricBlockEntityTypeBuilder 用于注册 BlockEntityType，Forge 侧为 BlockEntityType.Builder + DeferredRegister"
+    },
+    "net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder": {
+      "concept": "registry.imperative",
+      "message": "FabricRegistryBuilder 用于创建模组自有注册表，Forge 侧为 DeferredRegister/NewRegistryEvent"
+    },
+    "net.fabricmc.fabric.api.biome.v1.BiomeModifications": {
+      "concept": "worldgen",
+      "message": "BiomeModifications 是 Fabric 的生物群系修改 API，Forge 侧为 BiomeLoadingEvent（1.16~1.18）或 biome_modifier JSON（1.19+）"
+    },
+    "net.fabricmc.fabric.api.biome.v1.BiomeSelectors": {
+      "concept": "worldgen",
+      "message": "BiomeSelectors 与 BiomeModifications 配套使用，Forge 侧没有直接对应物"
+    },
+    "net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback": {
+      "concept": "fabric.loot",
+      "message": "1.17.1 修改战利品表用 loot v1 的 LootTableLoadingCallback（fabric-loot-tables-v1，1.18.2 起才有 loot v2 的 LootTableEvents），Forge 侧为 LootTableLoadEvent / 全局战利品修改器"
+    },
+    "net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents": {
+      "concept": "lifecycle.serverEvents",
+      "message": "ServerLifecycleEvents.SERVER_STARTING/STARTED/STOPPING/STOPPED 对应 Forge 的 ServerStartingEvent 等"
+    },
+    "net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents": {
+      "concept": "fabric.events",
+      "message": "ServerTickEvents 对应 Forge 的 TickEvent.ServerTickEvent"
+    },
+    "net.fabricmc.fabric.api.event.lifecycle.v1.ClientTickEvents": {
+      "concept": "fabric.events",
+      "message": "ClientTickEvents 对应 Forge 的 TickEvent.ClientTickEvent"
+    },
+    "net.fabricmc.fabric.api.event.lifecycle.v1.ClientLifecycleEvents": {
+      "concept": "fabric.events",
+      "message": "ClientLifecycleEvents（CLIENT_STARTED/CLIENT_STOPPING）Forge 侧无严格对应物，近似 FMLClientSetupEvent"
+    },
+    "net.fabricmc.fabric.api.entity.event.v1.ServerEntityEvents": {
+      "concept": "fabric.events",
+      "message": "ServerEntityEvents（ENTITY_LOAD/ENTITY_UNLOAD 等）对应 Forge 的 EntityJoinLevelEvent/EntityLeaveLevelEvent"
+    },
+    "net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents": {
+      "concept": "fabric.events",
+      "message": "ServerPlayConnectionEvents（JOIN/DISCONNECT）对应 Forge 的 PlayerEvent.PlayerLoggedIn/Out"
+    },
+    "net.fabricmc.fabric.api.event.player.UseBlockCallback": {
+      "concept": "fabric.events",
+      "message": "UseBlockCallback 对应 Forge 的 PlayerInteractEvent.RightClickBlock"
+    },
+    "net.fabricmc.fabric.api.event.player.UseItemCallback": {
+      "concept": "fabric.events",
+      "message": "UseItemCallback 对应 Forge 的 PlayerInteractEvent.RightClickItem"
+    },
+    "net.fabricmc.fabric.api.event.player.UseEntityCallback": {
+      "concept": "fabric.events",
+      "message": "UseEntityCallback 对应 Forge 的 PlayerInteractEvent.EntityInteract"
+    },
+    "net.fabricmc.fabric.api.event.player.AttackBlockCallback": {
+      "concept": "fabric.events",
+      "message": "AttackBlockCallback 对应 Forge 的 PlayerInteractEvent.LeftClickBlock"
+    },
+    "net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents": {
+      "concept": "fabric.events",
+      "message": "PlayerBlockBreakEvents.BEFORE/AFTER/CANCELED 对应 Forge 的 BlockEvent.BreakEvent"
+    },
+    "net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback": {
+      "concept": "commands.brigadier",
+      "message": "CommandRegistrationCallback（1.17.1 为 v1）对应 Forge 的 RegisterCommandsEvent，命令树本身都是 Brigadier"
+    },
+    "net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback": {
+      "concept": "gui.overlay",
+      "message": "HudRenderCallback 对应 Forge 的 RenderGameOverlayEvent / RenderGuiOverlayEvent"
+    },
+    "net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents": {
+      "concept": "fabric.events",
+      "message": "WorldRenderEvents 对应 Forge 的 RenderLevelLastEvent / RenderLevelStageEvent"
+    },
+    "net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry": {
+      "concept": "entity.registration",
+      "message": "EntityRendererRegistry 对应 Forge 的 EntityRenderersEvent.RegisterRenderers"
+    },
+    "net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry": {
+      "concept": "entity.registration",
+      "message": "BlockEntityRendererRegistry 对应 Forge 的 EntityRenderersEvent.RegisterRenderers（BlockEntity 部分）"
+    },
+    "net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry": {
+      "concept": "model.registration",
+      "message": "ColorProviderRegistry 对应 Forge 的 RegisterColorHandlersEvent"
+    },
+    "net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap": {
+      "concept": "model.registration",
+      "message": "BlockRenderLayerMap 用于指定方块渲染层，Forge 侧为 ItemBlockRenderTypes.setRenderLayer(...)"
+    },
+    "net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper": {
+      "concept": "input.glfw",
+      "message": "KeyBindingHelper.registerKeyBinding 对应 Forge 的 ClientRegistry.registerKeyBinding / RegisterKeyMappingsEvent"
+    },
+    "net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking": {
+      "concept": "network.channel",
+      "message": "ServerPlayNetworking 是 Fabric 的网络 API，Forge 侧为 SimpleChannel"
+    },
+    "net.fabricmc.fabric.api.networking.v1.ClientPlayNetworking": {
+      "concept": "network.channel",
+      "message": "ClientPlayNetworking 是 Fabric 的客户端网络 API，Forge 侧为 SimpleChannel"
+    },
+    "net.fabricmc.fabric.api.networking.v1.PacketByteBufs": {
+      "concept": "network.channel",
+      "message": "PacketByteBufs.create() 用于构造数据包缓冲，Forge 侧消息为 POJO + encoder/decoder"
+    },
+    "net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory": {
+      "concept": "gui.menu",
+      "message": "ExtendedScreenHandlerFactory 用于开界面时同步额外数据，Forge 侧为 NetworkHooks.openGui(player, provider, buf 写入)"
+    },
+    "net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry": {
+      "concept": "gui.menu",
+      "message": "ScreenHandlerRegistry.registerSimple/registerExtended 用于注册 ScreenHandlerType，Forge 侧为 DeferredRegister<MenuType<?>> + IForgeMenuType"
+    },
+    "net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry": {
+      "concept": "gui.menu",
+      "message": "ScreenRegistry.register(type, Screen::new) 对应 Forge 的 MenuScreens.register"
+    },
+    "net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator": {
+      "concept": "recipes.data",
+      "message": "FabricDataGenerator（fabric-data-generation-api-v1）对应 Forge 的 GatherDataEvent + DataGenerator"
+    },
+    "net.fabricmc.fabric.api.transfer.v1.storage.Storage": {
+      "concept": "capability.provider",
+      "message": "Fabric 的 Transfer API（Storage/ItemStorage/FluidStorage，fabric-transfer-api-v1）承担 Forge Capability 的物品/流体搬运职责，二者数据模型不同，需人工重写"
+    },
+    "net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup": {
+      "concept": "capability.provider",
+      "message": "BlockApiLookup（fabric-api-lookup-api-v1）是 Fabric 的按方块/侧面查询 API，对应 Forge 的 getCapability(cap, side)"
+    },
+    "org.spongepowered.asm.mixin.Mixin": {
+      "concept": "fabric.mixin",
+      "message": "Mixin 类需配套 <modid>.mixins.json 与 fabric.mod.json 的 mixins 字段；注入目标的方法/字段名随映射与版本变化，跨版本/跨加载器移植必须逐个人工核对"
+    },
+    "org.spongepowered.asm.mixin.injection.Inject": {
+      "concept": "fabric.mixin",
+      "message": "@Inject 的 method/target 描述符是按当前映射写死的字符串，转换后必须人工核对"
+    }
+  },
+  "members": {
+    "onInitialize": {
+      "concept": "fabric.entrypoint",
+      "message": "onInitialize / onInitializeClient / onInitializeServer 是 Fabric 入口方法，其它加载器需改为对应的生命周期入口"
+    }
+  }
+}

@@ -1,0 +1,545 @@
+{
+  "mc.nbt.CompoundTag": {
+    "putInt": {
+      "name": "putInt",
+      "kind": "method"
+    },
+    "getInt": {
+      "name": "getInt",
+      "kind": "method"
+    },
+    "putString": {
+      "name": "putString",
+      "kind": "method"
+    },
+    "putBoolean": {
+      "name": "putBoolean",
+      "kind": "method"
+    },
+    "putDouble": {
+      "name": "putDouble",
+      "kind": "method"
+    },
+    "putFloat": {
+      "name": "putFloat",
+      "kind": "method"
+    },
+    "putLong": {
+      "name": "putLong",
+      "kind": "method"
+    },
+    "putByte": {
+      "name": "putByte",
+      "kind": "method"
+    },
+    "putUUID": {
+      "name": "putUuid",
+      "kind": "method",
+      "note": "Yarn 大小写为 putUuid"
+    },
+    "getUUID": {
+      "name": "getUuid",
+      "kind": "method",
+      "note": "Yarn 大小写为 getUuid"
+    },
+    "hasUUID": {
+      "name": "containsUuid",
+      "kind": "method",
+      "note": "Yarn 名为 containsUuid"
+    },
+    "put": {
+      "name": "put",
+      "kind": "method"
+    },
+    "getCompound": {
+      "name": "getCompound",
+      "kind": "method"
+    },
+    "getList": {
+      "name": "getList",
+      "kind": "method",
+      "note": "getList(String, int type)，第二参为 NbtElement.COMPOUND_TYPE 等类型常量"
+    },
+    "contains": {
+      "name": "contains",
+      "kind": "method"
+    },
+    "remove": {
+      "name": "remove",
+      "kind": "method"
+    },
+    "isEmpty": {
+      "name": "isEmpty",
+      "kind": "method"
+    }
+  },
+  "mc.entity.Entity": {
+    "getDisplayName": {
+      "name": "getDisplayName",
+      "kind": "method",
+      "note": "Entity/PlayerEntity 的 getDisplayName 在 Yarn 同名；ItemStack 的对应方法是 getName——请按接收者类型二选一"
+    },
+    "level": {
+      "name": "getWorld",
+      "kind": "method",
+      "note": "Yarn 的 Entity 世界访问是 getWorld()（world 字段不可直接访问）；entity.level -> entity.getWorld()"
+    },
+    "getLevel": {
+      "name": "getWorld",
+      "kind": "method",
+      "note": "Yarn 中 Entity/BlockEntity 都是 getWorld()；ServerPlayerEntity 取 ServerWorld 用 getServerWorld()——请按接收者类型确认"
+    },
+    "getX": {
+      "name": "getX",
+      "kind": "method"
+    },
+    "getY": {
+      "name": "getY",
+      "kind": "method"
+    },
+    "getZ": {
+      "name": "getZ",
+      "kind": "method"
+    },
+    "getYRot": {
+      "name": "getYaw",
+      "kind": "method",
+      "note": "Yarn 名为 getYaw（Mojmap getYRot），设置用 setYaw"
+    },
+    "getXRot": {
+      "name": "getPitch",
+      "kind": "method",
+      "note": "Yarn 名为 getPitch（Mojmap getXRot），设置用 setPitch"
+    },
+    "blockPosition": {
+      "name": "getBlockPos",
+      "kind": "method",
+      "note": "Yarn 名为 getBlockPos（Mojmap blockPosition）"
+    },
+    "isAlive": {
+      "name": "isAlive",
+      "kind": "method"
+    },
+    "tick": {
+      "name": "tick",
+      "kind": "method"
+    },
+    "baseTick": {
+      "name": "baseTick",
+      "kind": "method"
+    },
+    "discard": {
+      "name": "discard",
+      "kind": "method",
+      "note": "discard() 静默移除实体；需要死亡逻辑（掉落等）请改用 kill()"
+    },
+    "getUUID": {
+      "name": "getUuid",
+      "kind": "method",
+      "note": "Yarn 名为 getUuid"
+    },
+    "position": {
+      "name": "getPos",
+      "kind": "method",
+      "note": "Yarn 名为 getPos()，返回 Vec3d（Mojmap position()）"
+    },
+    "distanceTo": {
+      "name": "distanceTo",
+      "kind": "method"
+    },
+    "distanceToSqr": {
+      "name": "squaredDistanceTo",
+      "kind": "method",
+      "note": "Yarn 名为 squaredDistanceTo（Mojmap distanceToSqr）"
+    },
+    "isShiftKeyDown": {
+      "name": "isSneaking",
+      "kind": "method",
+      "note": "Yarn 的 isSneaking() 对应 Mojmap isShiftKeyDown（按住 Shift）；姿态判断是 isInSneakingPose()（Mojmap isCrouching），请确认语义"
+    },
+    "isPassenger": {
+      "name": "hasVehicle",
+      "kind": "method",
+      "note": "Yarn 名为 hasVehicle（Mojmap isPassenger）"
+    },
+    "getVehicle": {
+      "name": "getVehicle",
+      "kind": "method"
+    },
+    "stopRiding": {
+      "name": "stopRiding",
+      "kind": "method"
+    },
+    "hurt": {
+      "name": "damage",
+      "kind": "method",
+      "note": "Yarn 名为 damage(DamageSource, float)（Mojmap hurt）；注意与 ItemStack.damage（耐久损耗）同名，请按接收者类型确认"
+    },
+    "getCommandSenderWorld": {
+      "name": "getEntityWorld",
+      "kind": "method",
+      "note": "Yarn 保留 getEntityWorld()（与 1.12 同名）；一般直接用 getWorld() 即可"
+    }
+  },
+  "mc.entity.LivingEntity": {
+    "hasEffect": {
+      "name": "hasStatusEffect",
+      "kind": "method",
+      "note": "Yarn 名为 hasStatusEffect（参数为 StatusEffect）"
+    },
+    "addEffect": {
+      "name": "addStatusEffect",
+      "kind": "method",
+      "note": "Yarn 名为 addStatusEffect（参数为 StatusEffectInstance）"
+    },
+    "removeEffect": {
+      "name": "removeStatusEffect",
+      "kind": "method"
+    },
+    "getEffect": {
+      "name": "getStatusEffect",
+      "kind": "method"
+    }
+  },
+  "mc.world.Level": {
+    "isClientSide": {
+      "name": "isClient",
+      "kind": "field",
+      "note": "Yarn 字段名为 isClient（Mojmap isClientSide）"
+    },
+    "random": {
+      "name": "random",
+      "kind": "field",
+      "note": "字段类型为 net.minecraft.util.math.random.Random（不是 java.util.Random），导入时注意同名冲突"
+    },
+    "players": {
+      "name": "getPlayers",
+      "kind": "method",
+      "note": "Yarn 名为 getPlayers()"
+    },
+    "getBlockEntity": {
+      "name": "getBlockEntity",
+      "kind": "method"
+    },
+    "getGameTime": {
+      "name": "getTime",
+      "kind": "method",
+      "note": "Yarn 名为 getTime()（Mojmap getGameTime）"
+    },
+    "getDayTime": {
+      "name": "getTimeOfDay",
+      "kind": "method",
+      "note": "Yarn 名为 getTimeOfDay()（Mojmap getDayTime）"
+    },
+    "addFreshEntity": {
+      "name": "spawnEntity",
+      "kind": "method",
+      "note": "Yarn 名为 spawnEntity(Entity)（Mojmap addFreshEntity）"
+    },
+    "isEmptyBlock": {
+      "name": "isAir",
+      "kind": "method",
+      "note": "Yarn 名为 isAir(BlockPos)"
+    },
+    "hasNeighborSignal": {
+      "name": "isReceivingRedstonePower",
+      "kind": "method",
+      "note": "Yarn 名为 isReceivingRedstonePower"
+    },
+    "getNearestPlayer": {
+      "name": "getClosestPlayer",
+      "kind": "method",
+      "note": "Yarn 名为 getClosestPlayer"
+    },
+    "getPlayerByUUID": {
+      "name": "getPlayerByUuid",
+      "kind": "method"
+    },
+    "getServer": {
+      "name": "getServer",
+      "kind": "method"
+    },
+    "removeBlock": {
+      "name": "removeBlock",
+      "kind": "method",
+      "note": "removeBlock(BlockPos, boolean move) 需要第二个参数，一般传 false"
+    },
+    "getEntitiesOfClass": {
+      "name": "getEntitiesByClass",
+      "kind": "method",
+      "note": "Yarn 名为 getEntitiesByClass(Class, Box, Predicate)，第三个 Predicate 参数不可省略（无谓词时传 e -> true）"
+    }
+  },
+  "mc.entity.player.Player": {
+    "sendSystemMessage": {
+      "name": "sendMessage",
+      "kind": "method",
+      "note": "Yarn 用 sendMessage(Text)（服务端用 ServerPlayerEntity#sendMessage(Text, boolean overlay)）"
+    },
+    "getInventory": {
+      "name": "getInventory",
+      "kind": "method"
+    },
+    "getAbilities": {
+      "name": "getAbilities",
+      "kind": "method"
+    },
+    "displayClientMessage": {
+      "name": "sendMessage",
+      "kind": "method",
+      "note": "Yarn 为 sendMessage(Text, boolean overlay)：overlay=true 显示在快捷栏上方（对应 Mojmap displayClientMessage 的 actionBar 参数）"
+    }
+  },
+  "mc.entity.player.ServerPlayer": {
+    "getLevel": {
+      "name": "getServerWorld",
+      "kind": "method",
+      "note": "Yarn 中 ServerPlayerEntity#getServerWorld() 返回 ServerWorld；普通 Entity 用 getWorld()——请按接收者类型确认"
+    }
+  },
+  "mc.entity.player.Abilities": {
+    "instabuild": {
+      "name": "creativeMode",
+      "kind": "field",
+      "note": "Yarn 字段名为 creativeMode（Mojmap instabuild）"
+    },
+    "mayfly": {
+      "name": "allowFlying",
+      "kind": "field",
+      "note": "Yarn 字段名为 allowFlying（Mojmap mayfly）"
+    },
+    "flying": {
+      "name": "flying",
+      "kind": "field"
+    },
+    "invulnerable": {
+      "name": "invulnerable",
+      "kind": "field"
+    }
+  },
+  "mc.item.ItemStack": {
+    "getTag": {
+      "name": "getNbt",
+      "kind": "method",
+      "note": "Yarn 名为 getNbt()（Mojmap getTag）；1.20.5+ 该 API 被数据组件取代"
+    },
+    "setTag": {
+      "name": "setNbt",
+      "kind": "method",
+      "note": "Yarn 名为 setNbt(NbtCompound)"
+    },
+    "hasTag": {
+      "name": "hasNbt",
+      "kind": "method",
+      "note": "Yarn 名为 hasNbt()"
+    },
+    "getOrCreateTag": {
+      "name": "getOrCreateNbt",
+      "kind": "method",
+      "note": "Yarn 名为 getOrCreateNbt()"
+    },
+    "getTagElement": {
+      "name": "getSubNbt",
+      "kind": "method",
+      "note": "Yarn 名为 getSubNbt(String)"
+    },
+    "addTagElement": {
+      "name": "setSubNbt",
+      "kind": "method",
+      "note": "Yarn 名为 setSubNbt(String, NbtElement)"
+    },
+    "removeTagKey": {
+      "name": "removeSubNbt",
+      "kind": "method",
+      "note": "Yarn 名为 removeSubNbt(String)"
+    },
+    "split": {
+      "name": "split",
+      "kind": "method"
+    },
+    "getHoverName": {
+      "name": "getName",
+      "kind": "method",
+      "note": "Yarn 名为 getName()，返回 Text 而非 String，如需字符串用 .getString()"
+    },
+    "setHoverName": {
+      "name": "setCustomName",
+      "kind": "method",
+      "note": "Yarn 名为 setCustomName(Text)"
+    },
+    "save": {
+      "name": "writeNbt",
+      "kind": "method",
+      "note": "Yarn 名为 writeNbt(NbtCompound)，语义同 Mojmap save，返回传入的 NbtCompound"
+    },
+    "sameItem": {
+      "name": "areItemsEqual",
+      "kind": "method",
+      "note": "Yarn 为静态方法 ItemStack.areItemsEqual(ItemStack, ItemStack)（只比物品）：需改为静态调用并补齐两个参数；连同 NBT 比较用 ItemStack.canCombine(a, b)"
+    },
+    "isSameItemSameTags": {
+      "name": "canCombine",
+      "kind": "method",
+      "note": "1.20.4 Yarn 中「物品 + NBT 都相等」是静态方法 ItemStack.canCombine(a, b)；1.20.5+ 改名为 areEqual（比较数据组件）"
+    },
+    "hurtAndBreak": {
+      "name": "damage",
+      "kind": "method",
+      "note": "Yarn 名为 damage(int, LivingEntity, Consumer<T> breakCallback)（Mojmap hurtAndBreak）；注意与 Entity.damage（受伤）同名，请按接收者类型确认"
+    },
+    "getEnchantmentLevel": {
+      "name": "getEnchantmentLevel",
+      "kind": "method",
+      "note": "Fabric 无此 ItemStack 扩展方法（Forge 专有）：改用 EnchantmentHelper.getLevel(Enchantment, ItemStack)，需人工改写"
+    }
+  },
+  "mc.item.Item": {
+    "getDescriptionId#a": {
+      "name": "getTranslationKey",
+      "kind": "method",
+      "note": "Yarn 名为 getTranslationKey()"
+    },
+    "getDescriptionId#b": {
+      "name": "getTranslationKey",
+      "kind": "method",
+      "note": "Yarn 名为 getTranslationKey(ItemStack)"
+    },
+    "appendHoverText": {
+      "name": "appendTooltip",
+      "kind": "method",
+      "note": "1.20.4 签名: appendTooltip(ItemStack, @Nullable World, List<Text>, TooltipContext)（TooltipContext 为 net.minecraft.client.item.TooltipContext）；1.20.5+ 签名再变"
+    },
+    "use": {
+      "name": "use",
+      "kind": "method",
+      "note": "签名: use(World, PlayerEntity, Hand) 返回 TypedActionResult<ItemStack>"
+    },
+    "useOn": {
+      "name": "useOnBlock",
+      "kind": "method",
+      "note": "Yarn 名为 useOnBlock(ItemUsageContext)，返回 ActionResult"
+    }
+  },
+  "mc.block.Block": {
+    "defaultBlockState": {
+      "name": "getDefaultState",
+      "kind": "method",
+      "note": "Yarn 名为 getDefaultState()"
+    },
+    "getDescriptionId": {
+      "name": "getTranslationKey",
+      "kind": "method"
+    },
+    "use": {
+      "name": "onUse",
+      "kind": "method",
+      "note": "Yarn 名为 onUse(BlockState, World, BlockPos, PlayerEntity, Hand, BlockHitResult) 返回 ActionResult，方法定义在 AbstractBlock 上"
+    }
+  },
+  "mc.blockentity.BlockEntity": {
+    "setChanged": {
+      "name": "markDirty",
+      "kind": "method",
+      "note": "Yarn 名为 markDirty()"
+    },
+    "getLevel": {
+      "name": "getWorld",
+      "kind": "method",
+      "note": "Yarn 中 BlockEntity 也是 getWorld()；ServerPlayerEntity 用 getServerWorld()——请按接收者类型确认"
+    },
+    "getBlockPos": {
+      "name": "getPos",
+      "kind": "method",
+      "note": "Yarn 名为 getPos()（Mojmap getBlockPos）"
+    },
+    "load": {
+      "name": "readNbt",
+      "kind": "method",
+      "note": "1.20.4 为 public void readNbt(NbtCompound)：覆写需调用 super.readNbt(nbt)；1.20.5+ 增加 RegistryWrapper.WrapperLookup 参数"
+    },
+    "saveAdditional": {
+      "name": "writeNbt",
+      "kind": "method",
+      "note": "1.20.4 为 protected void writeNbt(NbtCompound)（无返回值）；1.20.5+ 增加 RegistryWrapper.WrapperLookup 参数"
+    },
+    "getUpdateTag": {
+      "name": "toInitialChunkDataNbt",
+      "kind": "method",
+      "note": "Yarn 名为 toInitialChunkDataNbt()（Mojmap getUpdateTag），配套的同步包用 BlockEntityUpdateS2CPacket.create(this)；1.20.5+ 该方法增加 RegistryWrapper.WrapperLookup 参数"
+    }
+  },
+  "mc.chat.Component": {
+    "append#sibling": {
+      "name": "append",
+      "kind": "method",
+      "note": "append 定义在 MutableText 上；若变量声明类型是 Text，需改为 MutableText（Text.literal 等工厂返回的即是）"
+    },
+    "append#text": {
+      "name": "append",
+      "kind": "method",
+      "note": "append 定义在 MutableText 上；若变量声明类型是 Text，需改为 MutableText"
+    },
+    "getString": {
+      "name": "getString",
+      "kind": "method"
+    }
+  },
+  "mc.client.Minecraft": {
+    "getInstance": {
+      "name": "getInstance",
+      "kind": "method"
+    },
+    "setScreen": {
+      "name": "setScreen",
+      "kind": "method"
+    },
+    "font": {
+      "name": "textRenderer",
+      "kind": "field",
+      "note": "Yarn 字段名为 textRenderer（Mojmap font）"
+    }
+  },
+  "mc.client.KeyMapping": {
+    "isDown": {
+      "name": "isPressed",
+      "kind": "method",
+      "note": "Yarn 名为 isPressed()（Mojmap isDown）"
+    },
+    "consumeClick": {
+      "name": "wasPressed",
+      "kind": "method",
+      "note": "Yarn 名为 wasPressed()（Mojmap consumeClick），循环取用直到返回 false"
+    }
+  },
+  "mc.client.I18n": {
+    "get": {
+      "name": "translate",
+      "kind": "method",
+      "note": "Yarn 名为 I18n.translate(key, args)"
+    }
+  },
+  "mc.sound.SoundEvent": {
+    "createVariableRangeEvent": {
+      "name": "of",
+      "kind": "method",
+      "note": "Yarn 为静态工厂 SoundEvent.of(Identifier)（Mojmap createVariableRangeEvent）；固定范围用 SoundEvent.of(Identifier, float)"
+    }
+  },
+  "mc.enchant.EnchantmentHelper": {
+    "getItemEnchantmentLevel": {
+      "name": "getLevel",
+      "kind": "method",
+      "note": "Yarn 名为 EnchantmentHelper.getLevel(Enchantment, ItemStack)；1.21 起首参变为 RegistryEntry<Enchantment>"
+    }
+  },
+  "mc.resources.ResourceLocation": {
+    "getPath": {
+      "name": "getPath",
+      "kind": "method"
+    },
+    "getNamespace": {
+      "name": "getNamespace",
+      "kind": "method"
+    }
+  }
+}

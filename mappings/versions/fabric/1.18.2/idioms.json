@@ -1,0 +1,75 @@
+{
+  "forms": {
+    "chat.literal": {
+      "type": "constructor",
+      "class": "net.minecraft.text.LiteralText"
+    },
+    "chat.translatable": {
+      "type": "constructor",
+      "class": "net.minecraft.text.TranslatableText"
+    },
+    "resourcelocation.parse": {
+      "type": "constructor",
+      "class": "net.minecraft.util.Identifier",
+      "arity": 1
+    },
+    "resourcelocation.fromNamespaceAndPath": {
+      "type": "constructor",
+      "class": "net.minecraft.util.Identifier",
+      "arity": 2
+    }
+  },
+  "supported": [],
+  "guidance": {
+    "registry.imperative": "Fabric 的注册本来就是命令式的：Registry.register(Registry.ITEM, new Identifier(MODID, \"my_item\"), new Item(new FabricItemSettings().group(ItemGroup.MISC)))，在 ModInitializer#onInitialize（或由它触发的静态初始化）中执行；1.18.2 的静态注册表在 net.minecraft.util.registry.Registry。没有 DeferredRegister/RegistryEvent，也不需要 setRegistryName",
+    "registry.deferred": "Fabric 没有 DeferredRegister：把 DeferredRegister + RegistryObject 改写为 public static final Item MY_ITEM = Registry.register(Registry.ITEM, new Identifier(MODID, \"my_item\"), new Item(...))；持有对象直接用静态字段，不需要 RegistryObject.get()。注意所有注册必须在 onInitialize 期间发生",
+    "registry.name": "Fabric 没有 setRegistryName/getRegistryName：注册名就是 Registry.register 时传入的 Identifier；反查用 Registry.ITEM.getId(item) / Registry.BLOCK.getId(block)",
+    "registry.builtin": "1.18.2 的 Yarn 里静态注册表常量在 net.minecraft.util.registry.Registry（Registry.ITEM / Registry.BLOCK / Registry.ENTITY_TYPE …），注册表键为 Registry.ITEM_KEY 等；世界生成用的内置动态注册表在 net.minecraft.util.registry.BuiltinRegistries。1.19.3 起 Yarn 才改为 net.minecraft.registry.Registries / RegistryKeys",
+    "lifecycle.eventHandler": "Fabric 没有 @Mod/@SubscribeEvent/事件总线：模组入口写在 fabric.mod.json 的 entrypoints（main -> ModInitializer#onInitialize、client -> ClientModInitializer#onInitializeClient、server -> DedicatedServerModInitializer#onInitializeServer）；原 preInit/init/commonSetup 里的注册与初始化统一搬进 onInitialize，客户端专有初始化搬进 onInitializeClient。其余「事件」都是 Fabric API 的回调对象：XxxEvents.EVENT.register(...)",
+    "lifecycle.serverEvents": "服务器生命周期用 ServerLifecycleEvents（net.fabricmc.fabric.api.event.lifecycle.v1）：SERVER_STARTING / SERVER_STARTED / SERVER_STOPPING / SERVER_STOPPED，例 ServerLifecycleEvents.SERVER_STARTED.register(server -> { ... })",
+    "lifecycle.deferredWork": "Fabric 没有 enqueueWork/DeferredWorkQueue：onInitialize 本身就在主线程且早于游戏启动完成；需要等服务器就绪的逻辑放 ServerLifecycleEvents.SERVER_STARTED，需要等客户端就绪的放 ClientLifecycleEvents.CLIENT_STARTED",
+    "proxy.sided": "Fabric 用入口分侧代替 Proxy：客户端逻辑放 ClientModInitializer（entrypoints.client），专用服务器逻辑放 DedicatedServerModInitializer（entrypoints.server）；成员级用 @Environment(EnvType.CLIENT)（对应 @OnlyIn(Dist.CLIENT)）；运行时判断用 FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT。切勿在公共代码里直接引用 MinecraftClient",
+    "item.propertiesBuilder": "物品属性在构造时传入：new Item(new FabricItemSettings().group(ItemGroup.MISC).maxCount(64).maxDamage(250))（net.fabricmc.fabric.api.item.v1.FabricItemSettings，也可直接用原版 new Item.Settings()）；显示名写在语言文件 item.<modid>.<name>",
+    "block.propertiesBuilder": "方块属性在构造时传入：new Block(FabricBlockSettings.of(Material.STONE).strength(3.0f, 6.0f).sounds(BlockSoundGroup.STONE).luminance(state -> 15))；挖掘工具与等级用标签（data/<modid>/tags/blocks/mineable/pickaxe.json 与 minecraft:needs_iron_tool），不再用代码里的 harvestLevel",
+    "recipes.data": "合成/熔炼配方是数据包：src/main/resources/data/<modid>/recipes/*.json（与 Forge 完全相同）；也可用 fabric-data-generation-api-v1 的 FabricRecipeProvider 生成",
+    "metadata.meta": "1.13+ 扁平化后没有 metadata/damage 子类型：每个子类型拆成独立注册的物品/方块（或方块状态属性）；耐久读写用 stack.getDamage()/setDamage()（Yarn 名）",
+    "network.channel": "改用 Fabric Networking API v1：服务端 ServerPlayNetworking.registerGlobalReceiver(CHANNEL_ID, (server, player, handler, buf, responseSender) -> server.execute(() -> { ... }))，发送 ServerPlayNetworking.send(serverPlayer, CHANNEL_ID, buf)；客户端对应 ClientPlayNetworking.registerGlobalReceiver/send；buf 用 PacketByteBufs.create() 创建。没有 SimpleChannel/消息类/handler 三元组，消息编解码需手写到 PacketByteBuf，并注意回调运行在网络线程，改游戏状态必须 server.execute/client.execute 切回主线程",
+    "model.registration": "物品/方块模型按注册名自动从 assets/<modid>/models/item|block/<name>.json 加载，删除手动绑定代码即可；非实心渲染层用 BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getCutout())（在 ClientModInitializer 中），颜色处理器用 ColorProviderRegistry.BLOCK/ITEM.register(...)",
+    "server.hooks": "Fabric 没有 ServerLifecycleHooks：在 ServerLifecycleEvents.SERVER_STARTED 回调里把 MinecraftServer 实例存到自己的静态字段备用（客户端单机世界的服务器实例可用 MinecraftClient.getInstance().getServer()）",
+    "mod.list": "判断模组是否加载用 FabricLoader.getInstance().isModLoaded(\"modid\")；取模组信息用 getModContainer(\"modid\")，取配置目录用 getConfigDir()",
+    "enum.extension": "Fabric 没有 EnumHelper：盔甲材质实现 net.minecraft.item.ArmorMaterial 接口，工具材质实现 net.minecraft.item.ToolMaterial 接口；确实需要扩展原版枚举时只能用 Mixin（或 Fabric API 提供的专用注册表/回调）",
+    "tags.oredict": "矿物词典改为标签系统：数据包 data/<ns>/tags/items|blocks/*.json；Fabric 生态的通用命名空间是 c:（如 c:copper_ingots），不是 Forge 的 forge:，跨加载器移植时需要改命名空间或同时提供两套标签文件。1.18.2 代码侧用 TagKey<Item>：TagKey.of(Registry.ITEM_KEY, new Identifier(\"c\", \"copper_ingots\"))，判断用 stack.isIn(tagKey)；常用原版标签常量在 net.minecraft.tag.ItemTags / BlockTags，Fabric 约定标签在 fabric-convention-tags-v1 的 ConventionalItemTags",
+    "blockentity.ticker": "ITickable 已移除：方块类实现 net.minecraft.block.BlockEntityProvider 并覆写 getTicker(World, BlockState, BlockEntityType) 返回 BlockEntityTicker，tick 逻辑写成 BlockEntity 的静态方法（与原版一致，Fabric 无额外封装）",
+    "blockentity.entityblock": "BlockContainer/ITileEntityProvider 已移除：方块类实现 net.minecraft.block.BlockEntityProvider 并覆写 createBlockEntity(BlockPos, BlockState)；BlockEntityType 用 Registry.register(Registry.BLOCK_ENTITY_TYPE, id, FabricBlockEntityTypeBuilder.create(MyBe::new, MY_BLOCK).build()) 注册",
+    "item.food": "ItemFood 已移除：new Item(new FabricItemSettings().food(new FoodComponent.Builder().hunger(4).saturationModifier(0.3f).build()))（Yarn 中 FoodProperties 叫 net.minecraft.item.FoodComponent，nutrition 叫 hunger）",
+    "item.durability": "damageItem 改为 stack.damage(amount, entity, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND))（Yarn 中 ItemStack#damage）；耐久上限在 Settings 里 .maxDamage(250)",
+    "item.components": "本版本物品数据用 NBT：stack.getNbt() / setNbt(NbtCompound) / getOrCreateNbt()（Yarn 名，Mojmap 为 getTag/setTag/getOrCreateTag），1.20.5+ 才是数据组件",
+    "creative.fill": "1.18.2 物品进入创造物品栏靠 Settings：new FabricItemSettings().group(MY_GROUP)；需要按变体给出多条目时覆写 Item#appendStacks(ItemGroup, DefaultedList<ItemStack>)（Yarn 名，Mojmap 为 fillItemCategory）。ItemGroupEvents/FabricItemGroupEntries 是 1.19.3+ 才有",
+    "config": "Fabric 没有内置配置系统（无 ForgeConfigSpec）：自行在 FabricLoader.getInstance().getConfigDir() 下读写 json/toml（Gson 即可），或引入 Cloth Config、owo-lib、MidnightConfig 等第三方库；配置读取时机放在 onInitialize 开头",
+    "commands.brigadier": "命令仍是 Brigadier，但注册入口不同：CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> dispatcher.register(CommandManager.literal(\"mycmd\").executes(ctx -> { ... })))（1.18.2 为 net.fabricmc.fabric.api.command.v1，1.19 起 v2 的回调多一个 CommandBuildContext 参数）；Yarn 中 Commands 叫 CommandManager",
+    "entity.registration": "实体注册：public static final EntityType<MyEntity> MY = Registry.register(Registry.ENTITY_TYPE, new Identifier(MODID, \"my\"), FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, MyEntity::new).dimensions(EntityDimensions.fixed(0.8f, 1.6f)).build())；属性用 FabricDefaultAttributeRegistry.register(MY, MyEntity.createAttributes())；渲染器在 ClientModInitializer 里 EntityRendererRegistry.register(MY, MyRenderer::new)，模型层用 EntityModelLayerRegistry",
+    "gui.menu": "IGuiHandler 已移除：用 ScreenHandlerRegistry.registerSimple(id, MyScreenHandler::new)（需要开界面时同步数据则用 registerExtended + ExtendedScreenHandlerFactory）注册 ScreenHandlerType；服务端打开界面用 player.openHandledScreen(namedScreenHandlerFactory)（没有 NetworkHooks）；客户端在 ClientModInitializer 里 ScreenRegistry.register(TYPE, MyHandledScreen::new) 绑定界面",
+    "gui.overlay": "HUD 绘制用 HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> { ... })（fabric-rendering-v1，1.18.2 首参是 MatrixStack）；要改动原版 HUD 元素本身则需 Mixin 到 InGameHud",
+    "input.glfw": "键位绑定：在 ClientModInitializer 中 KeyBindingHelper.registerKeyBinding(new KeyBinding(\"key.<modid>.<name>\", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_K, \"category.<modid>\"))，键码常量用 org.lwjgl.glfw.GLFW.GLFW_KEY_*；每 tick 检测用 ClientTickEvents.END_CLIENT_TICK.register(client -> { while (KEY.wasPressed()) { ... } })",
+    "capability.provider": "Fabric 没有 Capability/LazyOptional：物品与流体容器用 fabric-transfer-api-v1（ItemStorage.SIDED / FluidStorage.SIDED，接口为 Storage<ItemVariant> / Storage<FluidVariant>，操作需在 Transaction 内进行），任意接口的按位置查询用 fabric-api-lookup-api-v1 的 BlockApiLookup；能量没有官方 API，生态通用方案是 team-reborn Energy。数据模型与 IItemHandler/IFluidHandler/IEnergyStorage 差异较大，需人工重写",
+    "capability.inject": "Fabric 没有 @CapabilityInject/CapabilityManager：能力提供者用 ItemStorage.SIDED.registerForBlockEntity((be, dir) -> be.inventory, MY_BLOCK_ENTITY_TYPE) 之类的 registerFor* 注册，查询用 ItemStorage.SIDED.find(world, pos, direction)；实体附加数据（AttachCapabilitiesEvent）在 1.18.2 没有官方对应物，需自建组件库（如 Cardinal Components API）或 Mixin",
+    "fluid.system": "Fabric 没有 FluidStack/FluidAttributes/FluidType：流体本体继承 net.minecraft.fluid.FlowableFluid 并注册到 Registry.FLUID（Still/Flowing 两个实例），配套 FluidBlock 与 BucketItem；客户端纹理与颜色用 FluidRenderHandlerRegistry.INSTANCE.register(still, flowing, handler)（fabric-rendering-fluids-v1）；容器与搬运用 fabric-transfer-api-v1 的 FluidVariant/Storage（计量单位是 droplet，81000 droplet = 1 桶，不是 1000 mB）",
+    "fluid.block": "流体方块用 net.minecraft.block.FluidBlock（Yarn，Mojmap 为 LiquidBlock）：其构造器是 protected，通常写一个 public 子类或用 access widener 放开，参数为 (FlowableFluid, FabricBlockSettings.copy(Blocks.WATER))",
+    "dimension": "自定义维度数据驱动：data/<modid>/dimension/*.json 与 dimension_type/*.json；代码侧用 RegistryKey<World>（RegistryKey.of(Registry.WORLD_KEY, new Identifier(MODID, \"my_dim\"))）取 server.getWorld(key)；跨维度传送用 FabricDimensions.teleport(entity, serverWorld, new TeleportTarget(pos, velocity, yaw, pitch))（fabric-dimensions-v1）",
+    "worldgen": "1.18.2 世界生成注入用 Fabric 的 BiomeModifications（fabric-biome-api-v1）：BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES, ORE_PLACED_KEY)；矿石/植被本身是 ConfiguredFeature + PlacedFeature 两段式（1.18 起拆分），分别注册到 BuiltinRegistries.CONFIGURED_FEATURE 与 BuiltinRegistries.PLACED_FEATURE，或写成 JSON 数据。没有 BiomeLoadingEvent，也没有 forge:biome_modifier",
+    "entity.motion": "motionX/Y/Z 合并为 Vec3d：读取 entity.getVelocity().x/.y/.z，写入 entity.setVelocity(new Vec3d(x, y, z)) 或 setVelocity(getVelocity().add(...))；改动后若需同步给客户端记得 velocityModified = true",
+    "entity.alive": "isDead 字段已移除：判断用 !isAlive() 或 isRemoved()；移除实体用 discard()（无掉落）或 kill()（走死亡逻辑）",
+    "enchantment.datadriven": "本版本附魔为代码注册：继承 net.minecraft.enchantment.Enchantment（构造参数 Rarity、EnchantmentTarget、EquipmentSlot[]），用 Registry.register(Registry.ENCHANTMENT, new Identifier(MODID, \"name\"), new MyEnchantment(...)) 注册；等级查询 EnchantmentHelper.getLevel(enchantment, stack)",
+    "damage.types": "本版本伤害类型仍是 DamageSource 静态常量或子类（net.minecraft.entity.damage.DamageSource，如 DamageSource.GENERIC，自定义可 new DamageSource(\"my_damage\") 的子类），1.19.4 起原版才数据驱动化",
+    "resourcelocation.factory": "本版本直接 new Identifier(\"modid\", \"path\") 或 new Identifier(\"modid:path\")（net.minecraft.util.Identifier，Mojmap 的 ResourceLocation）",
+    "forge.NetworkHooks": "Fabric 没有 NetworkHooks：打开界面用 player.openHandledScreen(NamedScreenHandlerFactory)（需要同步数据时工厂实现 ExtendedScreenHandlerFactory）；自定义数据包见 network.channel 指导",
+    "forge.event.RenderGuiOverlayEvent": "Fabric 没有对应事件：自定义 HUD 元素用 HudRenderCallback（见 gui.overlay），要隐藏/改写原版 HUD 元素需 Mixin 到 net.minecraft.client.gui.hud.InGameHud",
+    "fabric.entrypoint": "Fabric 的入口在 fabric.mod.json 的 entrypoints 声明：main -> 实现 ModInitializer#onInitialize，client -> ClientModInitializer#onInitializeClient，server -> DedicatedServerModInitializer#onInitializeServer；一个模组可以有多个入口类。没有 @Mod 注解，也没有构造器注册事件监听的写法",
+    "fabric.mixin": "Fabric 模组普遍依赖 Mixin：Mixin 类放在单独包内，由 <modid>.mixins.json 列出（compatibilityLevel 在 1.18.2 用 JAVA_17，1.17.1 用 JAVA_16），并在 fabric.mod.json 的 mixins 字段引用。跨版本/跨加载器移植时 Mixin 的 @Mixin 目标类与 @Inject 的 method 描述符会随映射（Yarn ↔ Mojmap）和版本变化，必须逐条人工核对；Forge 侧同样支持 Mixin，但通常优先改用官方事件",
+    "fabric.itemgroup": "1.18.2 自定义创造物品栏：public static final ItemGroup MY_GROUP = FabricItemGroupBuilder.create(new Identifier(MODID, \"general\")).icon(() -> new ItemStack(MY_ITEM)).build()（net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder，fabric-item-groups-v0）；物品加入用 Settings.group(MY_GROUP)，名称写在语言文件 itemGroup.<modid>.general。1.19.3+ 才改为 FabricItemGroup.builder + ItemGroupEvents",
+    "fabric.datagen": "数据生成用 fabric-data-generation-api-v1：新建实现 DataGeneratorEntrypoint 的类并在 fabric.mod.json 的 entrypoints.fabric-datagen 中声明，build.gradle 里加 loom { runs { datagen { ... } } }；1.18.2 的 Provider 构造参数是 FabricDataGenerator（FabricDataOutput 是 1.19.3 才引入），可用的 Provider 主要是配方/战利品/标签",
+    "fabric.loot": "战利品表修改用 LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> { if (id.equals(new Identifier(\"minecraft\", \"blocks/stone\"))) tableBuilder.pool(...); })（net.fabricmc.fabric.api.loot.v2，1.18.2 需 Fabric API ≥ 0.75.0+1.18.2；更早的 1.18.2 构建只有 loot v1 的 LootTableLoadingCallback）",
+    "fabric.events": "Fabric API 的事件是回调对象而非事件总线：XxxEvents.EVENT.register(回调)，例 UseBlockCallback.EVENT.register((player, world, hand, hit) -> ActionResult.PASS)；没有 @SubscribeEvent、没有 EventPriority（顺序按注册先后，另有 Event 的 phase 机制），「取消」靠返回值（ActionResult/TypedActionResult/布尔）而不是 event.setCanceled(true)。常用回调：ServerLifecycleEvents、ServerTickEvents、ClientTickEvents、ServerEntityEvents、ServerPlayConnectionEvents、PlayerBlockBreakEvents、UseBlock/UseItem/UseEntity/AttackBlockCallback、HudRenderCallback、WorldRenderEvents",
+    "mc.util.RandomSource": "本版本没有 Minecraft 专用随机源类（1.19 才引入）：改用 java.util.Random，World/Level 的 random 字段即为 java.util.Random，nextInt/nextFloat 等方法同名"
+  }
+}

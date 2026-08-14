@@ -1,0 +1,51 @@
+buildscript {
+    repositories {
+        maven { url = 'https://maven.fabricmc.net/' }
+        mavenCentral()
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath group: 'net.fabricmc', name: 'fabric-loom', version: '${loomVersion}', changing: true
+    }
+}
+apply plugin: 'fabric-loom'
+apply plugin: 'maven-publish'
+
+version = '${version}'
+group = '${group}'
+archivesBaseName = '${modid}'
+
+repositories {
+    // Loom 会自动加入 Minecraft / Fabric 所需的仓库，这里只放依赖模组的仓库
+}
+
+dependencies {
+    minecraft 'com.mojang:minecraft:${mcVersion}'
+    mappings 'net.fabricmc:yarn:${yarnVersion}:v2'
+    modImplementation 'net.fabricmc:fabric-loader:${fabricLoaderVersion}'
+    modImplementation 'net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}'
+}
+
+processResources {
+    inputs.property 'version', project.version
+    filesMatching('fabric.mod.json') {
+        expand 'version': project.version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = 'UTF-8'
+    it.options.release = ${javaVersion}
+}
+
+java {
+    withSourcesJar()
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+jar {
+    from('LICENSE') {
+        rename { "${it}_${modid}" }
+    }
+}

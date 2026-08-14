@@ -1,0 +1,28 @@
+{
+  "mcVersion": "1.20.1",
+  "loader": "fabric",
+  "javaVersion": 17,
+  "metadataFormat": "fabric.mod.json",
+  "metadataPath": "src/main/resources/fabric.mod.json",
+  "langFormat": "json",
+  "langKeys": {
+    "block": "block.{modid}.{name}",
+    "item": "item.{modid}.{name}",
+    "group": "itemGroup.{name}"
+  },
+  "texturePrefixes": {
+    "block": "block/",
+    "item": "item/"
+  },
+  "lifecycleStyle": "entrypoint",
+  "packFormat": 15,
+  "loaderVersionRange": ">=0.14.21",
+  "mappingsChannel": "yarn",
+  "gradleVersion": "8.1.1",
+  "extras": {
+    "yarnVersion": "1.20.1+build.10",
+    "loomVersion": "1.6-SNAPSHOT",
+    "fabricLoaderVersion": "0.15.11",
+    "fabricApiVersion": "0.92.11+1.20.1"
+  }
+}

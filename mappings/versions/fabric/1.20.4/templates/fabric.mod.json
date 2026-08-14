@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "${modid}",
+  "version": "${version}",
+  "name": "${name}",
+  "description": "${description}",
+  "authors": [
+    "${authors}"
+  ],
+  "contact": {
+    "homepage": "${url}"
+  },
+  "license": "All Rights Reserved",
+  "icon": "${logoFile}",
+  "environment": "*",
+  "entrypoints": ${entrypointsJson},
+  "mixins": ${mixinsJson},
+  "depends": {
+    "fabricloader": "${loaderVersionRange}",
+    "minecraft": "~${mcVersion}",
+    "java": ">=${javaVersion}",
+    "fabric-api": "*"
+  }
+}

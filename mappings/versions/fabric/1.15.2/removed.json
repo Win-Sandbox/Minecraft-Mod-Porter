@@ -1,0 +1,74 @@
+{
+  "classes": {
+    "net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder": {
+      "concept": "fabric.itemgroup",
+      "message": "FabricItemGroupBuilder（fabric-item-groups-v0）是 1.15.2 时代创建创造标签页的方式；1.19.3+ Fabric 改为 FabricItemGroup.builder(id) + ItemGroupEvents，Forge 侧则是 CreativeModeTab/BuildCreativeModeTabContentsEvent"
+    },
+    "net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback": {
+      "concept": "fabric.loot",
+      "message": "1.15.2 用 LootTableLoadingCallback.EVENT（fabric-loot-tables-v1）修改战利品表；1.19+ Fabric 改为 LootTableEvents.MODIFY，Forge 侧为 LootModifier"
+    },
+    "net.fabricmc.fabric.api.loot.v1.FabricLootSupplierBuilder": {
+      "concept": "fabric.loot",
+      "message": "FabricLootSupplierBuilder / FabricLootPoolBuilder 是 fabric-loot-tables-v1 的 v1 战利品表构建器，1.19+ 已被 v2/v3 API 取代"
+    },
+    "net.fabricmc.fabric.api.container.ContainerProviderRegistry": {
+      "concept": "gui.menu",
+      "message": "1.15.2 没有 fabric-screen-handler-api-v1：服务端用 ContainerProviderRegistry.INSTANCE.registerFactory(id, (syncId, identifier, player, buf) -> new XxxContainer(...)) 注册并用 openContainer 打开（fabric-containers-v0）"
+    },
+    "net.fabricmc.fabric.api.client.screen.ScreenProviderRegistry": {
+      "concept": "gui.menu",
+      "message": "1.15.2 客户端用 ScreenProviderRegistry.INSTANCE.registerFactory(id, (syncId, identifier, player, buf) -> new XxxScreen(...)) 绑定界面（fabric-containers-v0），1.16 起改为 ScreenHandlerRegistry + HandledScreens"
+    },
+    "net.fabricmc.fabric.api.object.builder.v1.block.FabricMaterialBuilder": {
+      "concept": "block.propertiesBuilder",
+      "message": "FabricMaterialBuilder 用于自定义 Material（1.20 起原版移除 Material，此类无对应物）"
+    },
+    "net.fabricmc.fabric.api.block.FabricBlockSettings": {
+      "concept": "block.propertiesBuilder",
+      "message": "net.fabricmc.fabric.api.block.FabricBlockSettings 是 fabric-object-builders-v0 的旧包（1.15.2 仍在但已弃用），新代码请用 net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings"
+    },
+    "net.fabricmc.fabric.api.biomes.v1.OverworldBiomes": {
+      "concept": "worldgen",
+      "message": "1.15.2 的群系 API 是 fabric-biomes-v1（FabricBiomes / OverworldBiomes / OverworldClimate），只能添加群系；没有 1.16.2+ 的 BiomeModifications/BiomeSelectors，向已有群系加特征要直接改 Biome 实例"
+    },
+    "net.fabricmc.fabric.api.biomes.v1.FabricBiomes": {
+      "concept": "worldgen",
+      "message": "FabricBiomes.addNetherBiome 等是 1.15.2 的群系注入入口（fabric-biomes-v1），1.16.2+ 已被 fabric-biome-api-v1 取代"
+    },
+    "net.fabricmc.fabric.api.network.ServerSidePacketRegistry": {
+      "concept": "network.channel",
+      "message": "ServerSidePacketRegistry / ClientSidePacketRegistry 是 fabric-networking-v0 的旧网络 API（1.15.2 仍在），新代码请用 ServerPlayNetworking / ClientPlayNetworking"
+    },
+    "net.fabricmc.fabric.api.network.ClientSidePacketRegistry": {
+      "concept": "network.channel",
+      "message": "ClientSidePacketRegistry 是 fabric-networking-v0 的旧客户端网络 API（1.15.2 仍在），新代码请用 ClientPlayNetworking"
+    },
+    "net.fabricmc.fabric.api.tag.TagRegistry": {
+      "concept": "tags.oredict",
+      "message": "TagRegistry.item / block（fabric-tag-extensions-v0）用于在代码侧引用数据包标签，1.18+ Fabric 改为 TagFactory / TagKey"
+    },
+    "net.fabricmc.fabric.api.resource.ResourceManagerHelper": {
+      "concept": "model.registration",
+      "message": "ResourceManagerHelper（fabric-resource-loader-v0）用于注册内置资源包与重载监听器，Forge 侧对应 AddPackFindersEvent / RegisterClientReloadListenersEvent"
+    },
+    "net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry": {
+      "concept": "blockentity.ticker",
+      "message": "BlockEntityRendererRegistry.INSTANCE.register(type, 工厂) 是 1.15.2 注册 BlockEntityRenderer 的方式（1.17+ 改为静态 register 方法）"
+    },
+    "net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder": {
+      "concept": "entity.registration",
+      "message": "FabricEntityTypeBuilder（fabric-object-builder-api-v1）是 Fabric 构建 EntityType 的便捷入口，Forge 侧对应 EntityType.Builder + DeferredRegister"
+    }
+  },
+  "members": {
+    "setRegistryName": {
+      "concept": "registry.name",
+      "message": "Fabric 没有 setRegistryName：注册名在 Registry.register(注册表, Identifier, 对象) 时给出"
+    },
+    "getRegistryName": {
+      "concept": "registry.name",
+      "message": "Fabric 没有 getRegistryName：反查注册名用 Registry.ITEM.getId(item) / Registry.BLOCK.getId(block)"
+    }
+  }
+}

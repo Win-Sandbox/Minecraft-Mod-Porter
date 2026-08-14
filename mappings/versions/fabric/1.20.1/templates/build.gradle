@@ -1,0 +1,56 @@
+plugins {
+    id 'fabric-loom' version '${loomVersion}'
+    id 'maven-publish'
+}
+
+version = '${version}'
+group = '${group}'
+
+base {
+    archivesName = '${modid}'
+}
+
+java {
+    withSourcesJar()
+    toolchain.languageVersion = JavaLanguageVersion.of(${javaVersion})
+    sourceCompatibility = JavaVersion.VERSION_${javaVersion}
+    targetCompatibility = JavaVersion.VERSION_${javaVersion}
+}
+
+repositories {
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${mcVersion}"
+    mappings "net.fabricmc:yarn:${yarnVersion}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${fabricLoaderVersion}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}"
+}
+
+loom {
+    runs {
+        client {
+            client()
+            ideConfigGenerated true
+        }
+        server {
+            server()
+            ideConfigGenerated true
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = "UTF-8"
+    it.options.release = ${javaVersion}
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+    }
+}

@@ -1,0 +1,129 @@
+{
+  "classes": {
+    "net.fabricmc.api.ModInitializer": {
+      "concept": "fabric.entrypoint",
+      "message": "ModInitializer 是 Fabric 的入口机制，其它加载器没有：Forge 侧对应 @Mod 注解类 + 生命周期事件"
+    },
+    "net.fabricmc.api.ClientModInitializer": {
+      "concept": "fabric.entrypoint",
+      "message": "ClientModInitializer 是 Fabric 的客户端入口机制：Forge 侧对应 FMLClientSetupEvent 或 @Mod.EventBusSubscriber(Dist.CLIENT)"
+    },
+    "net.fabricmc.api.DedicatedServerModInitializer": {
+      "concept": "fabric.entrypoint",
+      "message": "DedicatedServerModInitializer 是 Fabric 的专用服务器入口机制，其它加载器没有"
+    },
+    "net.fabricmc.api.Environment": {
+      "concept": "proxy.sided",
+      "message": "@Environment(EnvType.CLIENT) 是 Fabric 的分侧标注：Forge 侧对应 @OnlyIn(Dist.CLIENT)"
+    },
+    "net.fabricmc.loader.api.FabricLoader": {
+      "concept": "mod.list",
+      "message": "FabricLoader 是 Fabric 的加载器 API：模组是否加载/配置目录/运行环境查询在其它加载器上各有对应物（Forge：ModList、FMLPaths、FMLEnvironment）"
+    },
+    "net.fabricmc.fabric.api.item.v1.FabricItemSettings": {
+      "concept": "item.propertiesBuilder",
+      "message": "FabricItemSettings 是 Fabric API 对 Item.Settings 的扩展：其它加载器用各自的物品属性构建器（Forge：Item.Properties）"
+    },
+    "net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings": {
+      "concept": "block.propertiesBuilder",
+      "message": "FabricBlockSettings 是 Fabric API 对 AbstractBlock.Settings 的扩展：其它加载器用各自的方块属性构建器（Forge：BlockBehaviour.Properties）"
+    },
+    "net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder": {
+      "concept": "registry.imperative",
+      "message": "FabricRegistryBuilder 用于创建模组自定义注册表，其它加载器有各自机制（Forge：NewRegistryEvent / RegistryBuilder）"
+    },
+    "net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking": {
+      "concept": "network.channel",
+      "message": "Fabric Networking API 与 Forge SimpleChannel 是两套机制，消息类与注册方式都需重写"
+    },
+    "net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking": {
+      "concept": "network.channel",
+      "message": "Fabric 客户端网络 API，其它加载器没有对应类"
+    },
+    "net.fabricmc.fabric.api.networking.v1.PacketByteBufs": {
+      "concept": "network.channel",
+      "message": "PacketByteBufs 是 Fabric Networking API 的缓冲工具类，其它加载器没有"
+    },
+    "net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback": {
+      "concept": "commands.brigadier",
+      "message": "CommandRegistrationCallback 是 Fabric 的命令注册回调：Forge 侧对应 RegisterCommandsEvent"
+    },
+    "net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents": {
+      "concept": "lifecycle.serverEvents",
+      "message": "ServerLifecycleEvents 是 Fabric API 的服务器生命周期事件：Forge 侧对应 ServerStartingEvent / ServerStoppingEvent"
+    },
+    "net.fabricmc.fabric.api.event.player.UseBlockCallback": {
+      "concept": "fabric.entrypoint",
+      "message": "Fabric API 的交互回调（UseBlockCallback/UseItemCallback/AttackBlockCallback 等）与 Forge 的 PlayerInteractEvent 是两套事件体系，需按目标加载器重写监听方式"
+    },
+    "net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper": {
+      "concept": "input.glfw",
+      "message": "KeyBindingHelper 是 Fabric 的键位注册工具：Forge 侧对应 RegisterKeyMappingsEvent"
+    },
+    "net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback": {
+      "concept": "gui.overlay",
+      "message": "HudRenderCallback 是 Fabric 的 HUD 绘制回调：Forge 侧对应 RenderGuiOverlayEvent"
+    },
+    "net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry": {
+      "concept": "entity.registration",
+      "message": "EntityRendererRegistry 是 Fabric 的实体渲染器注册入口：Forge 侧对应 EntityRenderersEvent.RegisterRenderers"
+    },
+    "net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory": {
+      "concept": "gui.menu",
+      "message": "ExtendedScreenHandlerFactory 是 Fabric 的带数据开屏机制：Forge 侧对应 NetworkHooks.openScreen(player, provider, buf -> ...)"
+    },
+    "net.fabricmc.fabric.api.biome.v1.BiomeModifications": {
+      "concept": "worldgen",
+      "message": "BiomeModifications/BiomeSelectors 是 Fabric 的生物群系注入 API：Forge 侧对应 forge:biome_modifier 数据包 JSON"
+    },
+    "net.fabricmc.fabric.api.transfer.v1.storage.Storage": {
+      "concept": "capability.provider",
+      "message": "Fabric Transfer API（Storage / BlockApiLookup）是 Fabric 的能力体系：Forge 侧对应 Capability + LazyOptional（IItemHandler / IFluidHandler）"
+    },
+    "net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator": {
+      "concept": "fabric.datagen",
+      "message": "FabricDataGenerator 是 Fabric 的数据生成入口：Forge 侧对应 GatherDataEvent + DataGenerator"
+    },
+    "org.spongepowered.asm.mixin.Mixin": {
+      "concept": "fabric.mixin",
+      "message": "Mixin 是 Fabric 的一等公民机制；移植到其它加载器时需要确认目标环境是否配置了 Mixin，且目标类/方法名会随映射体系变化（Yarn <-> Mojmap）"
+    },
+    "net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup": {
+      "concept": "creative.fill",
+      "message": "FabricItemGroup 是 1.19.3+ Fabric API 的创造页签构建器（builder(Identifier) 自动注册），1.19.2 及更早用 FabricItemGroupBuilder，其它加载器没有"
+    },
+    "net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents": {
+      "concept": "creative.fill",
+      "message": "ItemGroupEvents.modifyEntriesEvent 是 1.19.3+ Fabric API 的页签填充机制：Forge 侧对应 CreativeModeTabEvent.BuildContents（1.19.3/1.19.4）或 BuildCreativeModeTabContentsEvent（1.20+）"
+    },
+    "net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries": {
+      "concept": "creative.fill",
+      "message": "FabricItemGroupEntries 是 ItemGroupEvents 回调的条目容器（add/addAfter/addBefore），1.19.3+ 才有"
+    },
+    "net.minecraft.item.ItemGroups": {
+      "concept": "creative.fill",
+      "message": "ItemGroups（原版页签常量，Yarn）是 1.19.3+ 的机制，旧版本原版页签常量在 ItemGroup 上"
+    },
+    "net.minecraft.registry.Registries": {
+      "concept": "registry.builtin",
+      "message": "net.minecraft.registry.Registries（Yarn：静态注册表实例，对应 Mojmap 的 BuiltInRegistries）是 1.19.3+ 的入口，1.19.2 及更早在 net.minecraft.util.registry.Registry 上"
+    },
+    "net.minecraft.registry.RegistryKeys": {
+      "concept": "registry.builtin",
+      "message": "net.minecraft.registry.RegistryKeys（Yarn：注册表键，对应 Mojmap 的 Registries）是 1.19.3+ 的入口，1.19.2 及更早为 Registry.XXX_KEY 常量"
+    },
+    "net.minecraft.entity.damage.DamageSources": {
+      "concept": "damage.types",
+      "message": "DamageSources（world.getDamageSources()）是 1.19.4 的伤害来源获取方式，旧版本用 DamageSource 静态常量/静态工厂"
+    },
+    "net.minecraft.entity.damage.DamageTypes": {
+      "concept": "damage.types",
+      "message": "DamageTypes/DamageType 是 1.19.4 的数据驱动伤害类型机制，旧版本不存在"
+    },
+    "net.fabricmc.fabric.api.datagen.v1.FabricDataOutput": {
+      "concept": "fabric.datagen",
+      "message": "FabricDataOutput 是 1.19.3+ Fabric 数据生成 API 的产出对象，1.19.2 的 Provider 接收的是 FabricDataGenerator"
+    }
+  },
+  "members": {}
+}

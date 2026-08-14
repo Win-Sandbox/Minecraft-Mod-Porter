@@ -1,0 +1,450 @@
+{
+  "mc.item.Item": "net.minecraft.item.Item",
+  "mc.item.ItemStack": {
+    "name": "net.minecraft.item.ItemStack",
+    "note": "1.20.4 物品自定义数据仍是 NBT：getNbt/setNbt/hasNbt/getOrCreateNbt（Yarn 名，对应 Mojmap 的 getTag/setTag/hasTag/getOrCreateTag）；1.20.5+ 才改为数据组件"
+  },
+  "mc.item.ItemBlock": {
+    "name": "net.minecraft.item.BlockItem",
+    "note": "BlockItem 构造为 (Block, Item.Settings)；Yarn 的 Item.Settings 即 Mojmap 的 Item.Properties"
+  },
+  "mc.item.Items": "net.minecraft.item.Items",
+  "mc.item.CreativeModeTab": {
+    "name": "net.minecraft.item.ItemGroup",
+    "note": "Yarn 中创造标签页类型是 ItemGroup（对应 Mojmap CreativeModeTab）；1.19.3+ 页签已注册表化：原版页签常量在 net.minecraft.item.ItemGroups，自建页签用 FabricItemGroup.builder() 构建后 Registry.register(Registries.ITEM_GROUP, id, group)，向已有页签加物品用 ItemGroupEvents.modifyEntriesEvent(RegistryKey<ItemGroup>)"
+  },
+  "mc.item.Rarity": "net.minecraft.util.Rarity",
+  "mc.item.DyeColor": "net.minecraft.util.DyeColor",
+  "mc.item.EquipmentSlot": {
+    "name": "net.minecraft.entity.EquipmentSlot",
+    "note": "1.19.4 起盔甲物品构造不再用 EquipmentSlot，改为 ArmorItem.Type（HELMET/CHESTPLATE/LEGGINGS/BOOTS）"
+  },
+  "mc.item.Ingredient": "net.minecraft.recipe.Ingredient",
+
+  "mc.block.Block": "net.minecraft.block.Block",
+  "mc.block.Blocks": "net.minecraft.block.Blocks",
+  "mc.block.state.BlockState": {
+    "name": "net.minecraft.block.BlockState",
+    "note": "Yarn 中 BlockState 在 net.minecraft.block 包（Mojmap 为 ...block.state.BlockState）"
+  },
+  "mc.block.SoundType": {
+    "name": "net.minecraft.sound.BlockSoundGroup",
+    "note": "Yarn 名为 BlockSoundGroup（Mojmap SoundType），常量如 BlockSoundGroup.STONE"
+  },
+
+  "mc.blockentity.BlockEntity": {
+    "name": "net.minecraft.block.entity.BlockEntity",
+    "note": "构造需要 (BlockEntityType, BlockPos, BlockState) 并注册 BlockEntityType（Fabric 用 FabricBlockEntityTypeBuilder 或 BlockEntityType.Builder.create(...)）；NBT 读写方法 Yarn 名为 readNbt(NbtCompound)/writeNbt(NbtCompound)，1.20.5+ 才加 RegistryWrapper.WrapperLookup 参数"
+  },
+
+  "mc.world.Level": {
+    "name": "net.minecraft.world.World",
+    "note": "Yarn 名为 World（Mojmap Level）；客户端判断字段是 isClient（Mojmap isClientSide）"
+  },
+  "mc.world.ServerLevel": "net.minecraft.server.world.ServerWorld",
+  "mc.world.ChunkAccess": {
+    "name": "net.minecraft.world.chunk.Chunk",
+    "note": "Yarn 名为 Chunk（Mojmap ChunkAccess）；世界区块实现类是 WorldChunk"
+  },
+  "mc.world.ChunkPos": "net.minecraft.util.math.ChunkPos",
+  "mc.world.biome.Biome": "net.minecraft.world.biome.Biome",
+
+  "mc.entity.Entity": "net.minecraft.entity.Entity",
+  "mc.entity.LivingEntity": "net.minecraft.entity.LivingEntity",
+  "mc.entity.Mob": {
+    "name": "net.minecraft.entity.mob.MobEntity",
+    "note": "Yarn 名为 MobEntity（Mojmap Mob）"
+  },
+  "mc.entity.AgeableMob": {
+    "name": "net.minecraft.entity.passive.PassiveEntity",
+    "note": "Yarn 名为 PassiveEntity（Mojmap AgeableMob），createChild 对应 Yarn 的 createChild(ServerWorld, PassiveEntity)"
+  },
+  "mc.entity.PathfinderMob": {
+    "name": "net.minecraft.entity.mob.PathAwareEntity",
+    "note": "Yarn 名为 PathAwareEntity（Mojmap PathfinderMob）"
+  },
+  "mc.entity.animal.Animal": {
+    "name": "net.minecraft.entity.passive.AnimalEntity",
+    "note": "Yarn 名为 AnimalEntity（Mojmap Animal）"
+  },
+  "mc.entity.monster.Monster": {
+    "name": "net.minecraft.entity.mob.HostileEntity",
+    "note": "Yarn 名为 HostileEntity（Mojmap Monster）"
+  },
+  "mc.entity.player.Player": {
+    "name": "net.minecraft.entity.player.PlayerEntity",
+    "note": "Yarn 名为 PlayerEntity（Mojmap Player）"
+  },
+  "mc.entity.player.ServerPlayer": {
+    "name": "net.minecraft.server.network.ServerPlayerEntity",
+    "note": "Yarn 名为 ServerPlayerEntity，包为 net.minecraft.server.network（Mojmap net.minecraft.server.level.ServerPlayer）"
+  },
+  "mc.entity.player.Abilities": {
+    "name": "net.minecraft.entity.player.PlayerAbilities",
+    "note": "Yarn 名为 PlayerAbilities（Mojmap Abilities）；字段名 creativeMode/allowFlying/flying/invulnerable"
+  },
+  "mc.entity.item.ItemEntity": {
+    "name": "net.minecraft.entity.ItemEntity",
+    "note": "Yarn 中 ItemEntity 在 net.minecraft.entity 包（Mojmap 为 ...entity.item.ItemEntity）"
+  },
+  "mc.entity.EntityType": "net.minecraft.entity.EntityType",
+
+  "mc.core.BlockPos": {
+    "name": "net.minecraft.util.math.BlockPos",
+    "note": "Yarn 包为 net.minecraft.util.math（Mojmap net.minecraft.core）"
+  },
+  "mc.core.Direction": "net.minecraft.util.math.Direction",
+  "mc.core.Vec3": {
+    "name": "net.minecraft.util.math.Vec3d",
+    "note": "Yarn 名为 Vec3d（Mojmap Vec3）"
+  },
+  "mc.core.Vec3i": "net.minecraft.util.math.Vec3i",
+  "mc.core.AABB": {
+    "name": "net.minecraft.util.math.Box",
+    "note": "Yarn 名为 Box（Mojmap AABB）"
+  },
+  "mc.core.RayTraceResult": {
+    "name": "net.minecraft.util.hit.HitResult",
+    "note": "Yarn 包为 net.minecraft.util.hit；已拆分为 BlockHitResult / EntityHitResult 子类，按用途选择"
+  },
+  "mc.core.NonNullList": {
+    "name": "net.minecraft.util.collection.DefaultedList",
+    "note": "Yarn 名为 DefaultedList（Mojmap NonNullList），工厂方法 DefaultedList.ofSize(size, default)"
+  },
+  "mc.core.registries.Registries": {
+    "name": "net.minecraft.registry.RegistryKeys",
+    "note": "注意 Yarn 与 Mojmap 的命名正好相反：注册表键（ResourceKey<Registry<T>>）常量在 Yarn 叫 RegistryKeys（RegistryKeys.ITEM / RegistryKeys.ITEM_GROUP），对应 Mojmap 的 Registries"
+  },
+  "mc.core.registries.BuiltInRegistries": {
+    "name": "net.minecraft.registry.Registries",
+    "note": "注意 Yarn 与 Mojmap 命名相反：静态注册表实例在 Yarn 叫 Registries（Registries.ITEM / Registries.BLOCK），对应 Mojmap 的 BuiltInRegistries；动态注册表经 world.getRegistryManager() 获取"
+  },
+
+  "mc.resources.ResourceLocation": {
+    "name": "net.minecraft.util.Identifier",
+    "note": "Yarn 名为 Identifier（Mojmap ResourceLocation）；1.20.4 构造器仍公开：new Identifier(\"ns\", \"path\") / new Identifier(\"ns:path\")，1.21 起才改为 Identifier.of(...)"
+  },
+
+  "mc.nbt.CompoundTag": {
+    "name": "net.minecraft.nbt.NbtCompound",
+    "note": "Yarn 名为 NbtCompound（Mojmap CompoundTag）"
+  },
+  "mc.nbt.ListTag": {
+    "name": "net.minecraft.nbt.NbtList",
+    "note": "Yarn 名为 NbtList（Mojmap ListTag）"
+  },
+  "mc.nbt.Tag": {
+    "name": "net.minecraft.nbt.NbtElement",
+    "note": "Yarn 名为 NbtElement（Mojmap Tag）；类型常量在 NbtElement.COMPOUND_TYPE 等"
+  },
+
+  "mc.chat.Component": {
+    "name": "net.minecraft.text.Text",
+    "note": "Yarn 名为 Text（Mojmap Component）；工厂方法 Text.literal/Text.translatable，可变文本类型是 MutableText"
+  },
+  "mc.chat.Style": "net.minecraft.text.Style",
+  "mc.chat.ChatFormatting": {
+    "name": "net.minecraft.util.Formatting",
+    "note": "Yarn 名为 Formatting（Mojmap ChatFormatting）"
+  },
+  "mc.chat.ClickEvent": "net.minecraft.text.ClickEvent",
+  "mc.chat.HoverEvent": {
+    "name": "net.minecraft.text.HoverEvent",
+    "note": "构造为 (HoverEvent.Action<T>, T)，Action 常量为泛型"
+  },
+
+  "mc.util.InteractionHand": {
+    "name": "net.minecraft.util.Hand",
+    "note": "Yarn 名为 Hand（Mojmap InteractionHand），常量 Hand.MAIN_HAND/OFF_HAND"
+  },
+  "mc.util.InteractionResult": {
+    "name": "net.minecraft.util.ActionResult",
+    "note": "Yarn 名为 ActionResult（Mojmap InteractionResult），常量 SUCCESS/CONSUME/PASS/FAIL"
+  },
+  "mc.util.InteractionResultHolder": {
+    "name": "net.minecraft.util.TypedActionResult",
+    "note": "Yarn 名为 TypedActionResult<T>（Mojmap InteractionResultHolder），静态工厂 success/pass/fail/consume"
+  },
+  "mc.util.Mth": {
+    "name": "net.minecraft.util.math.MathHelper",
+    "note": "Yarn 名为 MathHelper（Mojmap Mth）"
+  },
+  "mc.util.GsonHelper": {
+    "name": "net.minecraft.util.JsonHelper",
+    "note": "Yarn 名为 JsonHelper（Mojmap GsonHelper）"
+  },
+  "mc.util.RandomSource": {
+    "name": "net.minecraft.util.math.random.Random",
+    "note": "Yarn 名为 net.minecraft.util.math.random.Random（Mojmap RandomSource）——与 java.util.Random 同名，导入时注意冲突"
+  },
+  "mc.damage.DamageSource": {
+    "name": "net.minecraft.entity.damage.DamageSource",
+    "note": "1.19.4 起伤害类型数据驱动：静态常量已移除，改用 world.getDamageSources().generic() 等（World#getDamageSources 返回 DamageSources），底层为 RegistryEntry<DamageType>"
+  },
+
+  "mc.effect.MobEffect": {
+    "name": "net.minecraft.entity.effect.StatusEffect",
+    "note": "Yarn 名为 StatusEffect（Mojmap MobEffect）；药水物品类型是 net.minecraft.potion.Potion，勿混淆"
+  },
+  "mc.effect.MobEffectInstance": {
+    "name": "net.minecraft.entity.effect.StatusEffectInstance",
+    "note": "Yarn 名为 StatusEffectInstance（Mojmap MobEffectInstance）"
+  },
+  "mc.effect.MobEffects": {
+    "name": "net.minecraft.entity.effect.StatusEffects",
+    "note": "Yarn 名为 StatusEffects（Mojmap MobEffects）；1.20.4 常量类型仍是 StatusEffect 本身，1.20.5+ 才变为 RegistryEntry<StatusEffect>"
+  },
+  "mc.enchant.Enchantment": {
+    "name": "net.minecraft.enchantment.Enchantment",
+    "note": "1.20.4 附魔仍是代码注册：继承 Enchantment 并 Registry.register(Registries.ENCHANTMENT, id, new MyEnchantment(...))；1.21 起改为数据驱动"
+  },
+  "mc.enchant.Enchantments": {
+    "name": "net.minecraft.enchantment.Enchantments",
+    "note": "1.20.4 常量类型仍是 Enchantment 实例，可直接使用；1.21 起变为 RegistryKey<Enchantment>"
+  },
+  "mc.enchant.EnchantmentHelper": {
+    "name": "net.minecraft.enchantment.EnchantmentHelper",
+    "note": "等级查询 Yarn 名为 EnchantmentHelper.getLevel(Enchantment, ItemStack)（Mojmap getItemEnchantmentLevel）；1.21 起参数变为 RegistryEntry<Enchantment>"
+  },
+  "mc.particles.ParticleTypes": {
+    "name": "net.minecraft.particle.ParticleTypes",
+    "note": "Yarn 包为 net.minecraft.particle；粒子参数类型是 ParticleEffect（Mojmap ParticleOptions），常量名与 1.12 的 EnumParticleTypes 不同"
+  },
+  "mc.stats.Stats": {
+    "name": "net.minecraft.stat.Stats",
+    "note": "Yarn 包为 net.minecraft.stat（单数）"
+  },
+
+  "mc.syncher.SynchedEntityData": {
+    "name": "net.minecraft.entity.data.DataTracker",
+    "note": "Yarn 名为 DataTracker（Mojmap SynchedEntityData）；1.20.4 仍用 initDataTracker() 无参覆写 + this.dataTracker.startTracking(KEY, 默认值)，1.20.5+ 改为 initDataTracker(DataTracker.Builder)"
+  },
+  "mc.syncher.EntityDataAccessor": {
+    "name": "net.minecraft.entity.data.TrackedData",
+    "note": "Yarn 名为 TrackedData<T>（Mojmap EntityDataAccessor），用 DataTracker.registerData(类, TrackedDataHandlerRegistry.XXX) 创建"
+  },
+  "mc.syncher.EntityDataSerializers": {
+    "name": "net.minecraft.entity.data.TrackedDataHandlerRegistry",
+    "note": "Yarn 名为 TrackedDataHandlerRegistry（Mojmap EntityDataSerializers）"
+  },
+
+  "mc.sound.SoundEvent": {
+    "name": "net.minecraft.sound.SoundEvent",
+    "note": "1.19.3 起构造器不公开：用 SoundEvent.of(Identifier)（Yarn 名，Mojmap 为 createVariableRangeEvent）；注册用 Registry.register(Registries.SOUND_EVENT, id, event)"
+  },
+  "mc.sound.SoundEvents": {
+    "name": "net.minecraft.sound.SoundEvents",
+    "note": "部分常量类型为 RegistryEntry.Reference<SoundEvent>（如山羊角系列），使用时可能需 .value() 解包"
+  },
+  "mc.sound.SoundSource": {
+    "name": "net.minecraft.sound.SoundCategory",
+    "note": "Yarn 名为 SoundCategory（Mojmap SoundSource），常量 SoundCategory.BLOCKS/PLAYERS 等"
+  },
+
+  "mc.inventory.AbstractContainerMenu": {
+    "name": "net.minecraft.screen.ScreenHandler",
+    "note": "Yarn 名为 ScreenHandler（Mojmap AbstractContainerMenu）：需注册 ScreenHandlerType，服务端用 player.openHandledScreen(NamedScreenHandlerFactory) 打开；带同步数据用 Fabric 的 ExtendedScreenHandlerFactory + ExtendedScreenHandlerType"
+  },
+  "mc.inventory.Slot": "net.minecraft.screen.slot.Slot",
+  "mc.inventory.Container": {
+    "name": "net.minecraft.inventory.Inventory",
+    "note": "Yarn 名为 Inventory 接口（Mojmap Container）；模组自建库存推荐实现 Inventory + SimpleInventory，或用 Fabric Transfer API 的 Storage<ItemVariant>"
+  },
+
+  "mc.client.Minecraft": {
+    "name": "net.minecraft.client.MinecraftClient",
+    "note": "Yarn 名为 MinecraftClient（Mojmap Minecraft），实例用 MinecraftClient.getInstance()"
+  },
+  "mc.client.I18n": {
+    "name": "net.minecraft.client.resource.language.I18n",
+    "note": "Yarn 包为 net.minecraft.client.resource.language；方法为 I18n.translate(key, args)"
+  },
+  "mc.client.ClientLevel": {
+    "name": "net.minecraft.client.world.ClientWorld",
+    "note": "Yarn 名为 ClientWorld（Mojmap ClientLevel）"
+  },
+  "mc.client.LocalPlayer": {
+    "name": "net.minecraft.client.network.ClientPlayerEntity",
+    "note": "Yarn 名为 ClientPlayerEntity（Mojmap LocalPlayer）"
+  },
+  "mc.client.Screen": {
+    "name": "net.minecraft.client.gui.screen.Screen",
+    "note": "1.20 起渲染参数由 MatrixStack 改为 DrawContext（Yarn 名，Mojmap GuiGraphics）：render(DrawContext, int, int, float)，绘制方法在 DrawContext 实例上（drawTexture/fill/drawText，矩阵经 context.getMatrices() 获取）；控件/输入 API 与旧版差异大，需人工重写"
+  },
+  "mc.client.AbstractContainerScreen": {
+    "name": "net.minecraft.client.gui.screen.ingame.HandledScreen",
+    "note": "Yarn 名为 HandledScreen<T extends ScreenHandler>（Mojmap AbstractContainerScreen）；1.20 起 render/drawBackground/drawForeground 首参为 DrawContext；绑定用 HandledScreens.register(type, 构造)（客户端入口中调用）"
+  },
+  "mc.client.Font": {
+    "name": "net.minecraft.client.font.TextRenderer",
+    "note": "Yarn 名为 TextRenderer（Mojmap Font），实例为 MinecraftClient.getInstance().textRenderer"
+  },
+  "mc.client.KeyMapping": {
+    "name": "net.minecraft.client.option.KeyBinding",
+    "note": "Yarn 名为 KeyBinding（Mojmap KeyMapping）；Fabric 用 KeyBindingHelper.registerKeyBinding(new KeyBinding(...)) 注册"
+  },
+  "mc.client.BlockEntityRenderer": {
+    "name": "net.minecraft.client.render.block.entity.BlockEntityRenderer",
+    "note": "render 签名为 (T, float, MatrixStack, VertexConsumerProvider, int, int)（世界渲染用 MatrixStack，DrawContext 仅用于 GUI）；Fabric 用 BlockEntityRendererFactories.register(type, ctx -> new MyRenderer(ctx)) 注册"
+  },
+  "mc.server.MinecraftServer": "net.minecraft.server.MinecraftServer",
+
+  "fabric.ModInitializer": {
+    "name": "net.fabricmc.api.ModInitializer",
+    "note": "Fabric 无 @Mod 注解：主类实现 ModInitializer#onInitialize()，并在 fabric.mod.json 的 entrypoints.main 中声明"
+  },
+  "fabric.ClientModInitializer": {
+    "name": "net.fabricmc.api.ClientModInitializer",
+    "note": "客户端入口 onInitializeClient()，在 entrypoints.client 中声明；只在客户端加载，可安全放客户端专有代码"
+  },
+  "fabric.DedicatedServerModInitializer": {
+    "name": "net.fabricmc.api.DedicatedServerModInitializer",
+    "note": "专用服务端入口 onInitializeServer()，在 entrypoints.server 中声明"
+  },
+  "fabric.Environment": {
+    "name": "net.fabricmc.api.Environment",
+    "note": "对应 Forge 的 @OnlyIn：@Environment(EnvType.CLIENT)"
+  },
+  "fabric.EnvType": "net.fabricmc.api.EnvType",
+  "fabric.FabricLoader": {
+    "name": "net.fabricmc.loader.api.FabricLoader",
+    "note": "FabricLoader.getInstance().isModLoaded(\"modid\") / getEnvironmentType() / getConfigDir() / isDevelopmentEnvironment()"
+  },
+  "fabric.ModContainer": "net.fabricmc.loader.api.ModContainer",
+
+  "fabric.item.FabricItemSettings": {
+    "name": "net.fabricmc.fabric.api.item.v1.FabricItemSettings",
+    "note": "1.20.4 仍可用（继承 Item.Settings）；1.20.5 起被移除，改用原版 Item.Settings + 接口注入，因此升级到 1.20.5+ 时此类需删除"
+  },
+  "fabric.block.FabricBlockSettings": {
+    "name": "net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings",
+    "note": "1.20.4 仍可用（FabricBlockSettings.create().strength(...)）；1.20.5 起废弃、1.21 起移除，改用原版 AbstractBlock.Settings.create()"
+  },
+  "fabric.itemgroup.FabricItemGroup": {
+    "name": "net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup",
+    "note": "FabricItemGroup.builder() 返回 ItemGroup.Builder，build() 后用 Registry.register(Registries.ITEM_GROUP, Identifier, group) 注册"
+  },
+  "fabric.itemgroup.ItemGroupEvents": {
+    "name": "net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents",
+    "note": "向已有页签加物品：ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS 等 RegistryKey<ItemGroup>).register(entries -> entries.add(MY_ITEM))"
+  },
+  "fabric.itemgroup.FabricItemGroupEntries": "net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries",
+  "fabric.registry.FabricRegistryBuilder": {
+    "name": "net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder",
+    "note": "自建注册表：FabricRegistryBuilder.createSimple(RegistryKey).attribute(RegistryAttribute.SYNCED).buildAndRegister()"
+  },
+  "fabric.biome.BiomeModifications": {
+    "name": "net.fabricmc.fabric.api.biome.v1.BiomeModifications",
+    "note": "代码侧注入世界生成特征：BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES, placedFeatureKey)"
+  },
+  "fabric.biome.BiomeSelectors": "net.fabricmc.fabric.api.biome.v1.BiomeSelectors",
+  "fabric.loot.LootTableEvents": {
+    "name": "net.fabricmc.fabric.api.loot.v2.LootTableEvents",
+    "note": "1.20.4 为 loot v2：LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> ...)；1.21 起改为 loot v3（回调参数为 RegistryKey<LootTable>），升级时需换包与回调签名"
+  },
+
+  "fabric.event.ServerLifecycleEvents": {
+    "name": "net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents",
+    "note": "对应 Forge 的 ServerStartingEvent/ServerStoppingEvent：SERVER_STARTING / SERVER_STARTED / SERVER_STOPPING / SERVER_STOPPED"
+  },
+  "fabric.event.ServerTickEvents": {
+    "name": "net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents",
+    "note": "START_SERVER_TICK / END_SERVER_TICK / START_WORLD_TICK / END_WORLD_TICK"
+  },
+  "fabric.event.ClientTickEvents": "net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents",
+  "fabric.event.ClientLifecycleEvents": "net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents",
+  "fabric.event.ServerEntityEvents": {
+    "name": "net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents",
+    "note": "ENTITY_LOAD / ENTITY_UNLOAD，对应 Forge 的 EntityJoinLevelEvent 等"
+  },
+  "fabric.event.ServerPlayConnectionEvents": {
+    "name": "net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents",
+    "note": "JOIN / DISCONNECT，对应 Forge 的 PlayerEvent.PlayerLoggedIn/Out"
+  },
+  "fabric.event.UseBlockCallback": {
+    "name": "net.fabricmc.fabric.api.event.player.UseBlockCallback",
+    "note": "对应 Forge 的 PlayerInteractEvent.RightClickBlock；回调返回 ActionResult，返回 PASS 表示不拦截"
+  },
+  "fabric.event.UseItemCallback": {
+    "name": "net.fabricmc.fabric.api.event.player.UseItemCallback",
+    "note": "对应 Forge 的 PlayerInteractEvent.RightClickItem；返回 TypedActionResult<ItemStack>"
+  },
+  "fabric.event.UseEntityCallback": "net.fabricmc.fabric.api.event.player.UseEntityCallback",
+  "fabric.event.AttackBlockCallback": {
+    "name": "net.fabricmc.fabric.api.event.player.AttackBlockCallback",
+    "note": "对应 Forge 的 PlayerInteractEvent.LeftClickBlock"
+  },
+  "fabric.event.PlayerBlockBreakEvents": {
+    "name": "net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents",
+    "note": "BEFORE（可取消，对应 Forge BlockEvent.BreakEvent）/ AFTER / CANCELED"
+  },
+  "fabric.event.CommandRegistrationCallback": {
+    "name": "net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback",
+    "note": "对应 Forge 的 RegisterCommandsEvent：CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(...))"
+  },
+  "fabric.event.HudRenderCallback": {
+    "name": "net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback",
+    "note": "1.20.4 回调签名为 onHudRender(DrawContext, float tickDelta)；1.21 起第二参改为 RenderTickCounter"
+  },
+  "fabric.event.WorldRenderEvents": {
+    "name": "net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents",
+    "note": "对应 Forge 的 RenderLevelStageEvent：AFTER_ENTITIES / END / BEFORE_BLOCK_OUTLINE 等"
+  },
+
+  "fabric.network.ServerPlayNetworking": {
+    "name": "net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking",
+    "note": "1.20.4 为 Identifier + PacketByteBuf 形态：ServerPlayNetworking.send(serverPlayer, CHANNEL_ID, buf)；接收 registerGlobalReceiver(Identifier, (server, player, handler, buf, sender) -> ...)。1.20.5+ 全面改为 CustomPayload"
+  },
+  "fabric.network.ClientPlayNetworking": {
+    "name": "net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking",
+    "note": "1.20.4 形态：ClientPlayNetworking.send(CHANNEL_ID, buf) 与 registerGlobalReceiver(Identifier, (client, handler, buf, sender) -> ...)"
+  },
+  "fabric.network.PacketByteBufs": {
+    "name": "net.fabricmc.fabric.api.networking.v1.PacketByteBufs",
+    "note": "PacketByteBufs.create() 建包；1.20.5+ 起改用 CustomPayload + PacketCodec，此类基本退场"
+  },
+
+  "fabric.screen.ExtendedScreenHandlerFactory": {
+    "name": "net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory",
+    "note": "1.20.4 为非泛型接口，覆写 writeScreenOpeningData(ServerPlayerEntity, PacketByteBuf)；1.20.5+ 改为泛型 ExtendedScreenHandlerFactory<D> + getScreenOpeningData(ServerPlayerEntity)，配合 ExtendedScreenHandlerType 的 PacketCodec"
+  },
+  "fabric.screen.HandledScreens": {
+    "name": "net.minecraft.client.gui.screen.ingame.HandledScreens",
+    "note": "原版类（Mojmap MenuScreens）：客户端入口中 HandledScreens.register(MY_SCREEN_HANDLER_TYPE, MyScreen::new)"
+  },
+  "fabric.client.KeyBindingHelper": {
+    "name": "net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper",
+    "note": "KeyBindingHelper.registerKeyBinding(new KeyBinding(\"key.modid.x\", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R, \"category.modid\"))"
+  },
+  "fabric.client.BlockRenderLayerMap": {
+    "name": "net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap",
+    "note": "对应 Forge 的 ItemBlockRenderTypes/RenderTypeLookup：BlockRenderLayerMap.INSTANCE.putBlock(BLOCK, RenderLayer.getCutout())"
+  },
+  "fabric.client.EntityRendererRegistry": {
+    "name": "net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry",
+    "note": "对应 Forge 的 EntityRenderersEvent.RegisterRenderers：EntityRendererRegistry.register(MY_ENTITY, MyRenderer::new)"
+  },
+  "fabric.client.ColorProviderRegistry": {
+    "name": "net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry",
+    "note": "ColorProviderRegistry.ITEM.register((stack, tintIndex) -> 0xFFFFFF, MY_ITEM)"
+  },
+
+  "fabric.datagen.FabricDataGenerator": {
+    "name": "net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator",
+    "note": "数据生成入口实现 DataGeneratorEntrypoint（entrypoints.fabric-datagen），在 onInitializeDataGenerator(FabricDataGenerator) 中 createPack().addProvider(...)"
+  },
+  "fabric.datagen.FabricDataOutput": "net.fabricmc.fabric.api.datagen.v1.FabricDataOutput",
+
+  "mixin.Mixin": "org.spongepowered.asm.mixin.Mixin",
+  "mixin.Shadow": "org.spongepowered.asm.mixin.Shadow",
+  "mixin.Unique": "org.spongepowered.asm.mixin.Unique",
+  "mixin.Final": "org.spongepowered.asm.mixin.Final",
+  "mixin.Inject": "org.spongepowered.asm.mixin.injection.Inject",
+  "mixin.At": "org.spongepowered.asm.mixin.injection.At",
+  "mixin.Redirect": "org.spongepowered.asm.mixin.injection.Redirect",
+  "mixin.ModifyVariable": "org.spongepowered.asm.mixin.injection.ModifyVariable",
+  "mixin.CallbackInfo": "org.spongepowered.asm.mixin.injection.callback.CallbackInfo",
+  "mixin.CallbackInfoReturnable": "org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable",
+  "mixin.Accessor": "org.spongepowered.asm.mixin.gen.Accessor",
+  "mixin.Invoker": "org.spongepowered.asm.mixin.gen.Invoker"
+}

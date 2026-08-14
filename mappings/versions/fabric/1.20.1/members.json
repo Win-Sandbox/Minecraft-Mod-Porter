@@ -1,0 +1,322 @@
+{
+  "mc.nbt.CompoundTag": {
+    "putInt": {"name": "putInt", "kind": "method"},
+    "getInt": {"name": "getInt", "kind": "method"},
+    "putString": {"name": "putString", "kind": "method"},
+    "putBoolean": {"name": "putBoolean", "kind": "method"},
+    "putDouble": {"name": "putDouble", "kind": "method"},
+    "putFloat": {"name": "putFloat", "kind": "method"},
+    "putLong": {"name": "putLong", "kind": "method"},
+    "putByte": {"name": "putByte", "kind": "method"},
+    "putUUID": {
+      "name": "putUuid", "kind": "method",
+      "note": "Yarn 的 UUID 相关方法用小驼峰 Uuid（putUuid），不是 Mojmap 的 putUUID"
+    },
+    "getUUID": {
+      "name": "getUuid", "kind": "method",
+      "note": "Yarn 为 getUuid（小驼峰）"
+    },
+    "hasUUID": {
+      "name": "containsUuid", "kind": "method",
+      "note": "Mojmap 的 hasUUID 在 Yarn 叫 containsUuid（不是 hasUuid）"
+    },
+    "put": {"name": "put", "kind": "method"},
+    "getCompound": {"name": "getCompound", "kind": "method"},
+    "getList": {
+      "name": "getList", "kind": "method",
+      "note": "getList(String, int type) 需要第二个类型参数，常量取自 NbtElement（如 NbtElement.COMPOUND_TYPE）"
+    },
+    "contains": {"name": "contains", "kind": "method"},
+    "remove": {"name": "remove", "kind": "method"},
+    "isEmpty": {"name": "isEmpty", "kind": "method"}
+  },
+  "mc.entity.Entity": {
+    "getDisplayName": {
+      "name": "getDisplayName", "kind": "method",
+      "note": "Entity/PlayerEntity 的 getDisplayName 在 Yarn 同名。注意 Entity 另有 getName()，而 ItemStack 的显示名恰好也叫 getName()——若接收者是 ItemStack 请用 mc.item.ItemStack#getHoverName 那条映射"
+    },
+    "level": {
+      "name": "getWorld", "kind": "method",
+      "note": "形态变化：Yarn 1.20.1 的 Entity 没有公开的 world 字段，字段访问 entity.level 必须改写为方法调用 entity.getWorld()"
+    },
+    "getLevel": {
+      "name": "getWorld", "kind": "method",
+      "note": "歧义守护：Entity#getWorld()；但 ServerPlayerEntity 取 ServerWorld 用 getServerWorld()，BlockEntity 也叫 getWorld()——请按接收者类型确认"
+    },
+    "getX": {"name": "getX", "kind": "method"},
+    "getY": {"name": "getY", "kind": "method"},
+    "getZ": {"name": "getZ", "kind": "method"},
+    "getYRot": {
+      "name": "getYaw", "kind": "method",
+      "note": "Mojmap 的 getYRot 在 Yarn 叫 getYaw（设置为 setYaw）"
+    },
+    "getXRot": {
+      "name": "getPitch", "kind": "method",
+      "note": "Mojmap 的 getXRot 在 Yarn 叫 getPitch（设置为 setPitch）"
+    },
+    "blockPosition": {
+      "name": "getBlockPos", "kind": "method",
+      "note": "歧义守护：Entity#getBlockPos() 返回 BlockPos；BlockEntity 的坐标方法在 Yarn 叫 getPos()（正好与 Entity#getPos() 重名但返回 Vec3d）——两者互为交叉陷阱，请按接收者类型确认"
+    },
+    "isAlive": {"name": "isAlive", "kind": "method"},
+    "tick": {"name": "tick", "kind": "method"},
+    "baseTick": {"name": "baseTick", "kind": "method"},
+    "discard": {
+      "name": "discard", "kind": "method",
+      "note": "discard() 静默移除实体；需要死亡逻辑（掉落等）请用 kill()"
+    },
+    "getUUID": {
+      "name": "getUuid", "kind": "method",
+      "note": "Yarn 为 getUuid（小驼峰）"
+    },
+    "position": {
+      "name": "getPos", "kind": "method",
+      "note": "歧义守护：Entity#getPos() 返回 Vec3d（位置向量）；BlockEntity#getPos() 返回 BlockPos。Yarn 里这两个同名不同义，改写前必须确认接收者类型"
+    },
+    "distanceTo": {"name": "distanceTo", "kind": "method"},
+    "distanceToSqr": {
+      "name": "squaredDistanceTo", "kind": "method",
+      "note": "Mojmap 的 distanceToSqr 在 Yarn 叫 squaredDistanceTo"
+    },
+    "isShiftKeyDown": {
+      "name": "isSneaking", "kind": "method",
+      "note": "Yarn 的 isSneaking() 对应 Mojmap 的 isShiftKeyDown()（按住 Shift）；姿态判断是 isInSneakingPose()。语义容易混，请确认"
+    },
+    "isPassenger": {
+      "name": "hasVehicle", "kind": "method",
+      "note": "Mojmap 的 isPassenger() 在 Yarn 叫 hasVehicle()"
+    },
+    "getVehicle": {"name": "getVehicle", "kind": "method"},
+    "stopRiding": {"name": "stopRiding", "kind": "method"},
+    "hurt": {
+      "name": "damage", "kind": "method",
+      "note": "Mojmap 的 hurt(DamageSource, float) 在 Yarn 叫 damage(DamageSource, float)；DamageSource 由 world.getDamageSources() 取得"
+    },
+    "getCommandSenderWorld": {
+      "name": "getEntityWorld", "kind": "method",
+      "note": "Yarn 保留 getEntityWorld()（与 1.12 同名）；一般直接用 getWorld() 即可"
+    }
+  },
+  "mc.entity.LivingEntity": {
+    "hasEffect": {
+      "name": "hasStatusEffect", "kind": "method",
+      "note": "Yarn 用 StatusEffect 术语：hasStatusEffect(StatusEffect)"
+    },
+    "addEffect": {
+      "name": "addStatusEffect", "kind": "method",
+      "note": "addStatusEffect(StatusEffectInstance[, Entity source])"
+    },
+    "removeEffect": {
+      "name": "removeStatusEffect", "kind": "method",
+      "note": "removeStatusEffect(StatusEffect)"
+    },
+    "getEffect": {
+      "name": "getStatusEffect", "kind": "method",
+      "note": "getStatusEffect(StatusEffect) 返回 StatusEffectInstance，可能为 null"
+    }
+  },
+  "mc.world.Level": {
+    "isClientSide": {
+      "name": "isClient", "kind": "field",
+      "note": "Yarn 为 public final boolean isClient 字段（同时也有 isClient() 方法，来自 WorldAccess）；Mojmap 的 isClientSide 字段直接改名即可"
+    },
+    "random": {
+      "name": "random", "kind": "field",
+      "note": "字段名不变，但类型是 net.minecraft.util.math.random.Random（Yarn 的随机源），与 java.util.Random 重名，注意 import 冲突"
+    },
+    "players": {
+      "name": "getPlayers", "kind": "method",
+      "note": "Yarn 为方法 getPlayers()（返回 List<? extends PlayerEntity>）"
+    },
+    "getBlockEntity": {"name": "getBlockEntity", "kind": "method"},
+    "getGameTime": {
+      "name": "getTime", "kind": "method",
+      "note": "Mojmap 的 getGameTime() 在 Yarn 叫 getTime()（世界总刻数）"
+    },
+    "getDayTime": {
+      "name": "getTimeOfDay", "kind": "method",
+      "note": "Mojmap 的 getDayTime() 在 Yarn 叫 getTimeOfDay()；勿与 getTime() 弄反"
+    },
+    "addFreshEntity": {
+      "name": "spawnEntity", "kind": "method",
+      "note": "Mojmap 的 addFreshEntity 在 Yarn 叫 spawnEntity（来自 ModifiableWorld 接口）"
+    },
+    "isEmptyBlock": {
+      "name": "isAir", "kind": "method",
+      "note": "Mojmap 的 isEmptyBlock(BlockPos) 在 Yarn 叫 isAir(BlockPos)（来自 WorldView）"
+    },
+    "hasNeighborSignal": {
+      "name": "isReceivingRedstonePower", "kind": "method",
+      "note": "Mojmap 的 hasNeighborSignal 在 Yarn 叫 isReceivingRedstonePower（来自 RedstoneView）"
+    },
+    "getNearestPlayer": {
+      "name": "getClosestPlayer", "kind": "method",
+      "note": "Yarn 为 getClosestPlayer（多个重载，参数与 Mojmap 基本一致）"
+    },
+    "getPlayerByUUID": {
+      "name": "getPlayerByUuid", "kind": "method",
+      "note": "Yarn 用小驼峰 Uuid"
+    },
+    "getServer": {"name": "getServer", "kind": "method"},
+    "removeBlock": {
+      "name": "removeBlock", "kind": "method",
+      "note": "removeBlock(BlockPos, boolean move) 需要第二个参数，一般传 false"
+    },
+    "getEntitiesOfClass": {
+      "name": "getEntitiesByClass", "kind": "method",
+      "note": "Yarn 为 getEntitiesByClass(Class, Box, Predicate)；范围参数类型是 Box（Mojmap 的 AABB），且 Predicate 不可省略"
+    }
+  },
+  "mc.entity.player.Player": {
+    "sendSystemMessage": {
+      "name": "sendMessage", "kind": "method",
+      "note": "Yarn 统一为 sendMessage：聊天栏用 sendMessage(Text) 或 sendMessage(Text, false)。与 displayClientMessage 落到同一个方法名，靠布尔参数区分，改写后需人工确认参数"
+    },
+    "getInventory": {
+      "name": "getInventory", "kind": "method",
+      "note": "Yarn 有 getInventory() 方法（也保留 public PlayerInventory inventory 字段）"
+    },
+    "getAbilities": {
+      "name": "getAbilities", "kind": "method",
+      "note": "返回 PlayerAbilities"
+    },
+    "displayClientMessage": {
+      "name": "sendMessage", "kind": "method",
+      "note": "Yarn 没有独立的 actionbar 方法：sendMessage(Text message, boolean overlay)，overlay=true 时显示在物品栏上方。若源码原本是 displayClientMessage(component, true)，参数可直接沿用"
+    }
+  },
+  "mc.entity.player.ServerPlayer": {
+    "getLevel": {
+      "name": "getServerWorld", "kind": "method",
+      "note": "歧义守护：ServerPlayerEntity#getServerWorld() 返回 ServerWorld；Entity 与 BlockEntity 都叫 getWorld()——请按接收者类型确认"
+    }
+  },
+  "mc.entity.player.Abilities": {
+    "instabuild": {
+      "name": "creativeMode", "kind": "field",
+      "note": "Mojmap 的 instabuild 在 Yarn 叫 creativeMode（public boolean）"
+    },
+    "mayfly": {
+      "name": "allowFlying", "kind": "field",
+      "note": "Mojmap 的 mayfly 在 Yarn 叫 allowFlying"
+    },
+    "flying": {"name": "flying", "kind": "field"},
+    "invulnerable": {"name": "invulnerable", "kind": "field"}
+  },
+  "mc.item.ItemStack": {
+    "getTag": {
+      "name": "getNbt", "kind": "method",
+      "note": "Yarn 用 Nbt 词根：getNbt() 可能返回 null，需要保证存在时用 getOrCreateNbt()"
+    },
+    "setTag": {"name": "setNbt", "kind": "method"},
+    "hasTag": {"name": "hasNbt", "kind": "method"},
+    "split": {"name": "split", "kind": "method"},
+    "getHoverName": {
+      "name": "getName", "kind": "method",
+      "note": "歧义守护：ItemStack#getName() 返回 Text。Entity 也有同名的 getName()（返回实体名），改写前必须确认接收者是 ItemStack；需要字符串用 .getString()"
+    },
+    "setHoverName": {
+      "name": "setCustomName", "kind": "method",
+      "note": "Yarn 为 setCustomName(Text)"
+    },
+    "save": {
+      "name": "writeNbt", "kind": "method",
+      "note": "歧义守护：ItemStack#writeNbt(NbtCompound) 是 public 且返回传入的 tag；BlockEntity 的 saveAdditional 也映射到 writeNbt（protected、void）——请按接收者类型确认"
+    },
+    "sameItem": {
+      "name": "areItemsEqual", "kind": "method",
+      "note": "形态变化：Yarn 1.20.1 为静态方法 ItemStack.areItemsEqual(ItemStack, ItemStack)，实例调用需人工改成静态调用并补齐两个参数；连同 NBT 比较用 ItemStack.canCombine(a, b)，完全相等（含数量）用 ItemStack.areEqual(a, b)"
+    }
+  },
+  "mc.item.Item": {
+    "getDescriptionId#a": {
+      "name": "getTranslationKey", "kind": "method",
+      "note": "Yarn 一直叫 getTranslationKey（无参与带 ItemStack 参数两个重载）"
+    },
+    "getDescriptionId#b": {"name": "getTranslationKey", "kind": "method"},
+    "appendHoverText": {
+      "name": "appendTooltip", "kind": "method",
+      "note": "签名: appendTooltip(ItemStack, @Nullable World, List<Text>, TooltipContext)，注意第 4 参在 Yarn 叫 TooltipContext（Mojmap 是 TooltipFlag）"
+    },
+    "use": {
+      "name": "use", "kind": "method",
+      "note": "签名: use(World, PlayerEntity, Hand) 返回 TypedActionResult<ItemStack>"
+    },
+    "useOn": {
+      "name": "useOnBlock", "kind": "method",
+      "note": "Mojmap 的 useOn 在 Yarn 叫 useOnBlock(ItemUsageContext)，返回 ActionResult"
+    }
+  },
+  "mc.block.Block": {
+    "defaultBlockState": {
+      "name": "getDefaultState", "kind": "method",
+      "note": "Yarn 与 1.12 同名 getDefaultState（Mojmap 才是 defaultBlockState）"
+    },
+    "getDescriptionId": {"name": "getTranslationKey", "kind": "method"},
+    "use": {
+      "name": "onUse", "kind": "method",
+      "note": "签名: onUse(BlockState, World, BlockPos, PlayerEntity, Hand, BlockHitResult) 返回 ActionResult，方法声明在 AbstractBlock 上（Mojmap 的 BlockBehaviour）"
+    }
+  },
+  "mc.blockentity.BlockEntity": {
+    "setChanged": {
+      "name": "markDirty", "kind": "method",
+      "note": "Yarn 与 1.12 同名 markDirty（Mojmap 才是 setChanged）"
+    },
+    "getLevel": {
+      "name": "getWorld", "kind": "method",
+      "note": "歧义守护：BlockEntity#getWorld() 可能为 null；Entity 也叫 getWorld()，ServerPlayerEntity 用 getServerWorld()——请按接收者类型确认"
+    },
+    "getBlockPos": {
+      "name": "getPos", "kind": "method",
+      "note": "歧义守护：BlockEntity#getPos() 返回 BlockPos，而 Entity#getPos() 返回 Vec3d、Entity 的方块坐标方法叫 getBlockPos()。Yarn 把这两组名字交叉了，改写前必须确认接收者类型"
+    },
+    "load": {
+      "name": "readNbt", "kind": "method",
+      "note": "1.20.1 为 public void readNbt(NbtCompound)，无返回值，不再读取坐标，签名需人工核对"
+    },
+    "saveAdditional": {
+      "name": "writeNbt", "kind": "method",
+      "note": "歧义守护：BlockEntity 为 protected void writeNbt(NbtCompound)（无返回值）；ItemStack 的 writeNbt 是 public 且有返回值——请按接收者类型确认。另外同步给客户端还需覆写 toInitialChunkDataNbt()/toUpdatePacket()"
+    }
+  },
+  "mc.resources.ResourceLocation": {
+    "getPath": {"name": "getPath", "kind": "method"},
+    "getNamespace": {"name": "getNamespace", "kind": "method"}
+  },
+  "mc.chat.Component": {
+    "append#sibling": {
+      "name": "append", "kind": "method",
+      "note": "append 定义在 MutableText 上；若变量声明类型是 Text 需改为 MutableText（Text.literal/translatable 返回的即是 MutableText）"
+    },
+    "append#text": {
+      "name": "append", "kind": "method",
+      "note": "MutableText 同时有 append(Text) 与 append(String) 两个重载；变量声明类型须为 MutableText"
+    },
+    "getString": {"name": "getString", "kind": "method"}
+  },
+  "mc.client.Minecraft": {
+    "getInstance": {"name": "getInstance", "kind": "method"},
+    "setScreen": {"name": "setScreen", "kind": "method"},
+    "font": {
+      "name": "textRenderer", "kind": "field",
+      "note": "Mojmap 的 font 字段在 Yarn 叫 textRenderer（public final TextRenderer）"
+    }
+  },
+  "mc.client.KeyMapping": {
+    "isDown": {
+      "name": "isPressed", "kind": "method",
+      "note": "**语义反转陷阱**：Yarn 的 isPressed() 表示「当前按住」（= Mojmap 的 isDown / 1.12 的 isKeyDown）；1.12 里名为 isPressed 的「消费一次点击」在 Yarn 叫 wasPressed()"
+    },
+    "consumeClick": {
+      "name": "wasPressed", "kind": "method",
+      "note": "Yarn 的 wasPressed() 消费一次按下事件，惯用 while (KEY.wasPressed()) { ... }"
+    }
+  },
+  "mc.client.I18n": {
+    "get": {
+      "name": "translate", "kind": "method",
+      "note": "Yarn 为静态方法 I18n.translate(String key, Object... args)（Mojmap 是 I18n.get）；仅客户端可用"
+    }
+  }
+}

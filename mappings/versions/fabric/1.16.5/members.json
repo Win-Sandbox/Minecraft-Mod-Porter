@@ -1,0 +1,184 @@
+{
+  "mc.nbt.CompoundTag": {
+    "putUUID": {"name": "putUuid", "kind": "method"},
+    "getUUID": {"name": "getUuid", "kind": "method"},
+    "hasUUID": {"name": "containsUuid", "kind": "method"}
+  },
+  "mc.item.ItemStack": {
+    "getHoverName": {
+      "name": "getName", "kind": "method",
+      "note": "Yarn 中 ItemStack 取显示名为 getName()，返回 Text；Entity 的同名 getName() 语义不同——请按接收者类型确认"
+    },
+    "setHoverName": {"name": "setCustomName", "kind": "method"},
+    "save": {
+      "name": "toTag", "kind": "method",
+      "note": "toTag(NbtCompound) 语义同 Mojmap 的 save，返回传入的 tag（1.17 起 Yarn 改名 writeNbt）"
+    }
+  },
+  "mc.item.Item": {
+    "getDescriptionId#a": {"name": "getTranslationKey", "kind": "method"},
+    "getDescriptionId#b": {"name": "getTranslationKey", "kind": "method"},
+    "appendHoverText": {
+      "name": "appendTooltip", "kind": "method",
+      "note": "签名: appendTooltip(ItemStack, World, List<Text>, TooltipContext)"
+    },
+    "use": {
+      "name": "use", "kind": "method",
+      "note": "签名: use(World, PlayerEntity, Hand) 返回 TypedActionResult<ItemStack>（名字与 IR 相同）"
+    },
+    "useOn": {
+      "name": "useOnBlock", "kind": "method",
+      "note": "签名: useOnBlock(ItemUsageContext) 返回 ActionResult"
+    }
+  },
+  "mc.block.Block": {
+    "defaultBlockState": {"name": "getDefaultState", "kind": "method"},
+    "getDescriptionId": {"name": "getTranslationKey", "kind": "method"},
+    "use": {
+      "name": "onUse", "kind": "method",
+      "note": "签名: onUse(BlockState, World, BlockPos, PlayerEntity, Hand, BlockHitResult) 返回 ActionResult；1.16.5 该方法声明在 AbstractBlock 上"
+    }
+  },
+  "mc.world.Level": {
+    "isClientSide": {"name": "isClient", "kind": "field"},
+    "random": {
+      "name": "random", "kind": "field",
+      "note": "字段类型为 java.util.Random（1.19 才是 RandomSource），名字与 IR 相同"
+    },
+    "players": {
+      "name": "getPlayers", "kind": "method",
+      "note": "World#getPlayers() 返回 List<? extends PlayerEntity>（定义在 World / EntityView 上）"
+    },
+    "getBlockEntity": {"name": "getBlockEntity", "kind": "method"},
+    "addFreshEntity": {
+      "name": "spawnEntity", "kind": "method",
+      "note": "ModifiableWorld#spawnEntity(Entity)"
+    },
+    "isEmptyBlock": {
+      "name": "isAir", "kind": "method",
+      "note": "BlockView#isAir(BlockPos)"
+    },
+    "hasNeighborSignal": {"name": "isReceivingRedstonePower", "kind": "method"},
+    "getEntitiesOfClass": {
+      "name": "getEntitiesByClass", "kind": "method",
+      "note": "1.16.5 为 EntityView#getEntitiesByClass(Class, Box, Predicate)（1.15.2 该方法叫 getEntities）"
+    },
+    "getNearestPlayer": {"name": "getClosestPlayer", "kind": "method"},
+    "getPlayerByUUID": {"name": "getPlayerByUuid", "kind": "method"},
+    "removeBlock": {
+      "name": "removeBlock", "kind": "method",
+      "note": "removeBlock(BlockPos, boolean move) 需要第二个参数，一般传 false"
+    }
+  },
+  "mc.entity.Entity": {
+    "getDisplayName": {
+      "name": "getDisplayName", "kind": "method",
+      "note": "Entity/PlayerEntity 的 getDisplayName 同名（来自 Nameable）；ItemStack 取名是 getName（对应 IR getHoverName）——请按接收者类型二选一"
+    },
+    "level": {"name": "world", "kind": "field"},
+    "getX": {"name": "getX", "kind": "method"},
+    "getY": {"name": "getY", "kind": "method"},
+    "getZ": {"name": "getZ", "kind": "method"},
+    "getYRot": {
+      "name": "yaw", "kind": "field",
+      "note": "1.16.5 Yarn 中偏航角是公开字段 yaw（1.17+ 才改为 getYaw()/setYaw()）"
+    },
+    "getXRot": {"name": "pitch", "kind": "field"},
+    "blockPosition": {"name": "getBlockPos", "kind": "method"},
+    "isAlive": {"name": "isAlive", "kind": "method"},
+    "tick": {"name": "tick", "kind": "method"},
+    "baseTick": {"name": "baseTick", "kind": "method"},
+    "discard": {
+      "name": "remove", "kind": "method",
+      "note": "1.16.5 的 remove() 直接移除实体（对应 1.19 的 discard/setRemoved）"
+    },
+    "getUUID": {"name": "getUuid", "kind": "method"},
+    "position": {"name": "getPos", "kind": "method"},
+    "distanceTo": {"name": "distanceTo", "kind": "method"},
+    "distanceToSqr": {"name": "squaredDistanceTo", "kind": "method"},
+    "isShiftKeyDown": {
+      "name": "isSneaking", "kind": "method",
+      "note": "1.16.5 同时存在 isSneaking（按住 Shift）与 isInSneakingPose（姿态），语义已拆分，请确认所需语义"
+    },
+    "isPassenger": {
+      "name": "hasVehicle", "kind": "method",
+      "note": "Yarn 中「正在骑乘」是 hasVehicle()"
+    },
+    "getVehicle": {"name": "getVehicle", "kind": "method"},
+    "stopRiding": {"name": "stopRiding", "kind": "method"},
+    "hurt": {
+      "name": "damage", "kind": "method",
+      "note": "damage(DamageSource, float) 返回 boolean"
+    },
+    "getCommandSenderWorld": {"name": "getEntityWorld", "kind": "method"}
+  },
+  "mc.entity.LivingEntity": {
+    "hasEffect": {"name": "hasStatusEffect", "kind": "method"},
+    "addEffect": {"name": "addStatusEffect", "kind": "method"},
+    "removeEffect": {"name": "removeStatusEffect", "kind": "method"},
+    "getEffect": {"name": "getStatusEffect", "kind": "method"}
+  },
+  "mc.entity.player.Player": {
+    "sendSystemMessage": {
+      "name": "sendSystemMessage", "kind": "method",
+      "note": "1.16.5 签名为 sendSystemMessage(Text, UUID)（来自 CommandOutput），无来源时传 Util.NIL_UUID；1.15.2 是单参 sendMessage(Text)"
+    },
+    "getInventory": {"name": "inventory", "kind": "field"},
+    "getAbilities": {"name": "abilities", "kind": "field"},
+    "displayClientMessage": {
+      "name": "sendMessage", "kind": "method",
+      "note": "1.16.5 为 PlayerEntity#sendMessage(Text, boolean actionBar)（1.15.2 叫 addChatMessage）"
+    }
+  },
+  "mc.entity.player.Abilities": {
+    "instabuild": {"name": "creativeMode", "kind": "field"},
+    "mayfly": {"name": "allowFlying", "kind": "field"},
+    "flying": {"name": "flying", "kind": "field"},
+    "invulnerable": {"name": "invulnerable", "kind": "field"}
+  },
+  "mc.blockentity.BlockEntity": {
+    "setChanged": {"name": "markDirty", "kind": "method"},
+    "getLevel": {"name": "getWorld", "kind": "method"},
+    "getBlockPos": {
+      "name": "getPos", "kind": "method",
+      "note": "BlockEntity 的 getPos 与各类事件/回调的 getPos 同名——请按接收者类型确认"
+    },
+    "load": {
+      "name": "fromTag", "kind": "method",
+      "note": "1.16.5 签名为 void fromTag(BlockState, NbtCompound)（比 1.15.2 的 fromTag(CompoundTag) 多一个 BlockState 参数），需人工核对覆写签名并调用 super.fromTag"
+    },
+    "saveAdditional": {
+      "name": "toTag", "kind": "method",
+      "note": "1.16.5 签名为 NbtCompound toTag(NbtCompound)，需返回传入的 tag 并调用 super.toTag（与 Mojmap 的 saveAdditional 无返回值不同），签名需人工核对"
+    }
+  },
+  "mc.chat.Component": {
+    "append#sibling": {
+      "name": "append", "kind": "method",
+      "note": "append(Text) 定义在 MutableText 上；若变量声明类型是 Text，需改为 MutableText（LiteralText / TranslatableText 即是）"
+    },
+    "append#text": {
+      "name": "append", "kind": "method",
+      "note": "append(String) 也定义在 MutableText 上，与 append(Text) 同名重载"
+    },
+    "getString": {
+      "name": "getString", "kind": "method",
+      "note": "1.16.5 的 getString() 来自 StringVisitable（1.15.2 没有此方法）"
+    }
+  },
+  "mc.client.Minecraft": {
+    "getInstance": {"name": "getInstance", "kind": "method"},
+    "setScreen": {"name": "openScreen", "kind": "method"},
+    "font": {"name": "textRenderer", "kind": "field"}
+  },
+  "mc.client.KeyMapping": {
+    "isDown": {"name": "isPressed", "kind": "method"},
+    "consumeClick": {
+      "name": "wasPressed", "kind": "method",
+      "note": "wasPressed() 消费一次按下事件（常在 ClientTickEvents.END_CLIENT_TICK 的 while 循环里用）"
+    }
+  },
+  "mc.client.I18n": {
+    "get": {"name": "translate", "kind": "method"}
+  }
+}

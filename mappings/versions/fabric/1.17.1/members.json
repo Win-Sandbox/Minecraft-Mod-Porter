@@ -1,0 +1,171 @@
+{
+  "mc.entity.Entity": {
+    "getDisplayName": {
+      "name": "getDisplayName", "kind": "method",
+      "note": "Entity/PlayerEntity 的 getDisplayName() 返回 Text，Yarn 中同名；ItemStack 的对应方法叫 getName()——请按接收者类型二选一"
+    },
+    "level": {
+      "name": "world", "kind": "field",
+      "note": "Yarn 中 Entity 的世界字段叫 world（public World world），也可用 getEntityWorld()/getWorld()"
+    },
+    "getX": {"name": "getX", "kind": "method"},
+    "getY": {"name": "getY", "kind": "method"},
+    "getZ": {"name": "getZ", "kind": "method"},
+    "getYRot": {
+      "name": "getYaw", "kind": "method",
+      "note": "Mojmap 的 getYRot 在 Yarn 叫 getYaw()（另有 getYaw(float tickDelta) 插值重载）"
+    },
+    "getXRot": {
+      "name": "getPitch", "kind": "method",
+      "note": "Mojmap 的 getXRot 在 Yarn 叫 getPitch()"
+    },
+    "blockPosition": {
+      "name": "getBlockPos", "kind": "method",
+      "note": "Mojmap 的 blockPosition() 在 Yarn 叫 getBlockPos()"
+    },
+    "isAlive": {"name": "isAlive", "kind": "method"},
+    "discard": {
+      "name": "discard", "kind": "method",
+      "note": "discard() 静默移除实体；需要死亡逻辑（掉落等）请用 kill()"
+    },
+    "isShiftKeyDown": {
+      "name": "isSneaking", "kind": "method",
+      "note": "Yarn：isSneaking() = 按住潜行键（Mojmap isShiftKeyDown），isInSneakingPose() = 潜行姿态（Mojmap isCrouching），请确认语义"
+    }
+  },
+  "mc.world.Level": {
+    "isClientSide": {
+      "name": "isClient", "kind": "field",
+      "note": "Yarn 中为 public final boolean isClient"
+    },
+    "random": {
+      "name": "random", "kind": "field",
+      "note": "1.17.1 类型为 java.util.Random（1.19 起 Yarn 才改为 net.minecraft.util.math.random.Random）"
+    },
+    "players": {
+      "name": "getPlayers", "kind": "method",
+      "note": "Yarn 中为 World#getPlayers()，返回 List<? extends PlayerEntity>"
+    },
+    "getBlockEntity": {"name": "getBlockEntity", "kind": "method"},
+    "removeBlock": {
+      "name": "removeBlock", "kind": "method",
+      "note": "removeBlock(BlockPos, boolean move) 需要第二个参数，一般传 false"
+    },
+    "getEntitiesOfClass": {
+      "name": "getEntitiesByClass", "kind": "method",
+      "note": "Yarn 为 getEntitiesByClass(Class, Box, Predicate)，Predicate 参数不可省（可传 e -> true）"
+    }
+  },
+  "mc.entity.player.Player": {
+    "sendSystemMessage": {
+      "name": "sendSystemMessage", "kind": "method",
+      "note": "1.17.1 Yarn 中签名为 sendSystemMessage(Text, UUID sender)（继承自 CommandOutput），常用 Util.NIL_UUID；1.19 起原版才简化为单参数"
+    },
+    "getInventory": {"name": "getInventory", "kind": "method"},
+    "getAbilities": {"name": "getAbilities", "kind": "method"},
+    "displayClientMessage": {
+      "name": "sendMessage", "kind": "method",
+      "note": "Yarn 中 PlayerEntity#sendMessage(Text message, boolean actionBar) 对应 Mojmap 的 displayClientMessage"
+    }
+  },
+  "mc.entity.player.Abilities": {
+    "instabuild": {
+      "name": "creativeMode", "kind": "field",
+      "note": "Yarn 中 PlayerAbilities 的创造模式字段叫 creativeMode"
+    },
+    "mayfly": {
+      "name": "allowFlying", "kind": "field",
+      "note": "Yarn 中叫 allowFlying"
+    },
+    "flying": {"name": "flying", "kind": "field"},
+    "invulnerable": {"name": "invulnerable", "kind": "field"}
+  },
+  "mc.item.ItemStack": {
+    "getHoverName": {
+      "name": "getName", "kind": "method",
+      "note": "Yarn 中 ItemStack#getName() 返回 Text（需字符串用 .getString()）；注意与 Entity#getDisplayName 区分"
+    },
+    "save": {
+      "name": "writeNbt", "kind": "method",
+      "note": "Yarn 中 ItemStack#writeNbt(NbtCompound) 返回传入的 NbtCompound；读取用 ItemStack.fromNbt(nbt)"
+    }
+  },
+  "mc.item.Item": {
+    "getDescriptionId#a": {
+      "name": "getTranslationKey", "kind": "method",
+      "note": "Mojmap 的 getDescriptionId 在 Yarn 叫 getTranslationKey"
+    },
+    "getDescriptionId#b": {
+      "name": "getTranslationKey", "kind": "method",
+      "note": "Mojmap 的 getDescriptionId 在 Yarn 叫 getTranslationKey"
+    },
+    "appendHoverText": {
+      "name": "appendTooltip", "kind": "method",
+      "note": "签名: appendTooltip(ItemStack, World, List<Text>, TooltipContext)"
+    },
+    "use": {
+      "name": "use", "kind": "method",
+      "note": "签名: use(World, PlayerEntity, Hand) 返回 TypedActionResult<ItemStack>"
+    },
+    "useOn": {
+      "name": "useOnBlock", "kind": "method",
+      "note": "Yarn 为 useOnBlock(ItemUsageContext) 返回 ActionResult"
+    }
+  },
+  "mc.block.Block": {
+    "use": {
+      "name": "onUse", "kind": "method",
+      "note": "签名: onUse(BlockState, World, BlockPos, PlayerEntity, Hand, BlockHitResult) 返回 ActionResult，方法定义在 AbstractBlock 上"
+    }
+  },
+  "mc.blockentity.BlockEntity": {
+    "setChanged": {
+      "name": "markDirty", "kind": "method",
+      "note": "Mojmap 的 setChanged 在 Yarn 叫 markDirty"
+    },
+    "getLevel": {
+      "name": "getWorld", "kind": "method",
+      "note": "Yarn 中为 getWorld()（可能为 null）"
+    },
+    "getBlockPos": {
+      "name": "getPos", "kind": "method",
+      "note": "Yarn 中 BlockEntity 的坐标方法叫 getPos()；注意事件类的 getPos 语义不同"
+    },
+    "load": {
+      "name": "readNbt", "kind": "method",
+      "note": "1.17.1 为 public void readNbt(NbtCompound nbt)（1.16 的 BlockState 参数已移除），需先调用 super.readNbt(nbt)"
+    },
+    "saveAdditional": {
+      "name": "writeNbt", "kind": "method",
+      "note": "1.17.1 为 public NbtCompound writeNbt(NbtCompound nbt)：必须 super.writeNbt(nbt) 并 return nbt；1.18 起才改为 protected void writeNbt(NbtCompound)（无返回值）"
+    }
+  },
+  "mc.chat.Component": {
+    "append#sibling": {
+      "name": "append", "kind": "method",
+      "note": "append 定义在 MutableText 上；变量声明类型若是 Text 需改为 MutableText（new LiteralText(...) 返回的即是）"
+    },
+    "append#text": {
+      "name": "append", "kind": "method",
+      "note": "append 定义在 MutableText 上；变量声明类型若是 Text 需改为 MutableText"
+    },
+    "getString": {"name": "getString", "kind": "method"}
+  },
+  "mc.enchant.EnchantmentHelper": {
+    "getItemEnchantmentLevel": {
+      "name": "getLevel", "kind": "method",
+      "note": "Yarn 为 EnchantmentHelper.getLevel(Enchantment, ItemStack)"
+    }
+  },
+  "mc.client.Minecraft": {
+    "getInstance": {"name": "getInstance", "kind": "method"},
+    "setScreen": {
+      "name": "setScreen", "kind": "method",
+      "note": "1.17 起 Yarn 中为 MinecraftClient#setScreen(Screen)（1.16 及更早叫 openScreen）"
+    },
+    "font": {
+      "name": "textRenderer", "kind": "field",
+      "note": "Yarn 中字体字段叫 textRenderer（MinecraftClient.getInstance().textRenderer）"
+    }
+  }
+}
