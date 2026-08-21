@@ -1,216 +1,461 @@
-# mc-mod-porter
+Minecraft-Mod-Porter
 
-Minecraft 模组**源代码**跨版本转换器。当前支持 Forge 1.12.2 ↔ 1.19.2（引擎本身与版本无关，双向可用）。
+A source-code cross-version porting tool for Minecraft mods.
 
-- 纯数据驱动：所有对照表都在 `mappings/` 下的 JSON 文件里，代码中不含任何版本知识
-- **IR/pivot 架构**：每个版本只维护一份「该版本 ↔ 规范 IR」映射，任意两版本间的转换都是 `源版本 → IR → 目标版本` **一步完成**，不存在链式二次转换。支持 N 个版本只需要 N 份数据
-- 无法自动转换的代码保留原样，插入 `// TODO [modporter] ...` 注释，并汇总到转换报告
-- 纯 CLI；核心是库 API（`io.modporter.core.PortEngine`），后续 UI 直接调用同一接口
+Currently supports bidirectional conversion across multiple Forge and Fabric versions. The conversion engine itself is version-agnostic.
 
-## 构建与使用
+Features
 
-> **Windows 用户请看 [BUILD-WINDOWS.md](BUILD-WINDOWS.md)**：从装工具到组装出可用程序的完整步骤。
+* Fully data-driven — All version-specific knowledge is stored as JSON mapping data under mappings/. The conversion engine contains no hard-coded version knowledge.
+* IR / Pivot architecture — Each version only maintains one mapping to the canonical IR. Every conversion follows Source → IR → Target, enabling direct conversion between any supported versions without chained intermediate conversions.
+* Safe fallback — Code that cannot be converted automatically is preserved and annotated with // TODO [modporter] .... All such issues are included in the conversion report.
+* Library-first architecture — The core API is exposed through io.modporter.core.PortEngine, allowing the CLI and future UIs to share the same backend.
+* Extensible mapping system — New versions can be added through mapping data without modifying the conversion engine.
+* Java version migration support — Java 8 / 16 / 17 / 21 compatibility is maintained separately from Minecraft version mappings.
+* Native Windows frontends — WinUI 3 and native Win32 frontends share the same backend and configuration.
 
-```bash
-gradle jar   # 产物 build/libs/mc-mod-porter-0.1.0.jar（fat jar，已含全部依赖）
+⸻
 
-# 列出支持的版本
+Build & Usage
+
+Windows users: See BUILD-WINDOWS.md for the complete Windows build guide.
+
+gradle jar
+
+The resulting fat JAR is:
+
+build/libs/mc-mod-porter-0.1.0.jar
+
+List supported versions:
+
 modporter versions
 
-# 1.12.2 -> 1.19.2
+Convert a mod:
+
 modporter port \
   --from 1.12.2 --to 1.19.2 \
-  --input  /path/to/old-mod-project \
+  --input /path/to/old-mod-project \
   --output /path/to/new-mod-project \
   [--loader forge] [--mappings ./mappings] [--dry-run]
-```
 
-映射数据目录默认取 `./mappings`，也可用环境变量 `MODPORTER_MAPPINGS` 或 `--mappings` 指定。
+The mapping directory defaults to ./mappings. It can also be specified with MODPORTER_MAPPINGS or --mappings.
 
-转换完成后输出目录中会生成：
+Conversion Reports
 
-- `MODPORTER-REPORT.md` — 人类可读报告（错误 / 待人工处理 / 警告 / 自动改写明细）
-- `modporter-report.json` — 结构化报告，供 UI / 脚本消费
-- `MODPORTER-TODOS.md` — TODO 清单（仅当转换后工程中存在注释 TODO/FIXME 时生成）：扫描全部文本产物，
-  按文件汇总每一处 TODO 的行号与内容，既包括转换器插入的 `TODO [modporter]`，也包括模组作者源码中原有的 TODO
+The output directory contains:
 
-## 转换范围
+File	Description
+MODPORTER-REPORT.md	Human-readable errors, warnings, manual-action items, and automatic rewrite details
+modporter-report.json	Structured report for UIs and scripts
+MODPORTER-TODOS.md	Consolidated TODO / FIXME list, including both generated and pre-existing comments
 
-| 内容 | 处理方式 |
-|---|---|
-| Java 源码 | AST 级改写：导入、类型引用、方法/字段重命名（含字段↔方法形态变化）、被覆写方法声明重命名（`@Override` 的 `readFromNBT` → `load` 等，同步修正 this/super 调用）、`@Mod` 注解风格、生命周期注解、惯用法（如 `new TextComponentString(x)` ↔ `Component.literal(x)`） |
-| 元数据 | `mcmod.info` ↔ `mods.toml`（解析为 IR 后按目标模板生成） |
-| 语言文件 | `.lang` ↔ `.json`，并按键模式迁移本地化键（`tile.modid.x.name` → `block.modid.x`） |
-| blockstates / models | `"normal"` 变体 ↔ `""`、纹理路径前缀（`blocks/` ↔ `block/`）、forge_marker 标记 TODO |
-| pack.mcmeta | `pack_format` 按目标版本更新 |
-| build.gradle | 按目标版本模板重新生成（原脚本自定义逻辑记入报告，需人工搬运） |
-| 第三方依赖库 / 依赖模组 | **不处理**（按设计） |
+⸻
 
-## 前端与前后端协议
+Conversion Coverage
 
-两个功能完全一致的 Windows 原生前端，按目标系统任选（都需在 Windows 上构建）：
+Content	Handling
+Java source	AST-level rewriting of imports, types, methods, fields, overridden methods, this / super calls, annotations, lifecycle APIs, and common API idioms
+Metadata	mcmod.info ↔ mods.toml through IR and target templates
+Language files	.lang ↔ .json, including localization-key migration
+Blockstates / models	Variant conversion, texture path changes, and forge_marker TODOs
+pack.mcmeta	Automatic pack_format update
+build.gradle	Regenerated from the target-version template; custom logic is reported for manual migration
+Third-party dependencies	Not handled by design
 
-| 前端 | 技术 | 适用 | 说明 |
-|---|---|---|---|
-| [`frontend/ModPorter.WinUI/`](frontend/ModPorter.WinUI) | WinUI 3 / C# | Windows 10 1809+ | Fluent 设计：Mica 背景 + NavigationView，需 Windows App SDK |
-| [`frontend/ModPorter.Win32/`](frontend/ModPorter.Win32) | 纯 Win32 API / C++11 | **Windows XP ~ 11** | 无 .NET / WinRT / VC 运行库依赖（静态链接 CRT），单 exe 复制即用 |
+Examples of Java-level transformations include:
 
-两者页面一一对应：版本转换（版本列表从后端自动发现）、转换报告（读 modporter-report.json + TODO 清单）、扩展功能（由能力清单动态渲染）、设置；并**共用同一份配置** `%LOCALAPPDATA%\ModPorter\settings.json`，可随时互换使用。
+new TextComponentString(x)
 
-前后端之间只有三条**版本化 JSON 协议**通道，后端新增功能前端零改动：
+→
 
-1. `modporter capabilities` — 能力清单：`loaders`（各加载器可用版本，前端版本下拉框数据源）+ `actions`（动作列表，含参数描述；`available:false` 表示已规划未实现，前端渲染为禁用卡片）。`mappings/actions.json` 可追加/覆盖动作，后端功能可随数据包分发。当前预留入口：**跨加载器转换（Fabric/Quilt/NeoForge）、批量转换、映射数据包导入**。
-2. `modporter run <actionId> --params <json>` — 通用动作入口，NDJSON 逐行进度（`begin/file/fileDone/message/result/fatal`），内置 `port` 与未来动作走同一通道。
-3. 报告文件 `modporter-report.json` — 结构化结果。
+Component.literal(x)
 
-## UI 集成接口
+and overridden methods such as:
 
-未来 UI 只需要依赖 `io.modporter.core`：
+@Override
+public void readFromNBT(...)
 
-```java
-PortEngine engine = new DefaultPortEngine(new MappingRepository(mappingsDir));
-engine.supportedVersions();                       // 版本下拉框数据
-PortResult result = engine.port(request, listener); // listener 提供逐文件进度回调
-result.report().entries();                        // 结构化报告条目（严重级/文件/行号/分类/消息）
-```
+→
 
-## 映射数据格式（如何新增一个版本）
+@Override
+public void load(...)
 
-在 `mappings/versions/<loader>/<mcVersion>/` 下新建一套文件即可，**不需要改任何代码**。
-新版本加入后，它与所有已有版本之间即自动支持双向转换。
+with corresponding this / super calls updated as well.
 
-```
+Structural migrations such as:
+
+GameRegistry → DeferredRegister
+SimpleNetworkWrapper → SimpleChannel
+
+are intentionally not blindly rewritten. They receive TODOs and migration guidance instead.
+
+⸻
+
+Architecture
+
+Source Project
+      │
+      ▼
+Source Version Mapping
+      │
+      ▼
+     IR
+      │
+      ▼
+Target Version Mapping
+      │
+      ▼
+Target Project
+
+The engine does not perform:
+
+1.12 → 1.13 → 1.14 → ... → 1.19
+
+Instead, every conversion is:
+
+1.12 → IR → 1.19
+
+This makes the system scale with the number of supported versions rather than the number of version pairs.
+
+Supporting N versions requires N mapping datasets, rather than maintaining mappings for every possible version pair.
+
+⸻
+
+Mapping System
+
+Version-specific data is stored under:
+
+mappings/versions/<loader>/<mcVersion>/
+
+A typical dataset contains:
+
 mappings/versions/forge/1.19.2/
-├── version.json    # 版本特性：元数据格式、lang 格式与键模式、纹理前缀、@Mod 风格、生命周期风格、pack_format、Forge 版本等
-├── classes.json    # IR 类 id -> 本版本 FQCN（值可为字符串，或 {"name": fqcn, "note": "迁入本版本时的注意事项"}）
-├── members.json    # IR 类 id -> { IR 成员名 -> {"name": 本版本名, "kind": "method|field", "note": ...} }
-├── removed.json    # 本版本存在、但没有 IR 对应的类/成员 -> {"concept": 概念id, "message": 通用说明}
-├── idioms.json     # forms: 惯用法在本版本的形态（constructor / staticCall，可带 arity 限定参数个数，
-│                   #        用于区分同一构造器的不同参数形态，如 ResourceLocation 单参/双参）
-│                   # guidance: 概念id -> 「迁入本版本」时的做法说明（removed 概念在目标侧的指导文字）
-│                   # supported: 在本版本仍原样可用的概念（源版本标记 removed 的符号若属于它们则原样保留，不打 TODO）
-└── templates/      # 本版本的 mods.toml / mcmod.info / build.gradle 模板（${modid} 等占位符）
-```
+├── version.json
+├── classes.json
+├── members.json
+├── removed.json
+├── idioms.json
+└── templates/
 
-### Java 平台映射（mappings/java/）
+Mapping Components
 
-MC 版本跨度伴随 Java 8 → 16 → 17 → 21 的平台变化，独立建档于 `mappings/java/`（与 MC 版本解耦，
-经各 version.json 的 `javaVersion` 关联；互通的 Java 版本用文件内 `"aliases": [16]` 一个文件覆盖）：
+File	Purpose
+version.json	Version characteristics, Java version, Forge version, metadata format, lifecycle style, pack_format, Gradle version, etc.
+classes.json	IR class IDs → version-specific FQCNs
+members.json	IR members → version-specific names and forms
+removed.json	Removed concepts and migration guidance
+idioms.json	Version-specific forms such as constructors ↔ static factories
+templates/	mods.toml, mcmod.info, build.gradle, and other target templates
 
-- `features.json` — 语法特性 id → 引入的 Java 版本。**降级**时引擎按此检测源代码里的高版本语法
-  （var/record/switch 表达式/instanceof 模式/sealed → TODO；文本块 → 自动降级为普通字符串）
-- `<版本>.json` — `illegalIdentifiers`（如 Java 9+ 非法的 `_`，引擎自动改名）、
-  `restrictedTypeNames`（var/record/sealed/permits/yield 等不能再作类型名，打 TODO）、
-  `removedClasses`（JDK 移除的类库：JAXB/EE javax.*、Nashorn、sun.misc.BASE64* 等 → 命中导入时打 TODO + 迁移指导）、
-  `encapsulatedPackages`（被模块系统封锁的 sun.misc 等内部包 → 指导）
+Adding a new version requires only a new mapping dataset; the engine itself does not need to be modified.
 
-**方法级检测**（导入检查覆盖不到的用法，复用成员映射的「声明类型 + scope」启发式）：
+⸻
 
-- `removedMethods` — `"Thread#stop"` 形式的方法规格 → 指导。接收者类型由本文件内的变量/字段/参数声明类型
-  与静态调用 scope 推断：**判定得出类型时按类型精确匹配**（`StringUtils.isBlank(x)` 不会被当成 `String#isBlank`），
-  判定不出时只报告标了 `"anyReceiver": true` 的条目，避免误伤同名自定义方法。
-  升级方向覆盖 `Thread.stop/suspend/resume`（JDK 20 起抛 UOE）、`System.setSecurityManager`、
-  `runFinalizersOnExit`、`Class.newInstance` 等；**降级方向**（8.json）覆盖 40 个 Java 9~16 新增 API
-  （`List.of`、`String.isBlank`、`Stream.toList`、`Files.readString`、`Optional.isEmpty` …），每条都给出 Java 8 等价写法。
-- `argumentIssues` — 方法还在但某些字符串实参失效，如 `getEngineByName("nashorn")` 在 Java 15+ 返回 null。
-- `reflectiveLookups` — `Class.forName("…")` / `ClassLoader.loadClass("…")` 的字符串类名会回查
-  `removedClasses`/`encapsulatedPackages`，捕获反射方式使用已移除类的场景。
+Java Platform Mappings
 
-构建工具链：各 version.json 的 `gradleVersion` 声明该版本 ForgeGradle 兼容的 Gradle；
-转换时 `gradle-wrapper.properties` 的 distributionUrl 会自动改写到该版本（wrapper jar/脚本保留并提示刷新）。
+Java compatibility is maintained independently under:
 
-### 版本复用：别名与覆盖层
+mappings/java/
 
-一套映射数据可以服务多个互通版本，两个机制都声明在 version.json 里：
+Minecraft versions can therefore map to different Java platforms such as:
 
-- **`"aliases"`（完全互通）**：`"aliases": {"1.19.1": {"forgeVersion": "42.0.9", "loaderVersionRange": "[42,)"}}` ——
-  别名版本直接复用本套映射，只按别名覆盖 forgeVersion/packFormat 等元信息（影响 build.gradle / mods.toml 生成）。
-- **`"basedOn"`（细微差别）**：`"basedOn": "1.19.4"` —— 本目录只写与基版本的**差异条目**，加载时先载入基版本再叠加：
-  条目按 key 覆盖；各 json 顶层 `"!remove"` 删除基版本条目（classes: IR id 数组；members: `"classIr#memberIr"` 或整个 `"classIr"`；
-  removed: `{"classes": [...], "members": [...]}`；idioms 另有 `"!removeSupported"`）；templates/ 先查本目录再回退基版本。
-  两个机制可组合（别名可以挂在覆盖层目录上）。
+Java 8 → Java 16 → Java 17 → Java 21
 
-### 当前版本矩阵
+The system can detect or handle:
 
-**Fabric**（9 套数据集，全部为全量形态；使用 **Yarn 映射**）
+* Newer syntax such as var, records, switch expressions, pattern matching, and sealed classes
+* Illegal identifiers
+* Restricted type names
+* Removed JDK classes
+* Encapsulated internal packages
+* Removed methods
+* APIs whose arguments became invalid
+* Reflective lookups such as Class.forName(...)
 
-| 数据集 | Java | 备注 |
-|---|---|---|
-| 1.15.2 / 1.16.5 | 8 | Fabric API 早期，部分模块尚不存在 |
-| 1.17.1 | 16 | |
-| 1.18.2 | 17 | TagKey、PlacedFeature 引入 |
-| 1.19.2 / 1.19.4 | 17 | 1.19.3 的注册表拆分与创造物品栏重做落在两者之间 |
-| 1.20.1 / 1.20.4 | 17 | |
-| 1.21.1 | 21 | 数据组件、附魔数据驱动、Identifier 工厂化、网络 API 重构 |
+The Java 8 downgrade mapping currently covers 40 APIs introduced between Java 9 and Java 16, including examples such as:
 
-> Fabric 自 MC 1.14 才存在，故无 1.12.x。
-> Fabric 与 Forge 共用同一套 `mc.*` IR id（只是映射到 Yarn 名而非 Mojmap/MCP），
-> 详见 [FABRIC-IR-CONTRACT.md](mappings/FABRIC-IR-CONTRACT.md)。
+List.of
+String.isBlank
+Stream.toList
+Files.readString
+Optional.isEmpty
 
-**Forge**（13 套数据集 + 7 个别名 = 20 个可选版本）
+⸻
 
-| 数据集 | 形态 | 同时覆盖（别名） |
-|---|---|---|
-| 1.12.2 | 全量 | 1.12、1.12.1 |
-| 1.14.4 | 覆盖层（基于 1.15.2） | — |
-| 1.15.2 | 全量 | — |
-| 1.16.5 | 全量 | 1.16.4 |
-| 1.17.1 | 全量 | — |
-| 1.18.1 | 覆盖层（基于 1.18.2） | 1.18 |
-| 1.18.2 | 全量 | — |
-| 1.19.1 | 覆盖层（基于 1.19.2） | 1.19 |
-| 1.19.2 | 全量 | — |
-| 1.19.3 | 覆盖层（基于 1.19.4） | — |
-| 1.19.4 | 全量 | — |
-| 1.20.1 | 全量 | 1.20 |
-| 1.21.1 | 覆盖层（基于 1.20.1） | 1.21 |
+Version Reuse
 
-Forge 侧共 20 个可选版本，任意两版本一步直达（380 个方向）；Fabric 侧 9 个版本（72 个方向）。
+Two mechanisms prevent unnecessary duplication.
 
-> **跨加载器转换（Forge ↔ Fabric）目前不支持**：`port` 命令要求源与目标为同一加载器。
-> 数据层面已为此预留——两套数据共用 `mc.*` IR id，且各自写了对方概念的迁移指导——
-> 但引擎侧的 `crossloader-port` 动作仍标记为 `available: false`。
-> 需注意即便实现，加载器间的入口机制、事件模型、注册方式差异极大，多数逻辑只能靠 TODO 指导人工迁移。
+Aliases
 
-### IR 约定
+For fully compatible versions:
 
-- **IR 类 id**：稳定的规范标识，如 `mc.item.Item`、`forge.SubscribeEvent`，与任何具体版本解耦（命名上参考现代版本，但只是习惯）
-- **IR 成员名**：类内成员的规范名（如 `putInt`）。某版本 `members.json` 未列出的成员，约定为「该版本成员名 = IR 名、形态不变」，因此只需要登记**有差异**的成员
-- **概念 id**（`removed.json` / `guidance`）：跨版本语义迁移的锚点。源版本用它声明「这个符号属于什么概念」，目标版本用 `guidance` 声明「这个概念在我这里怎么做」，两侧各自独立维护，互不引用具体版本
-- **惯用法 id**（`idioms.json`）：同一语义在不同版本的不同写法（构造器 vs 静态工厂等），引擎识别源形态、生成目标形态
+"aliases": {
+  "1.19.1": {
+    "forgeVersion": "42.0.9",
+    "loaderVersionRange": "[42,)"
+  }
+}
 
-### 语义映射示例
+The alias reuses the same mapping data while allowing metadata overrides.
 
-- 生命周期：`FMLPreInitializationEvent` 与 `FMLInitializationEvent` 都映射到 IR `forge.lifecycle.commonSetup` / `forge.lifecycle.init`，在 1.19 侧都落到 `FMLCommonSetupEvent` 并附带 note 提醒可能需要合并方法
-- `@Mod.EventHandler` 方法会被改为 `@SubscribeEvent` 并插入 TODO，说明需要注册到 Mod 事件总线（指导文字来自目标版本 `guidance["lifecycle.eventHandler"]`）
-- `GameRegistry` / `setRegistryName` / `@SidedProxy` / 代码注册合成表等 1.13+ 彻底移除的机制：保留原码 + TODO + 目标版本给出的迁移指导
+Overlays
 
-## 映射数据的依据
+For versions with minor differences:
 
-1.12.2 → 1.19.2 的映射条目按以下资料逐项核对：
+"basedOn": "1.19.4"
 
-- [williewillus 的 1.13/1.14 Update Primer](https://gist.github.com/williewillus/353c872bcf1a6ace9921189f6100d09a)（Forge 官方文档指定的 1.12→1.13/1.14 迁移参考），覆盖扁平化、注册、生命周期、代理、lang/模型、配方、网络、命令、TileEntity、Capability、世界生成等全部章节
-- [Forge 官方 Porting 文档](https://docs.minecraftforge.net/en/1.14.x/legacy/porting1214/)
-- ChampionAsh5357 的 1.18.2 → 1.19 迁移 primer（RegisterEvent、Component 工厂方法、sendSystemMessage、事件包移动、setRegistryName 移除等 1.19 专属变化）
+Only differences are stored. The base mapping is loaded first and then overridden by the overlay.
 
-已知名字冲突（如 1.12 的 `getDisplayName` 同时存在于 Entity 与 ItemStack、`getPos` 同时存在于事件与 TileEntity）通过「歧义候选」数据条目守护：引擎遇到时不猜测，而是打 TODO 请人工按接收者类型确认。
+Aliases and overlays can also be combined.
 
-## 已知限制（v0.1）
+⸻
 
-- 成员重命名基于名字启发式（不做完整类型推导）：静态调用会校验 scope 类名（不会误改 `String.format`），实例调用无法校验接收者类型，请通过报告里的「自动改写明细」审查；歧义映射一律不改、打 TODO
-- Java 输出使用 JavaParser 的标准格式化打印，原有代码格式（空行、对齐）不保留；普通注释保留
-- 注册系统（GameRegistry → DeferredRegister）、网络（SimpleNetworkWrapper → SimpleChannel）、Capability、GUI/Container 等结构性重构不做自动改写，统一打 TODO 并附迁移指导
-- metadata（物品子类型）、方块属性构建器等扁平化语义变化需人工拆分
-- `mods.toml` 解析为极简实现，只覆盖常见字段
-- 降级方向（如 1.19 → 1.12）架构上已支持、数据双向可用，但未经重点验证
+Supported Versions
 
-## 工程结构
+Fabric
 
-```
+9 datasets, using Yarn mappings:
+
+Version	Java
+1.15.2 / 1.16.5	8
+1.17.1	16
+1.18.2	17
+1.19.2 / 1.19.4	17
+1.20.1 / 1.20.4	17
+1.21.1	21
+
+Fabric and Forge share the same mc.* IR IDs while using different version-specific mappings.
+
+See FABRIC-IR-CONTRACT.md.
+
+Fabric did not exist before Minecraft 1.14, so there are no Fabric 1.12.x mappings.
+
+Forge
+
+13 datasets + 7 aliases = 20 selectable versions:
+
+Dataset	Type	Aliases
+1.12.2	Full	1.12, 1.12.1
+1.14.4	Overlay	—
+1.15.2	Full	—
+1.16.5	Full	1.16.4
+1.17.1	Full	—
+1.18.1	Overlay	1.18
+1.18.2	Full	—
+1.19.1	Overlay	1.19
+1.19.2	Full	—
+1.19.3	Overlay	—
+1.19.4	Full	—
+1.20.1	Full	1.20
+1.21.1	Overlay	1.21
+
+This provides 380 directed Forge conversion paths and 72 directed Fabric conversion paths.
+
+⸻
+
+Cross-Loader Conversion
+
+Forge ↔ Fabric conversion is currently not supported.
+
+The port command requires the source and target to use the same loader.
+
+The architecture already reserves the necessary infrastructure:
+
+* Both loaders share the mc.* IR namespace.
+* Mapping data contains cross-loader migration guidance.
+* crossloader-port already exists in the capability system as available: false.
+
+Cross-loader conversion will remain more difficult than same-loader conversion because Forge and Fabric differ significantly in entry points, event systems, registration, networking, and other architectural components.
+
+Many cases will therefore require manual migration even after cross-loader support is implemented.
+
+⸻
+
+Frontends
+
+Two functionally equivalent Windows frontends are provided:
+
+Frontend	Technology	Target
+frontend/ModPorter.WinUI/	WinUI 3 / C#	Windows 10 1809+
+frontend/ModPorter.Win32/	Native Win32 API / C++11	Windows XP ~ 11
+
+The WinUI frontend uses Fluent design with Mica and NavigationView.
+
+The Win32 frontend has no .NET / WinRT dependency and uses statically linked CRT for a standalone executable.
+
+Both frontends share:
+
+%LOCALAPPDATA%\ModPorter\settings.json
+
+and communicate with the backend through three versioned JSON interfaces:
+
+modporter capabilities
+modporter run <actionId> --params <json>
+modporter-report.json
+
+This allows backend capabilities to be extended without requiring corresponding frontend changes.
+
+Currently reserved actions include:
+
+* Cross-loader conversion
+* Batch conversion
+* Mapping data package import
+
+⸻
+
+Library API
+
+The core API is exposed through:
+
+io.modporter.core
+
+Example:
+
+PortEngine engine =
+    new DefaultPortEngine(new MappingRepository(mappingsDir));
+engine.supportedVersions();
+PortResult result =
+    engine.port(request, listener);
+result.report().entries();
+
+listener provides per-file progress callbacks, while the structured report exposes severity, file, line, category, and message information.
+
+⸻
+
+IR Contract
+
+The IR provides stable identifiers independent of concrete Minecraft versions.
+
+Class IDs
+
+Examples:
+
+mc.item.Item
+forge.SubscribeEvent
+
+Member IDs
+
+For example:
+
+putInt
+
+Members not explicitly listed in members.json are assumed to retain their IR name and shape.
+
+Concept IDs
+
+Used by removed.json and guidance as semantic migration anchors.
+
+The source version identifies what a symbol represents; the target version independently describes how that concept should be implemented.
+
+Idiom IDs
+
+Used by idioms.json to represent different syntactic forms of the same semantic operation, such as:
+
+constructor ↔ static factory
+
+⸻
+
+Semantic Migration
+
+The converter distinguishes between simple renaming and actual semantic migration.
+
+For example:
+
+FMLPreInitializationEvent
+FMLInitializationEvent
+
+map to canonical lifecycle concepts and can ultimately become FMLCommonSetupEvent in newer Forge versions, with a migration note when methods may need to be merged.
+
+Similarly:
+
+@Mod.EventHandler
+
+can be converted to:
+
+@SubscribeEvent
+
+while adding a TODO explaining that the method must be registered with the appropriate event bus.
+
+For mechanisms that were fundamentally redesigned, such as GameRegistry, the converter preserves the original code and provides migration guidance rather than pretending that a textual replacement is sufficient.
+
+⸻
+
+Mapping Sources
+
+The 1.12.2 → 1.19.2 mappings were cross-checked against:
+
+* williewillus — 1.13/1.14 Update Primer
+* Forge — Porting 1.12 to 1.14
+* ChampionAsh5357’s 1.18.2 → 1.19 migration primer
+
+These references were used to verify changes involving registration, lifecycle, flattening, models, language files, recipes, networking, TileEntities, Capability, world generation, RegisterEvent, component APIs, event packages, and other version-specific changes.
+
+Known symbol collisions are represented as ambiguous candidates. When the engine cannot determine the correct receiver type, it does not guess: the original code is preserved and a TODO is generated.
+
+⸻
+
+Known Limitations
+
+v0.1
+
+* Member renaming is heuristic: Complete type inference is not currently implemented. Static calls can validate their scope, while instance calls may require manual review.
+* Ambiguous mappings are never guessed: They receive TODOs instead.
+* Formatting is not preserved: JavaParser’s standard formatter is used; whitespace and alignment may change, while ordinary comments are retained.
+* Structural migrations are not automatic: Registration systems, networking, Capability, GUI/Container architecture, and similar large-scale changes require manual work.
+* Some semantic changes require manual restructuring: Examples include item metadata/subtypes and block-property builders.
+* mods.toml parsing is intentionally limited: Only commonly used fields are currently supported.
+* Downgrade conversion is less extensively validated: The architecture and mappings support bidirectional conversion, but paths such as 1.19 → 1.12 require additional testing.
+* Third-party dependencies are not converted.
+
+⸻
+
+Project Structure
+
 src/main/java/io/modporter/
-├── core/       # 对外 API：PortEngine / PortRequest / PortResult / Report / ProgressListener
-├── mappings/   # 映射数据加载（MappingRepository）与解析（MappingResolver：源→IR→目标）
-├── engine/     # DefaultPortEngine：文件扫描、Pass 分派、报告输出；ModMeta（元数据 IR）
+├── core/       # Public API: PortEngine / PortRequest / PortResult / Report / ProgressListener
+├── mappings/   # MappingRepository / MappingResolver
+├── engine/     # DefaultPortEngine / ModMeta
 ├── passes/     # JavaSourcePass / MetadataPass / LangPass / AssetJsonPass / BuildGradlePass
-└── cli/        # picocli 命令行入口
-```
+└── cli/        # picocli command-line entry point
+
+⸻
+
+Roadmap
+
+The capability system already reserves extension points for:
+
+* Cross-loader conversion
+* Fabric / Forge / Quilt / NeoForge interoperability
+* Batch conversion
+* Mapping data package import
+* Additional Minecraft versions
+* Additional Java platform migrations
+* More structural API migrations
+* Expanded downgrade validation
+* Additional frontend integrations
+
+⸻
+
+Design Philosophy
+
+mc-mod-porter does not attempt to blindly rewrite every API difference.
+
+Its primary goals are:
+
+1. Keep version-specific knowledge in data, not code.
+2. Use a stable IR to avoid pairwise version mappings.
+3. Automate deterministic transformations.
+4. Preserve code when a safe transformation cannot be determined.
+5. Explain manual work through TODOs and structured reports.
+6. Keep the core independent from the CLI and UI.
+
+The goal is not to claim that every Minecraft mod can be converted automatically.
+
+The goal is to make cross-version porting systematic, repeatable, inspectable, and progressively more automatable, while keeping the developer in control of changes that require understanding the mod’s architecture.
+
+⸻
+
+License
+
+See the repository’s LICENSE file for licensing and redistribution terms.
