@@ -1,98 +1,119 @@
-Minecraft-Mod-Porter
+# mc-mod-porter
 
-A source-code cross-version porting tool for Minecraft mods.
+A **source-code cross-version porting tool for Minecraft mods**.
 
-Currently supports bidirectional conversion across multiple Forge and Fabric versions. The conversion engine itself is version-agnostic.
+Currently supports bidirectional conversion across multiple **Forge** and **Fabric** versions. The conversion engine itself is version-agnostic.
 
-Features
+## Features
 
-* Fully data-driven — All version-specific knowledge is stored as JSON mapping data under mappings/. The conversion engine contains no hard-coded version knowledge.
-* IR / Pivot architecture — Each version only maintains one mapping to the canonical IR. Every conversion follows Source → IR → Target, enabling direct conversion between any supported versions without chained intermediate conversions.
-* Safe fallback — Code that cannot be converted automatically is preserved and annotated with // TODO [modporter] .... All such issues are included in the conversion report.
-* Library-first architecture — The core API is exposed through io.modporter.core.PortEngine, allowing the CLI and future UIs to share the same backend.
-* Extensible mapping system — New versions can be added through mapping data without modifying the conversion engine.
-* Java version migration support — Java 8 / 16 / 17 / 21 compatibility is maintained separately from Minecraft version mappings.
-* Native Windows frontends — WinUI 3 and native Win32 frontends share the same backend and configuration.
+- **Fully data-driven** — All version-specific knowledge is stored as JSON mapping data under `mappings/`. The conversion engine contains no hard-coded version knowledge.
+- **IR / Pivot architecture** — Each version only maintains one mapping to the canonical IR. Every conversion follows `Source → IR → Target`, enabling direct conversion between any supported versions without chained intermediate conversions.
+- **Safe fallback** — Code that cannot be converted automatically is preserved and annotated with `// TODO [modporter] ...`. All such issues are included in the conversion report.
+- **Library-first architecture** — The core API is exposed through `io.modporter.core.PortEngine`, allowing the CLI and future UIs to share the same backend.
+- **Extensible mapping system** — New versions can be added through mapping data without modifying the conversion engine.
+- **Java version migration support** — Java 8 / 16 / 17 / 21 compatibility is maintained separately from Minecraft version mappings.
+- **Native Windows frontends** — WinUI 3 and native Win32 frontends share the same backend and configuration.
 
-⸻
+---
 
-Build & Usage
+## Build & Usage
 
-Windows users: See BUILD-WINDOWS.md for the complete Windows build guide.
+> **Windows users:** See [BUILD-WINDOWS.md](BUILD-WINDOWS.md) for the complete Windows build guide.
 
+```bash
 gradle jar
+```
 
 The resulting fat JAR is:
 
+```text
 build/libs/mc-mod-porter-0.1.0.jar
+```
 
 List supported versions:
 
+```bash
 modporter versions
+```
 
 Convert a mod:
 
+```bash
 modporter port \
   --from 1.12.2 --to 1.19.2 \
   --input /path/to/old-mod-project \
   --output /path/to/new-mod-project \
   [--loader forge] [--mappings ./mappings] [--dry-run]
+```
 
-The mapping directory defaults to ./mappings. It can also be specified with MODPORTER_MAPPINGS or --mappings.
+The mapping directory defaults to `./mappings`. It can also be specified with `MODPORTER_MAPPINGS` or `--mappings`.
 
-Conversion Reports
+### Conversion Reports
 
 The output directory contains:
 
-File	Description
-MODPORTER-REPORT.md	Human-readable errors, warnings, manual-action items, and automatic rewrite details
-modporter-report.json	Structured report for UIs and scripts
-MODPORTER-TODOS.md	Consolidated TODO / FIXME list, including both generated and pre-existing comments
+| File | Description |
+|---|---|
+| `MODPORTER-REPORT.md` | Human-readable errors, warnings, manual-action items, and automatic rewrite details |
+| `modporter-report.json` | Structured report for UIs and scripts |
+| `MODPORTER-TODOS.md` | Consolidated `TODO` / `FIXME` list, including both generated and pre-existing comments |
 
-⸻
+---
 
-Conversion Coverage
+# Conversion Coverage
 
-Content	Handling
-Java source	AST-level rewriting of imports, types, methods, fields, overridden methods, this / super calls, annotations, lifecycle APIs, and common API idioms
-Metadata	mcmod.info ↔ mods.toml through IR and target templates
-Language files	.lang ↔ .json, including localization-key migration
-Blockstates / models	Variant conversion, texture path changes, and forge_marker TODOs
-pack.mcmeta	Automatic pack_format update
-build.gradle	Regenerated from the target-version template; custom logic is reported for manual migration
-Third-party dependencies	Not handled by design
+| Content | Handling |
+|---|---|
+| **Java source** | AST-level rewriting of imports, types, methods, fields, overridden methods, `this` / `super` calls, annotations, lifecycle APIs, and common API idioms |
+| **Metadata** | `mcmod.info` ↔ `mods.toml` through IR and target templates |
+| **Language files** | `.lang` ↔ `.json`, including localization-key migration |
+| **Blockstates / models** | Variant conversion, texture path changes, and `forge_marker` TODOs |
+| **`pack.mcmeta`** | Automatic `pack_format` update |
+| **`build.gradle`** | Regenerated from the target-version template; custom logic is reported for manual migration |
+| **Third-party dependencies** | Not handled by design |
 
 Examples of Java-level transformations include:
 
+```java
 new TextComponentString(x)
+```
 
 →
 
+```java
 Component.literal(x)
+```
 
 and overridden methods such as:
 
+```java
 @Override
 public void readFromNBT(...)
+```
 
 →
 
+```java
 @Override
 public void load(...)
+```
 
-with corresponding this / super calls updated as well.
+with corresponding `this` / `super` calls updated as well.
 
 Structural migrations such as:
 
+```text
 GameRegistry → DeferredRegister
 SimpleNetworkWrapper → SimpleChannel
+```
 
 are intentionally not blindly rewritten. They receive TODOs and migration guidance instead.
 
-⸻
+---
 
-Architecture
+# Architecture
 
+```text
 Source Project
       │
       ▼
@@ -106,29 +127,37 @@ Target Version Mapping
       │
       ▼
 Target Project
+```
 
-The engine does not perform:
+The engine does **not** perform:
 
+```text
 1.12 → 1.13 → 1.14 → ... → 1.19
+```
 
 Instead, every conversion is:
 
+```text
 1.12 → IR → 1.19
+```
 
 This makes the system scale with the number of supported versions rather than the number of version pairs.
 
-Supporting N versions requires N mapping datasets, rather than maintaining mappings for every possible version pair.
+Supporting **N versions requires N mapping datasets**, rather than maintaining mappings for every possible version pair.
 
-⸻
+---
 
-Mapping System
+# Mapping System
 
 Version-specific data is stored under:
 
+```text
 mappings/versions/<loader>/<mcVersion>/
+```
 
 A typical dataset contains:
 
+```text
 mappings/versions/forge/1.19.2/
 ├── version.json
 ├── classes.json
@@ -136,149 +165,164 @@ mappings/versions/forge/1.19.2/
 ├── removed.json
 ├── idioms.json
 └── templates/
+```
 
-Mapping Components
+### Mapping Components
 
-File	Purpose
-version.json	Version characteristics, Java version, Forge version, metadata format, lifecycle style, pack_format, Gradle version, etc.
-classes.json	IR class IDs → version-specific FQCNs
-members.json	IR members → version-specific names and forms
-removed.json	Removed concepts and migration guidance
-idioms.json	Version-specific forms such as constructors ↔ static factories
-templates/	mods.toml, mcmod.info, build.gradle, and other target templates
+| File | Purpose |
+|---|---|
+| `version.json` | Version characteristics, Java version, Forge version, metadata format, lifecycle style, `pack_format`, Gradle version, etc. |
+| `classes.json` | IR class IDs → version-specific FQCNs |
+| `members.json` | IR members → version-specific names and forms |
+| `removed.json` | Removed concepts and migration guidance |
+| `idioms.json` | Version-specific forms such as constructors ↔ static factories |
+| `templates/` | `mods.toml`, `mcmod.info`, `build.gradle`, and other target templates |
 
-Adding a new version requires only a new mapping dataset; the engine itself does not need to be modified.
+Adding a new version requires only a new mapping dataset; **the engine itself does not need to be modified**.
 
-⸻
+---
 
-Java Platform Mappings
+# Java Platform Mappings
 
 Java compatibility is maintained independently under:
 
+```text
 mappings/java/
+```
 
 Minecraft versions can therefore map to different Java platforms such as:
 
+```text
 Java 8 → Java 16 → Java 17 → Java 21
+```
 
 The system can detect or handle:
 
-* Newer syntax such as var, records, switch expressions, pattern matching, and sealed classes
-* Illegal identifiers
-* Restricted type names
-* Removed JDK classes
-* Encapsulated internal packages
-* Removed methods
-* APIs whose arguments became invalid
-* Reflective lookups such as Class.forName(...)
+- Newer syntax such as `var`, records, switch expressions, pattern matching, and sealed classes
+- Illegal identifiers
+- Restricted type names
+- Removed JDK classes
+- Encapsulated internal packages
+- Removed methods
+- APIs whose arguments became invalid
+- Reflective lookups such as `Class.forName(...)`
 
-The Java 8 downgrade mapping currently covers 40 APIs introduced between Java 9 and Java 16, including examples such as:
+The Java 8 downgrade mapping currently covers **40 APIs introduced between Java 9 and Java 16**, including examples such as:
 
+```text
 List.of
 String.isBlank
 Stream.toList
 Files.readString
 Optional.isEmpty
+```
 
-⸻
+---
 
-Version Reuse
+# Version Reuse
 
 Two mechanisms prevent unnecessary duplication.
 
-Aliases
+### Aliases
 
 For fully compatible versions:
 
+```json
 "aliases": {
   "1.19.1": {
     "forgeVersion": "42.0.9",
     "loaderVersionRange": "[42,)"
   }
 }
+```
 
 The alias reuses the same mapping data while allowing metadata overrides.
 
-Overlays
+### Overlays
 
 For versions with minor differences:
 
+```json
 "basedOn": "1.19.4"
+```
 
 Only differences are stored. The base mapping is loaded first and then overridden by the overlay.
 
 Aliases and overlays can also be combined.
 
-⸻
+---
 
-Supported Versions
+# Supported Versions
 
-Fabric
+## Fabric
 
-9 datasets, using Yarn mappings:
+**9 datasets**, using **Yarn mappings**:
 
-Version	Java
-1.15.2 / 1.16.5	8
-1.17.1	16
-1.18.2	17
-1.19.2 / 1.19.4	17
-1.20.1 / 1.20.4	17
-1.21.1	21
+| Version | Java |
+|---|---:|
+| 1.15.2 / 1.16.5 | 8 |
+| 1.17.1 | 16 |
+| 1.18.2 | 17 |
+| 1.19.2 / 1.19.4 | 17 |
+| 1.20.1 / 1.20.4 | 17 |
+| 1.21.1 | 21 |
 
-Fabric and Forge share the same mc.* IR IDs while using different version-specific mappings.
+Fabric and Forge share the same `mc.*` IR IDs while using different version-specific mappings.
 
-See FABRIC-IR-CONTRACT.md.
+See [FABRIC-IR-CONTRACT.md](mappings/FABRIC-IR-CONTRACT.md).
 
-Fabric did not exist before Minecraft 1.14, so there are no Fabric 1.12.x mappings.
+> Fabric did not exist before Minecraft 1.14, so there are no Fabric 1.12.x mappings.
 
-Forge
+## Forge
 
-13 datasets + 7 aliases = 20 selectable versions:
+**13 datasets + 7 aliases = 20 selectable versions**:
 
-Dataset	Type	Aliases
-1.12.2	Full	1.12, 1.12.1
-1.14.4	Overlay	—
-1.15.2	Full	—
-1.16.5	Full	1.16.4
-1.17.1	Full	—
-1.18.1	Overlay	1.18
-1.18.2	Full	—
-1.19.1	Overlay	1.19
-1.19.2	Full	—
-1.19.3	Overlay	—
-1.19.4	Full	—
-1.20.1	Full	1.20
-1.21.1	Overlay	1.21
+| Dataset | Type | Aliases |
+|---|---|---|
+| 1.12.2 | Full | 1.12, 1.12.1 |
+| 1.14.4 | Overlay | — |
+| 1.15.2 | Full | — |
+| 1.16.5 | Full | 1.16.4 |
+| 1.17.1 | Full | — |
+| 1.18.1 | Overlay | 1.18 |
+| 1.18.2 | Full | — |
+| 1.19.1 | Overlay | 1.19 |
+| 1.19.2 | Full | — |
+| 1.19.3 | Overlay | — |
+| 1.19.4 | Full | — |
+| 1.20.1 | Full | 1.20 |
+| 1.21.1 | Overlay | 1.21 |
 
-This provides 380 directed Forge conversion paths and 72 directed Fabric conversion paths.
+This provides **380 directed Forge conversion paths** and **72 directed Fabric conversion paths**.
 
-⸻
+---
 
-Cross-Loader Conversion
+# Cross-Loader Conversion
 
-Forge ↔ Fabric conversion is currently not supported.
+**Forge ↔ Fabric conversion is currently not supported.**
 
-The port command requires the source and target to use the same loader.
+The `port` command requires the source and target to use the same loader.
 
 The architecture already reserves the necessary infrastructure:
 
-* Both loaders share the mc.* IR namespace.
-* Mapping data contains cross-loader migration guidance.
-* crossloader-port already exists in the capability system as available: false.
+- Both loaders share the `mc.*` IR namespace.
+- Mapping data contains cross-loader migration guidance.
+- `crossloader-port` already exists in the capability system as `available: false`.
 
 Cross-loader conversion will remain more difficult than same-loader conversion because Forge and Fabric differ significantly in entry points, event systems, registration, networking, and other architectural components.
 
 Many cases will therefore require manual migration even after cross-loader support is implemented.
 
-⸻
+---
 
-Frontends
+# Frontends
 
 Two functionally equivalent Windows frontends are provided:
 
-Frontend	Technology	Target
-frontend/ModPorter.WinUI/	WinUI 3 / C#	Windows 10 1809+
-frontend/ModPorter.Win32/	Native Win32 API / C++11	Windows XP ~ 11
+| Frontend | Technology | Target |
+|---|---|---|
+| [`frontend/ModPorter.WinUI/`](frontend/ModPorter.WinUI) | WinUI 3 / C# | Windows 10 1809+ |
+| [`frontend/ModPorter.Win32/`](frontend/ModPorter.Win32) | Native Win32 API / C++11 | **Windows XP ~ 11** |
 
 The WinUI frontend uses Fluent design with Mica and NavigationView.
 
@@ -286,176 +330,195 @@ The Win32 frontend has no .NET / WinRT dependency and uses statically linked CRT
 
 Both frontends share:
 
+```text
 %LOCALAPPDATA%\ModPorter\settings.json
+```
 
 and communicate with the backend through three versioned JSON interfaces:
 
+```text
 modporter capabilities
 modporter run <actionId> --params <json>
 modporter-report.json
+```
 
 This allows backend capabilities to be extended without requiring corresponding frontend changes.
 
 Currently reserved actions include:
 
-* Cross-loader conversion
-* Batch conversion
-* Mapping data package import
+- Cross-loader conversion
+- Batch conversion
+- Mapping data package import
 
-⸻
+---
 
-Library API
+# Library API
 
 The core API is exposed through:
 
+```text
 io.modporter.core
+```
 
 Example:
 
+```java
 PortEngine engine =
     new DefaultPortEngine(new MappingRepository(mappingsDir));
+
 engine.supportedVersions();
+
 PortResult result =
     engine.port(request, listener);
+
 result.report().entries();
+```
 
-listener provides per-file progress callbacks, while the structured report exposes severity, file, line, category, and message information.
+`listener` provides per-file progress callbacks, while the structured report exposes severity, file, line, category, and message information.
 
-⸻
+---
 
-IR Contract
+# IR Contract
 
 The IR provides stable identifiers independent of concrete Minecraft versions.
 
-Class IDs
+### Class IDs
 
 Examples:
 
+```text
 mc.item.Item
 forge.SubscribeEvent
+```
 
-Member IDs
+### Member IDs
 
 For example:
 
+```text
 putInt
+```
 
-Members not explicitly listed in members.json are assumed to retain their IR name and shape.
+Members not explicitly listed in `members.json` are assumed to retain their IR name and shape.
 
-Concept IDs
+### Concept IDs
 
-Used by removed.json and guidance as semantic migration anchors.
+Used by `removed.json` and `guidance` as semantic migration anchors.
 
 The source version identifies what a symbol represents; the target version independently describes how that concept should be implemented.
 
-Idiom IDs
+### Idiom IDs
 
-Used by idioms.json to represent different syntactic forms of the same semantic operation, such as:
+Used by `idioms.json` to represent different syntactic forms of the same semantic operation, such as:
 
+```text
 constructor ↔ static factory
+```
 
-⸻
+---
 
-Semantic Migration
+# Semantic Migration
 
 The converter distinguishes between simple renaming and actual semantic migration.
 
 For example:
 
+```text
 FMLPreInitializationEvent
 FMLInitializationEvent
+```
 
-map to canonical lifecycle concepts and can ultimately become FMLCommonSetupEvent in newer Forge versions, with a migration note when methods may need to be merged.
+map to canonical lifecycle concepts and can ultimately become `FMLCommonSetupEvent` in newer Forge versions, with a migration note when methods may need to be merged.
 
 Similarly:
 
+```java
 @Mod.EventHandler
+```
 
 can be converted to:
 
+```java
 @SubscribeEvent
+```
 
 while adding a TODO explaining that the method must be registered with the appropriate event bus.
 
-For mechanisms that were fundamentally redesigned, such as GameRegistry, the converter preserves the original code and provides migration guidance rather than pretending that a textual replacement is sufficient.
+For mechanisms that were fundamentally redesigned, such as `GameRegistry`, the converter preserves the original code and provides migration guidance rather than pretending that a textual replacement is sufficient.
 
-⸻
+---
 
-Mapping Sources
+# Mapping Sources
 
-The 1.12.2 → 1.19.2 mappings were cross-checked against:
+The **1.12.2 → 1.19.2** mappings were cross-checked against:
 
-* williewillus — 1.13/1.14 Update Primer
-* Forge — Porting 1.12 to 1.14
-* ChampionAsh5357’s 1.18.2 → 1.19 migration primer
+- [williewillus — 1.13/1.14 Update Primer](https://gist.github.com/williewillus/353c872bcf1a6ace9921189f6100d09a)
+- [Forge — Porting 1.12 to 1.14](https://docs.minecraftforge.net/en/1.14.x/legacy/porting1214/)
+- ChampionAsh5357's **1.18.2 → 1.19 migration primer**
 
-These references were used to verify changes involving registration, lifecycle, flattening, models, language files, recipes, networking, TileEntities, Capability, world generation, RegisterEvent, component APIs, event packages, and other version-specific changes.
+These references were used to verify changes involving registration, lifecycle, flattening, models, language files, recipes, networking, TileEntities, Capability, world generation, `RegisterEvent`, component APIs, event packages, and other version-specific changes.
 
-Known symbol collisions are represented as ambiguous candidates. When the engine cannot determine the correct receiver type, it does not guess: the original code is preserved and a TODO is generated.
+Known symbol collisions are represented as ambiguous candidates. When the engine cannot determine the correct receiver type, it **does not guess**: the original code is preserved and a TODO is generated.
 
-⸻
+---
 
-Known Limitations
+# Known Limitations
 
-v0.1
+### v0.1
 
-* Member renaming is heuristic: Complete type inference is not currently implemented. Static calls can validate their scope, while instance calls may require manual review.
-* Ambiguous mappings are never guessed: They receive TODOs instead.
-* Formatting is not preserved: JavaParser’s standard formatter is used; whitespace and alignment may change, while ordinary comments are retained.
-* Structural migrations are not automatic: Registration systems, networking, Capability, GUI/Container architecture, and similar large-scale changes require manual work.
-* Some semantic changes require manual restructuring: Examples include item metadata/subtypes and block-property builders.
-* mods.toml parsing is intentionally limited: Only commonly used fields are currently supported.
-* Downgrade conversion is less extensively validated: The architecture and mappings support bidirectional conversion, but paths such as 1.19 → 1.12 require additional testing.
-* Third-party dependencies are not converted.
+- **Member renaming is heuristic:** Complete type inference is not currently implemented. Static calls can validate their scope, while instance calls may require manual review.
+- **Ambiguous mappings are never guessed:** They receive TODOs instead.
+- **Formatting is not preserved:** JavaParser's standard formatter is used; whitespace and alignment may change, while ordinary comments are retained.
+- **Structural migrations are not automatic:** Registration systems, networking, Capability, GUI/Container architecture, and similar large-scale changes require manual work.
+- **Some semantic changes require manual restructuring:** Examples include item metadata/subtypes and block-property builders.
+- **`mods.toml` parsing is intentionally limited:** Only commonly used fields are currently supported.
+- **Downgrade conversion is less extensively validated:** The architecture and mappings support bidirectional conversion, but paths such as 1.19 → 1.12 require additional testing.
+- **Third-party dependencies are not converted.**
 
-⸻
+---
 
-Project Structure
+# Project Structure
 
+```text
 src/main/java/io/modporter/
 ├── core/       # Public API: PortEngine / PortRequest / PortResult / Report / ProgressListener
 ├── mappings/   # MappingRepository / MappingResolver
 ├── engine/     # DefaultPortEngine / ModMeta
 ├── passes/     # JavaSourcePass / MetadataPass / LangPass / AssetJsonPass / BuildGradlePass
 └── cli/        # picocli command-line entry point
+```
 
-⸻
+---
 
-Roadmap
+# Roadmap
 
 The capability system already reserves extension points for:
 
-* Cross-loader conversion
-* Fabric / Forge / Quilt / NeoForge interoperability
-* Batch conversion
-* Mapping data package import
-* Additional Minecraft versions
-* Additional Java platform migrations
-* More structural API migrations
-* Expanded downgrade validation
-* Additional frontend integrations
+- [ ] Cross-loader conversion
+- [ ] Fabric / Forge / Quilt / NeoForge interoperability
+- [ ] Batch conversion
+- [ ] Mapping data package import
+- [ ] Additional Minecraft versions
+- [ ] Additional Java platform migrations
+- [ ] More structural API migrations
+- [ ] Expanded downgrade validation
+- [ ] Additional frontend integrations
 
-⸻
+---
 
-Design Philosophy
+# Design Philosophy
 
-mc-mod-porter does not attempt to blindly rewrite every API difference.
+`mc-mod-porter` does **not** attempt to blindly rewrite every API difference.
 
 Its primary goals are:
 
-1. Keep version-specific knowledge in data, not code.
-2. Use a stable IR to avoid pairwise version mappings.
-3. Automate deterministic transformations.
-4. Preserve code when a safe transformation cannot be determined.
-5. Explain manual work through TODOs and structured reports.
-6. Keep the core independent from the CLI and UI.
+1. **Keep version-specific knowledge in data, not code.**
+2. **Use a stable IR to avoid pairwise version mappings.**
+3. **Automate deterministic transformations.**
+4. **Preserve code when a safe transformation cannot be determined.**
+5. **Explain manual work through TODOs and structured reports.**
+6. **Keep the core independent from the CLI and UI.**
 
 The goal is not to claim that every Minecraft mod can be converted automatically.
 
-The goal is to make cross-version porting systematic, repeatable, inspectable, and progressively more automatable, while keeping the developer in control of changes that require understanding the mod’s architecture.
-
-⸻
-
-License
-
-See the repository’s LICENSE file for licensing and redistribution terms.
+The goal is to make cross-version porting **systematic, repeatable, inspectable, and progressively more automatable**, while keeping the developer in control of changes that require understanding the mod's architecture.
