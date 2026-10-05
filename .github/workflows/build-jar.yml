@@ -1,0 +1,80 @@
+name: Build backend JAR
+
+# 手动触发专用：不在 push / PR / schedule 上自动运行。
+on:
+  workflow_dispatch:
+    inputs:
+      java-distribution:
+        description: 'JDK distribution'
+        required: false
+        default: 'temurin'
+        type: string
+      java-version:
+        description: 'JDK version (17 or 21)'
+        required: false
+        default: '21'
+        type: choice
+        options:
+          - '17'
+          - '21'
+      gradle-version:
+        description: 'Gradle release (repo has no gradlew)'
+        required: false
+        default: '8.14.3'
+        type: string
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  GRADLE_USER_HOME: ${{ github.workspace }}/.gradle-home
+
+jobs:
+  backend:
+    name: Backend fat jar (JDK ${{ inputs.java-version || '21' }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: ${{ inputs.java-distribution || 'temurin' }}
+          java-version: ${{ inputs.java-version || '21' }}
+          cache: 'gradle'
+
+      # The repository has no Gradle wrapper; use a known Gradle release instead.
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: ${{ inputs.gradle-version || '8.14.3' }}
+
+      # `jar` is the project's fat-jar task (see build.gradle: it packs
+      # JavaParser/Gson/picocli and excludes signature/module metadata).
+      # Explicitly avoid `build`/`check` so this workflow never runs tests.
+      - name: Build backend fat jar
+        run: gradle --no-daemon jar
+
+      - name: Verify fat jar exists
+        run: |
+          shopt -s nullglob
+          jars=(build/libs/*.jar)
+          if [ ${#jars[@]} -eq 0 ]; then
+            echo "::error::No jar produced under build/libs"
+            exit 1
+          fi
+          ls -lh "${jars[@]}"
+
+      - name: Upload backend fat jar artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: modporter-backend-jar
+          path: build/libs/*.jar
+          if-no-files-found: error
+          retention-days: 14
