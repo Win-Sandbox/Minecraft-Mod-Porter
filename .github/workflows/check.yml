@@ -1,0 +1,67 @@
+name: Check
+
+# Read-only source/data checks: deliberately no Java, Gradle, CMake or .NET build.
+on:
+  pull_request:
+  push:
+    branches: [v0.2]
+
+permissions:
+  contents: read
+
+jobs:
+  static:
+    name: Mapping and source checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate mappings
+        run: python3 -B mappings/tools/validate_mappings.py
+      - name: Parse repository JSON and Python syntax
+        shell: bash
+        run: |
+          python3 -B - <<'PY'
+          import ast
+          import json
+          import pathlib
+
+          root = pathlib.Path('.')
+          # Template fabric.mod.json files contain unrendered engine placeholders.
+          json_files = [p for p in root.rglob('*.json') if 'templates' not in p.parts]
+          assert json_files, 'No mapping JSON files found'
+          for path in json_files:
+              json.loads(path.read_text(encoding='utf-8'))
+          py_files = list(root.rglob('*.py'))
+          for path in py_files:
+              ast.parse(path.read_text(encoding='utf-8'), filename=str(path))
+          print(f'Parsed {len(json_files)} JSON and {len(py_files)} Python files')
+          PY
+      - name: Reject merge-conflict markers in tracked text
+        shell: bash
+        run: |
+          python3 -B - <<'PY'
+          import pathlib
+          import re
+          import subprocess
+
+          paths = subprocess.check_output(['git', 'ls-files', '-z']).split(b'\0')
+          pattern = re.compile(r'^(?:<<<<<<<(?: .*)?|=======|>>>>>>>.*)$', re.MULTILINE)
+          errors = []
+          for raw in filter(None, paths):
+              path = pathlib.Path(raw.decode('utf-8'))
+              try:
+                  content = path.read_text(encoding='utf-8')
+              except (UnicodeError, OSError):
+                  continue  # Non-text files cannot contain actionable text markers.
+              if pattern.search(content):
+                  errors.append(str(path))
+          if errors:
+              raise SystemExit('Merge conflict markers: ' + ', '.join(errors))
+          print('No merge conflict markers in tracked text')
+          PY
