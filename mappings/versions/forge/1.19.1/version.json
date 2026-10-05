@@ -6,7 +6,29 @@
   "aliases": {
     "1.19": {
       "forgeVersion": "41.1.0",
-      "loaderVersionRange": "[41,)"
+      "loaderVersionRange": "[41,)",
+      "packFormat": 9,
+      "resourcePackFormat": [
+        9,
+        0
+      ],
+      "dataPackFormat": [
+        10,
+        0
+      ],
+      "packMetadataStyle": "legacy",
+      "itemModelDefinitions": false
     }
-  }
+  },
+  "packFormat": 9,
+  "resourcePackFormat": [
+    9,
+    0
+  ],
+  "dataPackFormat": [
+    10,
+    0
+  ],
+  "packMetadataStyle": "legacy",
+  "itemModelDefinitions": false
 }

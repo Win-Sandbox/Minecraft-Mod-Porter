@@ -1,0 +1,15 @@
+{
+  "guidance": {
+    "network.channel": "NeoForge 20.2/20.3 的网络仍是 SimpleChannel：NetworkRegistry.newSimpleChannel(new ResourceLocation(MODID, \"main\"), () -> \"1\", \"1\"::equals, \"1\"::equals)，消息用 CHANNEL.messageBuilder(Msg.class, id).encoder(Msg::encode).decoder(Msg::new).consumerMainThread((msg, ctx) -> ...).add() 注册，发送用 CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), msg) / CHANNEL.sendToServer(msg)（20.4 起整体换成 CustomPacketPayload）",
+    "gui.menu": "注册 MenuType<T>（DeferredRegister.create(Registries.MENU, MODID)，带数据用 IMenuTypeExtension.create(工厂)）；服务端用 NetworkHooks.openScreen(serverPlayer, menuProvider, pos) 打开；客户端在 FMLClientSetupEvent 中 event.enqueueWork(() -> MenuScreens.register(菜单类型, 屏幕::new))",
+    "neoforge.network.RegisterPayloadHandlersEvent": "20.3 没有 payload 注册事件：网络通道用 NetworkRegistry.newSimpleChannel 创建 SimpleChannel，见 network.channel 指导",
+    "neoforge.network.PayloadRegistrar": "20.3 没有 payload 注册器：用 SimpleChannel.messageBuilder(...) 或 registerMessage(...) 注册消息",
+    "neoforge.network.IPayloadContext": "20.3 的消息处理上下文是 NetworkEvent.Context（consumerMainThread 回调的第二个参数），发送者用 ctx.getSender()，处理后 ctx.setPacketHandled(true)",
+    "neoforge.client.RegisterMenuScreensEvent": "20.3 没有 RegisterMenuScreensEvent：在 FMLClientSetupEvent 中 event.enqueueWork(() -> MenuScreens.register(菜单类型, 屏幕::new))",
+    "forge.Mod.EventBusSubscriber.Bus": "NeoForge 20.5 起 @EventBusSubscriber 为顶层注解，bus 常量 GAME/MOD；20.2–20.4 为 @Mod 内部注解，常量 FORGE/MOD。该版本 Bus 枚举形态与源版本不同或不可用，属性值需人工确认（FORGE 在 20.5+ 改为 GAME）。",
+    "mc.advancements.predicates.FoodPredicate": "FoodPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.FoodPredicate 引用；反向迁移时按本数据集实际的食物谓词类人工确认（该类旧包路径未核实，不要自动猜写）。",
+    "mc.advancements.predicates.InputPredicate": "InputPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.InputPredicate 引用；反向迁移时按本数据集实际的输入谓词类人工确认（旧数据为 advancements.criterion.InputPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.entity.SheepPredicate": "SheepPredicate 是 26.2 起进度实体谓词所在新包中的类；本数据集没有该 26.2 包路径的对应类。26.2 侧按 net.minecraft.advancements.predicates.entity.SheepPredicate 引用；反向迁移时按本数据集实际的实体谓词类人工确认（旧数据为 advancements.criterion.SheepPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.DataComponentMatchers": "DataComponentMatchers 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.DataComponentMatchers 引用；反向迁移时按本数据集实际的数据组件匹配类人工确认（旧数据为 advancements.criterion.DataComponentMatchers，仍需按本数据集核对）。"
+  }
+}

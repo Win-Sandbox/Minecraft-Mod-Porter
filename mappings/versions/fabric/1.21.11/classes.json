@@ -1,0 +1,6 @@
+{
+  "fabric.event.CommandRegistrationCallback": {
+    "name": "net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback",
+    "note": "CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> ...)；1.21.11 起权限检查改为 .requires(CommandManager.requirePermissionLevel(CommandManager.GAMEMASTERS_CHECK))，source.hasPermissionLevel(int) 已删除"
+  }
+}

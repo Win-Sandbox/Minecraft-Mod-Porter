@@ -1,0 +1,27 @@
+{
+  "!remove": {
+    "classes": [
+      "net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry",
+      "net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags",
+      "net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType"
+    ]
+  },
+  "classes": {
+    "net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback": {
+      "concept": "fabric.loot",
+      "message": "本版本修改战利品表仍用 loot v1 的 LootTableLoadingCallback（1.18.2 起才有 loot v2 的 LootTableEvents），Forge 侧为 LootTableLoadEvent / 全局战利品修改器"
+    },
+    "net.fabricmc.fabric.api.block.FabricBlockSettings": {
+      "concept": "block.propertiesBuilder",
+      "message": "net.fabricmc.fabric.api.block.FabricBlockSettings 是 fabric-object-builders-v0 的旧包（已弃用），新代码请用 net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings"
+    },
+    "net.fabricmc.fabric.api.tag.TagRegistry": {
+      "concept": "tags.oredict",
+      "message": "TagRegistry.item / block（fabric-tag-extensions-v0）是旧的标签引用方式（已弃用）：1.17 起用 TagFactory，1.18.2 起用原版 TagKey.of(注册表键, id)"
+    },
+    "net.fabricmc.fabric.api.tag.TagFactory": {
+      "concept": "tags.oredict",
+      "message": "fabric-tag-extensions-v0 在 1.17–1.18.1 的标签句柄工厂（TagFactory.ITEM.create(id)），1.18.2 起原版改为 TagKey.of(注册表键, id)，该类随之删除"
+    }
+  }
+}

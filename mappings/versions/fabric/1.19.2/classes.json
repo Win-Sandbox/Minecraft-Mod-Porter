@@ -14,7 +14,6 @@
   "mc.item.DyeColor": "net.minecraft.util.DyeColor",
   "mc.item.EquipmentSlot": "net.minecraft.entity.EquipmentSlot",
   "mc.item.Ingredient": "net.minecraft.recipe.Ingredient",
-
   "mc.block.Block": "net.minecraft.block.Block",
   "mc.block.Blocks": "net.minecraft.block.Blocks",
   "mc.block.state.BlockState": "net.minecraft.block.BlockState",
@@ -26,18 +25,15 @@
     "name": "net.minecraft.block.Material",
     "note": "1.19.x 仍有 Material（Yarn 包位 net.minecraft.block.Material）；1.20 起被移除，改用 AbstractBlock.Settings.create() + mapColor(...)"
   },
-
   "mc.blockentity.BlockEntity": {
     "name": "net.minecraft.block.entity.BlockEntity",
     "note": "BlockEntity 构造需要 (BlockEntityType, BlockPos, BlockState)，且需注册 BlockEntityType（Fabric：FabricBlockEntityTypeBuilder.create(工厂, BLOCK).build() 后 Registry.register(Registry.BLOCK_ENTITY_TYPE, id, type)）"
   },
-
   "mc.world.Level": "net.minecraft.world.World",
   "mc.world.ServerLevel": "net.minecraft.server.world.ServerWorld",
   "mc.world.ChunkAccess": "net.minecraft.world.chunk.Chunk",
   "mc.world.ChunkPos": "net.minecraft.util.math.ChunkPos",
   "mc.world.biome.Biome": "net.minecraft.world.biome.Biome",
-
   "mc.entity.Entity": "net.minecraft.entity.Entity",
   "mc.entity.LivingEntity": "net.minecraft.entity.LivingEntity",
   "mc.entity.Mob": "net.minecraft.entity.mob.MobEntity",
@@ -53,7 +49,6 @@
     "name": "net.minecraft.entity.EntityType",
     "note": "Fabric 侧实体注册用 FabricEntityTypeBuilder.create(SpawnGroup.XXX, 工厂).dimensions(EntityDimensions.fixed(w, h)).build()，再 Registry.register(Registry.ENTITY_TYPE, id, type)"
   },
-
   "mc.core.BlockPos": "net.minecraft.util.math.BlockPos",
   "mc.core.Direction": "net.minecraft.util.math.Direction",
   "mc.core.Vec3": "net.minecraft.util.math.Vec3d",
@@ -70,24 +65,13 @@
     "name": "net.minecraft.util.collection.DefaultedList",
     "note": "Yarn 中 NonNullList -> DefaultedList，工厂方法为 DefaultedList.ofSize(size, default)"
   },
-  "mc.core.registries.Registries": {
-    "name": "net.minecraft.util.registry.Registry",
-    "note": "1.19.2 的 Yarn 尚未拆分注册表：注册表键与静态注册表实例都在 net.minecraft.util.registry.Registry（Registry.ITEM / Registry.BLOCK 等，注册用 Registry.register(Registry.ITEM, id, item)）；1.19.3 起包位改为 net.minecraft.registry.*，并拆为 RegistryKeys（键）与 Registries（实例）"
-  },
-  "mc.core.registries.BuiltInRegistries": {
-    "name": "net.minecraft.util.registry.Registry",
-    "note": "1.19.2 静态注册表实例在 net.minecraft.util.registry.Registry 的常量上（Registry.ITEM 等）；1.19.3 起移至 net.minecraft.registry.Registries"
-  },
-
   "mc.resources.ResourceLocation": {
     "name": "net.minecraft.util.Identifier",
     "note": "Yarn 中 ResourceLocation -> Identifier，1.19 全程用 new Identifier(namespace, path) 或 new Identifier(\"ns:path\") 构造（无静态工厂）"
   },
-
   "mc.nbt.CompoundTag": "net.minecraft.nbt.NbtCompound",
   "mc.nbt.ListTag": "net.minecraft.nbt.NbtList",
   "mc.nbt.Tag": "net.minecraft.nbt.NbtElement",
-
   "mc.chat.Component": {
     "name": "net.minecraft.text.Text",
     "note": "Yarn 中 Component -> Text；1.19 起工厂为 Text.literal(String) / Text.translatable(key, args...)，返回 MutableText（对应 Mojmap 的 MutableComponent）"
@@ -102,7 +86,6 @@
     "name": "net.minecraft.text.HoverEvent",
     "note": "HoverEvent 构造为 (HoverEvent.Action<T>, T)，Action 常量为泛型"
   },
-
   "mc.util.InteractionHand": {
     "name": "net.minecraft.util.Hand",
     "note": "Yarn 中 InteractionHand -> Hand（Hand.MAIN_HAND / Hand.OFF_HAND）"
@@ -131,7 +114,6 @@
     "name": "net.minecraft.entity.damage.DamageSource",
     "note": "1.19.2 伤害来源仍是静态常量（DamageSource.GENERIC / DamageSource.player(player) 等）；1.19.4 起改为 world.getDamageSources()"
   },
-
   "mc.effect.MobEffect": {
     "name": "net.minecraft.entity.effect.StatusEffect",
     "note": "Yarn 中 MobEffect -> StatusEffect；药水物品类型是 net.minecraft.potion.Potion，勿混淆"
@@ -149,14 +131,12 @@
     "note": "Yarn 包位为 net.minecraft.particle；粒子参数类型为 ParticleEffect（对应 Mojmap 的 ParticleOptions）"
   },
   "mc.stats.Stats": "net.minecraft.stat.Stats",
-
   "mc.syncher.SynchedEntityData": {
     "name": "net.minecraft.entity.data.DataTracker",
     "note": "Yarn 中 SynchedEntityData -> DataTracker（定义用 DataTracker.registerData(类, TrackedDataHandlerRegistry.XXX)）"
   },
   "mc.syncher.EntityDataAccessor": "net.minecraft.entity.data.TrackedData",
   "mc.syncher.EntityDataSerializers": "net.minecraft.entity.data.TrackedDataHandlerRegistry",
-
   "mc.sound.SoundEvent": {
     "name": "net.minecraft.sound.SoundEvent",
     "note": "1.19.2 中 new SoundEvent(Identifier) 仍可用；1.19.3 起构造器不再公开，需改用 SoundEvent 的静态工厂"
@@ -166,7 +146,6 @@
     "name": "net.minecraft.sound.SoundCategory",
     "note": "Yarn 中 SoundSource -> SoundCategory（SoundCategory.BLOCKS 等）"
   },
-
   "mc.inventory.AbstractContainerMenu": {
     "name": "net.minecraft.screen.ScreenHandler",
     "note": "Yarn 中 AbstractContainerMenu -> ScreenHandler：需注册 ScreenHandlerType（Fabric 用 ScreenHandlerRegistry / ExtendedScreenHandlerType），打开用 player.openHandledScreen(NamedScreenHandlerFactory)"
@@ -176,7 +155,6 @@
     "name": "net.minecraft.inventory.Inventory",
     "note": "Yarn 中 Container（IInventory）-> Inventory 接口；简单实现可用 SimpleInventory 或 ImplementedInventory 模板；Fabric 的物品/流体传输另有 Fabric Transfer API"
   },
-
   "mc.client.Minecraft": {
     "name": "net.minecraft.client.MinecraftClient",
     "note": "Yarn 中 Minecraft -> MinecraftClient；客户端专属代码应放在 ClientModInitializer 入口或 @Environment(EnvType.CLIENT) 标注的类中"
@@ -205,7 +183,6 @@
     "note": "Yarn 中 render 签名为 (T, float, MatrixStack, VertexConsumerProvider, int, int)；注册用 BlockEntityRendererFactories.register(type, 工厂)（客户端入口内）"
   },
   "mc.server.MinecraftServer": "net.minecraft.server.MinecraftServer",
-
   "fabric.ModInitializer": {
     "name": "net.fabricmc.api.ModInitializer",
     "note": "Fabric 没有 @Mod 注解：主类实现 ModInitializer 并覆写 onInitialize()，在 fabric.mod.json 的 entrypoints.main 中声明"
@@ -231,7 +208,6 @@
     "note": "FabricLoader.getInstance()：isModLoaded(id) 对应 ModList.get().isLoaded(...)，getEnvironmentType() 对应分侧判断，getConfigDir() 取配置目录"
   },
   "fabric.ModContainer": "net.fabricmc.loader.api.ModContainer",
-
   "fabric.item.FabricItemSettings": {
     "name": "net.fabricmc.fabric.api.item.v1.FabricItemSettings",
     "note": "继承自 Item.Settings，附加 Fabric 专属选项；1.19.2 中创造页签用 new FabricItemSettings().group(GROUP)"
@@ -250,14 +226,19 @@
     "name": "net.fabricmc.fabric.api.loot.v2.LootTableEvents",
     "note": "LootTableEvents.MODIFY 用于向原版战利品表追加条目"
   },
-
   "fabric.event.ServerLifecycleEvents": {
     "name": "net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents",
     "note": "对应 Forge 的 ServerStartingEvent/ServerStoppingEvent：ServerLifecycleEvents.SERVER_STARTED / SERVER_STOPPING.register(server -> ...)"
   },
   "fabric.event.ServerTickEvents": "net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents",
-  "fabric.event.ClientTickEvents": "net.fabricmc.fabric.api.event.lifecycle.v1.ClientTickEvents",
-  "fabric.event.ClientLifecycleEvents": "net.fabricmc.fabric.api.event.lifecycle.v1.ClientLifecycleEvents",
+  "fabric.event.ClientTickEvents": {
+    "name": "net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents",
+    "note": "客户端事件的包路径多一层 client：net.fabricmc.fabric.api.client.event.lifecycle.v1；常量 START_CLIENT_TICK / END_CLIENT_TICK / START_WORLD_TICK / END_WORLD_TICK"
+  },
+  "fabric.event.ClientLifecycleEvents": {
+    "name": "net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents",
+    "note": "包路径 net.fabricmc.fabric.api.client.event.lifecycle.v1；常量 CLIENT_STARTED / CLIENT_STOPPING"
+  },
   "fabric.event.ServerEntityEvents": "net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents",
   "fabric.event.ServerPlayConnectionEvents": {
     "name": "net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents",
@@ -286,17 +267,18 @@
     "name": "net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents",
     "note": "对应 Forge 的 RenderLevelStageEvent：WorldRenderEvents.AFTER_ENTITIES / END 等"
   },
-
   "fabric.network.ServerPlayNetworking": {
     "name": "net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking",
     "note": "对应 Forge SimpleChannel 的服务端侧：send(player, id, buf) 发送，registerGlobalReceiver(id, handler) 接收；1.19.2/1.19.4 均为 Identifier + PacketByteBuf 形式（1.20.5+ 才改为 CustomPayload）"
   },
-  "fabric.network.ClientPlayNetworking": "net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking",
+  "fabric.network.ClientPlayNetworking": {
+    "name": "net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking",
+    "note": "客户端网络 API 的包路径多一层 client：net.fabricmc.fabric.api.client.networking.v1；registerGlobalReceiver(id, (client, handler, buf, sender) -> ...) 收包、send(id, buf) 发包"
+  },
   "fabric.network.PacketByteBufs": {
     "name": "net.fabricmc.fabric.api.networking.v1.PacketByteBufs",
     "note": "PacketByteBufs.create() 创建可写包缓冲，替代 Forge 消息类的 encoder/decoder"
   },
-
   "fabric.screen.ExtendedScreenHandlerFactory": {
     "name": "net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory",
     "note": "需要向客户端同步额外开屏数据时实现该接口（对应 Forge NetworkHooks.openScreen 的 buf -> ... 参数）"
@@ -315,12 +297,10 @@
     "note": "对应 Forge 的 EntityRenderersEvent.RegisterRenderers：EntityRendererRegistry.register(ENTITY_TYPE, 工厂)"
   },
   "fabric.client.ColorProviderRegistry": "net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry",
-
   "fabric.datagen.FabricDataGenerator": {
     "name": "net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator",
     "note": "数据生成入口在 fabric.mod.json 的 entrypoints.fabric-datagen（DataGeneratorEntrypoint）；1.19.2 的 datagen API 与 1.19.3+ 不同（1.19.3 起才有 FabricDataOutput / Pack 结构）"
   },
-
   "mixin.Mixin": "org.spongepowered.asm.mixin.Mixin",
   "mixin.Shadow": "org.spongepowered.asm.mixin.Shadow",
   "mixin.Unique": "org.spongepowered.asm.mixin.Unique",
@@ -332,5 +312,40 @@
   "mixin.CallbackInfo": "org.spongepowered.asm.mixin.injection.callback.CallbackInfo",
   "mixin.CallbackInfoReturnable": "org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable",
   "mixin.Accessor": "org.spongepowered.asm.mixin.gen.Accessor",
-  "mixin.Invoker": "org.spongepowered.asm.mixin.gen.Invoker"
+  "mixin.Invoker": "org.spongepowered.asm.mixin.gen.Invoker",
+  "mc.core.Registry": {
+    "name": "net.minecraft.util.registry.Registry",
+    "note": "注册表接口与静态注册表常量同在 net.minecraft.util.registry.Registry：注册写 Registry.register(Registry.ITEM, id, 对象)；1.19.3 起类移到 net.minecraft.registry.Registry，常量拆到 Registries（实例）与 RegistryKeys（键）"
+  },
+  "mc.client.gui.GuiComponent": {
+    "name": "net.minecraft.client.gui.DrawableHelper",
+    "note": "Yarn 名 DrawableHelper（Mojmap GuiComponent）：fill/drawTexture/drawCenteredText 等是以 MatrixStack 为首参的静态方法（Screen 继承了它们）；1.20 起整类移除，改用 DrawContext 的实例方法"
+  },
+  "mc.client.gui.components.Button": {
+    "name": "net.minecraft.client.gui.widget.ButtonWidget",
+    "note": "构造器 new ButtonWidget(x, y, width, height, Text, onPress)；1.19.3 起构造器不再公开，改用 ButtonWidget.builder(text, onPress).dimensions(x, y, width, height).build()"
+  },
+  "mc.client.gui.components.EditBox": "net.minecraft.client.gui.widget.TextFieldWidget",
+  "mc.client.gui.components.AbstractWidget": {
+    "name": "net.minecraft.client.gui.widget.ClickableWidget",
+    "note": "Yarn 名 ClickableWidget；本版本坐标是公开字段 x / y，1.19.3 起改为 getX()/getY()/setPosition(x, y)。x/y 名字太通用，转换器不自动改写，需人工处理"
+  },
+  "mc.network.FriendlyByteBuf": "net.minecraft.network.PacketByteBuf",
+  "mc.client.player.AbstractClientPlayer": "net.minecraft.client.network.AbstractClientPlayerEntity",
+  "mc.network.chat.MutableComponent": {
+    "name": "net.minecraft.text.MutableText",
+    "note": "Yarn 名 MutableText：Text.literal(...) / Text.translatable(...) 的返回类型，append/formatted/styled 等可变操作都在它上面"
+  },
+  "mc.world.item.alchemy.PotionUtils": {
+    "name": "net.minecraft.potion.PotionUtil",
+    "note": "Yarn 名 PotionUtil（Mojmap PotionUtils）：setPotion(stack, potion) / getPotion(stack) 等读写物品 NBT 中的药水；1.20.5 起被 PotionContentsComponent 数据组件取代"
+  },
+  "mc.world.food.FoodProperties": {
+    "name": "net.minecraft.item.FoodComponent",
+    "note": "Yarn 名 FoodComponent（net.minecraft.item），用 new FoodComponent.Builder().hunger(n).saturationModifier(f).build() 构造，经 Item.Settings#food 传入"
+  },
+  "mc.world.item.TooltipFlag": {
+    "name": "net.minecraft.client.item.TooltipContext",
+    "note": "Yarn 名 TooltipContext（net.minecraft.client.item，Mojmap TooltipFlag），是 appendTooltip 的第 4 个参数，isAdvanced() 判断是否为高级提示；注意 1.20.5 起 Yarn 另有 Item.TooltipContext（对应 Mojmap 的 Item.TooltipContext），两者不是同一个类"
+  }
 }

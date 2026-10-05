@@ -1,0 +1,11 @@
+{
+  "guidance": {
+    "damage.types": "本版本伤害来源仍在代码中定义：用 DamageSource 静态常量与工厂（DamageSource.GENERIC / DamageSource.player(p) / DamageSource.mob(m) 等），自定义伤害继承或构造 DamageSource；数据驱动的 DamageType（data/<modid>/damage_type/*.json）是 1.19.4 才引入的",
+    "enum.extension": "EnumHelper 无对应物：盔甲材质实现 net.minecraft.item.ArmorMaterial 接口，工具材质实现 net.minecraft.item.ToolMaterial 接口（Yarn 中 Tier -> ToolMaterial）；本版本 ArmorItem 构造仍用 EquipmentSlot（ArmorItem.Type 是 1.19.4 才有）；其它枚举扩展需借助 Mixin 或 Fabric 的扩展点",
+    "recipes.data": "合成/熔炼配方为数据包：src/main/resources/data/<modid>/recipes/*.json；自定义配方类型需注册 RecipeType 与 RecipeSerializer。本版本 Recipe#craft(Inventory) 与 getOutput() 还不需要 DynamicRegistryManager 参数（1.19.4 起才需要）",
+    "mc.advancements.predicates.FoodPredicate": "FoodPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.FoodPredicate 引用；反向迁移时按本数据集实际的食物谓词类人工确认（该类旧包路径未核实，不要自动猜写）。",
+    "mc.advancements.predicates.InputPredicate": "InputPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.InputPredicate 引用；反向迁移时按本数据集实际的输入谓词类人工确认（旧数据为 advancements.criterion.InputPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.entity.SheepPredicate": "SheepPredicate 是 26.2 起进度实体谓词所在新包中的类；本数据集没有该 26.2 包路径的对应类。26.2 侧按 net.minecraft.advancements.predicates.entity.SheepPredicate 引用；反向迁移时按本数据集实际的实体谓词类人工确认（旧数据为 advancements.criterion.SheepPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.DataComponentMatchers": "DataComponentMatchers 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.DataComponentMatchers 引用；反向迁移时按本数据集实际的数据组件匹配类人工确认（旧数据为 advancements.criterion.DataComponentMatchers，仍需按本数据集核对）。"
+  }
+}

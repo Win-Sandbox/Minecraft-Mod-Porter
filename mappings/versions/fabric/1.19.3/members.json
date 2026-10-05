@@ -1,0 +1,28 @@
+{
+  "mc.entity.Entity": {
+    "hurt": {
+      "name": "damage",
+      "kind": "method",
+      "note": "Yarn 中 hurt(DamageSource, float) -> damage(DamageSource, float)；本版本 DamageSource 仍用静态常量（DamageSource.GENERIC 等），1.19.4 起才改为 world.getDamageSources()"
+    }
+  },
+  "mc.world.biome.Biome": {
+    "hasPrecipitation": {
+      "name": "hasPrecipitation",
+      "kind": "method",
+      "note": "本版本 Biome 没有 hasPrecipitation()（1.19.4 起才有）：可改为 biome.getPrecipitation() != Biome.Precipitation.NONE"
+    },
+    "getPrecipitationAt": {
+      "name": "getPrecipitation",
+      "kind": "method",
+      "note": "本版本 Biome#getPrecipitation() 不接受坐标参数（1.19.4 起才改为 getPrecipitation(BlockPos)），调用处需删去 BlockPos 实参"
+    }
+  },
+  "mc.client.Screen": {
+    "repositionElements": {
+      "name": "initTabNavigation",
+      "kind": "method",
+      "note": "本版本 Screen 没有 initTabNavigation()/repositionElements()（1.19.4 起才有）：窗口尺寸变化时需重新 init，可改为 this.init(this.client, this.width, this.height) 或在 resize 中处理，需人工改写"
+    }
+  }
+}

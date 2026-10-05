@@ -1,0 +1,37 @@
+{
+  "mcVersion": "1.20.1",
+  "loader": "neoforge",
+  "javaVersion": 17,
+  "metadataFormat": "mods.toml",
+  "metadataPath": "src/main/resources/META-INF/mods.toml",
+  "langFormat": "json",
+  "langKeys": {
+    "block": "block.{modid}.{name}",
+    "item": "item.{modid}.{name}",
+    "group": "itemGroup.{name}"
+  },
+  "texturePrefixes": {
+    "block": "block/",
+    "item": "item/"
+  },
+  "modAnnotationStyle": "value",
+  "lifecycleStyle": "modBus",
+  "mappingsChannel": "official",
+  "packFormat": 15,
+  "forgeVersion": "47.1.106",
+  "loaderVersionRange": "[47,)",
+  "gradleVersion": "8.8",
+  "extras": {
+    "neoGradleVersion": "6.0.21"
+  },
+  "resourcePackFormat": [
+    15,
+    0
+  ],
+  "dataPackFormat": [
+    15,
+    0
+  ],
+  "packMetadataStyle": "legacy",
+  "itemModelDefinitions": false
+}

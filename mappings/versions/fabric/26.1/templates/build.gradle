@@ -1,0 +1,45 @@
+plugins {
+    id 'net.fabricmc.fabric-loom' version '${loomVersion}'
+    id 'maven-publish'
+}
+
+version = '${version}'
+group = '${group}'
+
+base {
+    archivesName = '${modid}'
+}
+
+repositories {
+}
+
+dependencies {
+    // 26.x 游戏不再混淆：无需 mappings 行，依赖也不再需要 mod* 配置
+    minecraft "com.mojang:minecraft:${mcVersion}"
+    implementation "net.fabricmc:fabric-loader:${fabricLoaderVersion}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}"
+}
+
+processResources {
+    inputs.property 'version', project.version
+    filesMatching('fabric.mod.json') {
+        expand 'version': project.version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = ${javaVersion}
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(${javaVersion})
+    }
+    withSourcesJar()
+}
+
+jar {
+    from('LICENSE') {
+        rename { "${it}_${project.base.archivesName.get()}" }
+    }
+}

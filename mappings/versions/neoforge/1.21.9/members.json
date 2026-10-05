@@ -1,0 +1,117 @@
+{
+  "forge.FMLEnvironment": {
+    "dist": {
+      "name": "getDist",
+      "kind": "method",
+      "note": "FML 10 起 FMLEnvironment.dist 字段改为 getDist() 方法"
+    },
+    "production": {
+      "name": "isProduction",
+      "kind": "method",
+      "note": "FML 10 起 FMLEnvironment.production 字段改为 isProduction() 方法"
+    }
+  },
+  "mc.world.Level": {
+    "isClientSide": {
+      "name": "isClientSide",
+      "kind": "method",
+      "note": "1.21.9 起 Level.isClientSide 字段为私有，改用 isClientSide() 方法"
+    }
+  },
+  "mc.client.Screen": {
+    "keyPressed": {
+      "name": "keyPressed",
+      "kind": "method",
+      "note": "1.21.9 起为 keyPressed(KeyEvent event)：event.key() 取代 keyCode，super.keyPressed(event)"
+    },
+    "keyReleased": {
+      "name": "keyReleased",
+      "kind": "method",
+      "note": "1.21.9 起为 keyReleased(KeyEvent event)"
+    },
+    "charTyped": {
+      "name": "charTyped",
+      "kind": "method",
+      "note": "1.21.9 起为 charTyped(CharacterEvent event)：event.codepoint() 取字符"
+    },
+    "mouseClicked": {
+      "name": "mouseClicked",
+      "kind": "method",
+      "note": "1.21.9 起为 mouseClicked(MouseButtonEvent event, boolean doubleClick)：坐标用 event.x()/event.y()，按键用 event.button()"
+    },
+    "mouseReleased": {
+      "name": "mouseReleased",
+      "kind": "method",
+      "note": "1.21.9 起为 mouseReleased(MouseButtonEvent event)"
+    },
+    "mouseDragged": {
+      "name": "mouseDragged",
+      "kind": "method",
+      "note": "1.21.9 起为 mouseDragged(MouseButtonEvent event, double dragX, double dragY)"
+    },
+    "render": {
+      "name": "render",
+      "kind": "method",
+      "note": "Screen/控件的 render 在本版本未改名；同名的 BlockEntityRenderer/EntityRenderer#render 已改为 submit——请按接收者类型确认"
+    }
+  },
+  "mc.client.BlockEntityRenderer": {
+    "render": {
+      "name": "submit",
+      "kind": "method",
+      "note": "1.21.9 起 BlockEntityRenderer#render 改为 submit(渲染状态, PoseStack, SubmitNodeCollector, CameraRenderState)，并需实现 createRenderState/extractRenderState，参数全部要人工改写"
+    }
+  },
+  "mc.client.renderer.entity.EntityRenderer": {
+    "render": {
+      "name": "submit",
+      "kind": "method",
+      "note": "1.21.9 起 EntityRenderer#render 改为 submit(状态, PoseStack, SubmitNodeCollector, CameraRenderState)，参数要人工改写"
+    }
+  },
+  "mc.entity.Entity": {
+    "getServer": {
+      "name": "getServer",
+      "kind": "method",
+      "note": "1.21.9 起 Entity#getServer() 已移除：改用 entity.level().getServer()（服务端 level() 为 ServerLevel）"
+    }
+  },
+  "mc.entity.player.ServerPlayer": {
+    "server": {
+      "name": "server",
+      "kind": "field",
+      "note": "1.21.9 起字段私有且 Entity#getServer() 已移除，ServerPlayer 取服务器改用 player.level().getServer()，需人工改写"
+    }
+  },
+  "forge.ForgeCapabilities": {
+    "ItemHandler": {
+      "name": "Item",
+      "kind": "field",
+      "note": "NeoForge 21.9 起 Capabilities.ItemHandler -> Capabilities.Item，能力类型为 ResourceHandler<ItemResource>，使用处 API 需改写"
+    },
+    "FluidHandler": {
+      "name": "Fluid",
+      "kind": "field",
+      "note": "NeoForge 21.9 起 Capabilities.FluidHandler -> Capabilities.Fluid，能力类型为 ResourceHandler<FluidResource>"
+    },
+    "EnergyStorage": {
+      "name": "Energy",
+      "kind": "field",
+      "note": "NeoForge 21.9 起 Capabilities.EnergyStorage -> Capabilities.Energy，能力类型为 EnergyHandler"
+    }
+  },
+  "mc.client.resources.PlayerSkin": {
+    "texture": {
+      "name": "texture",
+      "kind": "method",
+      "note": "1.21.9 起 PlayerSkin#texture() 已移除：改用 skin.body().texturePath()"
+    }
+  },
+  "mc.client.KeyMapping": {
+    "getCategory": {
+      "name": "getCategory",
+      "kind": "method",
+      "note": "1.21.9 起返回 KeyMapping.Category（不再是字符串）"
+    }
+  }
+}

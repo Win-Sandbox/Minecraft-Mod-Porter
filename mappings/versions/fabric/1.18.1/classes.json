@@ -1,0 +1,13 @@
+{
+  "!remove": [
+    "fabric.loot.LootTableEvents"
+  ],
+  "mc.client.AbstractContainerScreen": {
+    "name": "net.minecraft.client.gui.screen.ingame.HandledScreen",
+    "note": "Mojmap 的 AbstractContainerScreen 在 Yarn 叫 HandledScreen<T extends ScreenHandler>；本版本绑定用 Fabric 的 ScreenRegistry.register(type, MyScreen::new)（原版 HandledScreens.register 尚未开放）。drawBackground/drawForeground 首参为 MatrixStack"
+  },
+  "fabric.screen.HandledScreens": {
+    "name": "net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry",
+    "note": "本版本原版 HandledScreens.register 是私有方法，Fabric API 也未开放：客户端绑定界面用 Fabric 的 ScreenRegistry.register(TYPE, MyScreen::new)（net.fabricmc.fabric.api.client.screenhandler.v1）。1.18.2 起 Fabric 用传递式 access widener 开放了原版 HandledScreens.register"
+  }
+}

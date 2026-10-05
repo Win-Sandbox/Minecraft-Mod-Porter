@@ -1,0 +1,33 @@
+{
+  "classes": {
+    "net.neoforged.neoforge.network.handling.PlayPayloadContext": {
+      "concept": "network.channel",
+      "message": "PlayPayloadContext 仅存在于 NeoForge 20.4 的网络 API（20.5 起统一为 IPayloadContext）"
+    },
+    "net.neoforged.neoforge.network.handling.ConfigurationPayloadContext": {
+      "concept": "network.channel",
+      "message": "ConfigurationPayloadContext 仅存在于 NeoForge 20.4 的网络 API"
+    },
+    "net.neoforged.neoforge.network.handling.IPlayPayloadHandler": {
+      "concept": "network.channel",
+      "message": "IPlayPayloadHandler 仅存在于 NeoForge 20.4 的网络 API（20.5 起为 IPayloadHandler）"
+    },
+    "net.neoforged.neoforge.capabilities.BlockCapabilityCache": {
+      "concept": "capability.provider",
+      "message": "BlockCapabilityCache 是 NeoForge 20.3+ 方块 capability 查询缓存"
+    },
+    "net.neoforged.neoforge.client.gui.overlay.ExtendedGui": {
+      "concept": "gui.overlay",
+      "message": "ExtendedGui 是 NeoForge 1.20.2–1.20.4 IGuiOverlay 回调的首参类型（取代 Forge 的 ForgeGui）"
+    },
+    "net.neoforged.neoforge.client.gui.overlay.NamedGuiOverlay": {
+      "concept": "gui.overlay",
+      "message": "NamedGuiOverlay 是 NeoForge 1.20.4 及以前 HUD 覆盖层的包装类"
+    },
+    "net.neoforged.neoforge.common.crafting.NBTIngredient": {
+      "concept": "item.components",
+      "message": "NBTIngredient 是基于物品 NBT 的配方原料，1.20.5 起改为 DataComponentIngredient"
+    }
+  },
+  "members": {}
+}

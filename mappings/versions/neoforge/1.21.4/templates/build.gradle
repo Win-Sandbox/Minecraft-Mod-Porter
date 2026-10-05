@@ -1,0 +1,50 @@
+plugins {
+    id 'java-library'
+    id 'idea'
+    id 'net.neoforged.moddev' version '${modDevGradleVersion}'
+}
+
+version = '${version}'
+group = '${group}'
+
+base {
+    archivesName = '${modid}'
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(${javaVersion})
+
+neoForge {
+    version = '${forgeVersion}'
+
+    runs {
+        client {
+            client()
+        }
+        server {
+            server()
+            programArgument '--nogui'
+        }
+        clientData {
+            clientData()
+            programArguments.addAll '--mod', '${modid}', '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+        }
+    }
+
+    mods {
+        '${modid}' {
+            sourceSet(sourceSets.main)
+        }
+    }
+}
+
+sourceSets.main.resources.srcDir 'src/generated/resources'
+
+repositories {
+}
+
+dependencies {
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}

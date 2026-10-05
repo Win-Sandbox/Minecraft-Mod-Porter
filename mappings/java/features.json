@@ -4,5 +4,11 @@
   "text-blocks": 15,
   "records": 16,
   "instanceof-patterns": 16,
-  "sealed-classes": 17
+  "sealed-classes": 17,
+  "pattern-switch": 21,
+  "record-patterns": 21,
+  "unnamed-variables": 22,
+  "module-imports": 25,
+  "flexible-constructor-bodies": 25,
+  "compact-source-files": 25
 }

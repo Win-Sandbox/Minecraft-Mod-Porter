@@ -1,0 +1,78 @@
+{
+  "version": 25,
+  "illegalIdentifiers": [
+    "_"
+  ],
+  "restrictedTypeNames": [
+    "var",
+    "record",
+    "sealed",
+    "permits",
+    "yield"
+  ],
+  "removedClasses": {
+    "javax.xml.bind.*": "JAXB 自 Java 11 起从 JDK 移除（JEP 320）：添加 jakarta.xml.bind（或旧 javax 坐标的 jaxb-api 独立依赖），或改用 Gson 等序列化方案",
+    "javax.activation.*": "JAF 自 Java 11 起从 JDK 移除（JEP 320）：需要时添加 jakarta.activation 依赖",
+    "javax.annotation.PostConstruct": "Common Annotations 自 Java 11 起从 JDK 移除（JEP 320；Forge 环境的 @Nullable/@Nonnull 来自 JSR-305 库、不受影响）：需要时添加 jakarta.annotation 依赖",
+    "javax.annotation.PreDestroy": "Common Annotations 自 Java 11 起从 JDK 移除（JEP 320）：需要时添加 jakarta.annotation 依赖",
+    "javax.annotation.Resource": "Common Annotations 自 Java 11 起从 JDK 移除（JEP 320）：需要时添加 jakarta.annotation 依赖",
+    "javax.annotation.Resources": "Common Annotations 自 Java 11 起从 JDK 移除（JEP 320）：需要时添加 jakarta.annotation 依赖",
+    "javax.annotation.Generated": "javax.annotation.Generated 自 Java 11 起从 JDK 移除（JEP 320）：改用 javax.annotation.processing.Generated（JDK 内置）或添加 jakarta.annotation 依赖",
+    "javax.xml.ws.*": "JAX-WS 自 Java 11 起从 JDK 移除（JEP 320）：添加 jakarta.xml.ws 相关依赖",
+    "javax.xml.soap.*": "SAAJ（随 JAX-WS 模块）自 Java 11 起从 JDK 移除（JEP 320）：添加 jakarta.xml.soap 相关依赖",
+    "javax.jws.*": "JAX-WS 注解自 Java 11 起从 JDK 移除（JEP 320）：添加 jakarta.jws 相关依赖",
+    "jdk.nashorn.*": "Nashorn JS 引擎自 Java 15 移除（JEP 372）：添加独立的 org.openjdk.nashorn 依赖或改用 GraalJS 等脚本引擎；注意 ScriptEngineManager.getEngineByName(\"nashorn\") 也随之失效",
+    "sun.misc.BASE64Encoder": "自 Java 9 移除：改用 java.util.Base64.getEncoder()",
+    "sun.misc.BASE64Decoder": "自 Java 9 移除：改用 java.util.Base64.getDecoder()",
+    "sun.reflect.Reflection": "自 Java 9 移入内部模块（getCallerClass 不再可用）：改用 StackWalker（RETAIN_CLASS_REFERENCE 选项 + getCallerClass()）",
+    "org.omg.*": "CORBA 自 Java 11 从 JDK 移除（JEP 320），JDK 无内置替代：确需 CORBA 可添加 org.glassfish.corba 依赖，通常应移除相关功能",
+    "java.rmi.activation.*": "RMI Activation 自 Java 17 移除（JEP 407），无替代：移除相关功能，普通 RMI（java.rmi 其余部分）仍可用",
+    "java.lang.SecurityManager": "SecurityManager 自 Java 24 起永久停用（JEP 486）：System.setSecurityManager 总是抛 UnsupportedOperationException、getSecurityManager 恒返回 null，类本身仍在但已标记待移除（SE 17 起）；移除所有安全管理器相关逻辑",
+    "javax.management.loading.MLet": "MLet 自 Java 23 从 Java SE 移除（SE 20 起标记待移除）：改用标准类加载与 MBean 注册方式",
+    "javax.management.loading.MLetContent": "MLetContent 自 Java 23 移除，随 MLet 一并删除相关代码",
+    "javax.management.loading.MLetMBean": "MLetMBean 自 Java 23 移除，随 MLet 一并删除相关代码",
+    "javax.management.loading.PrivateMLet": "PrivateMLet 自 Java 23 移除，随 MLet 一并删除相关代码",
+    "java.security.AccessController": "AccessController 自 SE 17 起标记待移除，Java 24 永久停用安全管理器后 doPrivileged 只是直接执行操作（JEP 486）：可直接调用操作本身，去掉 doPrivileged 包装",
+    "java.security.AccessControlContext": "AccessControlContext 自 SE 17 起标记待移除，Java 24 起不再有权限检查语义（JEP 486），相关代码可删除"
+  },
+  "encapsulatedPackages": {
+    "sun.misc.*": "JDK 内部 API 已被模块系统封锁；sun.misc.Unsafe 仍可经 jdk.unsupported 访问，但其内存访问方法自 Java 23 弃用待移除（JEP 471），Java 24 起首次使用即在运行时打印警告（JEP 498）：改用 VarHandle 或 FFM（java.lang.foreign，Java 22 正式版，JEP 454）",
+    "sun.reflect.*": "JDK 内部 API 已封锁：改用标准反射 API 或 StackWalker，必要时 --add-opens",
+    "com.sun.imageio.*": "JDK 内部 API，默认不可访问：改用 javax.imageio 标准 API",
+    "sun.security.*": "JDK 内部 API 已封锁：改用 java.security 标准 API"
+  },
+  "removedMethods": {
+    "System#runFinalizersOnExit": "System.runFinalizersOnExit 自 Java 11 移除（编译错误）：删除该调用，用 try-with-resources / Cleaner 管理资源",
+    "Runtime#runFinalizersOnExit": "Runtime.runFinalizersOnExit 自 Java 11 移除（编译错误）：删除该调用，用 try-with-resources / Cleaner 管理资源",
+    "Class#newInstance": "Class.newInstance() 自 Java 9 弃用（会吞掉构造器异常）：改用 clazz.getDeclaredConstructor().newInstance()",
+    "Thread#stop": "Thread.stop() 自 Java 20 起直接抛 UnsupportedOperationException（JDK-8293852）：改为协作式停止（volatile 标志位或 interrupt()）",
+    "Thread#suspend": "Thread.suspend() 自 Java 23 从 Java SE 移除（编译错误）：改用等待/通知或 java.util.concurrent 同步工具",
+    "Thread#resume": "Thread.resume() 自 Java 23 从 Java SE 移除（编译错误）：改用等待/通知或 java.util.concurrent 同步工具",
+    "ThreadGroup#stop": "ThreadGroup.stop() 自 Java 23 从 Java SE 移除（编译错误）：改为逐线程协作式停止",
+    "ThreadGroup#suspend": "ThreadGroup.suspend() 自 Java 23 从 Java SE 移除（编译错误）",
+    "ThreadGroup#resume": "ThreadGroup.resume() 自 Java 23 从 Java SE 移除（编译错误）",
+    "System#setSecurityManager": "System.setSecurityManager 自 Java 24 起总是抛 UnsupportedOperationException（JEP 486，-Djava.security.manager=allow 也不再生效）：删除该调用",
+    "Thread#countStackFrames": "Thread.countStackFrames() 自 Java 22 移除（编译错误）：需要栈深度时用 StackWalker",
+    "System#getSecurityManager": "System.getSecurityManager 自 Java 24 起恒返回 null（JEP 486）：依赖其返回值的权限检查分支可以删除",
+    "Subject#getSubject": "Subject.getSubject(AccessControlContext) 自 Java 23 起默认抛 UnsupportedOperationException（依赖已停用的安全管理器）：改用 Subject.current()，并配合 Subject.callAs 传递主体",
+    "Subject#doAs": "Subject.doAs 自 SE 18 起标记待移除：改用 Subject.callAs(subject, callable)",
+    "Runtime#runFinalization": "Runtime.runFinalization 自 SE 18 起标记待移除（终结机制 JEP 421 已弃用）：改用 try-with-resources 或 java.lang.ref.Cleaner",
+    "System#runFinalization": "System.runFinalization 自 SE 18 起标记待移除（JEP 421）：改用 try-with-resources 或 java.lang.ref.Cleaner"
+  },
+  "argumentIssues": {
+    "ScriptEngineManager#getEngineByName": {
+      "values": [
+        "nashorn",
+        "javascript",
+        "js",
+        "ecmascript",
+        "JavaScript"
+      ],
+      "message": "Nashorn 自 Java 15 从 JDK 移除（JEP 372）：getEngineByName 会返回 null 导致 NPE。改用独立的 org.openjdk.nashorn 依赖或 GraalJS"
+    }
+  },
+  "reflectiveLookups": [
+    "Class#forName",
+    "ClassLoader#loadClass"
+  ]
+}

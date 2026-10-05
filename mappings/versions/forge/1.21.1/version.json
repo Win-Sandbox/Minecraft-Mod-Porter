@@ -9,7 +9,28 @@
   "aliases": {
     "1.21": {
       "forgeVersion": "51.0.33",
-      "loaderVersionRange": "[51,)"
+      "loaderVersionRange": "[51,)",
+      "packFormat": 34,
+      "resourcePackFormat": [
+        34,
+        0
+      ],
+      "dataPackFormat": [
+        48,
+        0
+      ],
+      "packMetadataStyle": "legacy",
+      "itemModelDefinitions": false
     }
-  }
+  },
+  "resourcePackFormat": [
+    34,
+    0
+  ],
+  "dataPackFormat": [
+    48,
+    0
+  ],
+  "packMetadataStyle": "legacy",
+  "itemModelDefinitions": false
 }

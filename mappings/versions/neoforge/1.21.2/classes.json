@@ -1,0 +1,69 @@
+{
+  "!remove": [
+    "mc.util.InteractionResultHolder",
+    "mc.world.item.Tier",
+    "mc.world.item.TieredItem",
+    "mc.world.ItemInteractionResult",
+    "forge.common.ForgeSpawnEggItem"
+  ],
+  "mc.item.Item": {
+    "name": "net.minecraft.world.item.Item",
+    "note": "1.21.2 起 Item.Properties 必须带注册 id（setId(ResourceKey<Item>)），用 DeferredRegister.Items 的 registerItem/registerSimpleItem 会自动设置；方块物品需要 useBlockDescriptionPrefix() 才沿用 block.* 翻译键；use 覆写返回 InteractionResult"
+  },
+  "mc.block.Block": {
+    "name": "net.minecraft.world.level.block.Block",
+    "note": "1.21.2 起 BlockBehaviour.Properties 必须 setId(ResourceKey<Block>)（DeferredRegister.Blocks#registerBlock 代为设置）；交互仍为 useWithoutItem/useItemOn，但 useItemOn 改为返回 InteractionResult"
+  },
+  "mc.util.InteractionResult": {
+    "name": "net.minecraft.world.InteractionResult",
+    "note": "1.21.2 起 InteractionResult 是密封接口：常量 SUCCESS/SUCCESS_SERVER/CONSUME/PASS/FAIL，sidedSuccess 已移除（直接返回 SUCCESS）；物品 use 不再包装 InteractionResultHolder，需要替换手中物品时用 InteractionResult.SUCCESS.heldItemTransformedTo(stack)"
+  },
+  "mc.world.item.Tiers": {
+    "name": "net.minecraft.world.item.ToolMaterial",
+    "note": "1.21.2 起工具材质为 record ToolMaterial，原 Tiers 的 WOOD/STONE/IRON/DIAMOND/GOLD/NETHERITE 成为 ToolMaterial 的同名静态常量；自定义材质直接 new ToolMaterial(incorrectBlocksTag, 耐久, 速度, 攻击加成, 附魔值, 修复物品标签)"
+  },
+  "mc.world.item.SwordItem": {
+    "name": "net.minecraft.world.item.SwordItem",
+    "note": "1.21.2 构造改为 SwordItem(ToolMaterial, float 攻击伤害, float 攻击速度, Item.Properties)，不再用 createAttributes"
+  },
+  "mc.world.item.DiggerItem": {
+    "name": "net.minecraft.world.item.DiggerItem",
+    "note": "1.21.2 构造改为 DiggerItem(ToolMaterial, TagKey<Block>, float, float, Item.Properties)"
+  },
+  "mc.world.item.ArmorItem": {
+    "name": "net.minecraft.world.item.ArmorItem",
+    "note": "1.21.2 构造改为 ArmorItem(ArmorMaterial, ArmorType, Item.Properties)：材质不再是注册表 Holder，而是 equipment.ArmorMaterial 常量；盔甲外观由 assets/<ns>/equipment/*.json 描述"
+  },
+  "mc.world.item.ArmorItem.Type": {
+    "name": "net.minecraft.world.item.equipment.ArmorType",
+    "note": "ArmorItem.Type -> ArmorType（net.minecraft.world.item.equipment），常量 HELMET/CHESTPLATE/LEGGINGS/BOOTS/BODY 同名"
+  },
+  "mc.world.item.ArmorMaterial": {
+    "name": "net.minecraft.world.item.equipment.ArmorMaterial",
+    "note": "1.21.2 起 ArmorMaterial 移到 equipment 包且不再注册到注册表：record(耐久系数, 各部位护甲值 Map, 附魔值, 装备音效, 韧性, 击退抗性, 修复标签, 装备资源键)，直接作为常量使用"
+  },
+  "mc.world.item.ArmorMaterials": {
+    "name": "net.minecraft.world.item.equipment.ArmorMaterials",
+    "note": "常量改名：CHAIN -> CHAINMAIL、ARMADILLO -> ARMADILLO_SCUTE、TURTLE -> TURTLE_SCUTE，类型为 ArmorMaterial（不再是 Holder）"
+  },
+  "mc.world.level.block.entity.BlockEntityType": {
+    "name": "net.minecraft.world.level.block.entity.BlockEntityType",
+    "note": "1.21.2 起 BlockEntityType.Builder 已移除：按 NeoForge 21.2 公告直接 new BlockEntityType<>(MyBlockEntity::new, 方块...)（原版构造接收 Set<Block>）"
+  },
+  "mc.entity.EntityType": {
+    "name": "net.minecraft.world.entity.EntityType",
+    "note": "1.21.2 起 EntityType.Builder#build 参数改为 ResourceKey<EntityType<?>>（ResourceKey.create(Registries.ENTITY_TYPE, id)）"
+  },
+  "mc.world.level.portal.DimensionTransition": {
+    "name": "net.minecraft.world.level.portal.TeleportTransition",
+    "note": "DimensionTransition -> TeleportTransition；传送改用 Entity#teleport(TeleportTransition)"
+  },
+  "mc.client.renderer.entity.EntityRenderer": {
+    "name": "net.minecraft.client.renderer.entity.EntityRenderer",
+    "note": "1.21.2 起实体渲染器分离状态：EntityRenderer<T, S extends EntityRenderState>，需实现 createRenderState()，在 extractRenderState(实体, 状态, partialTick) 中拷贝数据，render(状态, PoseStack, MultiBufferSource, light) 只读状态"
+  },
+  "mc.client.gui.GuiGraphics": {
+    "name": "net.minecraft.client.gui.GuiGraphics",
+    "note": "1.21.2 起 blit/blitSprite 首参为 Function<ResourceLocation, RenderType>（通常传 RenderType::guiTextured），UV 参数为 float"
+  }
+}

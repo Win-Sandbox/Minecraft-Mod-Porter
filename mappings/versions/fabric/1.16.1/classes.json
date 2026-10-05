@@ -1,0 +1,12 @@
+{
+  "!remove": [
+    "fabric.item.FabricItemSettings",
+    "fabric.biome.BiomeModifications",
+    "fabric.biome.BiomeSelectors",
+    "fabric.event.ServerPlayConnectionEvents",
+    "fabric.event.WorldRenderEvents",
+    "fabric.network.ServerPlayNetworking",
+    "fabric.network.ClientPlayNetworking",
+    "fabric.network.PacketByteBufs"
+  ]
+}

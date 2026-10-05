@@ -1,0 +1,36 @@
+{
+  "!remove": [
+    "neoforge.capabilities.BlockCapability",
+    "neoforge.capabilities.EntityCapability",
+    "neoforge.capabilities.ItemCapability",
+    "neoforge.attachment.AttachmentType"
+  ],
+  "forge.ForgeCapabilities": {
+    "name": "net.neoforged.neoforge.common.capabilities.Capabilities",
+    "note": "20.2 只是把 ForgeCapabilities 改名为 Capabilities，常量仍是 ITEM_HANDLER / ENERGY / FLUID_HANDLER / FLUID_HANDLER_ITEM（20.3 起按宿主分组重写）"
+  },
+  "forge.capabilities.Capability": "net.neoforged.neoforge.common.capabilities.Capability",
+  "forge.capabilities.ICapabilityProvider": {
+    "name": "net.neoforged.neoforge.common.capabilities.ICapabilityProvider",
+    "note": "20.2 仍是 Forge 式 getCapability(cap, side) 返回 LazyOptional<T>"
+  },
+  "forge.capabilities.CapabilityManager": {
+    "name": "net.neoforged.neoforge.common.capabilities.CapabilityManager",
+    "note": "仍用 CapabilityManager.get(new CapabilityToken<>(){}) 取得 capability"
+  },
+  "forge.capabilities.CapabilityToken": "net.neoforged.neoforge.common.capabilities.CapabilityToken",
+  "forge.capabilities.RegisterCapabilitiesEvent": {
+    "name": "net.neoforged.neoforge.common.capabilities.RegisterCapabilitiesEvent",
+    "note": "20.2 中用于 event.register(接口.class) 注册新 capability 类型（20.3 起含义改变）"
+  },
+  "forge.capabilities.ICapabilitySerializable": "net.neoforged.neoforge.common.capabilities.ICapabilitySerializable",
+  "forge.common.util.LazyOptional": "net.neoforged.neoforge.common.util.LazyOptional",
+  "forge.event.AttachCapabilitiesEvent": {
+    "name": "net.neoforged.neoforge.event.AttachCapabilitiesEvent",
+    "note": "20.2 仍可通过 AttachCapabilitiesEvent<T>（游戏总线，泛型事件）给对象附加 capability"
+  },
+  "mc.block.Block": {
+    "name": "net.minecraft.world.level.block.Block",
+    "note": "1.20.2 的方块还没有 codec()（1.20.3 引入），BlockBehaviour.Properties.copy(...) 仍可用"
+  }
+}

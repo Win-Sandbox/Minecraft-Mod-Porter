@@ -1,0 +1,37 @@
+{
+  "!remove": [
+    "neoforge.network.RegisterPayloadHandlersEvent",
+    "neoforge.network.PayloadRegistrar",
+    "neoforge.network.IPayloadContext",
+    "neoforge.client.RegisterMenuScreensEvent"
+  ],
+  "forge.NetworkHooks": {
+    "name": "net.neoforged.neoforge.network.NetworkHooks",
+    "note": "20.3 仍保留 NetworkHooks：openScreen(serverPlayer, menuProvider[, pos 或 buf -> ...]) 打开带数据的菜单（20.4 删除）"
+  },
+  "forge.network.NetworkRegistry": {
+    "name": "net.neoforged.neoforge.network.NetworkRegistry",
+    "note": "20.3 仍可用 NetworkRegistry.newSimpleChannel(id, () -> 版本, 客户端校验, 服务端校验) 创建通道（20.4 删除）"
+  },
+  "forge.network.SimpleChannel": {
+    "name": "net.neoforged.neoforge.network.simple.SimpleChannel",
+    "note": "20.3 的 SimpleChannel 与 Forge 1.20.1 写法一致：messageBuilder(类, 序号).encoder(...).decoder(...).consumerMainThread(...).add()"
+  },
+  "forge.network.NetworkEvent": "net.neoforged.neoforge.network.NetworkEvent",
+  "forge.network.PacketDistributor": {
+    "name": "net.neoforged.neoforge.network.PacketDistributor",
+    "note": "20.3 配合 SimpleChannel 使用：CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer), msg)"
+  },
+  "forge.entity.IEntityAdditionalSpawnData": {
+    "name": "net.neoforged.neoforge.entity.IEntityAdditionalSpawnData",
+    "note": "20.3 仍是 IEntityAdditionalSpawnData，需配合 NetworkHooks.getEntitySpawningPacket（20.4 改名为 IEntityWithComplexSpawn）"
+  },
+  "forge.FMLJavaModLoadingContext": {
+    "name": "net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext",
+    "note": "20.2/20.3（FML 1）中尚未弃用，但推荐直接在 @Mod 构造器声明 IEventBus 参数取得 Mod 总线"
+  },
+  "mc.inventory.AbstractContainerMenu": {
+    "name": "net.minecraft.world.inventory.AbstractContainerMenu",
+    "note": "Container -> AbstractContainerMenu：需注册 MenuType；20.3 及以前服务端用 NetworkHooks.openScreen(serverPlayer, menuProvider, pos) 打开，需要附带数据的 MenuType 用 IMenuTypeExtension.create(工厂)"
+  }
+}

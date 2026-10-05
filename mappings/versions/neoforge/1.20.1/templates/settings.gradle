@@ -1,0 +1,10 @@
+// NeoForge 1.20.1 使用 NeoGradle 6（插件 id net.neoforged.gradle）。
+// 该插件只发布在 maven.neoforged.net，pluginManagement 必须先声明该仓库。
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven { url = 'https://maven.neoforged.net/releases' }
+    }
+}
+
+rootProject.name = '${modid}'

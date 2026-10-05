@@ -1,0 +1,24 @@
+{
+  "classes": {
+    "net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder": {
+      "concept": "fabric.itemgroup",
+      "message": "FabricItemGroupBuilder（fabric-item-groups-v0）是 1.19.2 及更早创建创造页签的方式；1.19.3 起改为 FabricItemGroup + ItemGroupEvents，Forge 侧对应 CreativeModeTab / BuildCreativeModeTabContentsEvent"
+    },
+    "net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback": {
+      "concept": "fabric.loot",
+      "message": "本版本修改战利品表用 loot v1 的 LootTableLoadingCallback.EVENT（fabric-loot-tables-v1）；1.18.2 起改为 loot v2 的 LootTableEvents.MODIFY，Forge 侧为 LootTableLoadEvent"
+    },
+    "net.fabricmc.fabric.api.network.ServerSidePacketRegistry": {
+      "concept": "network.channel",
+      "message": "ServerSidePacketRegistry 是 fabric-networking-v0 的网络 API；networking v1（ServerPlayNetworking）出现后被弃用"
+    },
+    "net.fabricmc.fabric.api.network.ClientSidePacketRegistry": {
+      "concept": "network.channel",
+      "message": "ClientSidePacketRegistry 是 fabric-networking-v0 的客户端网络 API；networking v1（ClientPlayNetworking）出现后被弃用"
+    },
+    "net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry": {
+      "concept": "blockentity.ticker",
+      "message": "BlockEntityRendererRegistry.INSTANCE.register(type, dispatcher -> new MyRenderer(dispatcher)) 是本版本注册方块实体渲染器的方式（1.17 起改为 rendering.v1 包的静态 register）"
+    }
+  }
+}

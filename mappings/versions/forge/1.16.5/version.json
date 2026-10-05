@@ -24,7 +24,28 @@
   "aliases": {
     "1.16.4": {
       "forgeVersion": "35.1.37",
-      "loaderVersionRange": "[35,)"
+      "loaderVersionRange": "[35,)",
+      "packFormat": 6,
+      "resourcePackFormat": [
+        6,
+        0
+      ],
+      "dataPackFormat": [
+        6,
+        0
+      ],
+      "packMetadataStyle": "legacy",
+      "itemModelDefinitions": false
     }
-  }
+  },
+  "resourcePackFormat": [
+    6,
+    0
+  ],
+  "dataPackFormat": [
+    6,
+    0
+  ],
+  "packMetadataStyle": "legacy",
+  "itemModelDefinitions": false
 }

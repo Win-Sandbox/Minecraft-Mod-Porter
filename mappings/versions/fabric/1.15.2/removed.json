@@ -59,16 +59,78 @@
     "net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder": {
       "concept": "entity.registration",
       "message": "FabricEntityTypeBuilder（fabric-object-builder-api-v1）是 Fabric 构建 EntityType 的便捷入口，Forge 侧对应 EntityType.Builder + DeferredRegister"
+    },
+    "net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint": {
+      "concept": "fabric.entrypoint",
+      "message": "Fabric 的 preLaunch 入口点是加载器机制，其它加载器/版本没有对应物"
+    },
+    "net.fabricmc.loader.api.entrypoint.EntrypointContainer": {
+      "concept": "fabric.entrypoint",
+      "message": "EntrypointContainer 属于 Fabric 的自定义入口点机制（FabricLoader.getEntrypointContainers），无跨加载器对应物"
+    },
+    "net.fabricmc.loader.api.LanguageAdapter": {
+      "concept": "fabric.entrypoint",
+      "message": "Fabric 的入口点由 fabric.mod.json 的 entrypoints 声明并经 LanguageAdapter 实例化，没有 @Mod 之类的注解入口；转换到其它加载器时入口声明必须整体重写"
+    },
+    "org.spongepowered.asm.mixin.injection.ModifyArg": {
+      "concept": "fabric.mixin",
+      "message": "Mixin 注入点。Mixin 在 Fabric 里是常规手段，转换到别的映射/版本时 method/target 描述符必须逐条人工核对"
+    },
+    "org.spongepowered.asm.mixin.injection.ModifyConstant": {
+      "concept": "fabric.mixin",
+      "message": "Mixin 注入点，同上"
+    },
+    "org.spongepowered.asm.mixin.injection.Slice": {
+      "concept": "fabric.mixin",
+      "message": "Mixin 注入范围限定，同上"
+    },
+    "net.fabricmc.fabric.api.event.Event": {
+      "concept": "lifecycle.eventHandler",
+      "message": "Fabric 的事件对象模型（Event/EventFactory + 回调接口 + .register(...)），与 Forge 的注解式事件总线机制完全不同，需人工改写"
+    },
+    "net.fabricmc.fabric.api.event.EventFactory": {
+      "concept": "lifecycle.eventHandler",
+      "message": "自定义 Fabric 事件用 EventFactory.createArrayBacked(...)；Forge 侧应改为继承 Event + MinecraftForge.EVENT_BUS.post"
+    },
+    "net.fabricmc.fabric.api.event.player.AttackEntityCallback": {
+      "concept": "lifecycle.eventHandler",
+      "message": "Fabric 的左键攻击实体回调，Forge 侧对应 AttackEntityEvent"
+    },
+    "net.fabricmc.fabric.api.registry.FuelRegistry": {
+      "concept": "registry.imperative",
+      "message": "Fabric 的燃料注册 FuelRegistry.INSTANCE.add(item, ticks)，Forge 侧对应 FurnaceFuelBurnTimeEvent 或 Item#getBurnTime"
+    },
+    "net.fabricmc.fabric.api.dimension.v1.FabricDimensions": {
+      "concept": "dimension",
+      "message": "Fabric 的跨维度传送辅助 FabricDimensions.teleport(entity, world, target)，Forge 侧用 Entity#changeDimension(ServerLevel, ITeleporter)"
+    },
+    "net.fabricmc.loader.api.metadata.ModMetadata": {
+      "concept": "mod.list",
+      "message": "Fabric 的模组元数据视图（FabricLoader.getInstance().getModContainer(id).get().getMetadata()），Forge 侧对应 ModList.get().getModContainerById(...).getModInfo()"
+    },
+    "net.minecraft.block.BlockEntityProvider": {
+      "concept": "blockentity.entityblock",
+      "message": "Yarn 名 BlockEntityProvider（Mojmap EntityBlock）：本版本只有 createBlockEntity(BlockView world)，1.17 起改为 createBlockEntity(BlockPos, BlockState) 并新增 getTicker(...)"
+    },
+    "net.fabricmc.fabric.api.networking.v1.PacketSender": {
+      "concept": "network.channel",
+      "message": "PacketSender 是 Fabric 网络 API 的发送句柄，其它加载器用各自的通道对象"
+    },
+    "net.fabricmc.fabric.api.event.client.ClientTickCallback": {
+      "concept": "fabric.events",
+      "message": "fabric-events-lifecycle-v0 的旧客户端 tick 回调（ClientTickCallback.EVENT），已弃用：新代码用 ClientTickEvents.END_CLIENT_TICK（net.fabricmc.fabric.api.client.event.lifecycle.v1）"
+    },
+    "net.fabricmc.fabric.api.client.keybinding.KeyBindingRegistry": {
+      "concept": "input.glfw",
+      "message": "fabric-keybindings-v0 的旧键位注册入口（KeyBindingRegistry.INSTANCE.register(FabricKeyBinding)），已弃用：新代码用 KeyBindingHelper.registerKeyBinding(new KeyBinding(...))"
+    },
+    "net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry": {
+      "concept": "fluid.system",
+      "message": "Fabric 的流体渲染注册：FluidRenderHandlerRegistry.INSTANCE.register(still, flowing, new SimpleFluidRenderHandler(...))，Forge 侧由 FluidType 的客户端扩展提供"
     }
   },
   "members": {
-    "setRegistryName": {
-      "concept": "registry.name",
-      "message": "Fabric 没有 setRegistryName：注册名在 Registry.register(注册表, Identifier, 对象) 时给出"
-    },
-    "getRegistryName": {
-      "concept": "registry.name",
-      "message": "Fabric 没有 getRegistryName：反查注册名用 Registry.ITEM.getId(item) / Registry.BLOCK.getId(block)"
-    }
+    "setRegistryName": {"concept": "registry.name", "message": "Fabric 没有 setRegistryName：注册名在 Registry.register(注册表, Identifier, 对象) 时给出"},
+    "getRegistryName": {"concept": "registry.name", "message": "Fabric 没有 getRegistryName：反查注册名用 Registry.ITEM.getId(item) / Registry.BLOCK.getId(block)"}
   }
 }

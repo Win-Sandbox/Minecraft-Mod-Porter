@@ -31,7 +31,22 @@
     "isShiftKeyDown": {
       "name": "isSneaking", "kind": "method",
       "note": "Yarn：isSneaking() = 按住潜行键（Mojmap isShiftKeyDown），isInSneakingPose() = 潜行姿态（Mojmap isCrouching），请确认语义"
-    }
+    },
+    "getLevel": {
+      "name": "getWorld", "kind": "method",
+      "note": "Entity#getWorld()；ServerPlayerEntity 的 getWorld() 返回 ServerWorld，BlockEntity 也叫 getWorld()——请按接收者类型确认"
+    },
+    "tick": {"name": "tick", "kind": "method"},
+    "baseTick": {"name": "baseTick", "kind": "method"},
+    "distanceTo": {"name": "distanceTo", "kind": "method"},
+    "getVehicle": {"name": "getVehicle", "kind": "method"},
+    "stopRiding": {"name": "stopRiding", "kind": "method"},
+    "getUUID": {"name": "getUuid", "kind": "method"},
+    "position": {"name": "getPos", "kind": "method"},
+    "distanceToSqr": {"name": "squaredDistanceTo", "kind": "method"},
+    "isPassenger": {"name": "hasVehicle", "kind": "method"},
+    "hurt": {"name": "damage", "kind": "method"},
+    "getCommandSenderWorld": {"name": "getEntityWorld", "kind": "method"}
   },
   "mc.world.Level": {
     "isClientSide": {
@@ -54,7 +69,15 @@
     "getEntitiesOfClass": {
       "name": "getEntitiesByClass", "kind": "method",
       "note": "Yarn 为 getEntitiesByClass(Class, Box, Predicate)，Predicate 参数不可省（可传 e -> true）"
-    }
+    },
+    "getGameTime": {"name": "getTime", "kind": "method"},
+    "getDayTime": {"name": "getTimeOfDay", "kind": "method"},
+    "addFreshEntity": {"name": "spawnEntity", "kind": "method"},
+    "isEmptyBlock": {"name": "isAir", "kind": "method"},
+    "hasNeighborSignal": {"name": "isReceivingRedstonePower", "kind": "method"},
+    "getNearestPlayer": {"name": "getClosestPlayer", "kind": "method"},
+    "getPlayerByUUID": {"name": "getPlayerByUuid", "kind": "method"},
+    "getServer": {"name": "getServer", "kind": "method"}
   },
   "mc.entity.player.Player": {
     "sendSystemMessage": {
@@ -88,6 +111,28 @@
     "save": {
       "name": "writeNbt", "kind": "method",
       "note": "Yarn 中 ItemStack#writeNbt(NbtCompound) 返回传入的 NbtCompound；读取用 ItemStack.fromNbt(nbt)"
+    },
+    "getTag": {"name": "getNbt", "kind": "method"},
+    "setTag": {"name": "setNbt", "kind": "method"},
+    "hasTag": {"name": "hasNbt", "kind": "method"},
+    "getOrCreateTag": {"name": "getOrCreateNbt", "kind": "method"},
+    "getTagElement": {"name": "getSubNbt", "kind": "method"},
+    "addTagElement": {"name": "setSubNbt", "kind": "method"},
+    "removeTagKey": {"name": "removeSubNbt", "kind": "method"},
+    "split": {"name": "split", "kind": "method"},
+    "setHoverName": {"name": "setCustomName", "kind": "method"},
+    "sameItem": {
+      "name": "isItemEqualIgnoreDamage", "kind": "method",
+      "note": "本版本 Yarn 中实例方法 isItemEqualIgnoreDamage(ItemStack) 对应 Mojmap sameItem（只比物品、忽略耐久）；1.19.4 改名 isItemEqual，1.20 起变为静态 ItemStack.areItemsEqual(a, b)"
+    },
+    "isSameItemSameTags": {
+      "name": "canCombine", "kind": "method",
+      "note": "静态方法 ItemStack.canCombine(a, b)（物品与 NBT 都相同，不比数量）；包含数量的完全相等是 ItemStack.areEqual(a, b)"
+    },
+    "hurtAndBreak": {"name": "damage", "kind": "method"},
+    "getEnchantmentLevel": {
+      "name": "getEnchantmentLevel", "kind": "method",
+      "note": "Yarn/原版 ItemStack 没有该方法（Forge 的扩展方法）：改用 EnchantmentHelper.getLevel(附魔, stack)，需人工改写"
     }
   },
   "mc.item.Item": {
@@ -116,7 +161,9 @@
     "use": {
       "name": "onUse", "kind": "method",
       "note": "签名: onUse(BlockState, World, BlockPos, PlayerEntity, Hand, BlockHitResult) 返回 ActionResult，方法定义在 AbstractBlock 上"
-    }
+    },
+    "defaultBlockState": {"name": "getDefaultState", "kind": "method"},
+    "getDescriptionId": {"name": "getTranslationKey", "kind": "method"}
   },
   "mc.blockentity.BlockEntity": {
     "setChanged": {
@@ -138,7 +185,8 @@
     "saveAdditional": {
       "name": "writeNbt", "kind": "method",
       "note": "1.18.2 为 protected void writeNbt(NbtCompound nbt)（无返回值，1.17.1 是 public NbtCompound writeNbt 且需 return nbt）"
-    }
+    },
+    "getUpdateTag": {"name": "toInitialChunkDataNbt", "kind": "method"}
   },
   "mc.chat.Component": {
     "append#sibling": {
@@ -159,13 +207,90 @@
   },
   "mc.client.Minecraft": {
     "getInstance": {"name": "getInstance", "kind": "method"},
-    "setScreen": {
-      "name": "setScreen", "kind": "method",
-      "note": "1.17 起 Yarn 中为 MinecraftClient#setScreen(Screen)（1.16 及更早叫 openScreen）"
-    },
+    "setScreen": {"name": "setScreen", "kind": "method"},
     "font": {
       "name": "textRenderer", "kind": "field",
       "note": "Yarn 中字体字段叫 textRenderer（MinecraftClient.getInstance().textRenderer）"
+    }
+  },
+  "mc.nbt.CompoundTag": {
+    "putInt": {"name": "putInt", "kind": "method"},
+    "getInt": {"name": "getInt", "kind": "method"},
+    "putString": {"name": "putString", "kind": "method"},
+    "putBoolean": {"name": "putBoolean", "kind": "method"},
+    "putDouble": {"name": "putDouble", "kind": "method"},
+    "putFloat": {"name": "putFloat", "kind": "method"},
+    "putLong": {"name": "putLong", "kind": "method"},
+    "putByte": {"name": "putByte", "kind": "method"},
+    "put": {"name": "put", "kind": "method"},
+    "getCompound": {"name": "getCompound", "kind": "method"},
+    "contains": {"name": "contains", "kind": "method"},
+    "remove": {"name": "remove", "kind": "method"},
+    "isEmpty": {"name": "isEmpty", "kind": "method"},
+    "getList": {"name": "getList", "kind": "method"},
+    "putUUID": {"name": "putUuid", "kind": "method"},
+    "getUUID": {"name": "getUuid", "kind": "method"},
+    "hasUUID": {"name": "containsUuid", "kind": "method"}
+  },
+  "mc.entity.LivingEntity": {
+    "hasEffect": {"name": "hasStatusEffect", "kind": "method"},
+    "addEffect": {"name": "addStatusEffect", "kind": "method"},
+    "removeEffect": {"name": "removeStatusEffect", "kind": "method"},
+    "getEffect": {"name": "getStatusEffect", "kind": "method"}
+  },
+  "mc.entity.player.ServerPlayer": {
+    "getLevel": {"name": "getWorld", "kind": "method"}
+  },
+  "mc.resources.ResourceLocation": {
+    "getPath": {"name": "getPath", "kind": "method"},
+    "getNamespace": {"name": "getNamespace", "kind": "method"}
+  },
+  "mc.client.KeyMapping": {
+    "isDown": {"name": "isPressed", "kind": "method"},
+    "consumeClick": {"name": "wasPressed", "kind": "method"}
+  },
+  "mc.client.I18n": {
+    "get": {"name": "translate", "kind": "method"}
+  },
+  "mc.client.Screen": {
+    "addRenderableWidget": {"name": "addDrawableChild", "kind": "method"},
+    "addWidget": {"name": "addSelectableChild", "kind": "method"},
+    "rebuildWidgets": {
+      "name": "clearAndInit", "kind": "method",
+      "note": "本版本 Screen 没有 clearAndInit()/rebuildWidgets()：可改为 this.init(this.client, this.width, this.height)（1.17+ 需先 clearChildren()），需人工改写"
+    },
+    "repositionElements": {
+      "name": "initTabNavigation", "kind": "method",
+      "note": "本版本 Screen 没有 initTabNavigation()/repositionElements()（1.19.4 起才有）：窗口尺寸变化时需重新 init，可改为 this.init(this.client, this.width, this.height) 或在 resize 中处理，需人工改写"
+    }
+  },
+  "mc.client.player.AbstractClientPlayer": {
+    "getSkinTextureLocation": {"name": "getSkinTexture", "kind": "method"},
+    "getSkin": {
+      "name": "getSkinTextures", "kind": "method",
+      "note": "本版本没有 SkinTextures（1.20.2 引入）：贴图用 getSkinTexture()，模型类型用 getModel()，需人工改写"
+    }
+  },
+  "mc.client.gui.components.Button": {
+    "builder": {
+      "name": "builder", "kind": "method",
+      "note": "本版本 ButtonWidget 没有 builder()：改用构造器 new ButtonWidget(x, y, width, height, text, onPress)，参数顺序与 builder(text, onPress).dimensions(x, y, w, h) 不同，需人工改写"
+    }
+  },
+  "mc.client.gui.components.EditBox": {
+    "setHint": {
+      "name": "setPlaceholder", "kind": "method",
+      "note": "本版本 TextFieldWidget 没有占位提示方法（1.19.3 起才有 setPlaceholder(Text)），需删除该调用或自绘提示"
+    }
+  },
+  "mc.world.biome.Biome": {
+    "hasPrecipitation": {
+      "name": "hasPrecipitation", "kind": "method",
+      "note": "本版本 Biome 没有 hasPrecipitation()（1.19.4 起才有）：可改为 biome.getPrecipitation() != Biome.Precipitation.NONE"
+    },
+    "getPrecipitationAt": {
+      "name": "getPrecipitation", "kind": "method",
+      "note": "本版本 Biome#getPrecipitation() 不接受坐标参数（1.19.4 起才改为 getPrecipitation(BlockPos)），调用处需删去 BlockPos 实参"
     }
   }
 }

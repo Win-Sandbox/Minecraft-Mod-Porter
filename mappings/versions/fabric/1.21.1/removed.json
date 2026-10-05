@@ -1,76 +1,124 @@
 {
   "classes": {
-    "net.minecraft.registry.Registry": {
+    "net.fabricmc.fabric.api.resource.ResourceManagerHelper": {
+      "concept": "model.registration",
+      "message": "Fabric 的资源包/内置数据包注册入口（registerBuiltinResourcePack、registerReloadListener），Forge 侧对应 AddPackFindersEvent / RegisterClientReloadListenersEvent"
+    },
+    "net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry": {
+      "concept": "blockentity.ticker",
+      "message": "旧包 rendereregistry.v1 的 BlockEntityRendererRegistry 已弃用：1.17 起用 net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry.register(type, ctx -> new MyRenderer(ctx))，或原版 BlockEntityRendererFactories.register"
+    },
+    "net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder": {
+      "concept": "entity.registration",
+      "message": "FabricEntityTypeBuilder 在 1.21 已废弃（改用原版 EntityType.Builder），其它加载器用各自的实体注册机制"
+    },
+    "net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder": {
+      "concept": "blockentity.entityblock",
+      "message": "FabricBlockEntityTypeBuilder 是 Fabric API 的 BlockEntityType 构建器（1.21 起原版 BlockEntityType.Builder 已够用），其它加载器用各自机制"
+    },
+    "net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback": {
+      "concept": "commands.brigadier",
+      "message": "command v1 已弃用：1.19 起用 command.v2 的 CommandRegistrationCallback，回调参数变为 (dispatcher, registryAccess, environment)；Forge 侧对应 RegisterCommandsEvent"
+    },
+    "net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry": {
+      "concept": "blockentity.entityblock",
+      "message": "Fabric 的 BlockEntityRenderer 注册入口，Forge 侧对应 EntityRenderersEvent.RegisterRenderers"
+    },
+    "net.fabricmc.fabric.api.transfer.v1.storage.Storage": {
+      "concept": "capability.provider",
+      "message": "Storage<T>（Fabric Transfer API）对应 Forge 的 IItemHandler/IFluidHandler 能力，需按目标加载器重写"
+    },
+    "net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup": {
+      "concept": "capability.inject",
+      "message": "BlockApiLookup（Fabric Lookup API）是 Fabric 侧的「能力」查询机制，对应 Forge 的 Capability，旧版本/其它加载器需换写法"
+    },
+    "net.fabricmc.fabric.api.loot.v2.LootTableEvents": {
+      "concept": "fabric.loot",
+      "message": "loot v2 的 LootTableEvents 自 1.20.5 起回调首参已改为 RegistryKey<LootTable>；1.21 起新增 loot v3（MODIFY 回调多一个 RegistryWrapper.WrapperLookup 参数），v2 仅作过渡保留"
+    },
+    "net.minecraft.entity.damage.DamageSources": {
+      "concept": "damage.types",
+      "message": "DamageSources（world.getDamageSources()）是 1.19.4 的伤害来源获取方式，旧版本用 DamageSource 静态常量/静态工厂"
+    },
+    "net.minecraft.entity.damage.DamageTypes": {
+      "concept": "damage.types",
+      "message": "DamageTypes（数据驱动伤害类型的 RegistryKey 常量）是 1.19.4+ 的机制，旧版本用 DamageSource 静态常量"
+    },
+    "net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint": {
+      "concept": "fabric.entrypoint",
+      "message": "Fabric 的 preLaunch 入口点是加载器机制，其它加载器/版本没有对应物"
+    },
+    "net.fabricmc.loader.api.entrypoint.EntrypointContainer": {
+      "concept": "fabric.entrypoint",
+      "message": "EntrypointContainer 属于 Fabric 的入口点机制（fabric.mod.json entrypoints），其它加载器用注解式入口"
+    },
+    "net.fabricmc.loader.api.LanguageAdapter": {
+      "concept": "fabric.entrypoint",
+      "message": "Fabric 的入口点由 fabric.mod.json 的 entrypoints 声明并经 LanguageAdapter 实例化，没有 @Mod 之类的注解入口；转换到其它加载器时入口声明必须整体重写"
+    },
+    "org.spongepowered.asm.mixin.injection.ModifyArg": {
+      "concept": "fabric.mixin",
+      "message": "ModifyArg 等 Mixin 注入注解本身跨加载器通用，但 mixin 配置文件与依赖声明方式不同，需按目标加载器调整"
+    },
+    "org.spongepowered.asm.mixin.injection.ModifyConstant": {
+      "concept": "fabric.mixin",
+      "message": "ModifyConstant 等 Mixin 注入注解本身跨加载器通用，但 mixin 配置文件与依赖声明方式不同，需按目标加载器调整"
+    },
+    "org.spongepowered.asm.mixin.injection.Slice": {
+      "concept": "fabric.mixin",
+      "message": "Mixin 注入范围限定，同上"
+    },
+    "net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry": {
+      "concept": "entity.registration",
+      "message": "Fabric 的实体模型层注册，Forge 侧对应 EntityRenderersEvent.RegisterLayerDefinitions"
+    },
+    "net.fabricmc.fabric.api.event.Event": {
+      "concept": "lifecycle.eventHandler",
+      "message": "Fabric 的事件对象模型（Event/EventFactory + 回调接口 + .register(...)），与 Forge 的注解式事件总线机制完全不同，需人工改写"
+    },
+    "net.fabricmc.fabric.api.event.EventFactory": {
+      "concept": "lifecycle.eventHandler",
+      "message": "自定义 Fabric 事件用 EventFactory.createArrayBacked(...)；Forge 侧应改为继承 Event + MinecraftForge.EVENT_BUS.post"
+    },
+    "net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents": {
+      "concept": "lifecycle.eventHandler",
+      "message": "Fabric 的生物死亡/受伤事件（ALLOW_DAMAGE / ALLOW_DEATH / AFTER_DEATH），Forge 侧对应 LivingHurtEvent / LivingDeathEvent"
+    },
+    "net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents": {
+      "concept": "lifecycle.eventHandler",
+      "message": "Fabric 的玩家重生/死亡事件（AFTER_RESPAWN / ALLOW_DEATH / COPY_FROM），Forge 侧对应 PlayerEvent.Clone 等"
+    },
+    "net.fabricmc.fabric.api.event.player.AttackEntityCallback": {
+      "concept": "lifecycle.eventHandler",
+      "message": "Fabric 的左键攻击实体回调，Forge 侧对应 AttackEntityEvent"
+    },
+    "net.fabricmc.fabric.api.transfer.v1.item.ItemVariant": {
+      "concept": "capability.provider",
+      "message": "ItemVariant 是 Fabric Transfer API 的物品变体载体，Forge 侧直接用 ItemStack"
+    },
+    "net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant": {
+      "concept": "fluid.system",
+      "message": "FluidVariant 是 Fabric Transfer API 的流体变体载体（配合 FluidConstants 的 droplet 单位），Forge 侧用 FluidStack + mB"
+    },
+    "net.fabricmc.fabric.api.transfer.v1.transaction.Transaction": {
+      "concept": "capability.provider",
+      "message": "Fabric Transfer API 的事务机制，Forge 的 Capability 用 simulate 布尔参数表达，无事务对象"
+    },
+    "net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags": {
+      "concept": "tags.oredict",
+      "message": "Fabric 约定 Tag 命名空间是 c:（如 c:ingots/copper），Forge 是 forge:（forge:ingots/copper）；跨加载器时 Tag 路径需整体替换"
+    },
+    "net.fabricmc.fabric.api.registry.FuelRegistry": {
       "concept": "registry.imperative",
-      "message": "Fabric 的注册方式是命令式 Registry.register(Registries.XXX, Identifier, 对象)，其它加载器/版本需换成各自的注册机制"
+      "message": "Fabric 的燃料注册 FuelRegistry.INSTANCE.add(item, ticks)，Forge 侧对应 FurnaceFuelBurnTimeEvent 或 Item#getBurnTime"
     },
-    "net.minecraft.item.ItemGroups": {
-      "concept": "creative.fill",
-      "message": "ItemGroups（原版创造页签常量/注册表键）是 1.19.3+ 的机制，旧版本用 ItemGroup 静态常量"
+    "net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry": {
+      "concept": "config",
+      "message": "Fabric 的自定义游戏规则注册，Forge 侧无同类封装（需直接操作 GameRules 或改用配置文件）"
     },
-    "net.minecraft.component.DataComponentTypes": {
-      "concept": "item.components",
-      "message": "DataComponentTypes（原版数据组件类型常量，Yarn 名）是 1.20.5+ 的物品数据机制，旧版本用 ItemStack NBT"
-    },
-    "net.minecraft.component.ComponentType": {
-      "concept": "item.components",
-      "message": "ComponentType<T>（Yarn 名，Mojmap DataComponentType）是 1.20.5+ 的数据组件类型接口，旧版本无对应物"
-    },
-    "net.minecraft.component.ComponentMap": {
-      "concept": "item.components",
-      "message": "ComponentMap/ComponentChanges 是 1.20.5+ 数据组件的容器类型，旧版本无对应物"
-    },
-    "net.minecraft.component.type.NbtComponent": {
-      "concept": "item.components",
-      "message": "NbtComponent（Yarn 名，Mojmap CustomData）是 1.20.5+ 承载自定义 NBT 的数据组件，旧版本直接用 ItemStack 的 NBT"
-    },
-    "net.minecraft.component.type.PotionContentsComponent": {
-      "concept": "item.components",
-      "message": "PotionContentsComponent 是 1.20.5+ 的药水数据组件，旧版本用 PotionUtil / ItemStack NBT"
-    },
-    "net.minecraft.component.type.FoodComponent": {
-      "concept": "item.food",
-      "message": "1.20.5+ FoodComponent 移到 net.minecraft.component.type 并成为数据组件（DataComponentTypes.FOOD），构建器方法也由 hunger 改名为 nutrition、meat() 已移除；1.20.4 及更早在 net.minecraft.item.FoodComponent"
-    },
-    "net.minecraft.component.type.ItemEnchantmentsComponent": {
-      "concept": "enchantment.datadriven",
-      "message": "ItemEnchantmentsComponent（附魔数据组件）是 1.20.5+/1.21 数据驱动附魔的一部分，旧版本附魔存于 ItemStack NBT 列表"
-    },
-    "net.minecraft.component.EnchantmentEffectComponentTypes": {
-      "concept": "enchantment.datadriven",
-      "message": "EnchantmentEffectComponentTypes 是 1.21 数据驱动附魔的效果组件类型集合，旧版本用 Enchantment 子类的方法覆写"
-    },
-    "net.minecraft.network.packet.CustomPayload": {
-      "concept": "network.channel",
-      "message": "CustomPayload（Yarn 名，Mojmap CustomPacketPayload）是 1.20.5+ 的自定义包载体，旧版本用 Identifier + PacketByteBuf"
-    },
-    "net.minecraft.network.codec.PacketCodec": {
-      "concept": "network.channel",
-      "message": "PacketCodec/PacketCodecs（Yarn 名，Mojmap StreamCodec）是 1.20.5+ 的网络编解码机制，旧版本手写 buf 读写"
-    },
-    "net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry": {
-      "concept": "network.channel",
-      "message": "PayloadTypeRegistry 是 Fabric API 1.20.5+ 的载荷类型登记入口（playS2C/playC2S），旧版本无对应物"
-    },
-    "net.fabricmc.fabric.api.networking.v1.PacketSender": {
-      "concept": "network.channel",
-      "message": "PacketSender 是 Fabric 网络 API 的发送句柄，其它加载器用各自的通道对象"
-    },
-    "net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType": {
-      "concept": "gui.menu",
-      "message": "ExtendedScreenHandlerType（带 PacketCodec 的扩展菜单类型）是 Fabric API 1.20.5+ 的机制，旧版本用 ExtendedScreenHandlerFactory + PacketByteBuf"
-    },
-    "net.minecraft.registry.RegistryWrapper": {
-      "concept": "registry.builtin",
-      "message": "RegistryWrapper.WrapperLookup（Yarn 名，Mojmap HolderLookup.Provider）是 1.20.5+ NBT 读写/序列化普遍需要的注册表访问对象，旧版本的对应方法没有这个参数"
-    },
-    "net.minecraft.world.TeleportTarget": {
-      "concept": "dimension",
-      "message": "1.21 起跨维度传送参数集中到 TeleportTarget（Entity#teleportTo(TeleportTarget)），旧版本用 changeDimension(ServerLevel) / FabricDimensions.teleport 的旧签名"
-    },
-    "net.minecraft.client.render.RenderTickCounter": {
-      "concept": "gui.overlay",
-      "message": "RenderTickCounter 是 1.21 渲染回调（含 HudRenderCallback）的第二参数类型，旧版本直接传 float tickDelta"
+    "net.fabricmc.loader.api.metadata.ModMetadata": {
+      "concept": "mod.list",
+      "message": "Fabric 的模组元数据视图（FabricLoader.getInstance().getModContainer(id).get().getMetadata()），Forge 侧对应 ModList.get().getModContainerById(...).getModInfo()"
     },
     "net.minecraft.block.BlockEntityProvider": {
       "concept": "blockentity.entityblock",
@@ -84,10 +132,6 @@
       "concept": "tags.oredict",
       "message": "TagKey 是 1.18.2+ 的标签句柄，1.12 及更早用矿物词典（OreDictionary）"
     },
-    "net.minecraft.entity.damage.DamageTypes": {
-      "concept": "damage.types",
-      "message": "DamageTypes（数据驱动伤害类型的 RegistryKey 常量）是 1.19.4+ 的机制，旧版本用 DamageSource 静态常量"
-    },
     "net.minecraft.world.gen.feature.PlacedFeature": {
       "concept": "worldgen",
       "message": "PlacedFeature/ConfiguredFeature 是 1.18+ 数据驱动世界生成的核心对象，旧版本用代码式 IWorldGenerator"
@@ -96,41 +140,77 @@
       "concept": "worldgen",
       "message": "BiomeModificationContext 是 Fabric 注入生物群系的上下文对象，Forge 侧对应 biome_modifier JSON，旧版本无对应物"
     },
-    "net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder": {
-      "concept": "blockentity.entityblock",
-      "message": "FabricBlockEntityTypeBuilder 是 Fabric API 的 BlockEntityType 构建器（1.21 起原版 BlockEntityType.Builder 已够用），其它加载器用各自机制"
+    "net.fabricmc.fabric.api.networking.v1.PacketSender": {
+      "concept": "network.channel",
+      "message": "PacketSender 是 Fabric 网络 API 的发送句柄，其它加载器用各自的通道对象"
     },
-    "net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder": {
+    "net.minecraft.component.ComponentMap": {
+      "concept": "item.components",
+      "message": "ComponentMap/ComponentChanges 是 1.20.5+ 数据组件的容器类型，旧版本无对应物"
+    },
+    "net.minecraft.component.type.ItemEnchantmentsComponent": {
+      "concept": "enchantment.datadriven",
+      "message": "ItemEnchantmentsComponent（附魔数据组件）是 1.20.5+/1.21 数据驱动附魔的一部分，旧版本附魔存于 ItemStack NBT 列表"
+    },
+    "net.minecraft.component.EnchantmentEffectComponentTypes": {
+      "concept": "enchantment.datadriven",
+      "message": "EnchantmentEffectComponentTypes 是 1.21 数据驱动附魔的效果组件类型集合，旧版本用 Enchantment 子类的方法覆写"
+    },
+    "net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry": {
+      "concept": "network.channel",
+      "message": "PayloadTypeRegistry 是 Fabric API 1.20.5+ 的载荷类型登记入口（playS2C/playC2S），旧版本无对应物"
+    },
+    "net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType": {
+      "concept": "gui.menu",
+      "message": "ExtendedScreenHandlerType（带 PacketCodec 的扩展菜单类型）是 Fabric API 1.20.5+ 的机制，旧版本用 ExtendedScreenHandlerFactory + PacketByteBuf"
+    },
+    "net.minecraft.registry.RegistryWrapper": {
+      "concept": "registry.builtin",
+      "message": "RegistryWrapper.WrapperLookup（Yarn 名，Mojmap HolderLookup.Provider）是 1.20.5+ NBT 读写/序列化普遍需要的注册表访问对象，旧版本的对应方法没有这个参数"
+    },
+    "net.minecraft.world.TeleportTarget": {
+      "concept": "dimension",
+      "message": "1.21 起跨维度传送参数集中到 TeleportTarget（Entity#teleportTo(TeleportTarget)），旧版本用 changeDimension(ServerLevel) / FabricDimensions.teleport 的旧签名"
+    },
+    "net.fabricmc.fabric.api.client.keybinding.KeyBindingRegistry": {
+      "concept": "input.glfw",
+      "message": "fabric-keybindings-v0 的旧键位注册入口（KeyBindingRegistry.INSTANCE.register(FabricKeyBinding)），已弃用：新代码用 KeyBindingHelper.registerKeyBinding(new KeyBinding(...))"
+    },
+    "net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags": {
+      "concept": "tags.oredict",
+      "message": "Fabric 约定标签 v2（c: 命名空间，路径改为复数形式如 c:ingots/iron），1.21 起取代 v1；Forge/NeoForge 侧对应 Tags.Items 常量"
+    },
+    "net.fabricmc.fabric.api.message.v1.ServerMessageEvents": {
+      "concept": "fabric.events",
+      "message": "fabric-message-api-v1 的服务端聊天事件（CHAT_MESSAGE / GAME_MESSAGE / ALLOW_CHAT_MESSAGE 等），1.19 聊天签名引入后才有；Forge 侧对应 ServerChatEvent"
+    },
+    "net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents": {
+      "concept": "fabric.events",
+      "message": "fabric-message-api-v1 的客户端收消息事件（ALLOW_CHAT / CHAT / GAME 等），回调参数随聊天签名机制变化，跨版本需逐个核对签名；Forge 侧对应 ClientChatReceivedEvent"
+    },
+    "net.fabricmc.fabric.api.networking.v1.ServerConfigurationNetworking": {
+      "concept": "network.channel",
+      "message": "1.20.2 起新增的「配置阶段」网络 API（登录后、进入游戏前的阶段），旧版本没有这一阶段"
+    },
+    "net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint": {
+      "concept": "fabric.datagen",
+      "message": "Fabric 数据生成入口接口（fabric.mod.json 的 fabric-datagen entrypoint），Forge 侧对应 GatherDataEvent"
+    },
+    "net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry": {
       "concept": "entity.registration",
-      "message": "FabricEntityTypeBuilder 在 1.21 已废弃（改用原版 EntityType.Builder），其它加载器用各自的实体注册机制"
+      "message": "Fabric 的生物默认属性注册：FabricDefaultAttributeRegistry.register(TYPE, MyEntity.createAttributes())，Forge 侧对应 EntityAttributeCreationEvent"
     },
-    "net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup": {
-      "concept": "capability.inject",
-      "message": "BlockApiLookup（Fabric Lookup API）是 Fabric 侧的「能力」查询机制，对应 Forge 的 Capability，旧版本/其它加载器需换写法"
-    },
-    "net.fabricmc.fabric.api.transfer.v1.storage.Storage": {
-      "concept": "capability.provider",
-      "message": "Storage<T>（Fabric Transfer API）对应 Forge 的 IItemHandler/IFluidHandler 能力，需按目标加载器重写"
-    },
-    "net.fabricmc.fabric.api.transfer.v1.item.ItemVariant": {
-      "concept": "capability.provider",
-      "message": "ItemVariant 是 Fabric Transfer API 的物品变体载体，Forge 侧直接用 ItemStack"
-    },
-    "net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant": {
+    "net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry": {
       "concept": "fluid.system",
-      "message": "FluidVariant 是 Fabric Transfer API 的流体变体载体（配合 FluidConstants 的 droplet 单位），Forge 侧用 FluidStack + mB"
+      "message": "Fabric 的流体渲染注册：FluidRenderHandlerRegistry.INSTANCE.register(still, flowing, new SimpleFluidRenderHandler(...))，Forge 侧由 FluidType 的客户端扩展提供"
     },
-    "net.fabricmc.loader.api.entrypoint.EntrypointContainer": {
-      "concept": "fabric.entrypoint",
-      "message": "EntrypointContainer 属于 Fabric 的入口点机制（fabric.mod.json entrypoints），其它加载器用注解式入口"
+    "org.slf4j.Logger": {
+      "concept": "logging.slf4j",
+      "message": "SLF4J 日志接口：1.17 起原版类路径自带 slf4j-api（org.slf4j.Logger / LoggerFactory.getLogger(...)），1.16.5 及更早没有，降级时需改回 Log4j"
     },
-    "org.spongepowered.asm.mixin.injection.ModifyArg": {
-      "concept": "fabric.mixin",
-      "message": "ModifyArg 等 Mixin 注入注解本身跨加载器通用，但 mixin 配置文件与依赖声明方式不同，需按目标加载器调整"
-    },
-    "org.spongepowered.asm.mixin.injection.ModifyConstant": {
-      "concept": "fabric.mixin",
-      "message": "ModifyConstant 等 Mixin 注入注解本身跨加载器通用，但 mixin 配置文件与依赖声明方式不同，需按目标加载器调整"
+    "org.slf4j.LoggerFactory": {
+      "concept": "logging.slf4j",
+      "message": "SLF4J 的 LoggerFactory：1.17 起原版类路径自带，1.16.5 及更早没有，降级时改为 org.apache.logging.log4j.LogManager.getLogger(...)"
     }
   },
   "members": {}

@@ -1,0 +1,34 @@
+{
+  "mcVersion": "1.21.2",
+  "basedOn": "1.21.1",
+  "packFormat": 42,
+  "forgeVersion": "21.2.1-beta",
+  "loaderVersionRange": "[4,)",
+  "aliases": {
+    "1.21.3": {
+      "forgeVersion": "21.3.97",
+      "loaderVersionRange": "[5,)",
+      "packFormat": 42,
+      "resourcePackFormat": [
+        42,
+        0
+      ],
+      "dataPackFormat": [
+        57,
+        0
+      ],
+      "packMetadataStyle": "legacy",
+      "itemModelDefinitions": false
+    }
+  },
+  "resourcePackFormat": [
+    42,
+    0
+  ],
+  "dataPackFormat": [
+    57,
+    0
+  ],
+  "packMetadataStyle": "legacy",
+  "itemModelDefinitions": false
+}

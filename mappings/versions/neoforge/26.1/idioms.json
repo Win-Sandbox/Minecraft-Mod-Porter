@@ -1,0 +1,15 @@
+{
+  "guidance": {
+    "render.pipeline": "26.1 起 GUI 改为「提取渲染状态」：GuiGraphics -> GuiGraphicsExtractor，Screen#render -> extractRenderState、renderBackground -> extractBackground、AbstractContainerScreen#renderBg 并入 extractBackground、renderLabels -> extractLabels；绘制方法去掉前缀（drawString -> text、renderItem -> item、hLine -> horizontalLine 等），Mixin 目标字符串中的方法名也要同步修改",
+    "world.clock": "26.1 起世界时间由世界时钟（world clocks）管理：Level#getDayTime 已移除，昼夜时间用 level.getOverworldClockTime() 或 getDefaultClockTime()，累计 tick 仍是 getGameTime()",
+    "villager.trades": "26.1 起村民/流浪商人交易改为数据包驱动（交易表 JSON），NeoForge 的 VillagerTradesEvent / WandererTradesEvent 已移除，添加交易改为编写数据包",
+    "mc.client.renderer.ItemBlockRenderTypes": "26.1 起 ItemBlockRenderTypes 已移除：方块的渲染层在加载模型时按每个面自动计算，删除 setRenderLayer 调用，透明/镂空效果由模型与纹理决定（NeoForge 模型 JSON 的 render_type 仍可指定）",
+    "neoforge.event.VillagerTradesEvent": "VillagerTradesEvent 在 NeoForge 26.1 移除：村民交易改为数据包驱动，新增/修改交易请写交易数据文件",
+    "neoforge.event.WandererTradesEvent": "WandererTradesEvent 在 NeoForge 26.1 移除：流浪商人交易改为数据包驱动",
+    "forge.Mod.EventBusSubscriber.Bus": "NeoForge 20.5 起 @EventBusSubscriber 为顶层注解，bus 常量 GAME/MOD；20.2–20.4 为 @Mod 内部注解，常量 FORGE/MOD。该版本 Bus 枚举形态与源版本不同或不可用，属性值需人工确认（FORGE 在 20.5+ 改为 GAME）。",
+    "mc.advancements.predicates.FoodPredicate": "FoodPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.FoodPredicate 引用；反向迁移时按本数据集实际的食物谓词类人工确认（该类旧包路径未核实，不要自动猜写）。",
+    "mc.advancements.predicates.InputPredicate": "InputPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.InputPredicate 引用；反向迁移时按本数据集实际的输入谓词类人工确认（旧数据为 advancements.criterion.InputPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.entity.SheepPredicate": "SheepPredicate 是 26.2 起进度实体谓词所在新包中的类；本数据集没有该 26.2 包路径的对应类。26.2 侧按 net.minecraft.advancements.predicates.entity.SheepPredicate 引用；反向迁移时按本数据集实际的实体谓词类人工确认（旧数据为 advancements.criterion.SheepPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.DataComponentMatchers": "DataComponentMatchers 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.DataComponentMatchers 引用；反向迁移时按本数据集实际的数据组件匹配类人工确认（旧数据为 advancements.criterion.DataComponentMatchers，仍需按本数据集核对）。"
+  }
+}

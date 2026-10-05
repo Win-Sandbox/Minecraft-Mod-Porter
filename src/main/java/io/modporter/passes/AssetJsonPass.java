@@ -22,9 +22,15 @@ public final class AssetJsonPass {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
     private final PortContext ctx;
+    private final PackMetadataPass packMetadata;
 
     public AssetJsonPass(PortContext ctx) {
         this.ctx = ctx;
+        this.packMetadata = new PackMetadataPass(ctx);
+    }
+
+    public void setProjectPaths(java.util.Collection<String> paths) {
+        packMetadata.setProjectPaths(paths);
     }
 
     public OutputFile transformBlockstate(String relPath, String content) {
@@ -58,15 +64,7 @@ public final class AssetJsonPass {
     }
 
     public OutputFile transformPackMcmeta(String relPath, String content) {
-        JsonElement root = parse(relPath, content);
-        if (root == null) return null;
-        JsonObject o = root.getAsJsonObject();
-        int targetFormat = ctx.target().info.packFormat;
-        if (targetFormat > 0 && o.has("pack")) {
-            o.getAsJsonObject("pack").addProperty("pack_format", targetFormat);
-            ctx.info(relPath, null, "pack-mcmeta", "pack_format 已更新为 " + targetFormat);
-        }
-        return new OutputFile(relPath, render(o));
+        return packMetadata.transform(relPath, content);
     }
 
     /**

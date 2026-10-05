@@ -6,7 +6,29 @@
   "aliases": {
     "1.18": {
       "forgeVersion": "38.0.17",
-      "loaderVersionRange": "[38,)"
+      "loaderVersionRange": "[38,)",
+      "packFormat": 8,
+      "resourcePackFormat": [
+        8,
+        0
+      ],
+      "dataPackFormat": [
+        8,
+        0
+      ],
+      "packMetadataStyle": "legacy",
+      "itemModelDefinitions": false
     }
-  }
+  },
+  "packFormat": 8,
+  "resourcePackFormat": [
+    8,
+    0
+  ],
+  "dataPackFormat": [
+    8,
+    0
+  ],
+  "packMetadataStyle": "legacy",
+  "itemModelDefinitions": false
 }

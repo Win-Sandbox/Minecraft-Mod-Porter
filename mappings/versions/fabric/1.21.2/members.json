@@ -1,0 +1,64 @@
+{
+  "mc.entity.Entity": {
+    "hurt": {
+      "name": "damage",
+      "kind": "method",
+      "note": "1.21.2 起签名为 damage(ServerWorld, DamageSource, float)，需要先取得 ServerWorld；仅客户端判定用 clientDamage(DamageSource)；注意与 ItemStack.damage（耐久损耗）同名，请按接收者类型确认"
+    },
+    "discard": {
+      "name": "discard",
+      "kind": "method",
+      "note": "discard() 静默移除实体；需要死亡逻辑（掉落等）请改用 kill(ServerWorld)（1.21.2 起必须传服务端世界）"
+    }
+  },
+  "mc.item.ItemStack": {
+    "save": {
+      "name": "toNbt",
+      "kind": "method",
+      "note": "1.21.2 起 Yarn 把 encode 改名 toNbt：stack.toNbt(RegistryWrapper.WrapperLookup)（另有带前缀 NbtElement 的重载与 toNbtAllowEmpty(lookup)），读取仍为静态 ItemStack.fromNbt(lookup, nbt)"
+    },
+    "isSameItemSameTags": {
+      "name": "areItemsAndComponentsEqual",
+      "kind": "method",
+      "note": "「物品与数据组件相同（不比较数量）」是静态方法 ItemStack.areItemsAndComponentsEqual(a, b)；ItemStack.areEqual 还会比较数量，语义不同"
+    },
+    "getEnchantmentLevel": {
+      "name": "getEnchantmentLevel",
+      "kind": "method",
+      "note": "Fabric 没有这个 ItemStack 扩展方法：改用 EnchantmentHelper.getLevel(RegistryEntry<Enchantment>, ItemStack)，条目经 world.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT).getOrThrow(key) 取得，需人工改写"
+    }
+  },
+  "mc.item.Item": {
+    "getDescriptionId#b": {
+      "name": "getTranslationKey",
+      "kind": "method",
+      "note": "1.21.2 起 Item#getTranslationKey(ItemStack) 已删除，只剩无参 getTranslationKey()；按物品堆叠取显示名改用 getName(ItemStack)"
+    },
+    "use": {
+      "name": "use",
+      "kind": "method",
+      "note": "1.21.2 起签名为 use(World, PlayerEntity, Hand) 返回 ActionResult（不再是 TypedActionResult<ItemStack>），覆写与返回语句需人工调整"
+    }
+  },
+  "mc.block.Block": {
+    "use": {
+      "name": "onUse",
+      "kind": "method",
+      "note": "右键交互分两个方法（定义在 AbstractBlock 上）：空手 onUse(BlockState, World, BlockPos, PlayerEntity, BlockHitResult)；手持物品 onUseWithItem(ItemStack, BlockState, World, BlockPos, PlayerEntity, Hand, BlockHitResult)；1.21.2 起两者都返回 ActionResult。覆写需人工拆分"
+    }
+  },
+  "mc.enchant.EnchantmentHelper": {
+    "getItemEnchantmentLevel": {
+      "name": "getLevel",
+      "kind": "method",
+      "note": "签名为 EnchantmentHelper.getLevel(RegistryEntry<Enchantment>, ItemStack)；1.21.2 起条目用 world.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT).getOrThrow(key) 取得（getWrapperOrThrow 已改名）"
+    }
+  },
+  "mc.client.Screen": {
+    "repositionElements": {
+      "name": "refreshWidgetPositions",
+      "kind": "method",
+      "note": "1.21.2 起 Yarn 名为 refreshWidgetPositions（此前为 initTabNavigation），窗口尺寸变化时重新布局控件"
+    }
+  }
+}

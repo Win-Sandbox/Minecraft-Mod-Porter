@@ -1,0 +1,29 @@
+{
+  "!remove": {
+    "classes": [
+      "net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder"
+    ]
+  },
+  "classes": {
+    "net.minecraft.world.level.block.ColorCollection": {
+      "concept": "metadata.meta",
+      "message": "ColorCollection 是 26.2 起 16 色方块/物品常量的集合类型（Items.WOOL.white() 等），更早版本是逐个颜色的独立常量（Items.WHITE_WOOL 等）"
+    },
+    "net.minecraft.world.level.block.WeatheringCopperCollection": {
+      "concept": "metadata.meta",
+      "message": "WeatheringCopperCollection 是 26.2 起铜系列（氧化/涂蜡各阶段）常量的集合类型，更早版本是独立常量（Items.EXPOSED_COPPER 等）"
+    },
+    "net.minecraft.references.BlockIds": {
+      "concept": "registry.imperative",
+      "message": "BlockIds 是 26.2 新增的原版方块 ResourceKey 常量集合，更早版本需自行 ResourceKey.create(Registries.BLOCK, id)"
+    },
+    "net.minecraft.references.ItemIds": {
+      "concept": "registry.imperative",
+      "message": "ItemIds 是 26.2 新增的原版物品 ResourceKey 常量集合，更早版本需自行 ResourceKey.create(Registries.ITEM, id)"
+    },
+    "net.minecraft.references.BlockItemIds": {
+      "concept": "registry.imperative",
+      "message": "BlockItemIds 是 26.2 新增的方块物品 ResourceKey 常量集合，更早版本需自行创建 ResourceKey"
+    }
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "!remove": [
+    "mc.util.InteractionResultHolder",
+    "mc.world.ItemInteractionResult",
+    "fabric.block.FabricBlockSettings"
+  ],
+  "mc.item.Item": {
+    "name": "net.minecraft.item.Item",
+    "note": "1.21.2 起 Item.Settings 必须先设置注册键，否则构造物品时直接报错：new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(MODID, \"x\")))；翻译键与模型 id 都由该键推导。use 改为返回 ActionResult；新增 equippable/repairable/enchantable/useCooldown/useRemainder 等设置，food 可带第二参 ConsumableComponent；getTranslationKey(ItemStack) 已删除"
+  },
+  "mc.item.ItemBlock": {
+    "name": "net.minecraft.item.BlockItem",
+    "note": "BlockItem 构造为 (Block, Item.Settings)；1.21.2 起 Settings 需 registryKey(...)，并调用 useBlockPrefixedTranslationKey() 以沿用 block. 前缀的翻译键"
+  },
+  "mc.block.Block": {
+    "name": "net.minecraft.block.Block",
+    "note": "1.21.2 起 AbstractBlock.Settings 必须设置注册键：AbstractBlock.Settings.create().registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(MODID, \"x\")))，缺失时构造方块即报错；getLootTableKey() 改为返回 Optional"
+  },
+  "mc.util.InteractionResult": {
+    "name": "net.minecraft.util.ActionResult",
+    "note": "1.21.2 起 ActionResult 是密封接口，吸收了 TypedActionResult 与 ItemActionResult：常量 SUCCESS/SUCCESS_SERVER/CONSUME/FAIL/PASS/PASS_TO_DEFAULT_BLOCK_ACTION，替换手中物品用 ActionResult.SUCCESS.withNewHandStack(stack)；ActionResult.success(boolean) 已删除"
+  },
+  "mc.entity.Entity": {
+    "name": "net.minecraft.entity.Entity",
+    "note": "1.21.2 起需要服务端世界的方法显式带 ServerWorld 参数：damage(ServerWorld, DamageSource, float)、kill(ServerWorld)；客户端判定改用 clientDamage(DamageSource)；调用前用 if (entity.getWorld() instanceof ServerWorld serverWorld) 取得服务端世界"
+  },
+  "mc.entity.EntityType": {
+    "name": "net.minecraft.entity.EntityType",
+    "note": "1.21.2 起 EntityType.Builder#build 必须传 RegistryKey<EntityType<?>>（build(String) 已删除）；create 需要生成原因：EntityType.PIG.create(world, SpawnReason.SPAWN_ITEM_USE)；spawn 的 Consumer 回调形式保持不变"
+  },
+  "mc.world.Level": {
+    "name": "net.minecraft.world.World",
+    "note": "Yarn 名为 World（Mojmap Level），客户端判断字段 isClient；1.21.2 起 world.getProfiler() 删除，改用 Profilers.get()"
+  },
+  "mc.item.ItemStack": {
+    "name": "net.minecraft.item.ItemStack",
+    "note": "数据全部由组件承载：stack.get/set/remove/contains/getOrDefault/apply(ComponentType, …)，自定义数据用 DataComponentTypes.CUSTOM_DATA（NbtComponent）；1.21.2 起 Yarn 把 encode 改名 toNbt：stack.toNbt(RegistryWrapper.WrapperLookup)，读取仍为 ItemStack.fromNbt(lookup, nbt)"
+  },
+  "mc.item.Ingredient": {
+    "name": "net.minecraft.recipe.Ingredient",
+    "note": "1.21.2 起 Ingredient 内部是物品条目集合而非 ItemStack 数组：构造用 Ingredient.ofItem(物品) / ofItems(物品...) / fromTag(标签条目列表)，getMatchingStacks 改名 getMatchingItems，Ingredient.empty()/isEmpty() 已删除（可选原料改用 Optional<Ingredient>）"
+  },
+  "mc.item.EquipmentSlot": {
+    "name": "net.minecraft.entity.EquipmentSlot",
+    "note": "1.21.2 起盔甲槽位由 net.minecraft.item.equipment.EquipmentType 描述：new ArmorItem(ArmorMaterial, EquipmentType.HELMET, settings)；任意物品可装备则用 settings.equippable(EquipmentSlot.HEAD)；EquipmentSlot 仍用于装备槽相关 API"
+  },
+  "mc.enchant.Enchantments": {
+    "name": "net.minecraft.enchantment.Enchantments",
+    "note": "常量类型为 RegistryKey<Enchantment>；1.21.2 起取条目改为 world.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT).getOrThrow(Enchantments.SHARPNESS)（getWrapperOrThrow 已改名 getOrThrow），得到 RegistryEntry<Enchantment>"
+  },
+  "mc.client.Screen": {
+    "name": "net.minecraft.client.gui.screen.Screen",
+    "note": "render(DrawContext, int, int, float) 签名不变；1.21.2 起 DrawContext 的贴图方法首参为 RenderLayer 工厂：drawTexture(RenderLayer::getGuiTextured, 贴图, x, y, u, v, w, h, texW, texH)、drawGuiTexture(RenderLayer::getGuiTextured, 精灵 id, x, y, w, h)；initTabNavigation 改名 refreshWidgetPositions"
+  },
+  "mc.client.AbstractContainerScreen": {
+    "name": "net.minecraft.client.gui.screen.ingame.HandledScreen",
+    "note": "Yarn 名为 HandledScreen<T extends ScreenHandler>；drawBackground(DrawContext, float, int, int) 中的 drawTexture 自 1.21.2 起需补首参 RenderLayer::getGuiTextured；绑定用 HandledScreens.register(type, 构造)"
+  },
+  "mc.core.component.DataComponentType": {
+    "name": "net.minecraft.component.ComponentType",
+    "note": "Yarn 名为 ComponentType（Mojmap DataComponentType，Yarn 1.20.5/1.20.6 也叫 DataComponentType）；自建组件 Registry.register(Registries.DATA_COMPONENT_TYPE, Identifier.of(MODID, \"x\"), ComponentType.<T>builder().codec(CODEC).packetCodec(PACKET_CODEC).build())"
+  },
+  "mc.world.item.TooltipFlag": {
+    "name": "net.minecraft.item.tooltip.TooltipType",
+    "note": "Yarn 名为 TooltipType（Mojmap TooltipFlag），1.21 起位于 net.minecraft.item.tooltip 包"
+  },
+  "mc.client.resources.PlayerSkin": {
+    "name": "net.minecraft.client.util.SkinTextures",
+    "note": "Yarn 名为 SkinTextures（Mojmap PlayerSkin），皮肤贴图取 texture()；1.21.9 起移到 net.minecraft.entity.player 包"
+  },
+  "fabric.event.UseItemCallback": {
+    "name": "net.fabricmc.fabric.api.event.player.UseItemCallback",
+    "note": "1.21.2 起回调返回 ActionResult（不再是 TypedActionResult<ItemStack>），替换手中物品用 ActionResult.SUCCESS.withNewHandStack(...)"
+  }
+}

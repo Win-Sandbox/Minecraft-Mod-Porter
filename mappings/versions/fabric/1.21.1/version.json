@@ -16,13 +16,42 @@
   },
   "lifecycleStyle": "entrypoint",
   "packFormat": 34,
-  "loaderVersionRange": ">=0.15.11",
+  "loaderVersionRange": ">=0.19.5",
   "mappingsChannel": "yarn",
-  "gradleVersion": "8.8",
+  "gradleVersion": "9.5.1",
   "extras": {
     "yarnVersion": "1.21.1+build.3",
-    "loomVersion": "1.7-SNAPSHOT",
-    "fabricLoaderVersion": "0.16.5",
-    "fabricApiVersion": "0.116.15+1.21.1"
-  }
+    "loomVersion": "1.17-SNAPSHOT",
+    "fabricLoaderVersion": "0.19.5",
+    "fabricApiVersion": "0.116.17+1.21.1"
+  },
+  "aliases": {
+    "1.21": {
+      "extras": {
+        "yarnVersion": "1.21+build.9",
+        "fabricApiVersion": "0.102.0+1.21"
+      },
+      "packFormat": 34,
+      "resourcePackFormat": [
+        34,
+        0
+      ],
+      "dataPackFormat": [
+        48,
+        0
+      ],
+      "packMetadataStyle": "legacy",
+      "itemModelDefinitions": false
+    }
+  },
+  "resourcePackFormat": [
+    34,
+    0
+  ],
+  "dataPackFormat": [
+    48,
+    0
+  ],
+  "packMetadataStyle": "legacy",
+  "itemModelDefinitions": false
 }

@@ -226,6 +226,19 @@
     "sameItem": {
       "name": "areItemsEqual", "kind": "method",
       "note": "形态变化：Yarn 1.20.1 为静态方法 ItemStack.areItemsEqual(ItemStack, ItemStack)，实例调用需人工改成静态调用并补齐两个参数；连同 NBT 比较用 ItemStack.canCombine(a, b)，完全相等（含数量）用 ItemStack.areEqual(a, b)"
+    },
+    "getOrCreateTag": {"name": "getOrCreateNbt", "kind": "method"},
+    "getTagElement": {"name": "getSubNbt", "kind": "method"},
+    "addTagElement": {"name": "setSubNbt", "kind": "method"},
+    "removeTagKey": {"name": "removeSubNbt", "kind": "method"},
+    "isSameItemSameTags": {
+      "name": "canCombine", "kind": "method",
+      "note": "静态方法 ItemStack.canCombine(a, b)（物品与 NBT 都相同，不比数量）；包含数量的完全相等是 ItemStack.areEqual(a, b)"
+    },
+    "hurtAndBreak": {"name": "damage", "kind": "method"},
+    "getEnchantmentLevel": {
+      "name": "getEnchantmentLevel", "kind": "method",
+      "note": "Yarn/原版 ItemStack 没有该方法（Forge 的扩展方法）：改用 EnchantmentHelper.getLevel(附魔, stack)，需人工改写"
     }
   },
   "mc.item.Item": {
@@ -278,7 +291,8 @@
     "saveAdditional": {
       "name": "writeNbt", "kind": "method",
       "note": "歧义守护：BlockEntity 为 protected void writeNbt(NbtCompound)（无返回值）；ItemStack 的 writeNbt 是 public 且有返回值——请按接收者类型确认。另外同步给客户端还需覆写 toInitialChunkDataNbt()/toUpdatePacket()"
-    }
+    },
+    "getUpdateTag": {"name": "toInitialChunkDataNbt", "kind": "method"}
   },
   "mc.resources.ResourceLocation": {
     "getPath": {"name": "getPath", "kind": "method"},
@@ -318,5 +332,34 @@
       "name": "translate", "kind": "method",
       "note": "Yarn 为静态方法 I18n.translate(String key, Object... args)（Mojmap 是 I18n.get）；仅客户端可用"
     }
+  },
+  "mc.enchant.EnchantmentHelper": {
+    "getItemEnchantmentLevel": {"name": "getLevel", "kind": "method"}
+  },
+  "mc.world.biome.Biome": {
+    "hasPrecipitation": {"name": "hasPrecipitation", "kind": "method"},
+    "getPrecipitationAt": {"name": "getPrecipitation", "kind": "method"}
+  },
+  "mc.sound.SoundEvent": {
+    "createVariableRangeEvent": {"name": "of", "kind": "method"}
+  },
+  "mc.client.Screen": {
+    "addRenderableWidget": {"name": "addDrawableChild", "kind": "method"},
+    "addWidget": {"name": "addSelectableChild", "kind": "method"},
+    "rebuildWidgets": {"name": "clearAndInit", "kind": "method"},
+    "repositionElements": {"name": "initTabNavigation", "kind": "method"}
+  },
+  "mc.client.player.AbstractClientPlayer": {
+    "getSkinTextureLocation": {"name": "getSkinTexture", "kind": "method"},
+    "getSkin": {
+      "name": "getSkinTextures", "kind": "method",
+      "note": "本版本没有 SkinTextures（1.20.2 引入）：贴图用 getSkinTexture()，模型类型用 getModel()，需人工改写"
+    }
+  },
+  "mc.client.gui.components.Button": {
+    "builder": {"name": "builder", "kind": "method"}
+  },
+  "mc.client.gui.components.EditBox": {
+    "setHint": {"name": "setPlaceholder", "kind": "method"}
   }
 }

@@ -1,0 +1,62 @@
+{
+  "!remove": [
+    "neoforge.client.RenderHighlightEvent"
+  ],
+  "mc.client.resources.PlayerSkin": {
+    "name": "net.minecraft.world.entity.player.PlayerSkin",
+    "note": "1.21.9 起 PlayerSkin 移到 net.minecraft.world.entity.player，纹理改为 ClientAsset：skin.texture() -> skin.body().texturePath()"
+  },
+  "mc.client.input.KeyEvent": {
+    "name": "net.minecraft.client.input.KeyEvent",
+    "note": "1.21.9 引入：界面键盘回调参数，event.key()/scancode()/modifiers()"
+  },
+  "mc.client.input.MouseButtonEvent": {
+    "name": "net.minecraft.client.input.MouseButtonEvent",
+    "note": "1.21.9 引入：界面鼠标按键回调参数，event.x()/y()/button()/modifiers()"
+  },
+  "mc.client.input.CharacterEvent": {
+    "name": "net.minecraft.client.input.CharacterEvent",
+    "note": "1.21.9 引入：字符输入回调参数，event.codepoint()/modifiers()"
+  },
+  "mc.server.level.PlayerSpawnFinder": "net.minecraft.server.level.PlayerSpawnFinder",
+  "mc.client.Screen": {
+    "name": "net.minecraft.client.gui.screens.Screen",
+    "note": "1.21.9 起键鼠回调改为事件对象：keyPressed(KeyEvent)、keyReleased(KeyEvent)、charTyped(CharacterEvent)、mouseClicked(MouseButtonEvent, boolean 双击)、mouseReleased(MouseButtonEvent)、mouseDragged(MouseButtonEvent, double, double)；覆写声明与 super 调用都要改参数"
+  },
+  "mc.client.KeyMapping": {
+    "name": "net.minecraft.client.KeyMapping",
+    "note": "1.21.9 起分类不再是字符串：构造最后一参为 KeyMapping.Category，自定义分类用 KeyMapping.Category.register(ResourceLocation) 创建，并在 RegisterKeyMappingsEvent#registerCategory 中登记"
+  },
+  "mc.client.BlockEntityRenderer": {
+    "name": "net.minecraft.client.renderer.blockentity.BlockEntityRenderer",
+    "note": "1.21.9 起 BlockEntityRenderer<T, S extends BlockEntityRenderState>：实现 createRenderState()、extractRenderState(...) 复制数据，submit(state, PoseStack, SubmitNodeCollector, CameraRenderState) 提交绘制，旧 render 已移除"
+  },
+  "mc.client.renderer.entity.EntityRenderer": {
+    "name": "net.minecraft.client.renderer.entity.EntityRenderer",
+    "note": "1.21.9 起 render 改为 submit(state, PoseStack, SubmitNodeCollector, CameraRenderState)，绘制通过 SubmitNodeCollector 提交"
+  },
+  "forge.FMLEnvironment": {
+    "name": "net.neoforged.fml.loading.FMLEnvironment",
+    "note": "FML 10（NeoForge 21.9）起 dist/production 字段改为方法 getDist()/isProduction()，其余加载状态经 FMLLoader.getCurrent() 访问"
+  },
+  "forge.ForgeCapabilities": {
+    "name": "net.neoforged.neoforge.capabilities.Capabilities",
+    "note": "NeoForge 21.9 转移重构：Capabilities.ItemHandler/FluidHandler/EnergyStorage 改为 Capabilities.Item/Fluid/Energy，对应的能力类型变为 ResourceHandler<ItemResource>、ResourceHandler<FluidResource>、EnergyHandler"
+  },
+  "forge.items.IItemHandler": {
+    "name": "net.neoforged.neoforge.items.IItemHandler",
+    "note": "NeoForge 21.9 起已弃用（计划移除），新代码用 ResourceHandler<ItemResource>；旧实现可用 IItemHandler.of(handler) 与新接口互转"
+  },
+  "forge.items.ItemStackHandler": {
+    "name": "net.neoforged.neoforge.items.ItemStackHandler",
+    "note": "NeoForge 21.9 起建议改用 net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler"
+  },
+  "forge.energy.IEnergyStorage": {
+    "name": "net.neoforged.neoforge.energy.IEnergyStorage",
+    "note": "NeoForge 21.9 起已弃用，新接口为 net.neoforged.neoforge.transfer.energy.EnergyHandler（IEnergyStorage.of 可互转）"
+  },
+  "forge.fluids.IFluidHandler": {
+    "name": "net.neoforged.neoforge.fluids.capability.IFluidHandler",
+    "note": "NeoForge 21.9 起已弃用，新代码用 ResourceHandler<FluidResource>（IFluidHandler.of 可互转）"
+  }
+}

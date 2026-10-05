@@ -1,0 +1,14 @@
+{
+  "guidance": {
+    "nbt.valueIo": "1.21.6 起方块实体/实体持久化改用 ValueInput/ValueOutput：loadAdditional(ValueInput input) 中 input.getIntOr(\"x\", 0)、input.read(\"k\", codec)；saveAdditional(ValueOutput output) 中 output.putInt(\"x\", v)、output.store(\"k\", codec, v)；NeoForge 的 ItemStackHandler/FluidTank/EnergyStorage 改为 serialize(ValueOutput)/deserialize(ValueInput)，INBTSerializable 由 ValueIOSerializable 取代",
+    "render.pipeline": "1.21.6 起 GUI 渲染改为先记录再统一绘制：GuiGraphics#blit(RenderPipelines.GUI_TEXTURED, 纹理, x, y, u, v, w, h, 纹理宽, 纹理高)、fill 颜色要带 alpha（0xFFRRGGBB），pose() 为 Matrix3x2fStack（2D），悬浮提示用 setTooltipForNextFrame；自定义离屏渲染用 RegisterPictureInPictureRenderersEvent",
+    "gui.overlay": "自定义 HUD：Mod 总线 RegisterGuiLayersEvent，event.registerAbove(VanillaGuiLayers.HOTBAR, id, (guiGraphics, deltaTracker) -> ...)（21.6 起 layer 类型为 NeoForge GuiLayer）；拦截原版层用 RenderGuiLayerEvent.Pre/Post",
+    "commands.permissions": "1.21.6~1.21.10 的命令权限可写 .requires(Commands.hasPermission(2))（等价于 source.hasPermission(2)）",
+    "mc.client.gui.LayeredDraw": "1.21.6 起 LayeredDraw 已移除：NeoForge 的 HUD 层类型改为 net.neoforged.neoforge.client.gui.GuiLayer，lambda 形式 (guiGraphics, deltaTracker) -> ... 不变，仍通过 RegisterGuiLayersEvent 注册",
+    "forge.Mod.EventBusSubscriber.Bus": "NeoForge 20.5 起 @EventBusSubscriber 为顶层注解，bus 常量 GAME/MOD；20.2–20.4 为 @Mod 内部注解，常量 FORGE/MOD。该版本 Bus 枚举形态与源版本不同或不可用，属性值需人工确认（FORGE 在 20.5+ 改为 GAME）。",
+    "mc.advancements.predicates.FoodPredicate": "FoodPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.FoodPredicate 引用；反向迁移时按本数据集实际的食物谓词类人工确认（该类旧包路径未核实，不要自动猜写）。",
+    "mc.advancements.predicates.InputPredicate": "InputPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.InputPredicate 引用；反向迁移时按本数据集实际的输入谓词类人工确认（旧数据为 advancements.criterion.InputPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.entity.SheepPredicate": "SheepPredicate 是 26.2 起进度实体谓词所在新包中的类；本数据集没有该 26.2 包路径的对应类。26.2 侧按 net.minecraft.advancements.predicates.entity.SheepPredicate 引用；反向迁移时按本数据集实际的实体谓词类人工确认（旧数据为 advancements.criterion.SheepPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.DataComponentMatchers": "DataComponentMatchers 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.DataComponentMatchers 引用；反向迁移时按本数据集实际的数据组件匹配类人工确认（旧数据为 advancements.criterion.DataComponentMatchers，仍需按本数据集核对）。"
+  }
+}

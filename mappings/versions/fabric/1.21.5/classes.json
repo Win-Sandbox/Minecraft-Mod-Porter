@@ -1,0 +1,34 @@
+{
+  "mc.item.Item": {
+    "name": "net.minecraft.item.Item",
+    "note": "1.21.2 起 Item.Settings 必须先设置注册键，否则构造物品时直接报错：new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(MODID, \"x\")))；翻译键与模型 id 都由该键推导。use 改为返回 ActionResult；新增 equippable/repairable/enchantable/useCooldown/useRemainder 等设置，food 可带第二参 ConsumableComponent；getTranslationKey(ItemStack) 已删除；1.21.4 起每个物品还需要物品模型定义 assets/<ns>/items/<名>.json（最简形式 {\"model\": {\"type\": \"minecraft:model\", \"model\": \"<ns>:item/<名>\"}}，方块物品指向方块模型），缺失时显示为缺失模型，染色改在其中的 tints 声明；1.21.5 起 SwordItem/PickaxeItem/MiningToolItem/ArmorItem 已删除，改用 Item.Settings 的 sword/pickaxe/axe/shovel/hoe/armor"
+  },
+  "mc.nbt.CompoundTag": {
+    "name": "net.minecraft.nbt.NbtCompound",
+    "note": "Yarn 名为 NbtCompound；1.21.5 起取值方法返回 Optional（getInt/getString/getCompound/getList 等），要旧的「缺省给默认值」行为用 getInt(key, 默认值)、getString(key, 默认值)、getCompoundOrEmpty(key)、getListOrEmpty(key)；UUID 专用方法与 contains(key, 类型) 已删除，也可用 put(key, CODEC, 值) / get(key, CODEC) 直接读写 Codec"
+  },
+  "mc.client.DeltaTracker": {
+    "name": "net.minecraft.client.render.RenderTickCounter",
+    "note": "Yarn 名 RenderTickCounter（Mojmap DeltaTracker），渲染回调的第二参；1.21.5 起插值用 getTickProgress(true)（原 getTickDelta），getLastFrameDuration/getLastDuration 改名 getDynamicDeltaTicks/getFixedDeltaTicks"
+  },
+  "mc.nbt.ListTag": {
+    "name": "net.minecraft.nbt.NbtList",
+    "note": "Yarn 名为 NbtList；1.21.5 起允许混合类型元素，按下标取值 getCompound(i)/getString(i) 返回 Optional，旧行为用 getCompoundOrEmpty(i)、getString(i, 默认值)"
+  },
+  "mc.chat.ClickEvent": {
+    "name": "net.minecraft.text.ClickEvent",
+    "note": "1.21.5 起按动作拆成嵌套 record：new ClickEvent.OpenUrl(URI)、RunCommand(String)、SuggestCommand(String)、CopyToClipboard(String)、ChangePage(int)、OpenFile(...)；旧的 new ClickEvent(ClickEvent.Action, String) 构造已删除，需人工改写"
+  },
+  "mc.chat.HoverEvent": {
+    "name": "net.minecraft.text.HoverEvent",
+    "note": "1.21.5 起拆成嵌套 record：new HoverEvent.ShowText(Text)、ShowItem(ItemStack)、ShowEntity(HoverEvent.EntityContent)；旧的 new HoverEvent(HoverEvent.Action, 值) 构造已删除，需人工改写"
+  },
+  "mc.client.BlockEntityRenderer": {
+    "name": "net.minecraft.client.render.block.entity.BlockEntityRenderer",
+    "note": "1.21.5 起 render 多一个相机位置参数：render(T, float tickDelta, MatrixStack, VertexConsumerProvider, int light, int overlay, Vec3d cameraPos)；注册用 BlockEntityRendererFactories.register(type, ctx -> new MyRenderer(ctx))"
+  },
+  "fabric.event.HudRenderCallback": {
+    "name": "net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback",
+    "note": "1.21.5 起标记为废弃，推荐 HudLayerRegistrationCallback：EVENT.register(drawer -> drawer.attachLayerAfter(IdentifiedLayer.MISC_OVERLAYS, Identifier.of(MODID, \"x\"), (drawContext, tickCounter) -> ...))；回调签名仍为 (DrawContext, RenderTickCounter)"
+  }
+}

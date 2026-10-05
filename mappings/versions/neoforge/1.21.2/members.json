@@ -1,0 +1,61 @@
+{
+  "mc.core.RegistryAccess": {
+    "registryOrThrow": {
+      "name": "lookupOrThrow",
+      "kind": "method",
+      "note": "1.21.2 起 RegistryAccess#registryOrThrow 改名 lookupOrThrow（registry(...) 改名 lookup(...)）；注意 HolderLookup.Provider 早已有同名 lookupOrThrow，回退旧版本时请确认接收者"
+    }
+  },
+  "mc.entity.Entity": {
+    "hurt": {
+      "name": "hurt",
+      "kind": "method",
+      "note": "1.21.2 起覆写伤害逻辑要改覆写 hurtServer(ServerLevel, DamageSource, float)；调用方在不确定服务端时用 hurtOrSimulate(DamageSource, float)"
+    },
+    "kill": {
+      "name": "kill",
+      "kind": "method",
+      "note": "1.21.2 起为 kill(ServerLevel)，需要传入所在服务端世界"
+    },
+    "changeDimension": {
+      "name": "teleport",
+      "kind": "method",
+      "note": "1.21.2 起 changeDimension(DimensionTransition) 改为 teleport(TeleportTransition)"
+    }
+  },
+  "mc.world.Level": {
+    "getGameRules": {
+      "name": "getGameRules",
+      "kind": "method",
+      "note": "1.21.2 起 getGameRules 只在 ServerLevel 上提供，需要先判断/转换为 ServerLevel"
+    }
+  },
+  "mc.item.Item": {
+    "use": {
+      "name": "use",
+      "kind": "method",
+      "note": "1.21.2 起 use(Level, Player, InteractionHand) 直接返回 InteractionResult（不再是 InteractionResultHolder）"
+    }
+  },
+  "mc.util.InteractionResult": {
+    "sidedSuccess": {
+      "name": "sidedSuccess",
+      "kind": "method",
+      "note": "sidedSuccess(isClientSide) 已移除：直接返回 InteractionResult.SUCCESS（服务端专用结果可用 SUCCESS_SERVER）"
+    }
+  },
+  "mc.world.item.ArmorMaterials": {
+    "CHAIN": {
+      "name": "CHAINMAIL",
+      "kind": "field"
+    },
+    "ARMADILLO": {
+      "name": "ARMADILLO_SCUTE",
+      "kind": "field"
+    },
+    "TURTLE": {
+      "name": "TURTLE_SCUTE",
+      "kind": "field"
+    }
+  }
+}

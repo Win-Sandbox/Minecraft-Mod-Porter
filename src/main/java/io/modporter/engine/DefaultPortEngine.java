@@ -17,6 +17,8 @@ import io.modporter.passes.BuildGradlePass;
 import io.modporter.passes.JavaSourcePass;
 import io.modporter.passes.LangPass;
 import io.modporter.passes.MetadataPass;
+import io.modporter.passes.SettingsGradlePass;
+import io.modporter.passes.AccessWidenerPass;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -90,9 +92,11 @@ public final class DefaultPortEngine implements PortEngine {
         }
         MetadataPass metadataPass = new MetadataPass(ctx);
         BuildGradlePass buildGradlePass = new BuildGradlePass(ctx, metadataPass);
+        SettingsGradlePass settingsGradlePass = new SettingsGradlePass(ctx, metadataPass);
         JavaSourcePass javaPass = new JavaSourcePass(ctx);
         LangPass langPass = new LangPass(ctx);
         AssetJsonPass assetPass = new AssetJsonPass(ctx);
+        AccessWidenerPass accessWidenerPass = new AccessWidenerPass(ctx);
 
         List<Path> files;
         try (Stream<Path> walk = Files.walk(request.inputRoot())) {
@@ -105,6 +109,8 @@ public final class DefaultPortEngine implements PortEngine {
             return new PortResult(PortResult.Status.FAILED, report);
         }
 
+        assetPass.setProjectPaths(files.stream().map(p -> relPath(request.inputRoot(), p)).toList());
+
         // 第一阶段：先解析元数据与构建脚本，供其他 Pass 使用（modid、group 等）
         for (Path file : files) {
             String rel = relPath(request.inputRoot(), file);
@@ -114,6 +120,9 @@ public final class DefaultPortEngine implements PortEngine {
                     metadataPass.parse(rel, Files.readString(file, StandardCharsets.UTF_8));
                 } else if (name.equals("build.gradle")) {
                     buildGradlePass.parse(Files.readString(file, StandardCharsets.UTF_8));
+                    settingsGradlePass.noteBuildGradle(rel);
+                } else if (name.equals("settings.gradle.kts")) {
+                    settingsGradlePass.noteSettingsGradleKts(rel);
                 }
             } catch (IOException e) {
                 ctx.error(rel, null, "io", "读取失败: " + e.getMessage());
@@ -130,7 +139,8 @@ public final class DefaultPortEngine implements PortEngine {
             long todosBefore = report.count(Report.Severity.TODO);
             try {
                 OutputFile out = transformOne(ctx, rel, name, file, source,
-                        metadataPass, buildGradlePass, javaPass, langPass, assetPass);
+                        metadataPass, buildGradlePass, settingsGradlePass,
+                        javaPass, langPass, assetPass, accessWidenerPass);
                 if (out != null) outputs.add(out);
             } catch (Exception e) {
                 ctx.error(rel, null, "internal", "转换过程异常，文件原样复制: " + e);
@@ -138,6 +148,37 @@ public final class DefaultPortEngine implements PortEngine {
                 if (fallback != null) outputs.add(fallback);
             }
             listener.onFileDone(rel, (int) (report.count(Report.Severity.TODO) - todosBefore));
+        }
+
+        // Cross-file item definitions need the complete output inventory. Also analyze on dry-run.
+        List<OutputFile> beforeItemDefinitions = outputs;
+        try {
+            outputs = new io.modporter.passes.ItemModelDefinitionPass(ctx).transform(outputs);
+        } catch (RuntimeException e) {
+            outputs = beforeItemDefinitions;
+            ctx.error(null, null, "item-model-definition", "物品模型迁移失败，保留逐文件转换结果：" + e.getMessage());
+        }
+
+        // settings.gradle：已有文件在 transformOne 中处理；缺失时在 build.gradle 同目录生成。
+        // dryRun 也执行此步，只报告不写出。
+        try {
+            OutputFile settings = settingsGradlePass.generateMissing();
+            if (settings != null) outputs.add(settings);
+        } catch (RuntimeException e) {
+            ctx.error(null, null, "build-script", "settings.gradle 生成失败：" + e.getMessage());
+        }
+
+        // Fail before any writes if a generated path could escape or collide.
+        Set<String> outputPaths = new java.util.HashSet<>();
+        Path absoluteOutput = request.outputRoot().toAbsolutePath().normalize();
+        for (OutputFile out : outputs) {
+            Path relative = Path.of(out.relativePath);
+            Path destination = absoluteOutput.resolve(relative).normalize();
+            if (relative.isAbsolute() || !destination.startsWith(absoluteOutput)
+                    || !outputPaths.add(destination.toString())) {
+                ctx.error(out.relativePath, null, "output-path", "输出路径不安全或重复；为避免覆盖，未写出任何文件");
+                return new PortResult(PortResult.Status.FAILED, report);
+            }
         }
 
         // 写出
@@ -171,14 +212,24 @@ public final class DefaultPortEngine implements PortEngine {
     private OutputFile transformOne(PortContext ctx, String rel, String name, Path file,
                                     VersionMappings source,
                                     MetadataPass metadataPass, BuildGradlePass buildGradlePass,
+                                    SettingsGradlePass settingsGradlePass,
                                     JavaSourcePass javaPass, LangPass langPass,
-                                    AssetJsonPass assetPass) throws IOException {
+                                    AssetJsonPass assetPass, AccessWidenerPass accessWidenerPass) throws IOException {
         if (isMetadataFile(rel, name, source)) {
             return metadataPass.generate(rel); // 内容已在第一阶段解析
         }
         if (name.equals("build.gradle")) {
             OutputFile generated = buildGradlePass.generate(rel);
             return generated != null ? generated : copyVerbatim(rel, file, ctx);
+        }
+        if (name.equals("settings.gradle")) {
+            OutputFile out = settingsGradlePass.transformExisting(rel,
+                    Files.readString(file, StandardCharsets.UTF_8));
+            return out != null ? out : copyVerbatim(rel, file, ctx);
+        }
+        if (name.equals("settings.gradle.kts")) {
+            // 只记录状态；Kotlin DSL 文件本身与 MC 版本无关，原样保留。
+            return copyVerbatim(rel, file, ctx);
         }
         if (name.endsWith(".java")) {
             String out = javaPass.transform(rel, Files.readString(file, StandardCharsets.UTF_8));
@@ -213,13 +264,11 @@ public final class DefaultPortEngine implements PortEngine {
                     "Gradle wrapper 原样复制，其版本可能与目标版本 ForgeGradle 不兼容，请按目标版本 MDK 更新");
             return copyVerbatim(rel, file, ctx);
         }
-        // Access Widener（Fabric）：内容是逐行的类/成员名，随版本与映射变化，
-        // 无法可靠自动改写；原样复制但必须提示，否则运行期才会以崩溃形式暴露。
+        // Access Widener（Fabric）：复用 classes/members IR 做保守字符串迁移（AccessWidenerPass）。
+        // 命名空间不匹配、owner/成员无法安全解析等情形下该 Pass 会返回 null，由此处原样复制并已自行记录 TODO。
         if (name.endsWith(".accesswidener")) {
-            ctx.todo(rel, null, "accesswidener",
-                    "Access Widener 中的类名/成员名随 MC 版本与映射变化，本工具不改写其内容，"
-                    + "请逐行核对（首行 namespace 也需与目标工程的映射一致）");
-            return copyVerbatim(rel, file, ctx);
+            OutputFile out = accessWidenerPass.transform(rel, Files.readString(file, StandardCharsets.UTF_8));
+            return out != null ? out : copyVerbatim(rel, file, ctx);
         }
         // Mixin 配置（Fabric 模组普遍使用，Forge 侧也有）：compatibilityLevel 必须跟随目标 Java 版本
         if (name.endsWith("mixins.json")) {
@@ -239,8 +288,8 @@ public final class DefaultPortEngine implements PortEngine {
     /**
      * 更新 mixin 配置的 compatibilityLevel（如 JAVA_17 -> JAVA_21）。
      * 不是 mixin 配置、或无需改动时返回 null，由调用方原样复制。
-     * mixin 的 target 类名本身随映射变化，但那属于字符串引用，无法可靠自动改写，
-     * 因此这里只处理版本相关字段，其余由报告提示人工核对。
+     * 此处只处理配置级字段；注解字符串由 MixinReferencePass 独立保守迁移，
+     * 未覆盖的注入方式与 refmap 仍由报告提示人工核对。
      */
     private static OutputFile transformMixinConfig(PortContext ctx, String rel, String content) {
         try {
@@ -253,7 +302,7 @@ public final class DefaultPortEngine implements PortEngine {
             ctx.info(rel, null, "mixin-config", "compatibilityLevel " + current + " -> " + want);
             ctx.todo(rel, null, "mixin-config",
                     "Mixin 注入目标（@Mixin 的目标类、@Inject 的 method 签名）随版本与映射变化，"
-                    + "本工具无法自动改写，请逐个核对该配置引用的 mixin 类");
+                    + "已由 MixinReferencePass 保守处理可确认的字面量；请核对未覆盖的注入方式、签名变化与 refmap");
             return new OutputFile(rel, (MIXIN_GSON.toJson(o) + "\n").getBytes(StandardCharsets.UTF_8));
         } catch (Exception e) {
             return null;
@@ -262,8 +311,13 @@ public final class DefaultPortEngine implements PortEngine {
 
     /** 判断相对路径是否位于 assets/<ns>/<dirName>/ 之下。 */
     private static boolean isUnder(String rel, String dirName) {
-        return rel.contains("/assets/") && rel.contains("/" + dirName + "/")
-                || rel.startsWith("assets/") && rel.contains("/" + dirName + "/");
+        String[] segments = rel.split("/", -1);
+        for (int i = 0; i + 3 < segments.length; i++) {
+            if (segments[i].equals("assets")) {
+                return !segments[i + 1].isEmpty() && segments[i + 2].equals(dirName);
+            }
+        }
+        return false;
     }
 
     private static boolean isMetadataFile(String rel, String name, VersionMappings source) {

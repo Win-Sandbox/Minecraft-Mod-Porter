@@ -1,7 +1,15 @@
 {
   "!remove": [
     "forge.NetworkHooks",
-    "forge.event.RenderGuiOverlayEvent"
+    "forge.event.RenderGuiOverlayEvent",
+    "forge.client.IGuiOverlay",
+    "forge.client.RenderGuiEvent",
+    "forge.client.VanillaGuiOverlay",
+    "forge.common.TierSortingRegistry",
+    "forge.event.RegisterGuiOverlaysEvent",
+    "forge.network.NetworkEvent",
+    "forge.network.NetworkRegistry",
+    "mc.world.item.alchemy.PotionUtils"
   ],
   "mc.item.ItemStack": {
     "name": "net.minecraft.world.item.ItemStack",
@@ -46,5 +54,37 @@
   "forge.FMLJavaModLoadingContext": {
     "name": "net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext",
     "note": "类仍存在，但静态 FMLJavaModLoadingContext.get() 自 1.21.1 起 @Deprecated(forRemoval)：推荐让 @Mod 构造器声明 FMLJavaModLoadingContext 参数（Forge 自动注入），再 context.getModEventBus()"
-  }
+  },
+  "forge.network.SimpleChannel": {
+    "name": "net.minecraftforge.network.SimpleChannel",
+    "note": "Forge 1.20.2 网络重构后 SimpleChannel 位于 net.minecraftforge.network 包，由 ChannelBuilder 构建，消息用 messageBuilder(...).encoder/decoder/consumerMainThread 注册（见 network.channel）"
+  },
+  "mc.client.gui.LayeredDraw": "net.minecraft.client.gui.LayeredDraw",
+  "mc.client.DeltaTracker": "net.minecraft.client.DeltaTracker",
+  "mc.client.resources.PlayerSkin": "net.minecraft.client.resources.PlayerSkin",
+  "mc.core.component.DataComponentType": "net.minecraft.core.component.DataComponentType",
+  "mc.core.component.DataComponents": "net.minecraft.core.component.DataComponents",
+  "mc.network.RegistryFriendlyByteBuf": "net.minecraft.network.RegistryFriendlyByteBuf",
+  "mc.network.codec.ByteBufCodecs": "net.minecraft.network.codec.ByteBufCodecs",
+  "mc.network.codec.StreamCodec": "net.minecraft.network.codec.StreamCodec",
+  "mc.network.protocol.common.custom.CustomPacketPayload": "net.minecraft.network.protocol.common.custom.CustomPacketPayload",
+  "mc.network.protocol.game.GamePacketTypes": "net.minecraft.network.protocol.game.GamePacketTypes",
+  "mc.world.ItemInteractionResult": "net.minecraft.world.ItemInteractionResult",
+  "mc.world.food.FoodProperties": {
+    "name": "net.minecraft.world.food.FoodProperties",
+    "note": "1.20.5 起 FoodProperties 是记录类，作为数据组件 DataComponents.FOOD 存在；Builder 方法 saturationMod 改名 saturationModifier、alwaysEat 改名 alwaysEdible，meat() 已移除（改用物品标签）"
+  },
+  "mc.world.item.alchemy.PotionContents": "net.minecraft.world.item.alchemy.PotionContents",
+  "mc.world.item.component.CustomData": "net.minecraft.world.item.component.CustomData",
+  "mc.world.level.portal.DimensionTransition": "net.minecraft.world.level.portal.DimensionTransition",
+  "mc.advancements.critereon.LightningBoltPredicate": "net.minecraft.advancements.critereon.LightningBoltPredicate",
+  "mc.advancements.critereon.CollectionContentsPredicate": "net.minecraft.advancements.critereon.CollectionContentsPredicate",
+  "mc.advancements.critereon.CollectionCountsPredicate": "net.minecraft.advancements.critereon.CollectionCountsPredicate",
+  "mc.advancements.critereon.CollectionPredicate": "net.minecraft.advancements.critereon.CollectionPredicate",
+  "mc.advancements.critereon.EntitySubPredicates": "net.minecraft.advancements.critereon.EntitySubPredicates",
+  "mc.advancements.critereon.GameTypePredicate": "net.minecraft.advancements.critereon.GameTypePredicate",
+  "mc.advancements.critereon.MovementPredicate": "net.minecraft.advancements.critereon.MovementPredicate",
+  "mc.advancements.critereon.RaiderPredicate": "net.minecraft.advancements.critereon.RaiderPredicate",
+  "mc.advancements.critereon.SingleComponentItemPredicate": "net.minecraft.advancements.critereon.SingleComponentItemPredicate",
+  "mc.advancements.critereon.SlotsPredicate": "net.minecraft.advancements.critereon.SlotsPredicate"
 }

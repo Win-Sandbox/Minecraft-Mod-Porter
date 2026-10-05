@@ -1,0 +1,32 @@
+{
+  "classes": {
+    "net.minecraft.client.render.entity.state.EntityRenderState": {
+      "concept": "client.renderState",
+      "message": "EntityRenderState 是 1.21.2 引入的实体渲染状态基类，旧版本的渲染器直接读取实体"
+    },
+    "net.minecraft.client.render.entity.state.LivingEntityRenderState": {
+      "concept": "client.renderState",
+      "message": "LivingEntityRenderState 是 1.21.2 引入的生物渲染状态，旧版本的渲染器直接读取 LivingEntity"
+    },
+    "net.minecraft.item.SwordItem": {
+      "concept": "item.toolComponents",
+      "message": "SwordItem 存在到 1.21.4；1.21.5 起删除，改为 new Item(settings.sword(材料, 攻击伤害, 攻速))"
+    },
+    "net.minecraft.item.MiningToolItem": {
+      "concept": "item.toolComponents",
+      "message": "MiningToolItem 存在到 1.21.4；1.21.5 起删除，改用 Item.Settings#tool(...) 写入 TOOL 组件"
+    },
+    "net.minecraft.item.PickaxeItem": {
+      "concept": "item.toolComponents",
+      "message": "PickaxeItem 存在到 1.21.4；1.21.5 起删除，改为 new Item(settings.pickaxe(材料, 攻击伤害, 攻速))"
+    },
+    "net.minecraft.item.ArmorItem": {
+      "concept": "item.toolComponents",
+      "message": "ArmorItem 存在到 1.21.4；1.21.5 起删除，改为 new Item(settings.armor(ArmorMaterial, EquipmentType))"
+    },
+    "net.fabricmc.fabric.api.resource.ResourceManagerHelper": {
+      "concept": "fabric.resourceLoader",
+      "message": "ResourceManagerHelper（fabric-resource-loader-v0）用于注册重载监听器；1.21.9 起有新的 ResourceLoader（v1），1.21.11 的 Fabric API 删除了 v0"
+    }
+  }
+}

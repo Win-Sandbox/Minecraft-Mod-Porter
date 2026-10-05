@@ -17,8 +17,11 @@
   "mixins": ${mixinsJson},
   "depends": {
     "fabricloader": "${loaderVersionRange}",
-    "fabric-api": "*",
     "minecraft": "~${mcVersion}",
-    "java": ">=${javaVersion}"
+    "java": ">=${javaVersion}",
+    "fabric": "*"
+  },
+  "custom": {
+    "credits": "${credits}"
   }
 }

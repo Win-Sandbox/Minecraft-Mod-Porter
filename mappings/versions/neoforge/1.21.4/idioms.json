@@ -1,0 +1,14 @@
+{
+  "guidance": {
+    "model.registration": "1.21.4 起物品需要客户端物品定义 assets/<modid>/items/<name>.json（指向 models/item/... 模型），仅有模型文件不再生效；方块/物品模型数据生成改用原版 ModelProvider（BlockModelGenerators/ItemModelGenerators），NeoForge 的 ItemModelProvider/BlockStateProvider 已移除；自定义物品模型类型在 RegisterItemModelsEvent 中注册",
+    "fabric.datagen": "数据生成：1.21.4 起监听 GatherDataEvent.Client（资源+数据可一起生成）或 GatherDataEvent.Server，provider 用 event.createProvider(MyProvider::new)；运行配置为 clientData / serverData",
+    "fabric.resourceLoader": "NeoForge 注册重载监听器（21.4 起）：服务端数据在游戏总线 AddServerReloadListenersEvent 中 event.addListener(id, listener)，客户端资源在 Mod 总线 AddClientReloadListenersEvent 中 event.addListener(id, listener)",
+    "neoforge.client.ItemModelProvider": "ItemModelProvider 在 NeoForge 21.4 移除：改用原版 net.minecraft.client.data.models.ModelProvider，在 registerModels(BlockModelGenerators, ItemModelGenerators) 中生成物品模型与 items/*.json 客户端物品定义",
+    "neoforge.client.BlockStateProvider": "BlockStateProvider 在 NeoForge 21.4 移除：改用原版 ModelProvider 与 BlockModelGenerators 生成方块状态与方块模型",
+    "forge.Mod.EventBusSubscriber.Bus": "NeoForge 20.5 起 @EventBusSubscriber 为顶层注解，bus 常量 GAME/MOD；20.2–20.4 为 @Mod 内部注解，常量 FORGE/MOD。该版本 Bus 枚举形态与源版本不同或不可用，属性值需人工确认（FORGE 在 20.5+ 改为 GAME）。",
+    "mc.advancements.predicates.FoodPredicate": "FoodPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.FoodPredicate 引用；反向迁移时按本数据集实际的食物谓词类人工确认（该类旧包路径未核实，不要自动猜写）。",
+    "mc.advancements.predicates.InputPredicate": "InputPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.InputPredicate 引用；反向迁移时按本数据集实际的输入谓词类人工确认（旧数据为 advancements.criterion.InputPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.entity.SheepPredicate": "SheepPredicate 是 26.2 起进度实体谓词所在新包中的类；本数据集没有该 26.2 包路径的对应类。26.2 侧按 net.minecraft.advancements.predicates.entity.SheepPredicate 引用；反向迁移时按本数据集实际的实体谓词类人工确认（旧数据为 advancements.criterion.SheepPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.DataComponentMatchers": "DataComponentMatchers 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.DataComponentMatchers 引用；反向迁移时按本数据集实际的数据组件匹配类人工确认（旧数据为 advancements.criterion.DataComponentMatchers，仍需按本数据集核对）。"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "forge.event.BlockBreakEvent": {
+    "name": "net.neoforged.neoforge.event.level.block.BreakBlockEvent",
+    "note": "NeoForge 26.1.2 起 BlockEvent.BreakEvent 改为独立的 net.neoforged.neoforge.event.level.block.BreakBlockEvent（仍可 setCanceled，新增 setNotifyClient）"
+  }
+}

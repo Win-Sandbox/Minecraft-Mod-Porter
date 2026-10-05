@@ -1,0 +1,364 @@
+{
+  "mc.nbt.CompoundTag": {
+    "getInt": {
+      "name": "getInt",
+      "kind": "method",
+      "note": "1.21.5 起返回 Optional，需要默认值时改用对应的 xxxOr(key, 默认值)（如 getIntOr(key, 0)），需人工补默认值参数"
+    },
+    "getCompound": {
+      "name": "getCompoundOrEmpty",
+      "kind": "method",
+      "note": "旧版 getCompound 在缺失时返回空标签，与 1.21.5+ 的 getCompoundOrEmpty 语义一致；若需要区分缺失可改用返回 Optional 的 getCompound"
+    },
+    "getList": {
+      "name": "getListOrEmpty",
+      "kind": "method",
+      "note": "1.21.5 起不再需要元素类型参数：getListOrEmpty(key) 返回 ListTag（或 getList(key) 返回 Optional），需删掉第二个类型参数"
+    },
+    "putUUID": {
+      "name": "putUUID",
+      "kind": "method",
+      "note": "1.21.5 起已移除：改为 tag.store(key, UUIDUtil.CODEC, uuid)，需人工改写"
+    },
+    "getUUID": {
+      "name": "getUUID",
+      "kind": "method",
+      "note": "1.21.5 起已移除：改为 tag.read(key, UUIDUtil.CODEC)（返回 Optional<UUID>），需人工改写"
+    },
+    "hasUUID": {
+      "name": "hasUUID",
+      "kind": "method",
+      "note": "1.21.5 起已移除：改为 tag.read(key, UUIDUtil.CODEC).isPresent()，需人工改写"
+    }
+  },
+  "mc.entity.Entity": {
+    "getLevel": {
+      "name": "level",
+      "kind": "method",
+      "note": "Entity 的世界访问是 level()；ServerPlayer#level() 直接返回 ServerLevel，BlockEntity 仍是 getLevel()——请按接收者类型确认"
+    },
+    "hurt": {
+      "name": "hurt",
+      "kind": "method",
+      "note": "1.21.2 起 hurt 为 final 且返回 void：覆写受伤逻辑改为 hurtServer(ServerLevel, DamageSource, float)，需要结果的调用改用 hurtServer 或 hurtOrSimulate"
+    },
+    "getCommandSenderWorld": {
+      "name": "level",
+      "kind": "method",
+      "note": "getCommandSenderWorld 自 1.21.6 起已移除，直接用 level()"
+    },
+    "discard": {
+      "name": "discard",
+      "kind": "method",
+      "note": "discard() 静默移除实体；需要死亡逻辑（掉落等）请改用 kill(ServerLevel)"
+    }
+  },
+  "mc.entity.LivingEntity": {
+    "hasEffect": {
+      "name": "hasEffect",
+      "kind": "method",
+      "note": "参数为 Holder<MobEffect>，MobEffects 常量本身就是 Holder"
+    },
+    "getEffect": {
+      "name": "getEffect",
+      "kind": "method",
+      "note": "参数为 Holder<MobEffect>"
+    },
+    "removeEffect": {
+      "name": "removeEffect",
+      "kind": "method",
+      "note": "参数为 Holder<MobEffect>"
+    }
+  },
+  "mc.world.Level": {
+    "isClientSide": {
+      "name": "isClientSide",
+      "kind": "method",
+      "note": "isClientSide 字段已私有化，改为调用 isClientSide() 方法"
+    },
+    "getDayTime": {
+      "name": "getDayTime",
+      "kind": "method",
+      "note": "26.1 起昼夜时间由世界时钟管理，Level#getDayTime 已移除：读取可用 getOverworldClockTime() / getDefaultClockTime()，精细控制经 clockManager()，需人工确认语义"
+    },
+    "removeBlock": {
+      "name": "removeBlock",
+      "kind": "method",
+      "note": "removeBlock(BlockPos, boolean isMoving) 需要第二个参数，一般传 false"
+    }
+  },
+  "mc.entity.player.Player": {
+    "displayClientMessage": {
+      "name": "sendOverlayMessage",
+      "kind": "method",
+      "note": "26.1 起 displayClientMessage(Component, boolean) 已移除：原 actionBar=true 的调用改为 sendOverlayMessage(Component) 并删掉布尔参数；原为 false 的应改用 sendSystemMessage(Component)"
+    }
+  },
+  "mc.entity.player.ServerPlayer": {
+    "getLevel": {
+      "name": "level",
+      "kind": "method",
+      "note": "serverLevel() 自 1.21.6 起已移除：ServerPlayer#level() 直接返回 ServerLevel；Entity 同为 level()，BlockEntity 仍是 getLevel()——请按接收者类型确认"
+    }
+  },
+  "mc.item.ItemStack": {
+    "getTag": {
+      "name": "getTag",
+      "kind": "method",
+      "note": "ItemStack NBT API 自 1.20.5 起不存在：读取自定义数据用 stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag()，需人工按语义迁移"
+    },
+    "setTag": {
+      "name": "setTag",
+      "kind": "method",
+      "note": "ItemStack NBT API 自 1.20.5 起不存在：写入用 stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag)) 或专用组件，需人工按语义迁移"
+    },
+    "hasTag": {
+      "name": "hasTag",
+      "kind": "method",
+      "note": "ItemStack NBT API 自 1.20.5 起不存在：判断用 stack.has(DataComponents.XXX)，需人工按语义迁移"
+    },
+    "getOrCreateTag": {
+      "name": "getOrCreateTag",
+      "kind": "method",
+      "note": "ItemStack NBT API 自 1.20.5 起不存在：原地修改用 CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> ...)，需人工按语义迁移"
+    },
+    "getTagElement": {
+      "name": "getTagElement",
+      "kind": "method",
+      "note": "ItemStack NBT API 自 1.20.5 起不存在，改用数据组件，需人工按语义迁移"
+    },
+    "addTagElement": {
+      "name": "addTagElement",
+      "kind": "method",
+      "note": "ItemStack NBT API 自 1.20.5 起不存在，改用 CustomData.update 或专用组件，需人工按语义迁移"
+    },
+    "removeTagKey": {
+      "name": "removeTagKey",
+      "kind": "method",
+      "note": "ItemStack NBT API 自 1.20.5 起不存在：删除组件用 stack.remove(DataComponents.XXX)，需人工按语义迁移"
+    },
+    "setHoverName": {
+      "name": "setHoverName",
+      "kind": "method",
+      "note": "已移除：自定义名写 stack.set(DataComponents.CUSTOM_NAME, component)，需人工改写"
+    },
+    "save": {
+      "name": "save",
+      "kind": "method",
+      "note": "ItemStack#save/parse 自 1.21.6 起已移除：序列化改用 ItemStack.CODEC（可能为空时用 OPTIONAL_CODEC），在 BlockEntity 中配合 ValueOutput#store / ValueInput#read，需人工改写"
+    },
+    "sameItem": {
+      "name": "isSameItem",
+      "kind": "method",
+      "note": "静态方法 ItemStack.isSameItem(a, b)，需改为静态调用并补齐两个参数"
+    },
+    "isSameItemSameTags": {
+      "name": "isSameItemSameComponents",
+      "kind": "method",
+      "note": "比较物品与数据组件：静态方法 ItemStack.isSameItemSameComponents(a, b)"
+    },
+    "hurtAndBreak": {
+      "name": "hurtAndBreak",
+      "kind": "method",
+      "note": "签名为 hurtAndBreak(int, ServerLevel, ServerPlayer, Consumer<Item>) 或 hurtAndBreak(int, LivingEntity, EquipmentSlot/InteractionHand)，旧的 (int, LivingEntity, Consumer<LivingEntity>) 已不存在，需人工改写"
+    },
+    "getEnchantmentLevel": {
+      "name": "getEnchantmentLevel",
+      "kind": "method",
+      "note": "原版与 Fabric 均无此 ItemStack 方法：改用 EnchantmentHelper.getItemEnchantmentLevel(Holder<Enchantment>, stack)，Enchantments 常量需先经注册表取 Holder，需人工改写"
+    }
+  },
+  "mc.item.Item": {
+    "getDescriptionId#b": {
+      "name": "getDescriptionId",
+      "kind": "method",
+      "note": "带 ItemStack 参数的 getDescriptionId 已移除：只剩无参 getDescriptionId()；按物品堆取显示名用 getName(ItemStack)"
+    },
+    "appendHoverText": {
+      "name": "appendHoverText",
+      "kind": "method",
+      "note": "1.21.5 起签名: appendHoverText(ItemStack, Item.TooltipContext, TooltipDisplay, Consumer<Component>, TooltipFlag)：tooltip 由 List 改为 Consumer<Component> 并新增 TooltipDisplay 参数，覆写声明需人工改"
+    },
+    "use": {
+      "name": "use",
+      "kind": "method",
+      "note": "签名: use(Level, Player, InteractionHand) 返回 InteractionResult（InteractionResultHolder 已移除），返回物品时用 InteractionResult.SUCCESS.heldItemTransformedTo(stack)"
+    }
+  },
+  "mc.block.Block": {
+    "use": {
+      "name": "useWithoutItem",
+      "kind": "method",
+      "note": "1.20.5 起 use 拆分：空手交互 useWithoutItem(BlockState, Level, BlockPos, Player, BlockHitResult)（无 InteractionHand 参数），手持物品交互 useItemOn(ItemStack, BlockState, Level, BlockPos, Player, InteractionHand, BlockHitResult)，均返回 InteractionResult，签名需人工核对"
+    }
+  },
+  "mc.blockentity.BlockEntity": {
+    "load": {
+      "name": "loadAdditional",
+      "kind": "method",
+      "note": "1.21.6 起签名为 protected void loadAdditional(ValueInput)：用 input.getIntOr(key, 默认) / input.read(key, CODEC) 读取，覆写与 super 调用需人工改参数"
+    },
+    "saveAdditional": {
+      "name": "saveAdditional",
+      "kind": "method",
+      "note": "1.21.6 起签名为 protected void saveAdditional(ValueOutput)：用 output.putInt(key, v) / output.store(key, CODEC, v) 写入，覆写与 super 调用需人工改参数"
+    },
+    "getUpdateTag": {
+      "name": "getUpdateTag",
+      "kind": "method",
+      "note": "签名为 getUpdateTag(HolderLookup.Provider)，覆写需补参数"
+    }
+  },
+  "mc.chat.Component": {
+    "append#sibling": {
+      "name": "append",
+      "kind": "method",
+      "note": "append 定义在 MutableComponent 上；若变量声明类型是 Component，需改为 MutableComponent"
+    },
+    "append#text": {
+      "name": "append",
+      "kind": "method",
+      "note": "append 定义在 MutableComponent 上；若变量声明类型是 Component，需改为 MutableComponent"
+    }
+  },
+  "mc.enchant.EnchantmentHelper": {
+    "getItemEnchantmentLevel": {
+      "name": "getItemEnchantmentLevel",
+      "kind": "method",
+      "note": "签名为 getItemEnchantmentLevel(Holder<Enchantment>, ItemInstance)：Enchantments 常量是 ResourceKey，需先 registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(key) 取 Holder"
+    }
+  },
+  "mc.client.Screen": {
+    "render": {
+      "name": "extractRenderState",
+      "kind": "method",
+      "note": "26.1 Screen#render 改名为 extractRenderState(GuiGraphicsExtractor, int, int, float)；本改名按方法名匹配，若本处不是 Screen/控件的 render（如自定义类的同名方法）请撤销"
+    },
+    "renderBackground": {
+      "name": "extractBackground",
+      "kind": "method",
+      "note": "26.1 Screen#renderBackground 改名为 extractBackground，首参为 GuiGraphicsExtractor"
+    }
+  },
+  "mc.client.AbstractContainerScreen": {
+    "renderBg": {
+      "name": "extractBackground",
+      "kind": "method",
+      "note": "26.1 AbstractContainerScreen#renderBg 并入 Screen#extractBackground(GuiGraphicsExtractor, int, int, float)，参数顺序请人工核对"
+    },
+    "renderLabels": {
+      "name": "extractLabels",
+      "kind": "method",
+      "note": "26.1 改名 extractLabels，首参为 GuiGraphicsExtractor"
+    },
+    "renderSlot": {
+      "name": "extractSlot",
+      "kind": "method",
+      "note": "26.1 改名 extractSlot，首参为 GuiGraphicsExtractor"
+    },
+    "renderTooltip": {
+      "name": "extractTooltip",
+      "kind": "method",
+      "note": "26.1 AbstractContainerScreen#renderTooltip 改名 extractTooltip；GuiGraphics 上的同名方法改为 tooltip"
+    }
+  },
+  "mc.client.gui.GuiGraphics": {
+    "drawString": {
+      "name": "text",
+      "kind": "method",
+      "note": "26.1 GuiGraphicsExtractor#text(Font, 文本, x, y, 颜色[, 阴影])"
+    },
+    "drawCenteredString": {
+      "name": "centeredText",
+      "kind": "method"
+    },
+    "drawWordWrap": {
+      "name": "textWithWordWrap",
+      "kind": "method"
+    },
+    "hLine": {
+      "name": "horizontalLine",
+      "kind": "method"
+    },
+    "vLine": {
+      "name": "verticalLine",
+      "kind": "method"
+    },
+    "renderItem": {
+      "name": "item",
+      "kind": "method"
+    },
+    "renderFakeItem": {
+      "name": "fakeItem",
+      "kind": "method"
+    },
+    "renderItemDecorations": {
+      "name": "itemDecorations",
+      "kind": "method"
+    },
+    "renderOutline": {
+      "name": "outline",
+      "kind": "method"
+    },
+    "renderTooltip": {
+      "name": "tooltip",
+      "kind": "method",
+      "note": "26.1 GuiGraphicsExtractor#tooltip；AbstractContainerScreen 上的同名方法改为 extractTooltip"
+    }
+  },
+  "fabric.itemgroup.ItemGroupEvents": {
+    "modifyEntriesEvent": {
+      "name": "modifyOutputEvent",
+      "kind": "method",
+      "note": "26.1 CreativeModeTabEvents.modifyOutputEvent(ResourceKey<CreativeModeTab>)，回调参数类型为 FabricCreativeModeTabOutput"
+    },
+    "MODIFY_ENTRIES_ALL": {
+      "name": "MODIFY_OUTPUT_ALL",
+      "kind": "field"
+    }
+  },
+  "fabric.client.KeyBindingHelper": {
+    "registerKeyBinding": {
+      "name": "registerKeyMapping",
+      "kind": "method"
+    }
+  },
+  "fabric.event.ServerTickEvents": {
+    "START_WORLD_TICK": {
+      "name": "START_LEVEL_TICK",
+      "kind": "field"
+    },
+    "END_WORLD_TICK": {
+      "name": "END_LEVEL_TICK",
+      "kind": "field"
+    }
+  },
+  "fabric.event.ClientTickEvents": {
+    "START_WORLD_TICK": {
+      "name": "START_LEVEL_TICK",
+      "kind": "field"
+    },
+    "END_WORLD_TICK": {
+      "name": "END_LEVEL_TICK",
+      "kind": "field"
+    }
+  },
+  "fabric.registry.FabricRegistryBuilder": {
+    "createSimple": {
+      "name": "create",
+      "kind": "method"
+    }
+  },
+  "fabric.network.ServerPlayNetworking": {
+    "createS2CPacket": {
+      "name": "createClientboundPacket",
+      "kind": "method"
+    }
+  },
+  "fabric.network.ClientPlayNetworking": {
+    "createC2SPacket": {
+      "name": "createServerboundPacket",
+      "kind": "method"
+    }
+  }
+}

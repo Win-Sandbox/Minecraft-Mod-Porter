@@ -1,0 +1,17 @@
+{
+  "mcVersion": "1.21.5",
+  "basedOn": "1.21.4",
+  "packFormat": 55,
+  "forgeVersion": "21.5.98",
+  "loaderVersionRange": "[7,)",
+  "resourcePackFormat": [
+    55,
+    0
+  ],
+  "dataPackFormat": [
+    71,
+    0
+  ],
+  "packMetadataStyle": "legacy",
+  "itemModelDefinitions": true
+}

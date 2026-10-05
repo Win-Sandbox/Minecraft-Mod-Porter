@@ -1,0 +1,211 @@
+{
+  "mc.client.Minecraft": {
+    "setScreen": {
+      "name": "setScreen",
+      "kind": "method",
+      "note": "26.2 起改为 minecraft.gui.setScreen(screen)"
+    },
+    "screen": {
+      "name": "screen",
+      "kind": "field",
+      "note": "26.2 起当前界面改为 minecraft.gui.screen()"
+    },
+    "getToastManager": {
+      "name": "getToastManager",
+      "kind": "method",
+      "note": "26.2 起改为 minecraft.gui.toastManager()"
+    },
+    "getChatListener": {
+      "name": "getChatListener",
+      "kind": "method",
+      "note": "26.2 起改为 minecraft.gui.chatListener()"
+    },
+    "openChatScreen": {
+      "name": "openChatScreen",
+      "kind": "method",
+      "note": "26.2 起改为 minecraft.gui.openChatScreen(...)"
+    }
+  },
+  "mc.client.gui.Gui": {
+    "setTitle": {
+      "name": "setTitle",
+      "kind": "method",
+      "note": "26.2 起该 HUD 方法移到 Hud：minecraft.gui.hud.setTitle(...)"
+    },
+    "setSubtitle": {
+      "name": "setSubtitle",
+      "kind": "method",
+      "note": "26.2 起该 HUD 方法移到 Hud：minecraft.gui.hud.setSubtitle(...)"
+    },
+    "setTimes": {
+      "name": "setTimes",
+      "kind": "method",
+      "note": "26.2 起该 HUD 方法移到 Hud：minecraft.gui.hud.setTimes(...)"
+    },
+    "clearTitles": {
+      "name": "clearTitles",
+      "kind": "method",
+      "note": "26.2 起该 HUD 方法移到 Hud：minecraft.gui.hud.clearTitles(...)"
+    },
+    "resetTitleTimes": {
+      "name": "resetTitleTimes",
+      "kind": "method",
+      "note": "26.2 起该 HUD 方法移到 Hud：minecraft.gui.hud.resetTitleTimes(...)"
+    },
+    "setOverlayMessage": {
+      "name": "setOverlayMessage",
+      "kind": "method",
+      "note": "26.2 起该 HUD 方法移到 Hud：minecraft.gui.hud.setOverlayMessage(...)"
+    },
+    "setNowPlaying": {
+      "name": "setNowPlaying",
+      "kind": "method",
+      "note": "26.2 起该 HUD 方法移到 Hud：minecraft.gui.hud.setNowPlaying(...)"
+    },
+    "getChat": {
+      "name": "getChat",
+      "kind": "method",
+      "note": "26.2 起该 HUD 方法移到 Hud：minecraft.gui.hud.getChat(...)"
+    },
+    "getGuiTicks": {
+      "name": "getGuiTicks",
+      "kind": "method",
+      "note": "26.2 起该 HUD 方法移到 Hud：minecraft.gui.hud.getGuiTicks(...)"
+    },
+    "getSpectatorGui": {
+      "name": "getSpectatorGui",
+      "kind": "method",
+      "note": "26.2 起该 HUD 方法移到 Hud：minecraft.gui.hud.getSpectatorGui(...)"
+    },
+    "getTabList": {
+      "name": "getTabList",
+      "kind": "method",
+      "note": "26.2 起该 HUD 方法移到 Hud：minecraft.gui.hud.getTabList(...)"
+    },
+    "getBossOverlay": {
+      "name": "getBossOverlay",
+      "kind": "method",
+      "note": "26.2 起该 HUD 方法移到 Hud：minecraft.gui.hud.getBossOverlay(...)"
+    },
+    "getDebugOverlay": {
+      "name": "getDebugOverlay",
+      "kind": "method",
+      "note": "26.2 起该 HUD 方法移到 Hud：minecraft.gui.hud.getDebugOverlay(...)"
+    }
+  },
+  "mc.world.ChunkAccess": {
+    "markPosForPostprocessing": {
+      "name": "markPosForPostProcessing",
+      "kind": "method"
+    }
+  },
+  "mc.world.level.lighting.LightEngine": {
+    "getLightBlockInto": {
+      "name": "getLightDampeningInto",
+      "kind": "method"
+    }
+  },
+  "mc.world.level.levelgen.presets.WorldPresets": {
+    "createFlatWorldDimensions": {
+      "name": "createTestWorldDimensions",
+      "kind": "method"
+    }
+  },
+  "mc.server.level.PlayerSpawnFinder": {
+    "getOverworldRespawnPos": {
+      "name": "getLevelRespawnPos",
+      "kind": "method"
+    }
+  },
+  "mc.effect.MobEffect": {
+    "applyInstantenousEffect": {
+      "name": "applyInstantaneousEffect",
+      "kind": "method"
+    },
+    "isInstantenous": {
+      "name": "isInstantaneous",
+      "kind": "method"
+    }
+  },
+  "mc.client.gui.font.GlyphRenderTypes": {
+    "createForIntensityTexture": {
+      "name": "createForGrayscaleTexture",
+      "kind": "method"
+    }
+  },
+  "mc.world.level.levelgen.feature.Feature": {
+    "DRIPSTONE_CLUSTER": {
+      "name": "SPELEOTHEM_CLUSTER",
+      "kind": "field"
+    },
+    "POINTED_DRIPSTONE": {
+      "name": "SPELEOTHEM",
+      "kind": "field"
+    }
+  },
+  "mc.world.level.block.state.properties.BlockStateProperties": {
+    "DRIPSTONE_THICKNESS": {
+      "name": "SPELEOTHEM_THICKNESS",
+      "kind": "field"
+    }
+  },
+  "mc.world.level.levelgen.feature.configurations.TreeConfiguration": {
+    "CAN_PLACE_BELOW_OVERWORLD_TRUNKS": {
+      "name": "CAN_PLACE_BELOW_TREE_TRUNKS",
+      "kind": "field"
+    }
+  },
+  "mc.world.ChunkPos": {
+    "MAX_COORDINATE_VALUE": {
+      "name": "MAX_COORDINATE_VALUE",
+      "kind": "field",
+      "note": "26.2 起移到 ChunkPyramid.MAX_CHUNK_COORDINATE_VALUE（net.minecraft.world.level.chunk.status.ChunkPyramid）"
+    }
+  },
+  "mc.client.renderer.RenderPipelines": {
+    "TEXT_INTENSITY": {
+      "name": "TEXT_GRAYSCALE",
+      "kind": "field"
+    },
+    "TEXT_INTENSITY_SEE_THROUGH": {
+      "name": "TEXT_GRAYSCALE_SEE_THROUGH",
+      "kind": "field"
+    },
+    "GUI_TEXT_INTENSITY": {
+      "name": "GUI_TEXT_GRAYSCALE",
+      "kind": "field"
+    }
+  },
+  "mc.client.renderer.rendertype.RenderTypes": {
+    "TEXT_INTENSITY": {
+      "name": "TEXT_GRAYSCALE",
+      "kind": "field"
+    },
+    "TEXT_INTENSITY_SEE_THROUGH": {
+      "name": "TEXT_GRAYSCALE_SEE_THROUGH",
+      "kind": "field"
+    }
+  },
+  "mc.network.protocol.game.GamePacketTypes": {
+    "SERVERBOUND_SPECTATE_ENTITY": {
+      "name": "SERVERBOUND_SPECTATOR_ACTION",
+      "kind": "field"
+    }
+  },
+  "mc.network.protocol.game.ServerGamePacketListener": {
+    "handleSpectateEntity": {
+      "name": "handleSpectatorAction",
+      "kind": "method"
+    }
+  },
+  "mc.client.data.models.BlockModelGenerators": {
+    "createPointedDripstone": {
+      "name": "createSpeleothem",
+      "kind": "method"
+    },
+    "createPointedDripstoneVariant": {
+      "name": "createSpeleothemVariant",
+      "kind": "method"
+    }
+  }
+}

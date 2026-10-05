@@ -3,5 +3,15 @@
   "basedOn": "1.19.4",
   "packFormat": 12,
   "forgeVersion": "44.1.23",
-  "loaderVersionRange": "[44,)"
+  "loaderVersionRange": "[44,)",
+  "resourcePackFormat": [
+    12,
+    0
+  ],
+  "dataPackFormat": [
+    10,
+    0
+  ],
+  "packMetadataStyle": "legacy",
+  "itemModelDefinitions": false
 }

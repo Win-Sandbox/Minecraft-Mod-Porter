@@ -1,0 +1,17 @@
+{
+  "mcVersion": "26.2",
+  "basedOn": "26.1.2",
+  "packFormat": 88,
+  "forgeVersion": "26.2.0.88",
+  "loaderVersionRange": "[11,)",
+  "resourcePackFormat": [
+    88,
+    0
+  ],
+  "dataPackFormat": [
+    107,
+    1
+  ],
+  "packMetadataStyle": "range",
+  "itemModelDefinitions": true
+}

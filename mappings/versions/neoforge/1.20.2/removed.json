@@ -1,0 +1,9 @@
+{
+  "!remove": {
+    "classes": [
+      "net.neoforged.neoforge.capabilities.BlockCapabilityCache"
+    ]
+  },
+  "classes": {},
+  "members": {}
+}

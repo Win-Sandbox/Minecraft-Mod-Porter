@@ -1,0 +1,22 @@
+{
+  "mcVersion": "26.2",
+  "basedOn": "26.1",
+  "packFormat": 88,
+  "gradleVersion": "9.5.1",
+  "loaderVersionRange": ">=0.18.4",
+  "extras": {
+    "loomVersion": "1.17-SNAPSHOT",
+    "fabricLoaderVersion": "0.19.3",
+    "fabricApiVersion": "0.161.0+26.2"
+  },
+  "resourcePackFormat": [
+    88,
+    0
+  ],
+  "dataPackFormat": [
+    107,
+    1
+  ],
+  "packMetadataStyle": "range",
+  "itemModelDefinitions": true
+}

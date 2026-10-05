@@ -12,17 +12,21 @@
       "concept": "fabric.loot",
       "message": "FabricLootSupplierBuilder / FabricLootPoolBuilder 是 fabric-loot-tables-v1 的 v1 战利品表构建器，1.19+ 已被 v2/v3 API 取代"
     },
-    "net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry": {
+    "net.fabricmc.fabric.api.container.ContainerProviderRegistry": {
       "concept": "gui.menu",
-      "message": "ScreenHandlerRegistry.registerSimple / registerExtended 是 Fabric 注册 ScreenHandlerType 的方式，Forge 侧对应 DeferredRegister<MenuType> + IForgeMenuType.create"
+      "message": "fabric-containers-v0 的旧界面 API，1.16 起已弃用：服务端改为注册 ScreenHandlerType（需要附带数据时用 ExtendedScreenHandlerType），客户端改用 HandledScreens/ScreenRegistry 绑定界面"
+    },
+    "net.fabricmc.fabric.api.client.screen.ScreenProviderRegistry": {
+      "concept": "gui.menu",
+      "message": "fabric-containers-v0 的旧客户端界面 API，1.16 起已弃用：改用 HandledScreens.register（或本版本的 ScreenRegistry）按 ScreenHandlerType 绑定界面"
     },
     "net.fabricmc.fabric.api.object.builder.v1.block.FabricMaterialBuilder": {
       "concept": "block.propertiesBuilder",
       "message": "FabricMaterialBuilder 用于自定义 Material（1.20 起原版移除 Material，此类无对应物）"
     },
-    "net.fabricmc.fabric.api.biome.v1.OverworldBiomes": {
-      "concept": "worldgen",
-      "message": "OverworldBiomes / NetherBiomes / TheEndBiomes（fabric-biome-api-v1）用于把自定义群系加入原版世界生成，Forge 侧无同名机制"
+    "net.fabricmc.fabric.api.block.FabricBlockSettings": {
+      "concept": "block.propertiesBuilder",
+      "message": "net.fabricmc.fabric.api.block.FabricBlockSettings 是 fabric-object-builders-v0 的旧包（已弃用），新代码请用 net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings"
     },
     "net.fabricmc.fabric.api.network.ServerSidePacketRegistry": {
       "concept": "network.channel",
@@ -47,16 +51,126 @@
     "net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder": {
       "concept": "entity.registration",
       "message": "FabricEntityTypeBuilder（fabric-object-builder-api-v1）是 Fabric 构建 EntityType 的便捷入口，Forge 侧对应 EntityType.Builder + DeferredRegister"
+    },
+    "net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry": {
+      "concept": "gui.menu",
+      "message": "ScreenHandlerRegistry.registerSimple / registerExtended 是 Fabric 注册 ScreenHandlerType 的方式，Forge 侧对应 DeferredRegister<MenuType> + IForgeMenuType.create"
+    },
+    "net.fabricmc.fabric.api.biome.v1.OverworldBiomes": {
+      "concept": "worldgen",
+      "message": "OverworldBiomes / NetherBiomes / TheEndBiomes（fabric-biome-api-v1）用于把自定义群系加入原版世界生成，Forge 侧无同名机制"
+    },
+    "net.fabricmc.fabric.api.transfer.v1.storage.Storage": {
+      "concept": "capability.provider",
+      "message": "Fabric 的 Transfer API（Storage/ItemStorage/FluidStorage，fabric-transfer-api-v1）承担 Forge Capability 的物品/流体搬运职责，二者数据模型不同，需人工重写"
+    },
+    "net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup": {
+      "concept": "capability.provider",
+      "message": "BlockApiLookup（fabric-api-lookup-api-v1）是 Fabric 的按方块/侧面查询 API，对应 Forge 的 getCapability(cap, side)"
+    },
+    "net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint": {
+      "concept": "fabric.entrypoint",
+      "message": "Fabric 的 preLaunch 入口点是加载器机制，其它加载器/版本没有对应物"
+    },
+    "net.fabricmc.loader.api.entrypoint.EntrypointContainer": {
+      "concept": "fabric.entrypoint",
+      "message": "EntrypointContainer 属于 Fabric 的自定义入口点机制（FabricLoader.getEntrypointContainers），无跨加载器对应物"
+    },
+    "net.fabricmc.loader.api.LanguageAdapter": {
+      "concept": "fabric.entrypoint",
+      "message": "Fabric 的入口点由 fabric.mod.json 的 entrypoints 声明并经 LanguageAdapter 实例化，没有 @Mod 之类的注解入口；转换到其它加载器时入口声明必须整体重写"
+    },
+    "org.spongepowered.asm.mixin.injection.ModifyArg": {
+      "concept": "fabric.mixin",
+      "message": "Mixin 注入点。Mixin 在 Fabric 里是常规手段，转换到别的映射/版本时 method/target 描述符必须逐条人工核对"
+    },
+    "org.spongepowered.asm.mixin.injection.ModifyConstant": {
+      "concept": "fabric.mixin",
+      "message": "Mixin 注入点，同上"
+    },
+    "org.spongepowered.asm.mixin.injection.Slice": {
+      "concept": "fabric.mixin",
+      "message": "Mixin 注入范围限定，同上"
+    },
+    "net.fabricmc.fabric.api.event.Event": {
+      "concept": "lifecycle.eventHandler",
+      "message": "Fabric 的事件对象模型（Event/EventFactory + 回调接口 + .register(...)），与 Forge 的注解式事件总线机制完全不同，需人工改写"
+    },
+    "net.fabricmc.fabric.api.event.EventFactory": {
+      "concept": "lifecycle.eventHandler",
+      "message": "自定义 Fabric 事件用 EventFactory.createArrayBacked(...)；Forge 侧应改为继承 Event + MinecraftForge.EVENT_BUS.post"
+    },
+    "net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents": {
+      "concept": "lifecycle.eventHandler",
+      "message": "Fabric 的玩家重生/死亡事件（AFTER_RESPAWN / ALLOW_DEATH / COPY_FROM），Forge 侧对应 PlayerEvent.Clone 等"
+    },
+    "net.fabricmc.fabric.api.event.player.AttackEntityCallback": {
+      "concept": "lifecycle.eventHandler",
+      "message": "Fabric 的左键攻击实体回调，Forge 侧对应 AttackEntityEvent"
+    },
+    "net.fabricmc.fabric.api.transfer.v1.item.ItemVariant": {
+      "concept": "capability.provider",
+      "message": "Fabric Transfer API 的物品变体（不带数量），Forge 侧直接用 ItemStack + IItemHandler"
+    },
+    "net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant": {
+      "concept": "fluid.system",
+      "message": "Fabric Transfer API 的流体变体（以 81000 液滴为单位），Forge 侧对应 FluidStack（1000 mB）；单位与 API 都不同"
+    },
+    "net.fabricmc.fabric.api.transfer.v1.transaction.Transaction": {
+      "concept": "capability.provider",
+      "message": "Fabric Transfer API 的事务机制，Forge 的 Capability 用 simulate 布尔参数表达，无事务对象"
+    },
+    "net.fabricmc.fabric.api.registry.FuelRegistry": {
+      "concept": "registry.imperative",
+      "message": "Fabric 的燃料注册 FuelRegistry.INSTANCE.add(item, ticks)，Forge 侧对应 FurnaceFuelBurnTimeEvent 或 Item#getBurnTime"
+    },
+    "net.fabricmc.fabric.api.dimension.v1.FabricDimensions": {
+      "concept": "dimension",
+      "message": "Fabric 的跨维度传送辅助 FabricDimensions.teleport(entity, world, target)，Forge 侧用 Entity#changeDimension(ServerLevel, ITeleporter)"
+    },
+    "net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry": {
+      "concept": "config",
+      "message": "Fabric 的自定义游戏规则注册，Forge 侧无同类封装（需直接操作 GameRules 或改用配置文件）"
+    },
+    "net.fabricmc.loader.api.metadata.ModMetadata": {
+      "concept": "mod.list",
+      "message": "Fabric 的模组元数据视图（FabricLoader.getInstance().getModContainer(id).get().getMetadata()），Forge 侧对应 ModList.get().getModContainerById(...).getModInfo()"
+    },
+    "net.minecraft.block.BlockEntityProvider": {
+      "concept": "blockentity.entityblock",
+      "message": "Yarn 名 BlockEntityProvider（Mojmap EntityBlock）：本版本只有 createBlockEntity(BlockView world)，1.17 起改为 createBlockEntity(BlockPos, BlockState) 并新增 getTicker(...)"
+    },
+    "net.fabricmc.fabric.api.biome.v1.BiomeModificationContext": {
+      "concept": "worldgen",
+      "message": "BiomeModificationContext 是 Fabric 注入生物群系的上下文对象，Forge 侧对应 biome_modifier JSON，旧版本无对应物"
+    },
+    "net.fabricmc.fabric.api.networking.v1.PacketSender": {
+      "concept": "network.channel",
+      "message": "PacketSender 是 Fabric 网络 API 的发送句柄，其它加载器用各自的通道对象"
+    },
+    "net.minecraft.world.TeleportTarget": {
+      "concept": "dimension",
+      "message": "TeleportTarget 是 FabricDimensions.teleport(entity, world, target) 的目标参数（位置、速度、偏航、俯仰）；1.21 起改为原版 Entity#teleportTo(TeleportTarget)，并把目标世界也并入该对象"
+    },
+    "net.fabricmc.fabric.api.event.client.ClientTickCallback": {
+      "concept": "fabric.events",
+      "message": "fabric-events-lifecycle-v0 的旧客户端 tick 回调（ClientTickCallback.EVENT），已弃用：新代码用 ClientTickEvents.END_CLIENT_TICK（net.fabricmc.fabric.api.client.event.lifecycle.v1）"
+    },
+    "net.fabricmc.fabric.api.client.keybinding.KeyBindingRegistry": {
+      "concept": "input.glfw",
+      "message": "fabric-keybindings-v0 的旧键位注册入口（KeyBindingRegistry.INSTANCE.register(FabricKeyBinding)），已弃用：新代码用 KeyBindingHelper.registerKeyBinding(new KeyBinding(...))"
+    },
+    "net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry": {
+      "concept": "entity.registration",
+      "message": "Fabric 的生物默认属性注册：FabricDefaultAttributeRegistry.register(TYPE, MyEntity.createAttributes())，Forge 侧对应 EntityAttributeCreationEvent"
+    },
+    "net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry": {
+      "concept": "fluid.system",
+      "message": "Fabric 的流体渲染注册：FluidRenderHandlerRegistry.INSTANCE.register(still, flowing, new SimpleFluidRenderHandler(...))，Forge 侧由 FluidType 的客户端扩展提供"
     }
   },
   "members": {
-    "setRegistryName": {
-      "concept": "registry.name",
-      "message": "Fabric 没有 setRegistryName：注册名在 Registry.register(注册表, Identifier, 对象) 时给出"
-    },
-    "getRegistryName": {
-      "concept": "registry.name",
-      "message": "Fabric 没有 getRegistryName：反查注册名用 Registry.ITEM.getId(item) / Registry.BLOCK.getId(block)"
-    }
+    "setRegistryName": {"concept": "registry.name", "message": "Fabric 没有 setRegistryName：注册名在 Registry.register(注册表, Identifier, 对象) 时给出"},
+    "getRegistryName": {"concept": "registry.name", "message": "Fabric 没有 getRegistryName：反查注册名用 Registry.ITEM.getId(item) / Registry.BLOCK.getId(block)"}
   }
 }

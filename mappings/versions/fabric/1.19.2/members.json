@@ -31,8 +31,8 @@
       "note": "Yarn 中 Entity 的 level 字段名为 world（public World world）"
     },
     "getLevel": {
-      "name": "getEntityWorld", "kind": "method",
-      "note": "Yarn 中 Entity 取世界的方法是 getEntityWorld()（也可直接用 world 字段）；BlockEntity 用 getWorld()，ServerPlayerEntity 用 getWorld() 返回 ServerWorld——请按接收者类型确认"
+      "name": "getWorld", "kind": "method",
+      "note": "Entity#getWorld()；ServerPlayerEntity 的 getWorld() 返回 ServerWorld，BlockEntity 也叫 getWorld()——请按接收者类型确认"
     },
     "getX": {"name": "getX", "kind": "method"},
     "getY": {"name": "getY", "kind": "method"},
@@ -210,12 +210,12 @@
       "note": "Yarn 中 save(CompoundTag) -> writeNbt(NbtCompound)，返回传入的 NbtCompound"
     },
     "sameItem": {
-      "name": "isItemEqual", "kind": "method",
-      "note": "Yarn 中 sameItem(ItemStack) -> isItemEqual(ItemStack)（只比较物品，不比较 NBT）"
+      "name": "isItemEqualIgnoreDamage", "kind": "method",
+      "note": "本版本 Yarn 中实例方法 isItemEqualIgnoreDamage(ItemStack) 对应 Mojmap sameItem（只比物品、忽略耐久）；1.19.4 改名 isItemEqual，1.20 起变为静态 ItemStack.areItemsEqual(a, b)"
     },
     "isSameItemSameTags": {
-      "name": "areEqual", "kind": "method",
-      "note": "Yarn 中静态方法 ItemStack.areEqual(a, b)（物品 + NBT 全等）；只比物品用 ItemStack.areItemsEqual(a, b)"
+      "name": "canCombine", "kind": "method",
+      "note": "静态方法 ItemStack.canCombine(a, b)（物品与 NBT 都相同，不比数量）；包含数量的完全相等是 ItemStack.areEqual(a, b)"
     },
     "hurtAndBreak": {
       "name": "damage", "kind": "method",
@@ -223,7 +223,7 @@
     },
     "getEnchantmentLevel": {
       "name": "getEnchantmentLevel", "kind": "method",
-      "note": "Fabric/Yarn 的 ItemStack 上没有该方法（那是 Forge 的扩展方法）：请改为 EnchantmentHelper.getLevel(附魔, stack)"
+      "note": "Yarn/原版 ItemStack 没有该方法（Forge 的扩展方法）：改用 EnchantmentHelper.getLevel(附魔, stack)，需人工改写"
     }
   },
   "mc.item.Item": {
@@ -269,7 +269,7 @@
     },
     "getLevel": {
       "name": "getWorld", "kind": "method",
-      "note": "Yarn 中 BlockEntity#getWorld()；Entity 用 getEntityWorld()——请按接收者类型确认"
+      "note": "Yarn 中 BlockEntity#getWorld()（可能为 null）；Entity 同样有 getWorld()——请按接收者类型确认"
     },
     "getBlockPos": {
       "name": "getPos", "kind": "method",
@@ -325,6 +325,47 @@
     "get": {
       "name": "translate", "kind": "method",
       "note": "Yarn 中 I18n.get(key, args) -> I18n.translate(key, args)"
+    }
+  },
+  "mc.enchant.EnchantmentHelper": {
+    "getItemEnchantmentLevel": {"name": "getLevel", "kind": "method"}
+  },
+  "mc.client.Screen": {
+    "addRenderableWidget": {"name": "addDrawableChild", "kind": "method"},
+    "addWidget": {"name": "addSelectableChild", "kind": "method"},
+    "rebuildWidgets": {"name": "clearAndInit", "kind": "method"},
+    "repositionElements": {
+      "name": "initTabNavigation", "kind": "method",
+      "note": "本版本 Screen 没有 initTabNavigation()/repositionElements()（1.19.4 起才有）：窗口尺寸变化时需重新 init，可改为 this.init(this.client, this.width, this.height) 或在 resize 中处理，需人工改写"
+    }
+  },
+  "mc.client.player.AbstractClientPlayer": {
+    "getSkinTextureLocation": {"name": "getSkinTexture", "kind": "method"},
+    "getSkin": {
+      "name": "getSkinTextures", "kind": "method",
+      "note": "本版本没有 SkinTextures（1.20.2 引入）：贴图用 getSkinTexture()，模型类型用 getModel()，需人工改写"
+    }
+  },
+  "mc.client.gui.components.Button": {
+    "builder": {
+      "name": "builder", "kind": "method",
+      "note": "本版本 ButtonWidget 没有 builder()：改用构造器 new ButtonWidget(x, y, width, height, text, onPress)，参数顺序与 builder(text, onPress).dimensions(x, y, w, h) 不同，需人工改写"
+    }
+  },
+  "mc.client.gui.components.EditBox": {
+    "setHint": {
+      "name": "setPlaceholder", "kind": "method",
+      "note": "本版本 TextFieldWidget 没有占位提示方法（1.19.3 起才有 setPlaceholder(Text)），需删除该调用或自绘提示"
+    }
+  },
+  "mc.world.biome.Biome": {
+    "hasPrecipitation": {
+      "name": "hasPrecipitation", "kind": "method",
+      "note": "本版本 Biome 没有 hasPrecipitation()（1.19.4 起才有）：可改为 biome.getPrecipitation() != Biome.Precipitation.NONE"
+    },
+    "getPrecipitationAt": {
+      "name": "getPrecipitation", "kind": "method",
+      "note": "本版本 Biome#getPrecipitation() 不接受坐标参数（1.19.4 起才改为 getPrecipitation(BlockPos)），调用处需删去 BlockPos 实参"
     }
   }
 }

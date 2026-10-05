@@ -1,0 +1,21 @@
+{
+  "!remove": {
+    "classes": [
+      "net.fabricmc.fabric.api.resource.ResourceManagerHelper"
+    ]
+  },
+  "classes": {
+    "net.minecraft.command.permission.PermissionPredicate": {
+      "concept": "commands.permissions",
+      "message": "PermissionPredicate 是 1.21.11 引入的权限集合接口，旧版本用整数权限等级"
+    },
+    "net.minecraft.command.permission.PermissionLevel": {
+      "concept": "commands.permissions",
+      "message": "PermissionLevel 是 1.21.11 引入的权限等级枚举，旧版本直接用 0–4 的整数"
+    },
+    "net.minecraft.command.DefaultPermissions": {
+      "concept": "commands.permissions",
+      "message": "DefaultPermissions 是 1.21.11 引入的原版权限常量（MODERATORS/GAMEMASTERS/ADMINS/OWNERS），旧版本用整数等级"
+    }
+  }
+}

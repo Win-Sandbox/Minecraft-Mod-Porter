@@ -1,0 +1,7 @@
+{
+  "!remove": {
+    "classes": [
+      "net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry"
+    ]
+  }
+}

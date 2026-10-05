@@ -1,0 +1,25 @@
+{
+  "mc.item.ItemStack": {
+    "save": {
+      "name": "toTag",
+      "kind": "method",
+      "note": "toTag(CompoundTag) 语义同 Mojmap 的 save，返回传入的 tag（Yarn 1.16.5 起改名 writeNbt）"
+    }
+  },
+  "mc.blockentity.BlockEntity": {
+    "load": {
+      "name": "fromTag",
+      "kind": "method",
+      "note": "本版本签名为 void fromTag(BlockState, CompoundTag)（比 1.15.2 多一个 BlockState 参数），需人工核对覆写签名并调用 super.fromTag"
+    },
+    "saveAdditional": {
+      "name": "toTag",
+      "kind": "method",
+      "note": "本版本签名为 CompoundTag toTag(CompoundTag)：需调用 super.toTag 并返回传入的 tag（与 Mojmap saveAdditional 无返回值不同），签名需人工核对"
+    },
+    "getUpdateTag": {
+      "name": "toInitialChunkDataTag",
+      "kind": "method"
+    }
+  }
+}

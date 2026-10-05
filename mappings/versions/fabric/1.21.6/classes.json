@@ -1,0 +1,39 @@
+{
+  "!remove": [
+    "mc.client.gui.LayeredDraw"
+  ],
+  "mc.client.Screen": {
+    "name": "net.minecraft.client.gui.screen.Screen",
+    "note": "render(DrawContext, int, int, float) 签名不变；1.21.6 起 GUI 改为「先收集后渲染」：drawTexture/drawGuiTexture 首参改为 RenderPipeline（RenderPipelines.GUI_TEXTURED，net.minecraft.client.gl），像素 UV 参数不变；getMatrices() 返回 org.joml.Matrix3x2fStack（pushMatrix/popMatrix/translate(x, y)，没有 z）；drawText 等不再返回宽度；refreshWidgetPositions 用于重新布局"
+  },
+  "mc.client.AbstractContainerScreen": {
+    "name": "net.minecraft.client.gui.screen.ingame.HandledScreen",
+    "note": "Yarn 名为 HandledScreen<T extends ScreenHandler>；1.21.6 起 drawBackground 中的 drawTexture 首参改为 RenderPipelines.GUI_TEXTURED，矩阵栈为二维 Matrix3x2fStack；绑定用 HandledScreens.register(type, 构造)"
+  },
+  "mc.blockentity.BlockEntity": {
+    "name": "net.minecraft.block.entity.BlockEntity",
+    "note": "构造需要 (BlockEntityType, BlockPos, BlockState)；1.21.6 起存档读写改为 readData(ReadView)/writeData(WriteView)（net.minecraft.storage），不再直接接触 NbtCompound 与 WrapperLookup；同步用的 toInitialChunkDataNbt(RegistryWrapper.WrapperLookup) 仍返回 NbtCompound"
+  },
+  "mc.entity.player.ServerPlayer": {
+    "name": "net.minecraft.server.network.ServerPlayerEntity",
+    "note": "Yarn 名为 ServerPlayerEntity（Mojmap ServerPlayer）；1.21.6 起 server 字段改为 private，取服务器用 player.getServerWorld().getServer()；getServerWorld() 仍返回 ServerWorld"
+  },
+  "mc.item.ItemStack": {
+    "name": "net.minecraft.item.ItemStack",
+    "note": "数据全部由组件承载（get/set/remove/contains/getOrDefault/apply）；1.21.6 起 toNbt/fromNbt 删除，存档中读写物品改用 Codec：view.put(\"Item\", ItemStack.CODEC, stack)、view.read(\"Item\", ItemStack.CODEC)（ReadView/WriteView）"
+  },
+  "fabric.client.BlockRenderLayerMap": {
+    "name": "net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap",
+    "note": "1.21.6 起并入 fabric-rendering-v1 并改为静态方法：BlockRenderLayerMap.putBlock(BLOCK, BlockRenderLayer.CUTOUT)（不再有 INSTANCE），层类型改为 BlockRenderLayer 枚举而非 RenderLayer"
+  },
+  "fabric.event.HudRenderCallback": {
+    "name": "net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback",
+    "note": "1.21.6 起废弃，HUD 由 HudElementRegistry 管理：HudElementRegistry.addLast(Identifier.of(MODID, \"x\"), (drawContext, tickCounter) -> ...)，或 attachElementBefore/attachElementAfter 挂在原版元素前后；HudLayerRegistrationCallback 已删除"
+  },
+  "mc.world.level.storage.ValueInput": "net.minecraft.storage.ReadView",
+  "mc.world.level.storage.ValueOutput": "net.minecraft.storage.WriteView",
+  "mc.client.renderer.RenderPipelines": "net.minecraft.client.gl.RenderPipelines",
+  "fabric.client.HudElementRegistry": "net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry",
+  "fabric.client.HudElement": "net.fabricmc.fabric.api.client.rendering.v1.hud.HudElement",
+  "fabric.client.VanillaHudElements": "net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements"
+}

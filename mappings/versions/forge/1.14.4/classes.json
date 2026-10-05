@@ -1,4 +1,8 @@
 {
+  "!remove": [
+    "mc.client.renderer.ItemBlockRenderTypes",
+    "mc.client.renderer.RenderType"
+  ],
   "mc.client.BlockEntityRenderer": {
     "name": "net.minecraft.client.renderer.tileentity.TileEntityRenderer",
     "note": "1.14 的 TESR：无参构造（1.15 才需要传 TileEntityRendererDispatcher），render 签名为 (T, double x, double y, double z, float partialTicks, int destroyStage)，尚无 MatrixStack/IRenderTypeBuffer（1.15 渲染重构才引入），渲染直接用 GlStateManager 压栈；用 ClientRegistry.bindTileEntitySpecialRenderer(TileEntity 类, 渲染器) 注册（1.15 起才改名 bindTileEntityRenderer）"
