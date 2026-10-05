@@ -1,0 +1,28 @@
+{
+  "forms": {
+    "resourcelocation.parse": {
+      "type": "staticCall",
+      "class": "net.minecraft.resources.Identifier",
+      "method": "parse",
+      "arity": 1
+    },
+    "resourcelocation.fromNamespaceAndPath": {
+      "type": "staticCall",
+      "class": "net.minecraft.resources.Identifier",
+      "method": "fromNamespaceAndPath",
+      "arity": 2
+    }
+  },
+  "guidance": {
+    "resourcelocation.factory": "1.21.11 起 ResourceLocation 改名 Identifier（net.minecraft.resources.Identifier）：Identifier.fromNamespaceAndPath(ns, path)、Identifier.parse(\"ns:path\")、Identifier.withDefaultNamespace(path)，容错解析 tryParse/tryBuild",
+    "commands.permissions": "1.21.11 起命令权限重构为 PermissionSet：CommandSourceStack#hasPermission(int) 已移除，改为 .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))，代码中判断 source.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER)（net.minecraft.server.permissions）",
+    "tags.oredict": "标签系统：data/<ns>/tags/item|block/*.json，NeoForge 通用标签命名空间 c:（常量在 net.neoforged.neoforge.common.Tags）；代码判断 stack.is(tagKey)，TagKey 用 ItemTags.create(Identifier.fromNamespaceAndPath(ns, path))",
+    "neoforge.client.RegisterDimensionSpecialEffectsEvent": "RegisterDimensionSpecialEffectsEvent 在 NeoForge 21.11 移除：1.21.11 起维度天空/雾等效果由环境属性（environment attributes）与时间线数据驱动，改在数据包中配置",
+    "world.clock": "世界时间：level.getDayTime()（昼夜）与 level.getGameTime()（累计 tick）；1.21.11 起昼夜相关的视觉与规则效果改由环境属性/时间线数据驱动",
+    "forge.Mod.EventBusSubscriber.Bus": "NeoForge 20.5 起 @EventBusSubscriber 为顶层注解，bus 常量 GAME/MOD；20.2–20.4 为 @Mod 内部注解，常量 FORGE/MOD。该版本 Bus 枚举形态与源版本不同或不可用，属性值需人工确认（FORGE 在 20.5+ 改为 GAME）。",
+    "mc.advancements.predicates.FoodPredicate": "FoodPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.FoodPredicate 引用；反向迁移时按本数据集实际的食物谓词类人工确认（该类旧包路径未核实，不要自动猜写）。",
+    "mc.advancements.predicates.InputPredicate": "InputPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.InputPredicate 引用；反向迁移时按本数据集实际的输入谓词类人工确认（旧数据为 advancements.criterion.InputPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.entity.SheepPredicate": "SheepPredicate 是 26.2 起进度实体谓词所在新包中的类；本数据集没有该 26.2 包路径的对应类。26.2 侧按 net.minecraft.advancements.predicates.entity.SheepPredicate 引用；反向迁移时按本数据集实际的实体谓词类人工确认（旧数据为 advancements.criterion.SheepPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.DataComponentMatchers": "DataComponentMatchers 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.DataComponentMatchers 引用；反向迁移时按本数据集实际的数据组件匹配类人工确认（旧数据为 advancements.criterion.DataComponentMatchers，仍需按本数据集核对）。"
+  }
+}

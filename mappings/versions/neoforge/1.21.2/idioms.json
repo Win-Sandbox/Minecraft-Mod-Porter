@@ -1,0 +1,24 @@
+{
+  "guidance": {
+    "item.propertiesId": "1.21.2 起 Item.Properties / BlockBehaviour.Properties 必须携带注册 id：手写时 new Item.Properties().setId(ResourceKey.create(Registries.ITEM, id))；推荐 ITEMS.registerItem(\"name\", Item::new, new Item.Properties()) 与 BLOCKS.registerBlock(\"name\", Block::new, BlockBehaviour.Properties.of())，由 DeferredRegister 自动 setId；方块物品用 registerSimpleBlockItem 或在属性上 useBlockDescriptionPrefix()",
+    "item.materials": "1.21.2 起工具材质为 ToolMaterial（原 Tiers 常量同名迁移），SwordItem/DiggerItem 构造直接接收 (ToolMaterial, 攻击伤害, 攻击速度, Properties)；盔甲为 ArmorItem(ArmorMaterial, ArmorType, Properties)，ArmorMaterial 在 net.minecraft.world.item.equipment 且不再注册，外观改由 assets/<ns>/equipment/<name>.json 定义",
+    "item.food": "1.21.2 起食用行为拆为 Consumable 组件：Item.Properties#food(FoodProperties[, Consumable])，FoodProperties.Builder 只剩 nutrition/saturationModifier/alwaysEdible，吃的速度与效果写在 Consumable（Consumables.defaultFood().consumeSeconds(...).onConsume(...)）里",
+    "client.renderState": "1.21.2 起实体渲染采用渲染状态：EntityRenderer<T, S extends EntityRenderState> 需实现 createRenderState()、在 extractRenderState(entity, state, partialTick) 中复制所需数据，render(state, poseStack, bufferSource, packedLight) 不再能访问实体；模型 setupAnim 也改为接收状态对象",
+    "recipes.data": "配方仍是数据包 data/<modid>/recipe/*.json；1.21.2 起配方不再同步到客户端（客户端只拿 RecipeDisplay），原料写法改为 \"minecraft:diamond\" 或 \"#c:ingots/copper\" 字符串，NeoForge 自定义原料键为 neoforge:ingredient_type",
+    "registry.builtin": "静态注册表在 BuiltInRegistries、键在 Registries；1.21.2 起 Registry 方法改名：get(key/id) -> getValue、getHolder -> get、getHolderOrThrow -> getOrThrow、getOrThrow -> getValueOrThrow；RegistryAccess#registryOrThrow -> lookupOrThrow（这些名字过于通用，工具只自动改 registryOrThrow，其余请人工核对）",
+    "render.pipeline": "1.21.2 起 GuiGraphics#blit/blitSprite 首参为 Function<ResourceLocation, RenderType>（一般传 RenderType::guiTextured），UV 为 float：guiGraphics.blit(RenderType::guiTextured, 纹理, x, y, u, v, w, h, 纹理宽, 纹理高)",
+    "dimension": "自定义维度数据驱动；1.21.2 起跨维度传送为 Entity#teleport(TeleportTransition)（原 DimensionTransition 改名 TeleportTransition）",
+    "interaction.result": "1.21.2 起 InteractionResult 是密封接口，取代 InteractionResultHolder 与 ItemInteractionResult：常量 SUCCESS、SUCCESS_SERVER、CONSUME、FAIL、PASS、TRY_WITH_EMPTY_HAND；物品 use 直接返回 InteractionResult，替换手中物品用 InteractionResult.SUCCESS.heldItemTransformedTo(stack)",
+    "item.toolComponents": "1.21.2~1.21.4 的工具/武器/盔甲仍是专用子类，但构造改为 SwordItem(ToolMaterial, 攻击伤害, 攻击速度, Properties)、DiggerItem(ToolMaterial, TagKey<Block>, 伤害, 速度, Properties)、ArmorItem(ArmorMaterial, ArmorType, Properties)",
+    "mc.util.InteractionResultHolder": "1.21.2 起 InteractionResultHolder 已移除：Item#use 直接返回 InteractionResult，需要换掉手中物品时 return InteractionResult.SUCCESS.heldItemTransformedTo(newStack)",
+    "mc.world.item.Tier": "1.21.2 起 Tier 接口已移除：工具材质改为 record net.minecraft.world.item.ToolMaterial，自定义实现改为 new ToolMaterial(...) 常量（NeoForge 的 SimpleTier 也不再需要）",
+    "mc.world.ItemInteractionResult": "1.21.2 起 ItemInteractionResult 已并入 InteractionResult：方块 useItemOn 返回 InteractionResult，原 PASS_TO_DEFAULT_BLOCK_INTERACTION 改为 InteractionResult.TRY_WITH_EMPTY_HAND",
+    "forge.common.ForgeSpawnEggItem": "NeoForge 21.3 起 DeferredSpawnEggItem 已移除（21.2 仍在）：原版 SpawnEggItem 可直接接收尚未注册完成的实体类型，改用 new SpawnEggItem(实体类型, 底色, 斑点色, Item.Properties) 并以 ITEMS.registerItem 注册",
+    "mc.world.item.TieredItem": "1.21.2 起 TieredItem 已移除：工具材质只在构造时使用（SwordItem/DiggerItem 等接收 ToolMaterial），不再能从物品上取回 Tier",
+    "forge.Mod.EventBusSubscriber.Bus": "NeoForge 20.5 起 @EventBusSubscriber 为顶层注解，bus 常量 GAME/MOD；20.2–20.4 为 @Mod 内部注解，常量 FORGE/MOD。该版本 Bus 枚举形态与源版本不同或不可用，属性值需人工确认（FORGE 在 20.5+ 改为 GAME）。",
+    "mc.advancements.predicates.FoodPredicate": "FoodPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.FoodPredicate 引用；反向迁移时按本数据集实际的食物谓词类人工确认（该类旧包路径未核实，不要自动猜写）。",
+    "mc.advancements.predicates.InputPredicate": "InputPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.InputPredicate 引用；反向迁移时按本数据集实际的输入谓词类人工确认（旧数据为 advancements.criterion.InputPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.entity.SheepPredicate": "SheepPredicate 是 26.2 起进度实体谓词所在新包中的类；本数据集没有该 26.2 包路径的对应类。26.2 侧按 net.minecraft.advancements.predicates.entity.SheepPredicate 引用；反向迁移时按本数据集实际的实体谓词类人工确认（旧数据为 advancements.criterion.SheepPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.DataComponentMatchers": "DataComponentMatchers 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.DataComponentMatchers 引用；反向迁移时按本数据集实际的数据组件匹配类人工确认（旧数据为 advancements.criterion.DataComponentMatchers，仍需按本数据集核对）。"
+  }
+}

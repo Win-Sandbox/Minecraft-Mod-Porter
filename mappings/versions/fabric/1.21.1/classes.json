@@ -423,5 +423,95 @@
   "mixin.CallbackInfo": "org.spongepowered.asm.mixin.injection.callback.CallbackInfo",
   "mixin.CallbackInfoReturnable": "org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable",
   "mixin.Accessor": "org.spongepowered.asm.mixin.gen.Accessor",
-  "mixin.Invoker": "org.spongepowered.asm.mixin.gen.Invoker"
+  "mixin.Invoker": "org.spongepowered.asm.mixin.gen.Invoker",
+  "mc.core.Registry": {
+    "name": "net.minecraft.registry.Registry",
+    "note": "注册入口 Registry.register(Registries.ITEM, id, 对象)（net.minecraft.registry.Registry）。从 1.19.2 及更早迁来时，原来写在 Registry 上的 Registry.ITEM 等常量要改成 Registries.ITEM，注册表键改成 RegistryKeys.ITEM"
+  },
+  "mc.client.gui.GuiGraphics": {
+    "name": "net.minecraft.client.gui.DrawContext",
+    "note": "Yarn 名 DrawContext（Mojmap GuiGraphics）：1.20 起 Screen/控件的 render 首参由 MatrixStack 换成 DrawContext，fill/drawText/drawTexture 等改为 context 的实例方法，矩阵栈用 context.getMatrices() 取得"
+  },
+  "mc.client.gui.components.Button": {
+    "name": "net.minecraft.client.gui.widget.ButtonWidget",
+    "note": "创建按钮用 ButtonWidget.builder(text, onPress).dimensions(x, y, width, height).build()；1.19.2 及更早是公开构造器 new ButtonWidget(x, y, width, height, text, onPress)，参数顺序不同，降级需人工改写"
+  },
+  "mc.client.gui.components.EditBox": "net.minecraft.client.gui.widget.TextFieldWidget",
+  "mc.client.gui.components.AbstractWidget": {
+    "name": "net.minecraft.client.gui.widget.ClickableWidget",
+    "note": "Yarn 名 ClickableWidget；坐标用 getX()/getY()/setPosition(x, y)。1.19.2 及更早是公开字段 x / y，降级时需人工改回（转换器不自动改写这种通用名）"
+  },
+  "mc.network.FriendlyByteBuf": {
+    "name": "net.minecraft.network.PacketByteBuf",
+    "note": "PacketByteBuf 仍然存在；1.20.5 起 play 阶段的载荷编解码改用其子类 RegistryByteBuf（带注册表访问）配合 PacketCodec，手写 buf 读写的旧网络代码需按 CustomPayload 方式重写"
+  },
+  "mc.network.RegistryFriendlyByteBuf": {
+    "name": "net.minecraft.network.RegistryByteBuf",
+    "note": "Yarn 名 RegistryByteBuf（Mojmap RegistryFriendlyByteBuf），1.20.5 引入的 PacketByteBuf 子类，携带 DynamicRegistryManager，供 PacketCodec 编码物品堆等依赖注册表的数据"
+  },
+  "mc.client.player.AbstractClientPlayer": "net.minecraft.client.network.AbstractClientPlayerEntity",
+  "mc.client.resources.PlayerSkin": {
+    "name": "net.minecraft.client.util.SkinTextures",
+    "note": "Yarn 名 SkinTextures（Mojmap PlayerSkin），是 record：texture()/model()/capeTexture() 等；由 AbstractClientPlayerEntity#getSkinTextures() 取得。1.20.1 及更早没有这个类，贴图直接用 getSkinTexture()"
+  },
+  "mc.client.DeltaTracker": {
+    "name": "net.minecraft.client.render.RenderTickCounter",
+    "note": "Yarn 名 RenderTickCounter（Mojmap DeltaTracker）：1.21 起 HudRenderCallback 等渲染回调的第二个参数由 float tickDelta 变为 RenderTickCounter，取插值用 getTickDelta(true)"
+  },
+  "mc.network.chat.MutableComponent": {
+    "name": "net.minecraft.text.MutableText",
+    "note": "Yarn 名 MutableText：Text.literal(...) / Text.translatable(...) 的返回类型，append/formatted/styled 等可变操作都在它上面"
+  },
+  "mc.world.item.CreativeModeTabs": {
+    "name": "net.minecraft.item.ItemGroups",
+    "note": "Yarn 名 ItemGroups（Mojmap CreativeModeTabs）：原版创造页签常量；1.20 起这些常量是 RegistryKey<ItemGroup>，配合 ItemGroupEvents.modifyEntriesEvent(ItemGroups.XXX) 使用"
+  },
+  "mc.world.food.FoodProperties": {
+    "name": "net.minecraft.component.type.FoodComponent",
+    "note": "Yarn 名 FoodComponent，1.20.5 起移到 net.minecraft.component.type 并成为数据组件：new FoodComponent.Builder().nutrition(n).saturationModifier(f).build()"
+  },
+  "mc.network.protocol.common.custom.CustomPacketPayload": {
+    "name": "net.minecraft.network.packet.CustomPayload",
+    "note": "Yarn 名 CustomPayload：1.20.5 起自定义包必须实现它（record + CustomPayload.Id + PacketCodec），并先用 PayloadTypeRegistry.playS2C()/playC2S().register(ID, CODEC) 登记"
+  },
+  "mc.network.codec.StreamCodec": {
+    "name": "net.minecraft.network.codec.PacketCodec",
+    "note": "Yarn 名 PacketCodec（Mojmap StreamCodec），1.20.5 引入的网络编解码器，常用 PacketCodec.tuple(...) 组合"
+  },
+  "mc.network.codec.ByteBufCodecs": {
+    "name": "net.minecraft.network.codec.PacketCodecs",
+    "note": "Yarn 名 PacketCodecs（Mojmap ByteBufCodecs），常用基础编解码器集合（PacketCodecs.INTEGER / STRING 等）"
+  },
+  "mc.core.component.DataComponents": {
+    "name": "net.minecraft.component.DataComponentTypes",
+    "note": "Yarn 名 DataComponentTypes（Mojmap DataComponents）：1.20.5 起物品数据改为数据组件，读写用 stack.get(DataComponentTypes.XXX) / stack.set(...)"
+  },
+  "mc.core.component.DataComponentType": {
+    "name": "net.minecraft.component.ComponentType",
+    "note": "Yarn 名 ComponentType（Mojmap DataComponentType），自定义组件用 ComponentType.<T>builder().codec(...).packetCodec(...).build() 后注册到 Registries.DATA_COMPONENT_TYPE"
+  },
+  "mc.world.item.component.CustomData": {
+    "name": "net.minecraft.component.type.NbtComponent",
+    "note": "Yarn 名 NbtComponent（Mojmap CustomData），承载旧式自定义 NBT：stack.get(DataComponentTypes.CUSTOM_DATA)，修改用 NbtComponent.set(...) / apply(...)"
+  },
+  "mc.world.item.alchemy.PotionContents": {
+    "name": "net.minecraft.component.type.PotionContentsComponent",
+    "note": "Yarn 名 PotionContentsComponent（Mojmap PotionContents），取代旧的 PotionUtil 读写 NBT"
+  },
+  "mc.client.gui.LayeredDraw": {
+    "name": "net.minecraft.client.gui.LayeredDrawer",
+    "note": "Yarn 名 LayeredDrawer（Mojmap LayeredDraw），原版 HUD 分层绘制；Fabric 侧添加 HUD 仍用 HudRenderCallback"
+  },
+  "mc.world.ItemInteractionResult": {
+    "name": "net.minecraft.util.ItemActionResult",
+    "note": "Yarn 名 ItemActionResult（Mojmap ItemInteractionResult），是 1.20.5 起 AbstractBlock#onUseWithItem 的返回类型"
+  },
+  "fabric.block.FabricBlockSettings": {
+    "name": "net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings",
+    "note": "1.20.5 起已弃用（1.21.1 仍保留以便过渡，1.21.2 删除）：新代码直接用原版 AbstractBlock.Settings.create()/copy(方块)，二者方法名一致"
+  },
+  "mc.world.item.TooltipFlag": {
+    "name": "net.minecraft.item.tooltip.TooltipType",
+    "note": "Yarn 名 TooltipType（Mojmap TooltipFlag），1.20.5 起是 appendTooltip 的第 4 个参数（isAdvanced() 判断高级提示）；第 2 个参数 Item.TooltipContext 对应 Mojmap 的 Item.TooltipContext，1.20.4 及更早的 Yarn TooltipContext 才是本类"
+  }
 }

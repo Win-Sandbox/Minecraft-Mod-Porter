@@ -8,21 +8,17 @@
   "mc.item.DyeColor": "net.minecraft.item.EnumDyeColor",
   "mc.item.EquipmentSlot": "net.minecraft.inventory.EntityEquipmentSlot",
   "mc.item.Ingredient": "net.minecraft.item.crafting.Ingredient",
-
   "mc.block.Block": "net.minecraft.block.Block",
   "mc.block.Blocks": "net.minecraft.init.Blocks",
   "mc.block.state.BlockState": "net.minecraft.block.state.IBlockState",
   "mc.block.SoundType": "net.minecraft.block.SoundType",
   "mc.block.material.Material": "net.minecraft.block.material.Material",
-
   "mc.blockentity.BlockEntity": "net.minecraft.tileentity.TileEntity",
-
   "mc.world.Level": "net.minecraft.world.World",
   "mc.world.ServerLevel": "net.minecraft.world.WorldServer",
   "mc.world.ChunkAccess": "net.minecraft.world.chunk.Chunk",
   "mc.world.ChunkPos": "net.minecraft.util.math.ChunkPos",
   "mc.world.biome.Biome": "net.minecraft.world.biome.Biome",
-
   "mc.entity.Entity": "net.minecraft.entity.Entity",
   "mc.entity.LivingEntity": "net.minecraft.entity.EntityLivingBase",
   "mc.entity.Mob": "net.minecraft.entity.EntityLiving",
@@ -34,7 +30,6 @@
   "mc.entity.player.ServerPlayer": "net.minecraft.entity.player.EntityPlayerMP",
   "mc.entity.player.Abilities": "net.minecraft.entity.player.PlayerCapabilities",
   "mc.entity.item.ItemEntity": "net.minecraft.entity.item.EntityItem",
-
   "mc.core.BlockPos": "net.minecraft.util.math.BlockPos",
   "mc.core.Direction": "net.minecraft.util.EnumFacing",
   "mc.core.Vec3": "net.minecraft.util.math.Vec3d",
@@ -42,26 +37,21 @@
   "mc.core.AABB": "net.minecraft.util.math.AxisAlignedBB",
   "mc.core.RayTraceResult": "net.minecraft.util.math.RayTraceResult",
   "mc.core.NonNullList": "net.minecraft.util.NonNullList",
-
   "mc.resources.ResourceLocation": "net.minecraft.util.ResourceLocation",
-
   "mc.nbt.CompoundTag": "net.minecraft.nbt.NBTTagCompound",
   "mc.nbt.ListTag": "net.minecraft.nbt.NBTTagList",
   "mc.nbt.Tag": "net.minecraft.nbt.NBTBase",
-
   "mc.chat.Component": "net.minecraft.util.text.ITextComponent",
   "mc.chat.Style": "net.minecraft.util.text.Style",
   "mc.chat.ChatFormatting": "net.minecraft.util.text.TextFormatting",
   "mc.chat.ClickEvent": "net.minecraft.util.text.event.ClickEvent",
   "mc.chat.HoverEvent": "net.minecraft.util.text.event.HoverEvent",
-
   "mc.util.InteractionHand": "net.minecraft.util.EnumHand",
   "mc.util.InteractionResult": "net.minecraft.util.EnumActionResult",
   "mc.util.InteractionResultHolder": "net.minecraft.util.ActionResult",
   "mc.util.Mth": "net.minecraft.util.math.MathHelper",
   "mc.util.GsonHelper": "net.minecraft.util.JsonUtils",
   "mc.damage.DamageSource": "net.minecraft.util.DamageSource",
-
   "mc.effect.MobEffect": "net.minecraft.potion.Potion",
   "mc.effect.MobEffectInstance": "net.minecraft.potion.PotionEffect",
   "mc.effect.MobEffects": "net.minecraft.init.MobEffects",
@@ -70,19 +60,15 @@
   "mc.enchant.EnchantmentHelper": "net.minecraft.enchantment.EnchantmentHelper",
   "mc.particles.ParticleTypes": "net.minecraft.util.EnumParticleTypes",
   "mc.stats.Stats": "net.minecraft.stats.StatList",
-
   "mc.syncher.SynchedEntityData": "net.minecraft.network.datasync.EntityDataManager",
   "mc.syncher.EntityDataAccessor": "net.minecraft.network.datasync.DataParameter",
   "mc.syncher.EntityDataSerializers": "net.minecraft.network.datasync.DataSerializers",
-
   "mc.sound.SoundEvent": "net.minecraft.util.SoundEvent",
   "mc.sound.SoundEvents": "net.minecraft.init.SoundEvents",
   "mc.sound.SoundSource": "net.minecraft.util.SoundCategory",
-
   "mc.inventory.AbstractContainerMenu": "net.minecraft.inventory.Container",
   "mc.inventory.Slot": "net.minecraft.inventory.Slot",
   "mc.inventory.Container": "net.minecraft.inventory.IInventory",
-
   "mc.client.Minecraft": "net.minecraft.client.Minecraft",
   "mc.client.I18n": "net.minecraft.client.resources.I18n",
   "mc.client.ClientLevel": "net.minecraft.client.multiplayer.WorldClient",
@@ -93,7 +79,6 @@
   "mc.client.KeyMapping": "net.minecraft.client.settings.KeyBinding",
   "mc.client.BlockEntityRenderer": "net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer",
   "mc.server.MinecraftServer": "net.minecraft.server.MinecraftServer",
-
   "forge.Mod": "net.minecraftforge.fml.common.Mod",
   "forge.Mod.EventBusSubscriber": "net.minecraftforge.fml.common.Mod.EventBusSubscriber",
   "forge.SubscribeEvent": "net.minecraftforge.fml.common.eventhandler.SubscribeEvent",
@@ -105,7 +90,6 @@
   "forge.IForgeRegistry": "net.minecraftforge.registries.IForgeRegistry",
   "forge.Dist": "net.minecraftforge.fml.relauncher.Side",
   "forge.OnlyIn": "net.minecraftforge.fml.relauncher.SideOnly",
-
   "forge.capabilities.Capability": "net.minecraftforge.common.capabilities.Capability",
   "forge.capabilities.ICapabilityProvider": "net.minecraftforge.common.capabilities.ICapabilityProvider",
   "forge.capabilities.CapabilityManager": "net.minecraftforge.common.capabilities.CapabilityManager",
@@ -114,18 +98,15 @@
   "forge.energy.IEnergyStorage": "net.minecraftforge.energy.IEnergyStorage",
   "forge.energy.EnergyStorage": "net.minecraftforge.energy.EnergyStorage",
   "forge.util.INBTSerializable": "net.minecraftforge.common.util.INBTSerializable",
-
   "forge.fluids.FluidStack": "net.minecraftforge.fluids.FluidStack",
   "forge.fluids.IFluidHandler": "net.minecraftforge.fluids.capability.IFluidHandler",
   "forge.fluids.FluidUtil": "net.minecraftforge.fluids.FluidUtil",
   "forge.fluids.FluidTank": "net.minecraftforge.fluids.FluidTank",
-
   "forge.lifecycle.commonSetup": "net.minecraftforge.fml.common.event.FMLPreInitializationEvent",
   "forge.lifecycle.init": "net.minecraftforge.fml.common.event.FMLInitializationEvent",
   "forge.lifecycle.loadComplete": "net.minecraftforge.fml.common.event.FMLPostInitializationEvent",
   "forge.lifecycle.serverStarting": "net.minecraftforge.fml.common.event.FMLServerStartingEvent",
   "forge.lifecycle.serverStopping": "net.minecraftforge.fml.common.event.FMLServerStoppingEvent",
-
   "forge.event.RegisterEvent": "net.minecraftforge.event.RegistryEvent",
   "forge.event.AttachCapabilitiesEvent": "net.minecraftforge.event.AttachCapabilitiesEvent",
   "forge.event.EntityJoinLevelEvent": "net.minecraftforge.event.entity.EntityJoinWorldEvent",
@@ -143,5 +124,57 @@
   "forge.event.InputEvent": "net.minecraftforge.fml.common.gameevent.InputEvent",
   "forge.event.ScreenEvent": "net.minecraftforge.client.event.GuiScreenEvent",
   "forge.event.RenderGuiOverlayEvent": "net.minecraftforge.client.event.RenderGameOverlayEvent",
-  "forge.event.RenderLevelStageEvent": "net.minecraftforge.client.event.RenderWorldLastEvent"
+  "forge.event.RenderLevelStageEvent": "net.minecraftforge.client.event.RenderWorldLastEvent",
+  "forge.IEventBus": {
+    "name": "net.minecraftforge.fml.common.eventhandler.EventBus",
+    "note": "1.12.2 没有 IEventBus 接口：总线是具体类 EventBus（MinecraftForge.EVENT_BUS），只有 register(Object)/post(Event)，没有 addListener(Consumer)，也没有独立的 Mod 总线"
+  },
+  "forge.ModContainer": "net.minecraftforge.fml.common.ModContainer",
+  "forge.capabilities.ICapabilitySerializable": "net.minecraftforge.common.capabilities.ICapabilitySerializable",
+  "forge.client.ForgeHooksClient": "net.minecraftforge.client.ForgeHooksClient",
+  "forge.common.ForgeHooks": "net.minecraftforge.common.ForgeHooks",
+  "forge.entity.IEntityAdditionalSpawnData": "net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData",
+  "forge.event.EntityItemPickupEvent": "net.minecraftforge.event.entity.player.EntityItemPickupEvent",
+  "forge.event.ForgeEventFactory": "net.minecraftforge.event.ForgeEventFactory",
+  "forge.event.ItemTooltipEvent": "net.minecraftforge.event.entity.player.ItemTooltipEvent",
+  "forge.event.LevelTickEvent": {
+    "name": "net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent",
+    "note": "1.19 之前名为 TickEvent.WorldTickEvent，世界字段为 event.world（1.19 起为 TickEvent.LevelTickEvent / event.level）"
+  },
+  "forge.event.LivingTickEvent": {
+    "name": "net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent",
+    "note": "1.19 之前名为 LivingEvent.LivingUpdateEvent，实体用 event.getEntityLiving()（1.19 起为 LivingEvent.LivingTickEvent / getEntity()）"
+  },
+  "forge.event.PlayerSleepInBedEvent": "net.minecraftforge.event.entity.player.PlayerSleepInBedEvent",
+  "forge.event.RenderTickEvent": "net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent",
+  "forge.event.ServerChatEvent": "net.minecraftforge.event.ServerChatEvent",
+  "forge.items.ItemHandlerHelper": "net.minecraftforge.items.ItemHandlerHelper",
+  "forge.items.SlotItemHandler": "net.minecraftforge.items.SlotItemHandler",
+  "mc.advancements.CriteriaTriggers": "net.minecraft.advancements.CriteriaTriggers",
+  "mc.advancements.Criterion": "net.minecraft.advancements.Criterion",
+  "mc.advancements.CriterionTrigger": "net.minecraft.advancements.ICriterionTrigger",
+  "mc.client.gui.Gui": "net.minecraft.client.gui.GuiIngame",
+  "mc.client.gui.GuiComponent": "net.minecraft.client.gui.Gui",
+  "mc.client.gui.components.Button": "net.minecraft.client.gui.GuiButton",
+  "mc.client.gui.components.EditBox": "net.minecraft.client.gui.GuiTextField",
+  "mc.client.player.AbstractClientPlayer": "net.minecraft.client.entity.AbstractClientPlayer",
+  "mc.client.renderer.entity.EntityRenderer": "net.minecraft.client.renderer.entity.Render",
+  "mc.network.FriendlyByteBuf": "net.minecraft.network.PacketBuffer",
+  "mc.network.protocol.game.ServerGamePacketListener": "net.minecraft.network.play.INetHandlerPlayServer",
+  "mc.world.entity.monster.MagmaCube": "net.minecraft.entity.monster.EntityMagmaCube",
+  "mc.world.entity.monster.Slime": "net.minecraft.entity.monster.EntitySlime",
+  "mc.world.item.ArmorItem": "net.minecraft.item.ItemArmor",
+  "mc.world.item.ArmorMaterial": {
+    "name": "net.minecraft.item.ItemArmor.ArmorMaterial",
+    "note": "1.12.2 盔甲材质是 ItemArmor 的内部枚举 ArmorMaterial，自定义用 EnumHelper.addArmorMaterial"
+  },
+  "mc.world.item.DiggerItem": "net.minecraft.item.ItemTool",
+  "mc.world.item.SwordItem": "net.minecraft.item.ItemSword",
+  "mc.world.item.Tier": {
+    "name": "net.minecraft.item.Item.ToolMaterial",
+    "note": "1.12.2 工具材质是 Item 的内部枚举 ToolMaterial，自定义用 EnumHelper.addToolMaterial"
+  },
+  "mc.world.item.TooltipFlag": "net.minecraft.client.util.ITooltipFlag",
+  "mc.world.item.alchemy.PotionUtils": "net.minecraft.potion.PotionUtils",
+  "mc.world.level.GameRules": "net.minecraft.world.GameRules"
 }

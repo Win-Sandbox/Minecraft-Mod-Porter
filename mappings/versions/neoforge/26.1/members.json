@@ -1,0 +1,157 @@
+{
+  "mc.client.gui.GuiGraphics": {
+    "drawString": {
+      "name": "drawString",
+      "kind": "method",
+      "note": "26.1 起改名 text(font, 文本, x, y, 颜色[, 阴影])"
+    },
+    "drawCenteredString": {
+      "name": "centeredText",
+      "kind": "method"
+    },
+    "drawStringWithBackdrop": {
+      "name": "textWithBackdrop",
+      "kind": "method"
+    },
+    "drawWordWrap": {
+      "name": "textWithWordWrap",
+      "kind": "method"
+    },
+    "hLine": {
+      "name": "horizontalLine",
+      "kind": "method"
+    },
+    "vLine": {
+      "name": "verticalLine",
+      "kind": "method"
+    },
+    "renderItem": {
+      "name": "renderItem",
+      "kind": "method",
+      "note": "26.1 起改名 item(stack, x, y[, seed])"
+    },
+    "renderFakeItem": {
+      "name": "fakeItem",
+      "kind": "method"
+    },
+    "renderItemBar": {
+      "name": "itemBar",
+      "kind": "method"
+    },
+    "renderItemCooldown": {
+      "name": "itemCooldown",
+      "kind": "method"
+    },
+    "renderItemCount": {
+      "name": "itemCount",
+      "kind": "method"
+    },
+    "renderItemDecorations": {
+      "name": "itemDecorations",
+      "kind": "method"
+    },
+    "renderComponentHoverEffect": {
+      "name": "componentHoverEffect",
+      "kind": "method"
+    },
+    "renderOutline": {
+      "name": "outline",
+      "kind": "method"
+    },
+    "renderTooltip": {
+      "name": "renderTooltip",
+      "kind": "method",
+      "note": "26.1 起内部重载改名 tooltip；常规悬浮提示仍用 setTooltipForNextFrame"
+    }
+  },
+  "mc.client.Screen": {
+    "render": {
+      "name": "render",
+      "kind": "method",
+      "note": "26.1 起 Screen/AbstractWidget/Renderable 的 render 改名 extractRenderState(GuiGraphicsExtractor, int, int, float)；同名方法很多，工具不自动改名，请按接收者确认"
+    },
+    "renderBackground": {
+      "name": "extractBackground",
+      "kind": "method",
+      "note": "26.1 起改名 extractBackground，首参为 GuiGraphicsExtractor"
+    },
+    "renderTransparentBackground": {
+      "name": "extractTransparentBackground",
+      "kind": "method"
+    },
+    "renderMenuBackground": {
+      "name": "extractMenuBackground",
+      "kind": "method"
+    },
+    "renderBlurredBackground": {
+      "name": "extractBlurredBackground",
+      "kind": "method"
+    },
+    "renderPanorama": {
+      "name": "extractPanorama",
+      "kind": "method"
+    }
+  },
+  "mc.client.AbstractContainerScreen": {
+    "renderBg": {
+      "name": "extractBackground",
+      "kind": "method",
+      "note": "26.1 起 renderBg(GuiGraphics, float, int, int) 并入 extractBackground(GuiGraphicsExtractor, int mouseX, int mouseY, float partialTick)，注意参数顺序"
+    },
+    "renderLabels": {
+      "name": "extractLabels",
+      "kind": "method",
+      "note": "首参改为 GuiGraphicsExtractor"
+    },
+    "renderSlot": {
+      "name": "extractSlot",
+      "kind": "method",
+      "note": "首参改为 GuiGraphicsExtractor"
+    }
+  },
+  "mc.client.gui.components.AbstractWidget": {
+    "renderWidget": {
+      "name": "extractWidgetRenderState",
+      "kind": "method",
+      "note": "首参改为 GuiGraphicsExtractor"
+    }
+  },
+  "mc.world.ChunkPos": {
+    "asLong": {
+      "name": "pack",
+      "kind": "method",
+      "note": "26.1 起 ChunkPos.asLong(...) 改名 pack(...)"
+    },
+    "toLong": {
+      "name": "pack",
+      "kind": "method",
+      "note": "26.1 起实例方法 toLong() 改名 pack()"
+    }
+  },
+  "mc.world.Level": {
+    "random": {
+      "name": "getRandom",
+      "kind": "method",
+      "note": "26.1 起 Level.random 为 protected，外部读取用 getRandom()"
+    },
+    "getDayTime": {
+      "name": "getDayTime",
+      "kind": "method",
+      "note": "26.1 起 getDayTime 已移除：昼夜时间改由世界时钟提供（getOverworldClockTime() / getDefaultClockTime()），需人工改写"
+    }
+  },
+  "mc.entity.player.Player": {
+    "displayClientMessage": {
+      "name": "displayClientMessage",
+      "kind": "method",
+      "note": "26.1 起已移除：动作栏消息用 sendOverlayMessage(Component)，聊天栏消息用 sendSystemMessage(Component)"
+    }
+  },
+  "forge.fluids.FluidStack": {
+    "getFluidType": {
+      "name": "getFluidType",
+      "kind": "method",
+      "note": "NeoForge 26.1 起 FluidStack#getFluidType 已移除（Fluid 自身的 getFluidType 仍在）：用 stack.getFluid().getFluidType() 或新的 typeHolder()"
+    }
+  }
+}

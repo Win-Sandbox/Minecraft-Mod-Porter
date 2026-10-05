@@ -1,0 +1,20 @@
+{
+  "mcVersion": "1.20.6",
+  "basedOn": "1.20.5",
+  "forgeVersion": "20.6.141",
+  "gradleVersion": "9.2.1",
+  "extras": {
+    "mdgVersion": "2.0.148"
+  },
+  "packFormat": 32,
+  "resourcePackFormat": [
+    32,
+    0
+  ],
+  "dataPackFormat": [
+    41,
+    0
+  ],
+  "packMetadataStyle": "legacy",
+  "itemModelDefinitions": false
+}

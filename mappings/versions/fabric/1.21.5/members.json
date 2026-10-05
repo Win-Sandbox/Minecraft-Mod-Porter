@@ -1,0 +1,53 @@
+{
+  "mc.client.DeltaTracker": {
+    "getGameTimeDeltaPartialTick": {
+      "name": "getTickProgress",
+      "kind": "method",
+      "note": "1.21.5 起 Yarn 把 RenderTickCounter#getTickDelta(boolean) 改名 getTickProgress(boolean)"
+    }
+  },
+  "mc.nbt.CompoundTag": {
+    "getInt": {
+      "name": "getInt",
+      "kind": "method",
+      "note": "1.21.5 起返回 Optional Optional<Integer>；保持旧行为请改为 getInt(key, 0)（getString/getBoolean/getLong/getFloat/getDouble 同理带默认值重载）"
+    },
+    "getCompound": {
+      "name": "getCompoundOrEmpty",
+      "kind": "method",
+      "note": "1.21.5 起 getCompound 返回 Optional<NbtCompound>；与旧版语义相同（缺失返回空复合标签）的是 getCompoundOrEmpty"
+    },
+    "getList": {
+      "name": "getListOrEmpty",
+      "kind": "method",
+      "note": "1.21.5 起列表可混合类型，不再需要类型参数：getListOrEmpty(key)（缺失返回空列表），请删掉原来的第二个类型常量参数；getList(key) 返回 Optional"
+    },
+    "contains": {
+      "name": "contains",
+      "kind": "method",
+      "note": "1.21.5 起只剩 contains(key)；带类型参数的 contains(key, 类型) 已删除，需改为 get(key) instanceof 判断或直接用 getX(key) 的 Optional"
+    },
+    "putUUID": {
+      "name": "putUuid",
+      "kind": "method",
+      "note": "1.21.5 起 putUuid 已删除：改为 nbt.put(key, Uuids.INT_STREAM_CODEC, uuid)，需人工改写"
+    },
+    "getUUID": {
+      "name": "getUuid",
+      "kind": "method",
+      "note": "1.21.5 起 getUuid 已删除：改为 nbt.get(key, Uuids.INT_STREAM_CODEC)（返回 Optional<UUID>），需人工改写"
+    },
+    "hasUUID": {
+      "name": "containsUuid",
+      "kind": "method",
+      "note": "1.21.5 起 containsUuid 已删除：改为 nbt.get(key, Uuids.INT_STREAM_CODEC).isPresent()，需人工改写"
+    }
+  },
+  "mc.item.Item": {
+    "appendHoverText": {
+      "name": "appendTooltip",
+      "kind": "method",
+      "note": "1.21.5 起签名为 appendTooltip(ItemStack, Item.TooltipContext, TooltipDisplayComponent, Consumer<Text>, TooltipType) 且已废弃：List<Text> 参数改为 Consumer<Text>（tooltip.accept(text)），推荐改用实现 TooltipAppender 的数据组件"
+    }
+  }
+}

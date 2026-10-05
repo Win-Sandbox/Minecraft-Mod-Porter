@@ -1,0 +1,18 @@
+{
+  "supported": [
+    "commands.permissions"
+  ],
+  "!removeSupported": [
+    "fabric.resourceLoader"
+  ],
+  "guidance": {
+    "commands.permissions": "1.21.11 起权限改为谓词对象（net.minecraft.command.permission）：命令节点写 .requires(CommandManager.requirePermissionLevel(CommandManager.GAMEMASTERS_CHECK))（另有 MODERATORS_CHECK/ADMINS_CHECK/OWNERS_CHECK），代码中判断 source.getPermissions().hasPermission(DefaultPermissions.GAMEMASTERS)；hasPermissionLevel(int) 已删除",
+    "fabric.resourceLoader": "1.21.11 的 Fabric API 已删除 ResourceManagerHelper（v0）：改用 ResourceLoader.get(ResourceType.SERVER_DATA).registerReloader(Identifier.of(MODID, \"x\"), 重载器)，与原版或其它重载器的先后顺序用 ResourceReloaderKeys 声明",
+    "commands.brigadier": "命令注册：CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(CommandManager.literal(\"cmd\").requires(CommandManager.requirePermissionLevel(CommandManager.GAMEMASTERS_CHECK)).executes(ctx -> { ... return 1; })))；1.21.11 起不再有 hasPermissionLevel(int)，代码内判断用 source.getPermissions().hasPermission(DefaultPermissions.GAMEMASTERS)",
+    "fabric.mixin": "Mixin 在 Fabric 是一等公民：配置写在 <modid>.mixins.json（fabric.mod.json 的 mixins 数组引用），访问私有成员优先用 access widener；目标字节码为 Java 21。1.21.11 是最后一个提供 Yarn 与 intermediary 的版本，之后（26.1 起）游戏不再混淆，需迁移到官方名，并清理代码中的 method_/field_ 中间名",
+    "mc.advancements.predicates.FoodPredicate": "FoodPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.FoodPredicate 引用；反向迁移时按本数据集实际的食物谓词类人工确认（该类旧包路径未核实，不要自动猜写）。",
+    "mc.advancements.predicates.InputPredicate": "InputPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.InputPredicate 引用；反向迁移时按本数据集实际的输入谓词类人工确认（旧数据为 advancements.criterion.InputPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.entity.SheepPredicate": "SheepPredicate 是 26.2 起进度实体谓词所在新包中的类；本数据集没有该 26.2 包路径的对应类。26.2 侧按 net.minecraft.advancements.predicates.entity.SheepPredicate 引用；反向迁移时按本数据集实际的实体谓词类人工确认（旧数据为 advancements.criterion.SheepPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.DataComponentMatchers": "DataComponentMatchers 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.DataComponentMatchers 引用；反向迁移时按本数据集实际的数据组件匹配类人工确认（旧数据为 advancements.criterion.DataComponentMatchers，仍需按本数据集核对）。"
+  }
+}

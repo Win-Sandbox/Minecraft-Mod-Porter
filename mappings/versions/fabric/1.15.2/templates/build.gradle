@@ -1,47 +1,38 @@
-buildscript {
-    repositories {
-        maven { url = 'https://maven.fabricmc.net/' }
-        mavenCentral()
-        gradlePluginPortal()
-    }
-    dependencies {
-        classpath group: 'net.fabricmc', name: 'fabric-loom', version: '${loomVersion}', changing: true
-    }
+plugins {
+    id 'fabric-loom' version '${loomVersion}'
+    id 'maven-publish'
 }
-apply plugin: 'fabric-loom'
-apply plugin: 'maven-publish'
 
 version = '${version}'
 group = '${group}'
-archivesBaseName = '${modid}'
+
+base {
+    archivesName = '${modid}'
+}
 
 repositories {
-    // Loom 会自动加入 Minecraft / Fabric 所需的仓库，这里只放依赖模组的仓库
+    // Minecraft、Fabric 与 Mojang 的仓库由 fabric-loom 自动加入，这里只放依赖模组所需的仓库
 }
 
 dependencies {
-    minecraft 'com.mojang:minecraft:${mcVersion}'
-    mappings 'net.fabricmc:yarn:${yarnVersion}:v2'
-    modImplementation 'net.fabricmc:fabric-loader:${fabricLoaderVersion}'
-    modImplementation 'net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}'
-}
+    minecraft "com.mojang:minecraft:${mcVersion}"
+    mappings "net.fabricmc:yarn:${yarnVersion}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${fabricLoaderVersion}"
 
-processResources {
-    inputs.property 'version', project.version
-    filesMatching('fabric.mod.json') {
-        expand 'version': project.version
-    }
+    // Fabric API（也可以只引入用到的模块）
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}"
 }
 
 tasks.withType(JavaCompile).configureEach {
     it.options.encoding = 'UTF-8'
+    // 运行 Gradle 的 JDK 版本可以更高，这里用 --release 锁定目标字节码与 API 版本
     it.options.release = ${javaVersion}
 }
 
 java {
     withSourcesJar()
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.toVersion(${javaVersion})
+    targetCompatibility = JavaVersion.toVersion(${javaVersion})
 }
 
 jar {

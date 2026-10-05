@@ -1,0 +1,14 @@
+{
+  "!remove": {
+    "classes": [
+      "net.neoforged.neoforge.network.handling.PlayPayloadContext",
+      "net.neoforged.neoforge.network.handling.ConfigurationPayloadContext",
+      "net.neoforged.neoforge.network.handling.IPlayPayloadHandler",
+      "net.neoforged.neoforge.client.gui.overlay.ExtendedGui",
+      "net.neoforged.neoforge.client.gui.overlay.NamedGuiOverlay",
+      "net.neoforged.neoforge.common.crafting.NBTIngredient"
+    ]
+  },
+  "classes": {},
+  "members": {}
+}

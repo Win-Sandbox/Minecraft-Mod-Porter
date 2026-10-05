@@ -1,29 +1,5 @@
 {
   "classes": {
-    "net.minecraftforge.registries.DeferredRegister": {
-      "concept": "registry.deferred",
-      "message": "DeferredRegister 是 1.13+ 的注册机制，旧版本不存在"
-    },
-    "net.minecraftforge.fml.RegistryObject": {
-      "concept": "registry.deferred",
-      "message": "RegistryObject（1.16.5 位于 net.minecraftforge.fml）是 DeferredRegister 配套机制，旧版本不存在"
-    },
-    "net.minecraftforge.fml.DistExecutor": {
-      "concept": "proxy.sided",
-      "message": "DistExecutor 是 1.13+ 的分侧执行机制"
-    },
-    "net.minecraftforge.fml.network.simple.SimpleChannel": {
-      "concept": "network.channel",
-      "message": "SimpleChannel（1.16.5 位于 net.minecraftforge.fml.network.simple）是 1.13+ 的网络机制"
-    },
-    "net.minecraftforge.fml.network.NetworkRegistry": {
-      "concept": "network.channel",
-      "message": "1.16.5 的 NetworkRegistry（fml.network 包）用于创建 SimpleChannel，与 1.12 的旧网络注册和 1.19 的 network 包位置均不同"
-    },
-    "net.minecraftforge.fluids.ForgeFlowingFluid": {
-      "concept": "fluid.system",
-      "message": "ForgeFlowingFluid 是 1.13+ 的流体机制"
-    },
     "net.minecraftforge.fluids.FluidAttributes": {
       "concept": "fluid.system",
       "message": "FluidAttributes 是 1.13~1.18 的流体属性机制（1.19.2 起被 FluidType 取代）"

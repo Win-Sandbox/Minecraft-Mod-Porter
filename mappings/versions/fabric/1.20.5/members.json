@@ -1,0 +1,50 @@
+{
+  "!remove": [
+    "mc.client.DeltaTracker"
+  ],
+  "mc.item.ItemStack": {
+    "isSameItemSameTags": {
+      "name": "areItemsAndComponentsEqual",
+      "kind": "method",
+      "note": "1.20.5 起「物品与数据组件相同（不比较数量）」是静态方法 ItemStack.areItemsAndComponentsEqual(a, b)，取代 1.20.4 的 canCombine；ItemStack.areEqual 还会比较数量，语义不同"
+    },
+    "hurtAndBreak": {
+      "name": "damage",
+      "kind": "method",
+      "note": "1.20.5/1.20.6 签名：装备损耗 stack.damage(amount, livingEntity, EquipmentSlot.MAINHAND)；服务端通用 stack.damage(amount, random, serverPlayerEntity, () -> {损坏回调})。1.20.4 的 damage(int, LivingEntity, Consumer) 已删除，1.21 又改为 ServerWorld + Consumer<Item> 形式，需人工改写"
+    },
+    "getEnchantmentLevel": {
+      "name": "getEnchantmentLevel",
+      "kind": "method",
+      "note": "Fabric 没有这个 ItemStack 扩展方法：改用 EnchantmentHelper.getLevel(Enchantment, ItemStack)（1.20.5/1.20.6 直接传附魔实例），需人工改写"
+    }
+  },
+  "mc.enchant.EnchantmentHelper": {
+    "getItemEnchantmentLevel": {
+      "name": "getLevel",
+      "kind": "method",
+      "note": "1.20.5/1.20.6 签名为 EnchantmentHelper.getLevel(Enchantment, ItemStack)，Enchantments 常量可直接传入"
+    }
+  },
+  "mc.block.Block": {
+    "use": {
+      "name": "onUse",
+      "kind": "method",
+      "note": "1.20.5 起右键交互拆成两个方法（定义在 AbstractBlock 上）：空手 onUse(BlockState, World, BlockPos, PlayerEntity, BlockHitResult) 返回 ActionResult，不再有 Hand 参数；手持物品 onUseWithItem(ItemStack, BlockState, World, BlockPos, PlayerEntity, Hand, BlockHitResult) 返回 ItemActionResult。覆写需人工拆分"
+    }
+  },
+  "mc.client.Screen": {
+    "repositionElements": {
+      "name": "initTabNavigation",
+      "kind": "method",
+      "note": "Yarn 1.20.5–1.21.1 名为 initTabNavigation（Mojmap repositionElements），窗口尺寸变化时重新布局控件；1.21.2 起改名 refreshWidgetPositions"
+    }
+  },
+  "mc.item.Item": {
+    "appendHoverText": {
+      "name": "appendTooltip",
+      "kind": "method",
+      "note": "1.20.5 签名 appendTooltip(ItemStack, Item.TooltipContext, List<Text>, TooltipType)：第二参由 World 改为 Item.TooltipContext，第四参 TooltipType 在 Yarn 1.20.5/1.20.6 位于 net.minecraft.client.item 包；覆写声明需人工修改"
+    }
+  }
+}

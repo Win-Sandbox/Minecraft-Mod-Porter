@@ -68,7 +68,8 @@ The output directory contains:
 | **Metadata** | `mcmod.info` ↔ `mods.toml` through IR and target templates |
 | **Language files** | `.lang` ↔ `.json`, including localization-key migration |
 | **Blockstates / models** | Variant conversion, texture path changes, and `forge_marker` TODOs |
-| **`pack.mcmeta`** | Automatic `pack_format` update |
+| **`pack.mcmeta`** | Resource/data-specific major/minor formats, legacy ↔ `min_format`/`max_format`; ambiguous mixed packs and overlay downgrades remain unchanged with TODOs |
+| **Client item definitions** | Capability-driven `models/item` → `items` definitions; conservative legacy parent bridges on downgrade; existing files and complex definitions are preserved |
 | **`build.gradle`** | Regenerated from the target-version template; custom logic is reported for manual migration |
 | **Third-party dependencies** | Not handled by design |
 
@@ -254,24 +255,85 @@ Aliases and overlays can also be combined.
 
 # Supported Versions
 
+Three loaders, **81 selectable versions** in total (datasets + aliases). Dataset types:
+
+- **Full** — a complete standalone mapping set.
+- **Overlay** — `basedOn` another dataset; stores only the differences.
+- **Alias** — a fully compatible version that reuses another dataset's mappings with metadata overrides.
+
+| Loader | Datasets (full + overlay) | Aliases | Selectable versions | Directed same-loader paths |
+|---|---|---:|---:|---:|
+| Fabric | 24 (10 + 14) | 15 | 39 | 1482 |
+| NeoForge | 18 (3 + 15) | 4 | 22 | 462 |
+| Forge | 13 (8 + 5) | 7 | 20 | 380 |
+
+That is **2324 directed conversion paths** within the same loader.
+
 ## Fabric
 
-**9 datasets**, using **Yarn mappings**:
+**24 datasets + 15 aliases = 39 selectable versions.** 1.15.2 – 1.21.11 use **Yarn mappings**;
+26.1+ uses **official Mojang names** (the game is no longer obfuscated and Yarn is discontinued).
 
-| Version | Java |
-|---|---:|
-| 1.15.2 / 1.16.5 | 8 |
-| 1.17.1 | 16 |
-| 1.18.2 | 17 |
-| 1.19.2 / 1.19.4 | 17 |
-| 1.20.1 / 1.20.4 | 17 |
-| 1.21.1 | 21 |
+| Dataset | Type | Base | Aliases | Java |
+|---|---|---|---|---:|
+| 1.15.2 | Full | — | — | 8 |
+| 1.16 | Overlay | 1.16.1 | — | 8 |
+| 1.16.1 | Overlay | 1.16.4 | — | 8 |
+| 1.16.4 | Overlay | 1.16.5 | 1.16.2, 1.16.3 | 8 |
+| 1.16.5 | Full | — | — | 8 |
+| 1.17.1 | Full | — | — | 16 |
+| 1.18.1 | Overlay | 1.18.2 | 1.18 | 17 |
+| 1.18.2 | Full | — | — | 17 |
+| 1.19.2 | Full | — | 1.19, 1.19.1 | 17 |
+| 1.19.3 | Overlay | 1.19.4 | — | 17 |
+| 1.19.4 | Full | — | — | 17 |
+| 1.20.1 | Full | — | 1.20 | 17 |
+| 1.20.4 | Full | — | 1.20.2, 1.20.3 | 17 |
+| 1.20.5 | Overlay | 1.21.1 | 1.20.6 | 21 |
+| 1.21.1 | Full | — | 1.21 | 21 |
+| 1.21.2 | Overlay | 1.21.1 | 1.21.3 | 21 |
+| 1.21.4 | Overlay | 1.21.2 | — | 21 |
+| 1.21.5 | Overlay | 1.21.4 | — | 21 |
+| 1.21.6 | Overlay | 1.21.5 | 1.21.7, 1.21.8 | 21 |
+| 1.21.9 | Overlay | 1.21.6 | — | 21 |
+| 1.21.10 | Overlay | 1.21.9 | — | 21 |
+| 1.21.11 | Overlay | 1.21.10 | — | 21 |
+| 26.1 | Full | — | 26.1.1, 26.1.2 | 25 |
+| 26.2 | Overlay | 26.1 | — | 25 |
 
 Fabric and Forge share the same `mc.*` IR IDs while using different version-specific mappings.
 
 See [FABRIC-IR-CONTRACT.md](mappings/FABRIC-IR-CONTRACT.md).
 
 > Fabric did not exist before Minecraft 1.14, so there are no Fabric 1.12.x mappings.
+
+## NeoForge
+
+**18 datasets + 4 aliases = 22 selectable versions**, using **official Mojang names**:
+
+| Dataset | Type | Base | Aliases | Java |
+|---|---|---|---|---:|
+| 1.20.1 | Full | — | — | 17 |
+| 1.20.2 | Overlay | 1.20.3 | — | 17 |
+| 1.20.3 | Overlay | 1.20.4 | — | 17 |
+| 1.20.4 | Full | — | — | 17 |
+| 1.20.5 | Overlay | 1.20.4 | — | 21 |
+| 1.20.6 | Overlay | 1.20.5 | — | 21 |
+| 1.21.1 | Full | — | 1.21 | 21 |
+| 1.21.2 | Overlay | 1.21.1 | 1.21.3 | 21 |
+| 1.21.4 | Overlay | 1.21.2 | — | 21 |
+| 1.21.5 | Overlay | 1.21.4 | — | 21 |
+| 1.21.6 | Overlay | 1.21.5 | — | 21 |
+| 1.21.7 | Overlay | 1.21.6 | 1.21.8 | 21 |
+| 1.21.9 | Overlay | 1.21.7 | — | 21 |
+| 1.21.10 | Overlay | 1.21.9 | — | 21 |
+| 1.21.11 | Overlay | 1.21.10 | — | 21 |
+| 26.1 | Overlay | 1.21.11 | 26.1.1 | 25 |
+| 26.1.2 | Overlay | 26.1 | — | 25 |
+| 26.2 | Overlay | 26.1.2 | — | 25 |
+
+NeoForge maps its loader classes onto the same `forge.*` IR IDs as Forge (plus a closed set of `neoforge.*` IDs for
+NeoForge-only APIs). See [NEOFORGE-IR-CONTRACT.md](mappings/NEOFORGE-IR-CONTRACT.md).
 
 ## Forge
 
@@ -293,20 +355,22 @@ See [FABRIC-IR-CONTRACT.md](mappings/FABRIC-IR-CONTRACT.md).
 | 1.20.1 | Full | 1.20 |
 | 1.21.1 | Overlay | 1.21 |
 
-This provides **380 directed Forge conversion paths** and **72 directed Fabric conversion paths**.
+This provides **380 directed Forge conversion paths**.
 
 ---
 
 # Cross-Loader Conversion
 
-**Forge ↔ Fabric conversion is currently not supported.**
+**Cross-loader conversion (Forge ↔ Fabric, Forge ↔ NeoForge, NeoForge ↔ Fabric) is currently not supported.**
 
-The `port` command requires the source and target to use the same loader.
+The `port` command requires the source and target to use the same loader. Within each loader every pair of versions
+is a supported path: **1482** for Fabric, **462** for NeoForge and **380** for Forge (**2324** in total).
 
 The architecture already reserves the necessary infrastructure:
 
-- Both loaders share the `mc.*` IR namespace.
-- Mapping data contains cross-loader migration guidance.
+- All three loaders share the `mc.*` IR namespace.
+- NeoForge datasets map their loader classes onto Forge's `forge.*` IR IDs, so the loader layer of Forge ↔ NeoForge is already aligned.
+- Mapping data contains cross-loader migration guidance (e.g. `neoforge.*` concepts in Fabric datasets).
 - `crossloader-port` already exists in the capability system as `available: false`.
 
 Cross-loader conversion will remain more difficult than same-loader conversion because Forge and Fabric differ significantly in entry points, event systems, registration, networking, and other architectural components.
@@ -466,7 +530,10 @@ Known symbol collisions are represented as ambiguous candidates. When the engine
 
 ### v0.1
 
-- **Member renaming is heuristic:** Complete type inference is not currently implemented. Static calls can validate their scope, while instance calls may require manual review.
+- **Member renaming is owner-gated:** Explicit imports and lexical variable/parameter/field declarations establish source owners. Unknown receivers are preserved with TODOs; `@Override` renaming requires confirmed direct supertypes and remains scoped to its declaring class. This is not a complete symbol solver: inherited APIs, overload signatures, complex generics and method-return chains still need manual review.
+- **Modern Java parsing:** JavaParser 3.28.2 uses explicit Java 8–26 language levels (including 21/25), while the tool itself still targets Java 17. Unknown levels and parse failures preserve the source. Some Java 25 constructs remain WIP upstream; this is not a claim of full Java 25 coverage. Java 22+ unnamed `_` bindings are never blindly renamed.
+- **Mixin/AW references:** Confirmed Sponge annotations and complete JVM descriptors use owner-scoped mapping. Unknown or structurally changed references remain intact with TODOs. Access Widener automation is restricted to Fabric Yarn `named → named`; `official`/`intermediary` and cross-namespace files remain unchanged. Refmaps and complex injection forms require manual migration.
+- **Regression validation pending:** Nine main-style regression entry points are registered in `build.gradle` (`safetyRegression` / `resourceRegression` groups, including `SettingsGradlePassMainTest`, `AnnotationMigrationPassMainTest`, `ItemOverrideRulesMainTest`). `gradle safetyRegression` / `resourceRegression` explicitly compile and run them; they were **not run** during the no-build update. Static syntax/mapping checks do not prove runtime correctness.
 - **Ambiguous mappings are never guessed:** They receive TODOs instead.
 - **Formatting is not preserved:** JavaParser's standard formatter is used; whitespace and alignment may change, while ordinary comments are retained.
 - **Structural migrations are not automatic:** Registration systems, networking, Capability, GUI/Container architecture, and similar large-scale changes require manual work.

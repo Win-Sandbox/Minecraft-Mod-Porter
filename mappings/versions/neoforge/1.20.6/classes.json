@@ -1,0 +1,14 @@
+{
+  "forge.Event": {
+    "name": "net.neoforged.bus.api.Event",
+    "note": "20.6 起事件总线 8.x 删除了 Event.Result / @Event.HasResult / getResult/setResult 与泛型事件：原来依赖结果的 NeoForge 事件改用各自的枚举或 TriState 方法，需按事件逐个核对"
+  },
+  "forge.event.EntityItemPickupEvent": {
+    "name": "net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent",
+    "note": "20.6 起 EntityItemPickupEvent 改为 ItemEntityPickupEvent.Pre / Post：Pre 可阻止拾取，Post 在拾取后触发（getOriginalStack/getCurrentStack）"
+  },
+  "forge.event.PlayerSleepInBedEvent": {
+    "name": "net.neoforged.neoforge.event.entity.player.CanPlayerSleepEvent",
+    "note": "20.6 起 PlayerSleepInBedEvent 改为 CanPlayerSleepEvent：通过设置 BedSleepingProblem 决定能否入睡，不再用 setResult"
+  }
+}

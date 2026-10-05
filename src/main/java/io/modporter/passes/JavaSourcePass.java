@@ -10,7 +10,6 @@ import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.comments.LineComment;
 import com.github.javaparser.ast.expr.AnnotationExpr;
-import com.github.javaparser.ast.expr.AssignExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.expr.MarkerAnnotationExpr;
@@ -22,7 +21,6 @@ import com.github.javaparser.ast.expr.NormalAnnotationExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.expr.SingleMemberAnnotationExpr;
-import com.github.javaparser.ast.expr.SuperExpr;
 import com.github.javaparser.ast.expr.ThisExpr;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
@@ -31,7 +29,6 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import io.modporter.engine.PortContext;
 import io.modporter.mappings.MappingResolver;
 import io.modporter.mappings.MappingResolver.ClassResolution;
-import io.modporter.mappings.MappingResolver.MemberCandidate;
 import io.modporter.mappings.VersionMappings;
 
 import java.util.ArrayList;
@@ -58,22 +55,19 @@ public final class JavaSourcePass {
         this.ctx = ctx;
         this.resolver = ctx.resolver;
         ParserConfiguration config = new ParserConfiguration()
-                .setLanguageLevel(languageLevel(ctx.source().info.javaVersion));
+                .setLanguageLevel(JavaSyntaxLevels.forVersion(ctx.source().info.javaVersion));
         this.parser = new JavaParser(config);
     }
 
-    private static ParserConfiguration.LanguageLevel languageLevel(int javaVersion) {
-        switch (javaVersion) {
-            case 8: return ParserConfiguration.LanguageLevel.JAVA_8;
-            case 11: return ParserConfiguration.LanguageLevel.JAVA_11;
-            case 16: return ParserConfiguration.LanguageLevel.JAVA_16;
-            case 17: return ParserConfiguration.LanguageLevel.JAVA_17;
-            default: return ParserConfiguration.LanguageLevel.CURRENT;
-        }
-    }
+    // languageLevel 映射已抽取到 JavaSyntaxLevels（可被回归测试直接验证）。
 
     /** 转换一个 .java 文件，失败时原样返回并记录 ERROR。 */
     public String transform(String relPath, String content) {
+        if (!JavaSyntaxLevels.supported(ctx.source().info.javaVersion)) {
+            ctx.error(relPath, null, "parse", "不支持源 Java " + ctx.source().info.javaVersion
+                    + " 的解析级别，文件原样复制（当前解析器已核实级别为 Java 8–26）");
+            return content;
+        }
         ParseResult<CompilationUnit> result = parser.parse(content);
         if (!result.isSuccessful() || result.getResult().isEmpty()) {
             String problems = result.getProblems().stream()
@@ -84,14 +78,15 @@ public final class JavaSourcePass {
         CompilationUnit cu = result.getResult().get();
         FileState state = new FileState(relPath, cu);
 
+        new MixinReferencePass(ctx).transform(relPath, cu);
+        new SafeMemberPass(ctx, relPath, cu).transform(cu);
+        new AnnotationMigrationPass(ctx).transform(relPath, cu);
         rewriteImports(state);
         rewriteSimpleNames(state);
         markRemovedClassUsages(state);
         rewriteIdioms(state);
         rewriteModAnnotation(state);
         rewriteLifecycle(state);
-        rewriteMembers(state);
-        renameOverriddenDeclarations(state);
         applyJavaPlatform(state);
 
         return cu.toString();
@@ -113,10 +108,15 @@ public final class JavaSourcePass {
         final Set<String> declaredFields = new HashSet<>();
         /** 防止同一位置重复插入相同 TODO */
         final Set<String> emittedTodos = new HashSet<>();
+        final Set<NameExpr> valueNames = java.util.Collections.newSetFromMap(new java.util.IdentityHashMap<>());
 
         FileState(String relPath, CompilationUnit cu) {
             this.relPath = relPath;
             this.cu = cu;
+            OwnerResolver sourceOwners = new OwnerResolver(cu);
+            for (NameExpr name : cu.findAll(NameExpr.class)) {
+                if (sourceOwners.isValueName(name)) valueNames.add(name);
+            }
             for (ImportDeclaration imp : cu.getImports()) {
                 originalImports.add(imp.getNameAsString());
             }
@@ -169,7 +169,9 @@ public final class JavaSourcePass {
                     ctx.todo(s.relPath, line(imp), "removed-api", classFqcn + ": " + guidance);
                 }
                 case UNKNOWN -> {
-                    if (classFqcn.startsWith("net.minecraft") || classFqcn.startsWith("net.minecraftforge")) {
+                    if (r.note != null) ctx.todo(s.relPath, line(imp), "ambiguous-class", r.note);
+                    if (classFqcn.startsWith("net.minecraft.") || classFqcn.startsWith("net.minecraftforge.")
+                            || classFqcn.startsWith("net.neoforged.") || classFqcn.startsWith("net.fabricmc.")) {
                         ctx.warn(s.relPath, line(imp), "unmapped-class",
                                 "映射数据中没有该类的记录，导入保持原样: " + classFqcn);
                     }
@@ -195,6 +197,7 @@ public final class JavaSourcePass {
             }
         }
         for (NameExpr expr : s.cu.findAll(NameExpr.class)) {
+            if (s.valueNames.contains(expr)) continue;
             String name = expr.getNameAsString();
             if (!name.isEmpty() && Character.isUpperCase(name.charAt(0))) {
                 String newName = s.simpleRenames.get(name);
@@ -430,109 +433,85 @@ public final class JavaSourcePass {
         }
     }
 
-    // ---- 成员重命名 ----
+    // ---- Java 平台（语法/JDK 类库随 Java 版本的变化，数据来自 mappings/java/） ----
 
-    private void rewriteMembers(FileState s) {
-        for (MethodCallExpr call : s.cu.findAll(MethodCallExpr.class)) {
-            String name = call.getNameAsString();
-            // 无 scope 或 this. 前缀且本文件声明过同名方法：大概率是用户自己的方法，不动
-            Expression scope = call.getScope().orElse(null);
-            if ((scope == null || scope instanceof ThisExpr) && s.declaredMethods.contains(name)) continue;
-
-            List<MemberCandidate> candidates = filterByScope(scope,
-                    resolver.resolveMember(name).stream()
-                            .filter(c -> c.sourceKind.equals("method"))
-                            .collect(Collectors.toList()));
-            if (candidates.isEmpty()) {
-                String removedGuidance = resolver.removedMemberGuidance(name);
-                if (removedGuidance != null) {
-                    attachTodo(s, call, name + "(...) 在目标版本已无对应 API: " + removedGuidance, "removed-api");
-                }
-                continue;
-            }
-            if (!MappingResolver.unambiguous(candidates)) {
-                attachTodo(s, call, "方法 " + name + " 有多个可能的目标映射（"
-                        + describe(candidates) + "），请人工确认", "ambiguous-member");
-                continue;
-            }
-            MemberCandidate c = candidates.get(0);
-            int lineNo = line(call);
-            if (c.targetKind.equals("method")) {
-                call.setName(new SimpleName(c.targetName));
-                ctx.info(s.relPath, lineNo, "member-mapping",
-                        name + "() -> " + c.targetName + "() [" + c.classIr + "]");
-            } else { // method -> field
-                if (scope != null && call.getArguments().isEmpty()) {
-                    call.replace(new FieldAccessExpr(scope.clone(), c.targetName));
-                    ctx.info(s.relPath, lineNo, "member-mapping",
-                            name + "() -> ." + c.targetName + " (字段) [" + c.classIr + "]");
-                } else {
-                    attachTodo(s, call, name + "() 在目标版本是字段 " + c.targetName + "，但此调用形式无法自动改写", "member-mapping");
+    /** 新语法诊断不依赖平台 JSON 是否列出非法标识符（Java 8 不列出 _）。 */
+    private void checkModernSyntax(FileState s, int sourceVersion, int targetVersion) {
+        if (sourceVersion >= 22 && targetVersion < 22) {
+            for (SimpleName name : s.cu.findAll(SimpleName.class)) {
+                if (name.getIdentifier().equals("_")) {
+                    attachTodo(s, name, "Java 22+ 未命名变量/模式 _ 在目标 Java " + targetVersion
+                            + " 不可用；保留原文，请为每个绑定选择独立名称或手工调整模式", "java-syntax");
                 }
             }
-            if (c.note != null) {
-                attachTodo(s, call, c.targetName + ": " + c.note, "member-mapping");
+            for (com.github.javaparser.ast.expr.MatchAllPatternExpr pattern
+                    : s.cu.findAll(com.github.javaparser.ast.expr.MatchAllPatternExpr.class)) {
+                attachTodo(s, pattern, "Java 22+ 未命名模式 _ 需要人工降级", "java-syntax");
             }
         }
-
-        for (FieldAccessExpr access : s.cu.findAll(FieldAccessExpr.class)) {
-            String name = access.getNameAsString();
-            // this.xxx 且 xxx 是用户自己声明的字段：不动
-            if (access.getScope() instanceof ThisExpr && s.declaredFields.contains(name)) continue;
-
-            List<MemberCandidate> candidates = filterByScope(access.getScope(),
-                    resolver.resolveMember(name).stream()
-                            .filter(c -> c.sourceKind.equals("field"))
-                            .collect(Collectors.toList()));
-            if (candidates.isEmpty()) {
-                String removedGuidance = resolver.removedMemberGuidance(name);
-                if (removedGuidance != null) {
-                    attachTodo(s, access, "字段 " + name + " 在目标版本已无对应 API: " + removedGuidance, "removed-api");
-                }
-                continue;
+        if (targetVersion < 21 && sourceVersion >= 21) {
+            for (com.github.javaparser.ast.expr.RecordPatternExpr pattern
+                    : s.cu.findAll(com.github.javaparser.ast.expr.RecordPatternExpr.class)) {
+                attachTodo(s, pattern, "Java 21 record pattern 在目标 Java " + targetVersion
+                        + " 不可用，需改写为类型检查与访问器调用", "java-syntax");
             }
-            if (!MappingResolver.unambiguous(candidates)) {
-                attachTodo(s, access, "字段 " + name + " 有多个可能的目标映射（"
-                        + describe(candidates) + "），请人工确认", "ambiguous-member");
-                continue;
-            }
-            MemberCandidate c = candidates.get(0);
-            boolean isAssignTarget = access.getParentNode()
-                    .filter(p -> p instanceof AssignExpr a && a.getTarget() == access)
-                    .isPresent();
-            int lineNo = line(access);
-            if (c.targetKind.equals("field")) {
-                access.setName(new SimpleName(c.targetName));
-                ctx.info(s.relPath, lineNo, "member-mapping",
-                        "." + name + " -> ." + c.targetName + " [" + c.classIr + "]");
-            } else { // field -> method (getter)
-                if (isAssignTarget) {
-                    attachTodo(s, access, "字段 " + name + " 在目标版本已改为方法 " + c.targetName
-                            + "()，此处是赋值语句，需要人工改为对应 setter", "member-mapping");
-                } else {
-                    Expression scope = access.getScope().clone();
-                    access.replace(new MethodCallExpr(scope, c.targetName));
-                    ctx.info(s.relPath, lineNo, "member-mapping",
-                            "." + name + " -> ." + c.targetName + "() [" + c.classIr + "]");
+            for (com.github.javaparser.ast.stmt.SwitchEntry entry
+                    : s.cu.findAll(com.github.javaparser.ast.stmt.SwitchEntry.class)) {
+                if (entry.getGuard().isPresent() || entry.getLabels().stream().anyMatch(label ->
+                        label instanceof com.github.javaparser.ast.expr.PatternExpr
+                                || label instanceof com.github.javaparser.ast.expr.NullLiteralExpr)) {
+                    attachTodo(s, entry, "Java 21 switch 模式/when/null 分支需要人工降级", "java-syntax");
                 }
             }
-            if (c.note != null) {
-                attachTodo(s, access, c.targetName + ": " + c.note, "member-mapping");
+        }
+        if (sourceVersion >= 25 && targetVersion < 25) {
+            for (ImportDeclaration imp : s.cu.getImports()) {
+                if (imp.isModule()) attachTodo(s, imp, "Java 25 模块导入需要改为普通类型导入", "java-syntax");
+            }
+            for (com.github.javaparser.ast.stmt.ExplicitConstructorInvocationStmt invocation
+                    : s.cu.findAll(com.github.javaparser.ast.stmt.ExplicitConstructorInvocationStmt.class)) {
+                Node parent = invocation.getParentNode().orElse(null);
+                if (parent instanceof com.github.javaparser.ast.stmt.BlockStmt block
+                        && block.getStatements().indexOf(invocation) > 0) {
+                    attachTodo(s, invocation, "Java 25 构造器前置语句需要人工降级；不能盲目重排副作用", "java-syntax");
+                }
             }
         }
     }
 
-    // ---- Java 平台（语法/JDK 类库随 Java 版本的变化，数据来自 mappings/java/） ----
-
     private void applyJavaPlatform(FileState s) {
-        io.modporter.mappings.JavaPlatform target = ctx.targetJava;
-        if (target == null) return;
         int sourceVersion = ctx.source().info.javaVersion;
         int targetVersion = ctx.target().info.javaVersion;
+        checkModernSyntax(s, sourceVersion, targetVersion);
+        io.modporter.mappings.JavaPlatform target = ctx.targetJava;
+        if (target == null) return;
 
-        // 1) 目标版本非法标识符（如 Java 9+ 的 "_"）：自动改名
+        // 1) 目标版本非法标识符。这里必须区分两种“_”：
+        //    - Java 8：_ 是合法普通标识符；目标 Java 9+ 将其保留为关键字，
+        //      普通用法不再合法，且改名为 _renamed 不改变语义，可安全自动改名。
+        //    - Java 22+（JEP 456）：_ 是“未命名变量/模式”，只在特定位置合法。
+        //      绝不能按普通非法标识符盲目改名（会破坏未命名语义/触发使用错误）。
         for (String bad : target.illegalIdentifiers) {
+            boolean underscore = "_".equals(bad);
+            if (underscore && sourceVersion >= 22) {
+                // checkModernSyntax 独立诊断降级，包含目标 Java 8 和模式中的 _。
+                continue;
+            }
+            if (underscore && sourceVersion >= 9) {
+                // 源 Java 9-21 中 _ 本身就是非法标识符；正常情况下解析阶段就会失败
+                // 并原样复制。若宽松解析后仍出现在 AST 中，只诊断，不盲目改名。
+                for (com.github.javaparser.ast.body.VariableDeclarator v
+                        : s.cu.findAll(com.github.javaparser.ast.body.VariableDeclarator.class)) {
+                    if (v.getNameAsString().equals("_")) {
+                        attachTodo(s, v, "标识符 \"_\" 在 Java 9+ 是保留关键字，此处用法需人工确认", "java-syntax");
+                    }
+                }
+                continue;
+            }
+            Set<String> usedNames = s.cu.findAll(SimpleName.class).stream()
+                    .map(SimpleName::getIdentifier).collect(Collectors.toSet());
             String replacement = bad + "renamed";
+            while (usedNames.contains(replacement)) replacement += "_";
             boolean hit = false;
             for (com.github.javaparser.ast.body.VariableDeclarator v
                     : s.cu.findAll(com.github.javaparser.ast.body.VariableDeclarator.class)) {
@@ -739,70 +718,6 @@ public final class JavaSourcePass {
                 .replace("\r", "")
                 .replace("\n", "\\n");
     }
-
-    /**
-     * 重命名用户覆写的 MC/Forge 方法声明（带 @Override 且方法名命中唯一映射），
-     * 如 readFromNBT -> load、onUpdate -> tick，并同步修正文件内对它们的
-     * 无限定 / this. / super. 调用。
-     */
-    private void renameOverriddenDeclarations(FileState s) {
-        Map<String, String> renamed = new HashMap<>();
-        for (MethodDeclaration method : s.cu.findAll(MethodDeclaration.class)) {
-            if (method.getAnnotationByName("Override").isEmpty()) continue;
-            String name = method.getNameAsString();
-            List<MemberCandidate> candidates = resolver.resolveMember(name).stream()
-                    .filter(c -> c.sourceKind.equals("method") && c.targetKind.equals("method"))
-                    .collect(Collectors.toList());
-            if (candidates.isEmpty() || !MappingResolver.unambiguous(candidates)) continue;
-            MemberCandidate c = candidates.get(0);
-            int lineNo = line(method);
-            method.setName(new SimpleName(c.targetName));
-            renamed.put(name, c.targetName);
-            ctx.info(s.relPath, lineNo, "override-rename",
-                    "@Override 方法声明 " + name + " -> " + c.targetName + " [" + c.classIr + "]");
-            if (c.note != null) {
-                attachTodo(s, method, c.targetName + ": " + c.note, "override-rename");
-            }
-        }
-        if (renamed.isEmpty()) return;
-        for (MethodCallExpr call : s.cu.findAll(MethodCallExpr.class)) {
-            Expression scope = call.getScope().orElse(null);
-            if (scope == null || scope instanceof ThisExpr || scope instanceof SuperExpr) {
-                String target = renamed.get(call.getNameAsString());
-                if (target != null) {
-                    call.setName(new SimpleName(target));
-                }
-            }
-        }
-    }
-
-    /**
-     * 静态形式的访问（scope 是大写开头的简单名，如 String.format / I18n.format）只有在
-     * scope 与映射所属类的简单名一致时才可能是同一个 API，否则全部排除，
-     * 避免把 String.format 之类误改。实例访问无法判断接收者类型，按启发式保留。
-     */
-    private List<MemberCandidate> filterByScope(Expression scope, List<MemberCandidate> candidates) {
-        if (candidates.isEmpty() || !(scope instanceof NameExpr ne)) return candidates;
-        String scopeName = ne.getNameAsString();
-        if (scopeName.isEmpty() || !Character.isUpperCase(scopeName.charAt(0))) return candidates;
-        return candidates.stream()
-                .filter(c -> {
-                    String src = resolver.sourceClass(c.classIr);
-                    String tgt = resolver.targetClass(c.classIr);
-                    return (src != null && lastSegment(src).equals(scopeName))
-                            || (tgt != null && lastSegment(tgt).equals(scopeName));
-                })
-                .collect(Collectors.toList());
-    }
-
-    private static String describe(List<MemberCandidate> candidates) {
-        return candidates.stream()
-                .map(c -> c.classIr + "#" + c.targetName)
-                .distinct()
-                .collect(Collectors.joining(", "));
-    }
-
-    // ---- 工具 ----
 
     private static String lastSegment(String dotted) {
         int dot = dotted.lastIndexOf('.');

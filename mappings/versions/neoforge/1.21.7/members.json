@@ -1,0 +1,9 @@
+{
+  "forge.network.PacketDistributor": {
+    "sendToServer": {
+      "name": "sendToServer",
+      "kind": "method",
+      "note": "NeoForge 21.7 起改为 ClientPacketDistributor.sendToServer(payload)（net.neoforged.neoforge.client.network），需人工替换调用类与导入"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "!removeSupported": [
+    "item.toolComponents"
+  ],
+  "guidance": {
+    "item.toolComponents": "1.21.5 起删除 SwordItem、MiningToolItem、PickaxeItem、ArmorItem：改为普通 new Item(settings)，由 Item.Settings 的 sword(材料, 攻击伤害, 攻速)、pickaxe(...)、axe(...)、shovel(...)、hoe(...)、tool(...)、armor(ArmorMaterial, EquipmentType)、wolfArmor/horseArmor 写入 TOOL/WEAPON/ARMOR 等数据组件；AxeItem/ShovelItem/HoeItem 仍保留（去皮、铺路、耕地），构造为 (ToolMaterial, 攻击伤害, 攻速, settings)；盾牌类格挡改用 DataComponentTypes.BLOCKS_ATTACKS",
+    "nbt.access": "1.21.5 起 NbtCompound 的读取方法返回 Optional：getInt(key) 得 Optional<Integer>，要默认值用 getInt(key, 默认值)（getString/getBoolean 等同理），子标签用 getCompoundOrEmpty/getListOrEmpty；UUID 等复杂值用 nbt.put(key, CODEC, 值) / nbt.get(key, CODEC)（如 Uuids.INT_STREAM_CODEC）",
+    "villager.trades": "村民交易用 Fabric 的 TradeOfferHelper：registerVillagerOffers(RegistryKey<VillagerProfession>（如 VillagerProfession.FARMER）, 等级, factories -> factories.add(...))，流浪商人用 registerWanderingTraderOffers",
+    "item.propertiesBuilder": "物品属性用原版 Item.Settings，必须先 registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(MODID, \"x\")))；1.21.5 起工具与盔甲不再有专用子类：new Item(settings.sword(ToolMaterial.IRON, 3f, -2.4f))、settings.pickaxe(...)、settings.armor(ArmorMaterials.IRON, EquipmentType.HELMET)；其余用 .component(...)、.equippable(...)、.repairable(...)、.enchantable(...) 预置组件；方块物品额外 useBlockPrefixedTranslationKey()",
+    "gui.overlay": "HUD 绘制：1.21.5 推荐 HudLayerRegistrationCallback.EVENT.register(drawer -> drawer.attachLayerAfter(IdentifiedLayer.MISC_OVERLAYS, Identifier.of(MODID, \"x\"), (drawContext, tickCounter) -> ...))；HudRenderCallback 仍可用但已废弃；修改原版 HUD 元素可替换对应 IdentifiedLayer",
+    "enum.extension": "原版枚举无法扩展：工具材料是 record（new ToolMaterial(...)），盔甲材料是 net.minecraft.item.equipment.ArmorMaterial record，直接 new 实例即可；1.21.5 起配合 Item.Settings#sword/pickaxe/armor 使用；稀有度等枚举仍需 Mixin 或改设计",
+    "mc.advancements.predicates.FoodPredicate": "FoodPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.FoodPredicate 引用；反向迁移时按本数据集实际的食物谓词类人工确认（该类旧包路径未核实，不要自动猜写）。",
+    "mc.advancements.predicates.InputPredicate": "InputPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.InputPredicate 引用；反向迁移时按本数据集实际的输入谓词类人工确认（旧数据为 advancements.criterion.InputPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.entity.SheepPredicate": "SheepPredicate 是 26.2 起进度实体谓词所在新包中的类；本数据集没有该 26.2 包路径的对应类。26.2 侧按 net.minecraft.advancements.predicates.entity.SheepPredicate 引用；反向迁移时按本数据集实际的实体谓词类人工确认（旧数据为 advancements.criterion.SheepPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.DataComponentMatchers": "DataComponentMatchers 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.DataComponentMatchers 引用；反向迁移时按本数据集实际的数据组件匹配类人工确认（旧数据为 advancements.criterion.DataComponentMatchers，仍需按本数据集核对）。"
+  }
+}

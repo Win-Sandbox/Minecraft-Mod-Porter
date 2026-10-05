@@ -1,0 +1,11 @@
+{
+  "guidance": {
+    "neoforge.attachment": "Fabric 对应机制是数据附件 API（net.fabricmc.fabric.api.attachment.v1）：AttachmentRegistry.create(Identifier.of(MODID, \"x\"), builder -> builder.initializer(() -> 默认值).persistent(CODEC))，在实体/方块实体/区块/世界上 getAttached(TYPE) / setAttached(TYPE, 值)",
+    "model.registration": "1.21.4 起物品渲染由物品模型定义决定：每个物品需要 assets/<modid>/items/<名>.json（{\"model\": {\"type\": \"minecraft:model\", \"model\": \"<modid>:item/<名>\"}}，可用 minecraft:condition/select/range_dispatch/composite 等类型做条件模型），再指向 models/item|block 下的模型；物品染色写在该定义的 tints 里；非实心方块的渲染层仍用 BlockRenderLayerMap.INSTANCE.putBlock(BLOCK, RenderLayer.getCutout())（客户端入口中调用）",
+    "fabric.datagen": "数据生成：实现 DataGeneratorEntrypoint（fabric.mod.json 的 \"fabric-datagen\" entrypoint），onInitializeDataGenerator 中 FabricDataGenerator.Pack pack = generator.createPack(); pack.addProvider(MyRecipeProvider::new)；1.21.4 起模型生成器移到 net.minecraft.client.data 包（BlockStateModelGenerator、ItemModelGenerator），FabricModelProvider 的 generateItemModels 会同时产出 items/ 下的物品模型定义",
+    "mc.advancements.predicates.FoodPredicate": "FoodPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.FoodPredicate 引用；反向迁移时按本数据集实际的食物谓词类人工确认（该类旧包路径未核实，不要自动猜写）。",
+    "mc.advancements.predicates.InputPredicate": "InputPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.InputPredicate 引用；反向迁移时按本数据集实际的输入谓词类人工确认（旧数据为 advancements.criterion.InputPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.entity.SheepPredicate": "SheepPredicate 是 26.2 起进度实体谓词所在新包中的类；本数据集没有该 26.2 包路径的对应类。26.2 侧按 net.minecraft.advancements.predicates.entity.SheepPredicate 引用；反向迁移时按本数据集实际的实体谓词类人工确认（旧数据为 advancements.criterion.SheepPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.DataComponentMatchers": "DataComponentMatchers 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.DataComponentMatchers 引用；反向迁移时按本数据集实际的数据组件匹配类人工确认（旧数据为 advancements.criterion.DataComponentMatchers，仍需按本数据集核对）。"
+  }
+}

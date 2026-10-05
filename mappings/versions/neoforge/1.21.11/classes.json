@@ -1,0 +1,58 @@
+{
+  "!remove": [
+    "neoforge.client.RegisterDimensionSpecialEffectsEvent"
+  ],
+  "mc.resources.ResourceLocation": {
+    "name": "net.minecraft.resources.Identifier",
+    "note": "1.21.11 起 ResourceLocation 整体改名 Identifier（工厂方法 fromNamespaceAndPath/parse/withDefaultNamespace/tryParse 名称不变），方法/参数名中的 ResourceLocation 字样也同步改为 Identifier"
+  },
+  "mc.Util": {
+    "name": "net.minecraft.util.Util",
+    "note": "1.21.11 起 Util 移到 net.minecraft.util 包"
+  },
+  "mc.client.renderer.RenderType": {
+    "name": "net.minecraft.client.renderer.rendertype.RenderType",
+    "note": "1.21.11 起 RenderType 移到 rendertype 包，原版 RenderType 工厂方法（entityCutout(...)、entityTranslucent(...) 等）移到 net.minecraft.client.renderer.rendertype.RenderTypes"
+  },
+  "mc.client.renderer.rendertype.RenderTypes": {
+    "name": "net.minecraft.client.renderer.rendertype.RenderTypes",
+    "note": "1.21.11 引入：原版 RenderType 实例的集中入口"
+  },
+  "mc.world.level.GameRules": {
+    "name": "net.minecraft.world.level.gamerules.GameRules",
+    "note": "1.21.11 起游戏规则重构并移到 gamerules 包，规则键与取值 API 均有变化，需人工核对"
+  },
+  "mc.advancements.critereon.BlockPredicate": "net.minecraft.advancements.criterion.BlockPredicate",
+  "mc.advancements.critereon.CollectionContentsPredicate": "net.minecraft.advancements.criterion.CollectionContentsPredicate",
+  "mc.advancements.critereon.CollectionCountsPredicate": "net.minecraft.advancements.criterion.CollectionCountsPredicate",
+  "mc.advancements.critereon.CollectionPredicate": "net.minecraft.advancements.criterion.CollectionPredicate",
+  "mc.advancements.critereon.ContextAwarePredicate": "net.minecraft.advancements.criterion.ContextAwarePredicate",
+  "mc.advancements.critereon.DamagePredicate": "net.minecraft.advancements.criterion.DamagePredicate",
+  "mc.advancements.critereon.DamageSourcePredicate": "net.minecraft.advancements.criterion.DamageSourcePredicate",
+  "mc.advancements.critereon.DistancePredicate": "net.minecraft.advancements.criterion.DistancePredicate",
+  "mc.advancements.critereon.EnchantmentPredicate": "net.minecraft.advancements.criterion.EnchantmentPredicate",
+  "mc.advancements.critereon.FluidPredicate": "net.minecraft.advancements.criterion.FluidPredicate",
+  "mc.advancements.critereon.GameTypePredicate": "net.minecraft.advancements.criterion.GameTypePredicate",
+  "mc.advancements.critereon.ItemPredicate": "net.minecraft.advancements.criterion.ItemPredicate",
+  "mc.advancements.critereon.LightPredicate": "net.minecraft.advancements.criterion.LightPredicate",
+  "mc.advancements.critereon.LocationPredicate": "net.minecraft.advancements.criterion.LocationPredicate",
+  "mc.advancements.critereon.MinMaxBounds": "net.minecraft.advancements.criterion.MinMaxBounds",
+  "mc.advancements.critereon.MobEffectsPredicate": "net.minecraft.advancements.criterion.MobEffectsPredicate",
+  "mc.advancements.critereon.NbtPredicate": "net.minecraft.advancements.criterion.NbtPredicate",
+  "mc.advancements.critereon.SingleComponentItemPredicate": "net.minecraft.advancements.criterion.SingleComponentItemPredicate",
+  "mc.advancements.critereon.SlotsPredicate": "net.minecraft.advancements.criterion.SlotsPredicate",
+  "mc.advancements.critereon.StatePropertiesPredicate": "net.minecraft.advancements.criterion.StatePropertiesPredicate",
+  "mc.advancements.critereon.TagPredicate": "net.minecraft.advancements.criterion.TagPredicate",
+  "mc.advancements.critereon.EntityEquipmentPredicate": "net.minecraft.advancements.criterion.EntityEquipmentPredicate",
+  "mc.advancements.critereon.EntityFlagsPredicate": "net.minecraft.advancements.criterion.EntityFlagsPredicate",
+  "mc.advancements.critereon.EntityPredicate": "net.minecraft.advancements.criterion.EntityPredicate",
+  "mc.advancements.critereon.EntitySubPredicate": "net.minecraft.advancements.criterion.EntitySubPredicate",
+  "mc.advancements.critereon.EntitySubPredicates": "net.minecraft.advancements.criterion.EntitySubPredicates",
+  "mc.advancements.critereon.EntityTypePredicate": "net.minecraft.advancements.criterion.EntityTypePredicate",
+  "mc.advancements.critereon.FishingHookPredicate": "net.minecraft.advancements.criterion.FishingHookPredicate",
+  "mc.advancements.critereon.LightningBoltPredicate": "net.minecraft.advancements.criterion.LightningBoltPredicate",
+  "mc.advancements.critereon.MovementPredicate": "net.minecraft.advancements.criterion.MovementPredicate",
+  "mc.advancements.critereon.PlayerPredicate": "net.minecraft.advancements.criterion.PlayerPredicate",
+  "mc.advancements.critereon.RaiderPredicate": "net.minecraft.advancements.criterion.RaiderPredicate",
+  "mc.advancements.critereon.SlimePredicate": "net.minecraft.advancements.criterion.SlimePredicate"
+}

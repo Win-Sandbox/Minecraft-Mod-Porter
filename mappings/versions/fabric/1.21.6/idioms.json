@@ -1,0 +1,20 @@
+{
+  "supported": [
+    "nbt.valueIo",
+    "render.pipeline"
+  ],
+  "guidance": {
+    "nbt.valueIo": "1.21.6 起存档读写改用 net.minecraft.storage.ReadView / WriteView：BlockEntity 覆写 readData(ReadView)/writeData(WriteView)，Entity 覆写 readCustomData(ReadView)/writeCustomData(WriteView)；写入 view.putInt(\"k\", v)、view.putString(...)、view.put(\"k\", CODEC, 值)，读取 view.getInt(\"k\", 默认值)、view.getOptionalInt(\"k\")、view.read(\"k\", CODEC)（Optional）；注册表访问已由 view 自带（view.getRegistries()），方法签名不再带 WrapperLookup",
+    "render.pipeline": "1.21.6 起 GUI 绘制按渲染管线提交：drawTexture/drawGuiTexture 首参改为 RenderPipeline（常用 RenderPipelines.GUI_TEXTURED，位于 net.minecraft.client.gl），像素 UV 参数不变（无需改成 0–1 的浮点 UV）；DrawContext#getMatrices() 返回 org.joml.Matrix3x2fStack（pushMatrix/popMatrix/translate(x, y)，没有 z 轴）；方块/流体渲染层改用 BlockRenderLayer 枚举（SOLID/CUTOUT/CUTOUT_MIPPED/TRANSLUCENT）",
+    "gui.overlay": "HUD 绘制：1.21.6 起用 HudElementRegistry（net.fabricmc.fabric.api.client.rendering.v1.hud）：HudElementRegistry.addLast(Identifier.of(MODID, \"x\"), (drawContext, tickCounter) -> ...)，或 attachElementBefore/attachElementAfter(VanillaHudElements.XXX, id, 元素)；HudRenderCallback 已废弃，HudLayerRegistrationCallback 已删除",
+    "model.registration": "物品渲染由 assets/<modid>/items/<名>.json 物品模型定义决定，再指向 models/item|block 下的模型；非实心方块的渲染层 1.21.6 起用 BlockRenderLayerMap.putBlock(BLOCK, BlockRenderLayer.CUTOUT)（net.fabricmc.fabric.api.client.rendering.v1，静态方法，客户端入口中调用）",
+    "blockentity.entityblock": "方块类实现 BlockEntityProvider 并覆写 createBlockEntity(BlockPos, BlockState)；类型注册 FabricBlockEntityTypeBuilder.create(MyBlockEntity::new, MY_BLOCK).build()；1.21.6 起存档读写覆写 readData(ReadView)/writeData(WriteView)，不再是 readNbt/writeNbt",
+    "mc.client.gui.LayeredDraw": "1.21.6 起原版删除 LayeredDrawer（HUD 改为先收集渲染状态再统一绘制）：Fabric 模组改用 HudElementRegistry 注册/替换 HUD 元素，原先对 LayeredDrawer 的 Mixin 需改到 InGameHud",
+    "forge.util.INBTSerializable": "无对应接口：1.21.6 起自行实现 readData(ReadView)/writeData(WriteView) 形式的方法，并在 BlockEntity/Entity 的对应覆写中调用",
+    "fabric.datagen": "数据生成：实现 DataGeneratorEntrypoint（\"fabric-datagen\" entrypoint），onInitializeDataGenerator 中 generator.createPack().addProvider(...)；模型生成器在 net.minecraft.client.data 包；1.21.6 起标签提供器的 getOrCreateTagBuilder(tag) 改为 valueLookupBuilder(tag)",
+    "mc.advancements.predicates.FoodPredicate": "FoodPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.FoodPredicate 引用；反向迁移时按本数据集实际的食物谓词类人工确认（该类旧包路径未核实，不要自动猜写）。",
+    "mc.advancements.predicates.InputPredicate": "InputPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.InputPredicate 引用；反向迁移时按本数据集实际的输入谓词类人工确认（旧数据为 advancements.criterion.InputPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.entity.SheepPredicate": "SheepPredicate 是 26.2 起进度实体谓词所在新包中的类；本数据集没有该 26.2 包路径的对应类。26.2 侧按 net.minecraft.advancements.predicates.entity.SheepPredicate 引用；反向迁移时按本数据集实际的实体谓词类人工确认（旧数据为 advancements.criterion.SheepPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.DataComponentMatchers": "DataComponentMatchers 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.DataComponentMatchers 引用；反向迁移时按本数据集实际的数据组件匹配类人工确认（旧数据为 advancements.criterion.DataComponentMatchers，仍需按本数据集核对）。"
+  }
+}

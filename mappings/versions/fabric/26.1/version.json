@@ -1,0 +1,71 @@
+{
+  "mcVersion": "26.1",
+  "loader": "fabric",
+  "javaVersion": 25,
+  "metadataFormat": "fabric.mod.json",
+  "metadataPath": "src/main/resources/fabric.mod.json",
+  "langFormat": "json",
+  "langKeys": {
+    "block": "block.{modid}.{name}",
+    "item": "item.{modid}.{name}",
+    "group": "itemGroup.{name}"
+  },
+  "texturePrefixes": {
+    "block": "block/",
+    "item": "item/"
+  },
+  "lifecycleStyle": "entrypoint",
+  "packFormat": 84,
+  "loaderVersionRange": ">=0.18.4",
+  "mappingsChannel": "official",
+  "gradleVersion": "9.4.0",
+  "extras": {
+    "loomVersion": "1.15-SNAPSHOT",
+    "fabricLoaderVersion": "0.18.4",
+    "fabricApiVersion": "0.145.1+26.1"
+  },
+  "aliases": {
+    "26.1.1": {
+      "extras": {
+        "fabricApiVersion": "0.145.4+26.1.1"
+      },
+      "packFormat": 84,
+      "resourcePackFormat": [
+        84,
+        0
+      ],
+      "dataPackFormat": [
+        101,
+        1
+      ],
+      "packMetadataStyle": "range",
+      "itemModelDefinitions": true
+    },
+    "26.1.2": {
+      "extras": {
+        "fabricApiVersion": "0.155.3+26.1.2"
+      },
+      "packFormat": 84,
+      "resourcePackFormat": [
+        84,
+        0
+      ],
+      "dataPackFormat": [
+        101,
+        1
+      ],
+      "packMetadataStyle": "range",
+      "itemModelDefinitions": true
+    }
+  },
+  "resourcePackFormat": [
+    84,
+    0
+  ],
+  "dataPackFormat": [
+    101,
+    1
+  ],
+  "packMetadataStyle": "range",
+  "itemModelDefinitions": true
+}

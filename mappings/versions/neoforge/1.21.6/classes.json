@@ -1,0 +1,50 @@
+{
+  "!remove": [
+    "mc.client.gui.LayeredDraw",
+    "forge.Mod.EventBusSubscriber.Bus"
+  ],
+  "mc.world.level.storage.ValueInput": {
+    "name": "net.minecraft.world.level.storage.ValueInput",
+    "note": "1.21.6 引入的持久化读取抽象：input.getIntOr(key, 默认)、input.read(key, codec)、input.child(key) 等，替代直接读 CompoundTag"
+  },
+  "mc.world.level.storage.ValueOutput": {
+    "name": "net.minecraft.world.level.storage.ValueOutput",
+    "note": "1.21.6 引入的持久化写入抽象：output.putInt(key, v)、output.store(key, codec, v)、output.child(key) 等，替代直接写 CompoundTag"
+  },
+  "mc.client.renderer.RenderPipelines": {
+    "name": "net.minecraft.client.renderer.RenderPipelines",
+    "note": "原版渲染管线常量（GUI 贴图常用 RenderPipelines.GUI_TEXTURED）"
+  },
+  "mc.client.gui.contextualbar.ContextualBarRenderer": "net.minecraft.client.gui.contextualbar.ContextualBarRenderer",
+  "mc.client.gui.contextualbar.ExperienceBarRenderer": "net.minecraft.client.gui.contextualbar.ExperienceBarRenderer",
+  "mc.client.gui.contextualbar.JumpableVehicleBarRenderer": "net.minecraft.client.gui.contextualbar.JumpableVehicleBarRenderer",
+  "mc.client.gui.contextualbar.LocatorBarRenderer": "net.minecraft.client.gui.contextualbar.LocatorBarRenderer",
+  "mc.blockentity.BlockEntity": {
+    "name": "net.minecraft.world.level.block.entity.BlockEntity",
+    "note": "1.21.6 起持久化改为 loadAdditional(ValueInput) / saveAdditional(ValueOutput)，不再直接拿 CompoundTag 与 HolderLookup.Provider"
+  },
+  "mc.entity.player.ServerPlayer": {
+    "name": "net.minecraft.server.level.ServerPlayer",
+    "note": "1.21.6 起 server 字段改为私有（用 getServer()），serverLevel() 已移除（level() 直接返回 ServerLevel）；打开菜单仍用 serverPlayer.openMenu(...)"
+  },
+  "mc.client.gui.GuiGraphics": {
+    "name": "net.minecraft.client.gui.GuiGraphics",
+    "note": "1.21.6 GUI 改为先收集后绘制：blit/blitSprite/fill 首参为 RenderPipeline（如 RenderPipelines.GUI_TEXTURED），pose() 返回 Matrix3x2fStack（2D 变换，pushMatrix/popMatrix），颜色需带 alpha（0xFFRRGGBB），悬浮提示改为 setTooltipForNextFrame"
+  },
+  "forge.util.INBTSerializable": {
+    "name": "net.neoforged.neoforge.common.util.ValueIOSerializable",
+    "note": "NeoForge 21.6 移除 INBTSerializable，替代接口 ValueIOSerializable：serialize(ValueOutput) / deserialize(ValueInput)，实现类需改写读写逻辑"
+  },
+  "forge.Mod.EventBusSubscriber": {
+    "name": "net.neoforged.fml.common.EventBusSubscriber",
+    "note": "NeoForge 21.6 起 @EventBusSubscriber 去掉 bus 属性（Mod 总线事件按类型自动分派），删除 bus = ... 即可"
+  },
+  "forge.event.RenderLevelStageEvent": {
+    "name": "net.neoforged.neoforge.client.event.RenderLevelStageEvent",
+    "note": "NeoForge 21.6 起按阶段拆为子事件：监听 RenderLevelStageEvent.AfterEntities / AfterTranslucentBlocks / AfterLevel 等，不再比较 getStage()"
+  },
+  "forge.event.RegisterGuiOverlaysEvent": {
+    "name": "net.neoforged.neoforge.client.event.RegisterGuiLayersEvent",
+    "note": "NeoForge 21.6 起 layer 参数类型为 net.neoforged.neoforge.client.gui.GuiLayer（(guiGraphics, deltaTracker) -> ...，签名同旧 lambda）"
+  }
+}

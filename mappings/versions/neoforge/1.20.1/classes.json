@@ -1,0 +1,388 @@
+{
+  "mc.item.Item": "net.minecraft.world.item.Item",
+  "mc.item.ItemStack": "net.minecraft.world.item.ItemStack",
+  "mc.item.ItemBlock": {
+    "name": "net.minecraft.world.item.BlockItem",
+    "note": "BlockItem 构造需要 (Block, Item.Properties)，签名与 1.12 的 ItemBlock 不同"
+  },
+  "mc.item.Items": "net.minecraft.world.item.Items",
+  "mc.item.CreativeModeTab": {
+    "name": "net.minecraft.world.item.CreativeModeTab",
+    "note": "1.19.3+ 创造标签页大改：TAB_MISC 等静态常量已移除（原版页签常量在 net.minecraft.world.item.CreativeModeTabs），Item.Properties#tab 与 Item#fillItemCategory 已移除；自定义页签用 CreativeModeTab.builder() 构建并注册到 Registries.CREATIVE_MODE_TAB（DeferredRegister），物品加入页签用 BuildCreativeModeTabContentsEvent（Mod 总线）或 builder 的 displayItems"
+  },
+  "mc.item.Rarity": "net.minecraft.world.item.Rarity",
+  "mc.item.DyeColor": "net.minecraft.world.item.DyeColor",
+  "mc.item.EquipmentSlot": {
+    "name": "net.minecraft.world.entity.EquipmentSlot",
+    "note": "1.19.4 起 ArmorItem 构造不再用 EquipmentSlot，改为 ArmorItem.Type（HELMET/CHESTPLATE/LEGGINGS/BOOTS）"
+  },
+  "mc.item.Ingredient": "net.minecraft.world.item.crafting.Ingredient",
+  "mc.block.Block": "net.minecraft.world.level.block.Block",
+  "mc.block.Blocks": "net.minecraft.world.level.block.Blocks",
+  "mc.block.state.BlockState": "net.minecraft.world.level.block.state.BlockState",
+  "mc.block.SoundType": "net.minecraft.world.level.block.SoundType",
+  "mc.blockentity.BlockEntity": {
+    "name": "net.minecraft.world.level.block.entity.BlockEntity",
+    "note": "BlockEntity 构造需要 (BlockEntityType, BlockPos, BlockState)，且需注册 BlockEntityType"
+  },
+  "mc.world.Level": "net.minecraft.world.level.Level",
+  "mc.world.ServerLevel": "net.minecraft.server.level.ServerLevel",
+  "mc.world.ChunkAccess": "net.minecraft.world.level.chunk.ChunkAccess",
+  "mc.world.ChunkPos": "net.minecraft.world.level.ChunkPos",
+  "mc.world.biome.Biome": "net.minecraft.world.level.biome.Biome",
+  "mc.entity.Entity": "net.minecraft.world.entity.Entity",
+  "mc.entity.LivingEntity": "net.minecraft.world.entity.LivingEntity",
+  "mc.entity.Mob": "net.minecraft.world.entity.Mob",
+  "mc.entity.AgeableMob": "net.minecraft.world.entity.AgeableMob",
+  "mc.entity.PathfinderMob": "net.minecraft.world.entity.PathfinderMob",
+  "mc.entity.animal.Animal": "net.minecraft.world.entity.animal.Animal",
+  "mc.entity.monster.Monster": "net.minecraft.world.entity.monster.Monster",
+  "mc.entity.player.Player": "net.minecraft.world.entity.player.Player",
+  "mc.entity.player.ServerPlayer": "net.minecraft.server.level.ServerPlayer",
+  "mc.entity.player.Abilities": "net.minecraft.world.entity.player.Abilities",
+  "mc.entity.item.ItemEntity": "net.minecraft.world.entity.item.ItemEntity",
+  "mc.entity.EntityType": "net.minecraft.world.entity.EntityType",
+  "mc.core.BlockPos": "net.minecraft.core.BlockPos",
+  "mc.core.Direction": "net.minecraft.core.Direction",
+  "mc.core.Vec3": "net.minecraft.world.phys.Vec3",
+  "mc.core.Vec3i": "net.minecraft.core.Vec3i",
+  "mc.core.AABB": "net.minecraft.world.phys.AABB",
+  "mc.core.RayTraceResult": {
+    "name": "net.minecraft.world.phys.HitResult",
+    "note": "HitResult 已拆分为 BlockHitResult / EntityHitResult 子类，按用途选择"
+  },
+  "mc.core.NonNullList": "net.minecraft.core.NonNullList",
+  "mc.core.registries.Registries": {
+    "name": "net.minecraft.core.registries.Registries",
+    "note": "1.19.3 起注册表 ResourceKey 常量集中在 net.minecraft.core.registries.Registries（如 Registries.ITEM / Registries.CREATIVE_MODE_TAB）"
+  },
+  "mc.core.registries.BuiltInRegistries": {
+    "name": "net.minecraft.core.registries.BuiltInRegistries",
+    "note": "1.19.3 起静态注册表实例从 net.minecraft.core.Registry 的常量（Registry.ITEM 等）移至 net.minecraft.core.registries.BuiltInRegistries（BuiltInRegistries.ITEM 等）；动态注册表经 RegistryAccess 获取"
+  },
+  "mc.resources.ResourceLocation": "net.minecraft.resources.ResourceLocation",
+  "mc.nbt.CompoundTag": "net.minecraft.nbt.CompoundTag",
+  "mc.nbt.ListTag": "net.minecraft.nbt.ListTag",
+  "mc.nbt.Tag": "net.minecraft.nbt.Tag",
+  "mc.chat.Component": "net.minecraft.network.chat.Component",
+  "mc.chat.Style": "net.minecraft.network.chat.Style",
+  "mc.chat.ChatFormatting": "net.minecraft.ChatFormatting",
+  "mc.chat.ClickEvent": "net.minecraft.network.chat.ClickEvent",
+  "mc.chat.HoverEvent": {
+    "name": "net.minecraft.network.chat.HoverEvent",
+    "note": "HoverEvent 构造改为 (HoverEvent.Action<T>, T)，Action 常量为泛型"
+  },
+  "mc.util.InteractionHand": "net.minecraft.world.InteractionHand",
+  "mc.util.InteractionResult": "net.minecraft.world.InteractionResult",
+  "mc.util.InteractionResultHolder": {
+    "name": "net.minecraft.world.InteractionResultHolder",
+    "note": "InteractionResultHolder<T> 为泛型，静态工厂 success/pass/fail"
+  },
+  "mc.util.Mth": "net.minecraft.util.Mth",
+  "mc.util.GsonHelper": "net.minecraft.util.GsonHelper",
+  "mc.util.RandomSource": "net.minecraft.util.RandomSource",
+  "mc.damage.DamageSource": {
+    "name": "net.minecraft.world.damagesource.DamageSource",
+    "note": "1.19.4 起伤害类型数据驱动：DamageSource.GENERIC 等静态常量已移除，改用 level.damageSources().generic() 等（Level#damageSources 返回 DamageSources），底层为 Holder<DamageType>"
+  },
+  "mc.effect.MobEffect": {
+    "name": "net.minecraft.world.effect.MobEffect",
+    "note": "1.12 的 Potion(效果) 对应 MobEffect；药水物品类型是 net.minecraft.world.item.alchemy.Potion，勿混淆"
+  },
+  "mc.effect.MobEffectInstance": "net.minecraft.world.effect.MobEffectInstance",
+  "mc.effect.MobEffects": "net.minecraft.world.effect.MobEffects",
+  "mc.enchant.Enchantment": "net.minecraft.world.item.enchantment.Enchantment",
+  "mc.enchant.Enchantments": "net.minecraft.world.item.enchantment.Enchantments",
+  "mc.enchant.EnchantmentHelper": "net.minecraft.world.item.enchantment.EnchantmentHelper",
+  "mc.particles.ParticleTypes": {
+    "name": "net.minecraft.core.particles.ParticleTypes",
+    "note": "粒子常量名与 1.12 的 EnumParticleTypes 不同（如 SMOKE_NORMAL -> SMOKE），API 改为 ParticleOptions"
+  },
+  "mc.stats.Stats": "net.minecraft.stats.Stats",
+  "mc.syncher.SynchedEntityData": "net.minecraft.network.syncher.SynchedEntityData",
+  "mc.syncher.EntityDataAccessor": "net.minecraft.network.syncher.EntityDataAccessor",
+  "mc.syncher.EntityDataSerializers": "net.minecraft.network.syncher.EntityDataSerializers",
+  "mc.sound.SoundEvent": {
+    "name": "net.minecraft.sounds.SoundEvent",
+    "note": "1.19.3 起 SoundEvent 构造器不再公开：用 SoundEvent.createVariableRangeEvent(ResourceLocation)（或 createFixedRangeEvent）创建；注册仍用 DeferredRegister<SoundEvent>"
+  },
+  "mc.sound.SoundEvents": {
+    "name": "net.minecraft.sounds.SoundEvents",
+    "note": "1.19.3 起部分常量类型为 Holder.Reference<SoundEvent>（如 GOAT_HORN 系列），使用时可能需 .value() 解包"
+  },
+  "mc.sound.SoundSource": "net.minecraft.sounds.SoundSource",
+  "mc.inventory.AbstractContainerMenu": {
+    "name": "net.minecraft.world.inventory.AbstractContainerMenu",
+    "note": "Container -> AbstractContainerMenu：需注册 MenuType 并配合 NetworkHooks.openScreen 打开"
+  },
+  "mc.inventory.Slot": "net.minecraft.world.inventory.Slot",
+  "mc.inventory.Container": {
+    "name": "net.minecraft.world.Container",
+    "note": "IInventory -> Container（接口）；模组自身容器推荐改用 IItemHandler/ItemStackHandler 能力"
+  },
+  "mc.client.Minecraft": "net.minecraft.client.Minecraft",
+  "mc.client.I18n": "net.minecraft.client.resources.language.I18n",
+  "mc.client.ClientLevel": "net.minecraft.client.multiplayer.ClientLevel",
+  "mc.client.LocalPlayer": "net.minecraft.client.player.LocalPlayer",
+  "mc.client.Screen": {
+    "name": "net.minecraft.client.gui.screens.Screen",
+    "note": "GuiScreen -> Screen：1.20 起渲染参数由 PoseStack 改为 GuiGraphics（render(GuiGraphics, int, int, float)），绘制方法在 GuiGraphics 实例上（blit/fill/fillGradient/drawString，PoseStack 经 guiGraphics.pose() 获取），GuiComponent 已整体移除；控件/输入 API 全面变化，需人工重写渲染与交互代码"
+  },
+  "mc.client.AbstractContainerScreen": {
+    "name": "net.minecraft.client.gui.screens.inventory.AbstractContainerScreen",
+    "note": "GuiContainer -> AbstractContainerScreen<T extends AbstractContainerMenu>：1.20 起 render/renderBg/renderLabels 首参为 GuiGraphics（不再是 PoseStack），渲染方法签名全变"
+  },
+  "mc.client.Font": "net.minecraft.client.gui.Font",
+  "mc.client.KeyMapping": "net.minecraft.client.KeyMapping",
+  "mc.client.BlockEntityRenderer": {
+    "name": "net.minecraft.client.renderer.blockentity.BlockEntityRenderer",
+    "note": "TESR -> BlockEntityRenderer<T> 接口，render 签名为 (T, float, PoseStack, MultiBufferSource, int, int)（世界渲染仍用 PoseStack，GuiGraphics 仅用于 GUI），在 EntityRenderersEvent.RegisterRenderers 注册"
+  },
+  "mc.server.MinecraftServer": "net.minecraft.server.MinecraftServer",
+  "forge.Mod": "net.minecraftforge.fml.common.Mod",
+  "forge.Mod.EventBusSubscriber": {
+    "name": "net.minecraftforge.fml.common.Mod.EventBusSubscriber",
+    "note": "NeoForge 1.20.1 沿用 Forge FML 包：@Mod 内部注解 @EventBusSubscriber；属性 value(Dist[]，默认 CLIENT+DEDICATED_SERVER)、modid(String)、bus(Bus，默认 FORGE)。证据为官方 language-java 47.2.2 sources Mod.java。"
+  },
+  "forge.SubscribeEvent": "net.minecraftforge.eventbus.api.SubscribeEvent",
+  "forge.Event": "net.minecraftforge.eventbus.api.Event",
+  "forge.EventPriority": "net.minecraftforge.eventbus.api.EventPriority",
+  "forge.Cancelable": "net.minecraftforge.eventbus.api.Cancelable",
+  "forge.MinecraftForge": {
+    "name": "net.minecraftforge.common.MinecraftForge",
+    "note": "NeoForge 1.20.1 沿用 net.minecraftforge 包名，游戏总线为 MinecraftForge.EVENT_BUS（20.2 起为 NeoForge.EVENT_BUS）"
+  },
+  "forge.ForgeRegistries": "net.minecraftforge.registries.ForgeRegistries",
+  "forge.IForgeRegistry": "net.minecraftforge.registries.IForgeRegistry",
+  "forge.Dist": "net.minecraftforge.api.distmarker.Dist",
+  "forge.OnlyIn": "net.minecraftforge.api.distmarker.OnlyIn",
+  "forge.DeferredRegister": {
+    "name": "net.minecraftforge.registries.DeferredRegister",
+    "note": "1.20.1 中除 DeferredRegister.create(IForgeRegistry/ForgeRegistries.Keys.XXX, modid) 外，也可用 DeferredRegister.create(Registries.XXX, modid)（原版 ResourceKey），创造标签页即用 Registries.CREATIVE_MODE_TAB"
+  },
+  "forge.RegistryObject": {
+    "name": "net.minecraftforge.registries.RegistryObject",
+    "note": "NeoForge 1.20.1（47.1.x）仍是 Forge 的 RegistryObject<T>；20.2 起改为 DeferredHolder<R, T>"
+  },
+  "forge.FMLJavaModLoadingContext": "net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext",
+  "forge.DistExecutor": "net.minecraftforge.fml.DistExecutor",
+  "forge.ServerLifecycleHooks": "net.minecraftforge.server.ServerLifecycleHooks",
+  "forge.ModList": "net.minecraftforge.fml.ModList",
+  "forge.ForgeConfigSpec": "net.minecraftforge.common.ForgeConfigSpec",
+  "forge.NetworkHooks": "net.minecraftforge.network.NetworkHooks",
+  "forge.ForgeCapabilities": "net.minecraftforge.common.capabilities.ForgeCapabilities",
+  "forge.capabilities.Capability": {
+    "name": "net.minecraftforge.common.capabilities.Capability",
+    "note": "1.20.1 中 getCapability 返回 LazyOptional<T>，需用 .orElse(...) / .ifPresent(...) 解包"
+  },
+  "forge.capabilities.ICapabilityProvider": {
+    "name": "net.minecraftforge.common.capabilities.ICapabilityProvider",
+    "note": "getCapability(cap, side) 返回 LazyOptional<T>，hasCapability 已移除"
+  },
+  "forge.capabilities.CapabilityManager": {
+    "name": "net.minecraftforge.common.capabilities.CapabilityManager",
+    "note": "注册方式改为 CapabilityManager.get(new CapabilityToken<>(){}) + RegisterCapabilitiesEvent"
+  },
+  "forge.items.IItemHandler": "net.minecraftforge.items.IItemHandler",
+  "forge.items.ItemStackHandler": "net.minecraftforge.items.ItemStackHandler",
+  "forge.energy.IEnergyStorage": "net.minecraftforge.energy.IEnergyStorage",
+  "forge.energy.EnergyStorage": "net.minecraftforge.energy.EnergyStorage",
+  "forge.util.INBTSerializable": "net.minecraftforge.common.util.INBTSerializable",
+  "forge.fluids.FluidStack": {
+    "name": "net.minecraftforge.fluids.FluidStack",
+    "note": "FluidStack 现在包装 net.minecraft.world.level.material.Fluid（原版流体），构造与 1.12 的 Fluid 不同"
+  },
+  "forge.fluids.IFluidHandler": "net.minecraftforge.fluids.capability.IFluidHandler",
+  "forge.fluids.FluidUtil": "net.minecraftforge.fluids.FluidUtil",
+  "forge.fluids.FluidTank": {
+    "name": "net.minecraftforge.fluids.capability.templates.FluidTank",
+    "note": "FluidTank 移至 capability.templates 包，构造参数为 (capacity[, validator])"
+  },
+  "forge.lifecycle.commonSetup": {
+    "name": "net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent",
+    "note": "FMLCommonSetupEvent 需通过 Mod 事件总线监听；注册类内容应改用 DeferredRegister 而不是在此事件中注册"
+  },
+  "forge.lifecycle.loadComplete": {
+    "name": "net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent",
+    "note": "FMLLoadCompleteEvent 需通过 Mod 事件总线监听"
+  },
+  "forge.lifecycle.serverStarting": {
+    "name": "net.minecraftforge.event.server.ServerStartingEvent",
+    "note": "ServerStartingEvent 在 Forge 总线（MinecraftForge.EVENT_BUS）上监听，用 @SubscribeEvent"
+  },
+  "forge.lifecycle.serverStopping": {
+    "name": "net.minecraftforge.event.server.ServerStoppingEvent",
+    "note": "ServerStoppingEvent 在 Forge 总线（MinecraftForge.EVENT_BUS）上监听，用 @SubscribeEvent"
+  },
+  "forge.event.RegisterEvent": {
+    "name": "net.minecraftforge.registries.RegisterEvent",
+    "note": "RegisterEvent 与 1.12 的 RegistryEvent.Register<T> 签名不同：用 event.register(ForgeRegistries.Keys.XXX, helper -> ...) 形式，或改用 DeferredRegister"
+  },
+  "forge.event.AttachCapabilitiesEvent": "net.minecraftforge.event.AttachCapabilitiesEvent",
+  "forge.event.EntityJoinLevelEvent": "net.minecraftforge.event.entity.EntityJoinLevelEvent",
+  "forge.event.PlayerEvent": "net.minecraftforge.event.entity.player.PlayerEvent",
+  "forge.event.PlayerInteractEvent": "net.minecraftforge.event.entity.player.PlayerInteractEvent",
+  "forge.event.LivingDeathEvent": "net.minecraftforge.event.entity.living.LivingDeathEvent",
+  "forge.event.LivingHurtEvent": "net.minecraftforge.event.entity.living.LivingHurtEvent",
+  "forge.event.BlockEvent": "net.minecraftforge.event.level.BlockEvent",
+  "forge.event.BlockBreakEvent": "net.minecraftforge.event.level.BlockEvent.BreakEvent",
+  "forge.event.TickEvent": "net.minecraftforge.event.TickEvent",
+  "forge.event.PlayerTickEvent": "net.minecraftforge.event.TickEvent.PlayerTickEvent",
+  "forge.event.ServerTickEvent": "net.minecraftforge.event.TickEvent.ServerTickEvent",
+  "forge.event.ClientTickEvent": "net.minecraftforge.event.TickEvent.ClientTickEvent",
+  "forge.event.InputEvent": {
+    "name": "net.minecraftforge.client.event.InputEvent",
+    "note": "InputEvent 位于 client.event 包，内部类结构与 1.12 不同（KeyInputEvent -> InputEvent.Key 等），1.20.1 与 1.19.2 结构一致"
+  },
+  "forge.event.ScreenEvent": {
+    "name": "net.minecraftforge.client.event.ScreenEvent",
+    "note": "GuiScreenEvent -> ScreenEvent，内部类命名全面变化，需逐个核对；1.20.1 中 Render 子事件参数为 GuiGraphics"
+  },
+  "forge.event.RenderGuiOverlayEvent": {
+    "name": "net.minecraftforge.client.event.RenderGuiOverlayEvent",
+    "note": "RenderGameOverlayEvent -> RenderGuiOverlayEvent，ElementType 改为 overlay id（VanillaGuiOverlay）；1.20.1 Forge 仍为 RenderGuiOverlayEvent，事件携带 GuiGraphics"
+  },
+  "forge.event.RenderLevelStageEvent": {
+    "name": "net.minecraftforge.client.event.RenderLevelStageEvent",
+    "note": "RenderWorldLastEvent 已移除：监听 RenderLevelStageEvent 并判断 getStage() == Stage.AFTER_LEVEL 等"
+  },
+  "forge.IEventBus": "net.minecraftforge.eventbus.api.IEventBus",
+  "forge.ModLoadingContext": "net.minecraftforge.fml.ModLoadingContext",
+  "forge.ModContainer": "net.minecraftforge.fml.ModContainer",
+  "forge.FMLEnvironment": "net.minecraftforge.fml.loading.FMLEnvironment",
+  "forge.config.ModConfig": "net.minecraftforge.fml.config.ModConfig",
+  "forge.config.ModConfigEvent": "net.minecraftforge.fml.event.config.ModConfigEvent",
+  "forge.lifecycle.clientSetup": "net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent",
+  "forge.capabilities.RegisterCapabilitiesEvent": "net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent",
+  "forge.capabilities.CapabilityToken": "net.minecraftforge.common.capabilities.CapabilityToken",
+  "forge.capabilities.ICapabilitySerializable": "net.minecraftforge.common.capabilities.ICapabilitySerializable",
+  "forge.common.util.LazyOptional": "net.minecraftforge.common.util.LazyOptional",
+  "forge.items.SlotItemHandler": "net.minecraftforge.items.SlotItemHandler",
+  "forge.items.ItemHandlerHelper": "net.minecraftforge.items.ItemHandlerHelper",
+  "forge.fluids.FluidType": "net.minecraftforge.fluids.FluidType",
+  "forge.fluids.ForgeFlowingFluid": "net.minecraftforge.fluids.ForgeFlowingFluid",
+  "forge.common.ForgeSpawnEggItem": "net.minecraftforge.common.ForgeSpawnEggItem",
+  "forge.common.ForgeHooks": "net.minecraftforge.common.ForgeHooks",
+  "forge.event.ForgeEventFactory": "net.minecraftforge.event.ForgeEventFactory",
+  "forge.client.ForgeHooksClient": "net.minecraftforge.client.ForgeHooksClient",
+  "forge.common.IForgeMenuType": "net.minecraftforge.common.extensions.IForgeMenuType",
+  "forge.common.Tags": "net.minecraftforge.common.Tags",
+  "forge.common.TierSortingRegistry": "net.minecraftforge.common.TierSortingRegistry",
+  "forge.entity.IEntityAdditionalSpawnData": "net.minecraftforge.entity.IEntityAdditionalSpawnData",
+  "forge.network.PacketDistributor": "net.minecraftforge.network.PacketDistributor",
+  "forge.network.NetworkRegistry": "net.minecraftforge.network.NetworkRegistry",
+  "forge.network.SimpleChannel": "net.minecraftforge.network.simple.SimpleChannel",
+  "forge.network.NetworkEvent": "net.minecraftforge.network.NetworkEvent",
+  "forge.event.LevelTickEvent": "net.minecraftforge.event.TickEvent.LevelTickEvent",
+  "forge.event.RenderTickEvent": "net.minecraftforge.event.TickEvent.RenderTickEvent",
+  "forge.event.LivingTickEvent": "net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent",
+  "forge.event.RegisterGuiOverlaysEvent": "net.minecraftforge.client.event.RegisterGuiOverlaysEvent",
+  "forge.client.VanillaGuiOverlay": "net.minecraftforge.client.gui.overlay.VanillaGuiOverlay",
+  "forge.client.IGuiOverlay": "net.minecraftforge.client.gui.overlay.IGuiOverlay",
+  "forge.client.RenderGuiEvent": "net.minecraftforge.client.event.RenderGuiEvent",
+  "forge.client.ConfigScreenHandler": "net.minecraftforge.client.ConfigScreenHandler",
+  "forge.event.BuildCreativeModeTabContentsEvent": "net.minecraftforge.event.BuildCreativeModeTabContentsEvent",
+  "forge.event.RegisterCommandsEvent": "net.minecraftforge.event.RegisterCommandsEvent",
+  "forge.event.RegisterKeyMappingsEvent": "net.minecraftforge.client.event.RegisterKeyMappingsEvent",
+  "forge.event.EntityRenderersEvent": "net.minecraftforge.client.event.EntityRenderersEvent",
+  "forge.event.EntityAttributeCreationEvent": "net.minecraftforge.event.entity.EntityAttributeCreationEvent",
+  "forge.event.ItemTooltipEvent": "net.minecraftforge.event.entity.player.ItemTooltipEvent",
+  "forge.event.GatherDataEvent": "net.minecraftforge.data.event.GatherDataEvent",
+  "forge.event.ServerChatEvent": "net.minecraftforge.event.ServerChatEvent",
+  "forge.event.EntityItemPickupEvent": "net.minecraftforge.event.entity.player.EntityItemPickupEvent",
+  "forge.event.PlayerSleepInBedEvent": "net.minecraftforge.event.entity.player.PlayerSleepInBedEvent",
+  "mc.world.item.CreativeModeTabs": "net.minecraft.world.item.CreativeModeTabs",
+  "mc.network.FriendlyByteBuf": "net.minecraft.network.FriendlyByteBuf",
+  "mc.client.player.AbstractClientPlayer": "net.minecraft.client.player.AbstractClientPlayer",
+  "mc.world.item.alchemy.PotionUtils": "net.minecraft.world.item.alchemy.PotionUtils",
+  "mc.world.food.FoodProperties": "net.minecraft.world.food.FoodProperties",
+  "mixin.Mixin": "org.spongepowered.asm.mixin.Mixin",
+  "mixin.Shadow": "org.spongepowered.asm.mixin.Shadow",
+  "mixin.Unique": "org.spongepowered.asm.mixin.Unique",
+  "mixin.Final": "org.spongepowered.asm.mixin.Final",
+  "mixin.Inject": "org.spongepowered.asm.mixin.injection.Inject",
+  "mixin.At": "org.spongepowered.asm.mixin.injection.At",
+  "mixin.Redirect": "org.spongepowered.asm.mixin.injection.Redirect",
+  "mixin.ModifyVariable": "org.spongepowered.asm.mixin.injection.ModifyVariable",
+  "mixin.CallbackInfo": "org.spongepowered.asm.mixin.injection.callback.CallbackInfo",
+  "mixin.CallbackInfoReturnable": "org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable",
+  "mixin.Accessor": "org.spongepowered.asm.mixin.gen.Accessor",
+  "mixin.Invoker": "org.spongepowered.asm.mixin.gen.Invoker",
+  "mc.Util": "net.minecraft.Util",
+  "mc.advancements.CriteriaTriggers": "net.minecraft.advancements.CriteriaTriggers",
+  "mc.advancements.Criterion": "net.minecraft.advancements.Criterion",
+  "mc.advancements.CriterionTrigger": "net.minecraft.advancements.CriterionTrigger",
+  "mc.advancements.critereon.BlockPredicate": "net.minecraft.advancements.critereon.BlockPredicate",
+  "mc.advancements.critereon.ContextAwarePredicate": "net.minecraft.advancements.critereon.ContextAwarePredicate",
+  "mc.advancements.critereon.DamagePredicate": "net.minecraft.advancements.critereon.DamagePredicate",
+  "mc.advancements.critereon.DamageSourcePredicate": "net.minecraft.advancements.critereon.DamageSourcePredicate",
+  "mc.advancements.critereon.DistancePredicate": "net.minecraft.advancements.critereon.DistancePredicate",
+  "mc.advancements.critereon.EnchantmentPredicate": "net.minecraft.advancements.critereon.EnchantmentPredicate",
+  "mc.advancements.critereon.EntityEquipmentPredicate": "net.minecraft.advancements.critereon.EntityEquipmentPredicate",
+  "mc.advancements.critereon.EntityFlagsPredicate": "net.minecraft.advancements.critereon.EntityFlagsPredicate",
+  "mc.advancements.critereon.EntityPredicate": "net.minecraft.advancements.critereon.EntityPredicate",
+  "mc.advancements.critereon.EntitySubPredicate": "net.minecraft.advancements.critereon.EntitySubPredicate",
+  "mc.advancements.critereon.EntityTypePredicate": "net.minecraft.advancements.critereon.EntityTypePredicate",
+  "mc.advancements.critereon.FishingHookPredicate": "net.minecraft.advancements.critereon.FishingHookPredicate",
+  "mc.advancements.critereon.FluidPredicate": "net.minecraft.advancements.critereon.FluidPredicate",
+  "mc.advancements.critereon.ItemPredicate": "net.minecraft.advancements.critereon.ItemPredicate",
+  "mc.advancements.critereon.LightPredicate": "net.minecraft.advancements.critereon.LightPredicate",
+  "mc.advancements.critereon.LocationPredicate": "net.minecraft.advancements.critereon.LocationPredicate",
+  "mc.advancements.critereon.MinMaxBounds": "net.minecraft.advancements.critereon.MinMaxBounds",
+  "mc.advancements.critereon.MobEffectsPredicate": "net.minecraft.advancements.critereon.MobEffectsPredicate",
+  "mc.advancements.critereon.NbtPredicate": "net.minecraft.advancements.critereon.NbtPredicate",
+  "mc.advancements.critereon.PlayerPredicate": "net.minecraft.advancements.critereon.PlayerPredicate",
+  "mc.advancements.critereon.SlimePredicate": "net.minecraft.advancements.critereon.SlimePredicate",
+  "mc.advancements.critereon.StatePropertiesPredicate": "net.minecraft.advancements.critereon.StatePropertiesPredicate",
+  "mc.advancements.critereon.TagPredicate": "net.minecraft.advancements.critereon.TagPredicate",
+  "mc.client.gui.Gui": "net.minecraft.client.gui.Gui",
+  "mc.client.gui.GuiGraphics": "net.minecraft.client.gui.GuiGraphics",
+  "mc.client.gui.components.AbstractWidget": "net.minecraft.client.gui.components.AbstractWidget",
+  "mc.client.gui.font.GlyphRenderTypes": "net.minecraft.client.gui.font.GlyphRenderTypes",
+  "mc.client.gui.screens.Overlay": "net.minecraft.client.gui.screens.Overlay",
+  "mc.client.renderer.ItemBlockRenderTypes": "net.minecraft.client.renderer.ItemBlockRenderTypes",
+  "mc.client.renderer.RenderType": "net.minecraft.client.renderer.RenderType",
+  "mc.client.renderer.entity.EntityRenderer": "net.minecraft.client.renderer.entity.EntityRenderer",
+  "mc.commands.arguments.ColorArgument": "net.minecraft.commands.arguments.ColorArgument",
+  "mc.core.Registry": "net.minecraft.core.Registry",
+  "mc.core.RegistryAccess": "net.minecraft.core.RegistryAccess",
+  "mc.network.protocol.game.ServerGamePacketListener": "net.minecraft.network.protocol.game.ServerGamePacketListener",
+  "mc.world.effect.InstantenousMobEffect": "net.minecraft.world.effect.InstantenousMobEffect",
+  "mc.world.entity.animal.Bucketable": "net.minecraft.world.entity.animal.Bucketable",
+  "mc.world.entity.monster.MagmaCube": "net.minecraft.world.entity.monster.MagmaCube",
+  "mc.world.entity.monster.Slime": "net.minecraft.world.entity.monster.Slime",
+  "mc.world.item.ArmorItem": "net.minecraft.world.item.ArmorItem",
+  "mc.world.item.ArmorItem.Type": "net.minecraft.world.item.ArmorItem.Type",
+  "mc.world.item.ArmorMaterial": "net.minecraft.world.item.ArmorMaterial",
+  "mc.world.item.ArmorMaterials": "net.minecraft.world.item.ArmorMaterials",
+  "mc.world.item.DiggerItem": "net.minecraft.world.item.DiggerItem",
+  "mc.world.item.SwordItem": "net.minecraft.world.item.SwordItem",
+  "mc.world.item.Tier": "net.minecraft.world.item.Tier",
+  "mc.world.item.TieredItem": "net.minecraft.world.item.TieredItem",
+  "mc.world.item.Tiers": "net.minecraft.world.item.Tiers",
+  "mc.world.level.GameRules": "net.minecraft.world.level.GameRules",
+  "mc.world.level.block.entity.BlockEntityType": "net.minecraft.world.level.block.entity.BlockEntityType",
+  "mc.world.level.block.state.properties.BlockStateProperties": "net.minecraft.world.level.block.state.properties.BlockStateProperties",
+  "mc.world.level.block.state.properties.DripstoneThickness": "net.minecraft.world.level.block.state.properties.DripstoneThickness",
+  "mc.world.level.levelgen.feature.DripstoneClusterFeature": "net.minecraft.world.level.levelgen.feature.DripstoneClusterFeature",
+  "mc.world.level.levelgen.feature.DripstoneUtils": "net.minecraft.world.level.levelgen.feature.DripstoneUtils",
+  "mc.world.level.levelgen.feature.Feature": "net.minecraft.world.level.levelgen.feature.Feature",
+  "mc.world.level.levelgen.feature.PointedDripstoneFeature": "net.minecraft.world.level.levelgen.feature.PointedDripstoneFeature",
+  "mc.world.level.levelgen.feature.configurations.DripstoneClusterConfiguration": "net.minecraft.world.level.levelgen.feature.configurations.DripstoneClusterConfiguration",
+  "mc.world.level.levelgen.feature.configurations.PointedDripstoneConfiguration": "net.minecraft.world.level.levelgen.feature.configurations.PointedDripstoneConfiguration",
+  "mc.world.level.levelgen.feature.configurations.TreeConfiguration": "net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration",
+  "mc.world.level.levelgen.presets.WorldPresets": "net.minecraft.world.level.levelgen.presets.WorldPresets",
+  "mc.world.level.lighting.LightEngine": "net.minecraft.world.level.lighting.LightEngine",
+  "neoforge.client.BlockStateProvider": "net.minecraftforge.client.model.generators.BlockStateProvider",
+  "neoforge.client.ItemModelProvider": "net.minecraftforge.client.model.generators.ItemModelProvider",
+  "neoforge.client.RegisterClientReloadListenersEvent": "net.minecraftforge.client.event.RegisterClientReloadListenersEvent",
+  "neoforge.client.RegisterDimensionSpecialEffectsEvent": "net.minecraftforge.client.event.RegisterDimensionSpecialEffectsEvent",
+  "neoforge.client.RegisterShadersEvent": "net.minecraftforge.client.event.RegisterShadersEvent",
+  "neoforge.client.RenderHighlightEvent": "net.minecraftforge.client.event.RenderHighlightEvent",
+  "neoforge.event.AddReloadListenerEvent": "net.minecraftforge.event.AddReloadListenerEvent",
+  "neoforge.event.VillagerTradesEvent": "net.minecraftforge.event.village.VillagerTradesEvent",
+  "neoforge.event.WandererTradesEvent": "net.minecraftforge.event.village.WandererTradesEvent",
+  "forge.Mod.EventBusSubscriber.Bus": {
+    "name": "net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus"
+  }
+}

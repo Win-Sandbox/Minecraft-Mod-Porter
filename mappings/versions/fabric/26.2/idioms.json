@@ -1,0 +1,10 @@
+{
+  "guidance": {
+    "mc.world.entity.EntityTypes": "EntityTypes 是 26.2 的实体类型常量类，本版本即可直接使用 EntityTypes.XXX",
+    "entity.registration": "实体注册：Registry.register(BuiltInRegistries.ENTITY_TYPE, key, EntityType.Builder.of(MyEntity::new, MobCategory.CREATURE).sized(0.8f, 1.5f).build(key))（FabricEntityTypeBuilder 在 26.2 已删除）；原版实体类型常量在 26.2 起位于 EntityTypes；属性用 FabricDefaultAttributeRegistry.register(TYPE, MyEntity.createMobAttributes())；渲染器 EntityRendererRegistry.register(TYPE, MyRenderer::new)",
+    "metadata.meta": "扁平化后没有 metadata 子类型：每个子类型是独立注册的物品/方块或方块状态属性；26.2 起原版 16 色系列常量合并为 ColorCollection（Items.WOOL.pick(DyeColor.RED) 等），铜系列合并为 WeatheringCopperCollection",
+    "gui.overlay": "HUD 绘制用 HudElementRegistry.addLast(Identifier, (graphics, deltaTracker) -> ...)（或 attachElementBefore/After(VanillaHudElements.XXX, ...)），HudElement 方法为 extractRenderState(GuiGraphicsExtractor, DeltaTracker)；26.2 起原版 HUD 方法（setOverlayMessage、setTitle 等）位于 minecraft.gui.hud",
+    "enum.extension": "EnumHelper 无对应物：工具/盔甲材质为 ToolMaterial / ArmorMaterial record，直接 new；26.2 起 Fabric Loader 0.19+ 与 Loom 1.17 提供官方的枚举扩展机制（经 class tweaker 声明），可用于扩展原版枚举",
+    "gui.screenManager": "26.2 起界面管理从 Minecraft 移到 Gui：minecraft.gui.setScreen(screen)、minecraft.gui.screen()；标题/动作栏/聊天框等 HUD 方法在 minecraft.gui.hud（Hud）上"
+  }
+}

@@ -1,0 +1,549 @@
+{
+  "mc.item.Item": {
+    "name": "net.minecraft.world.item.Item",
+    "note": "1.21.1 的 Item 构造只需 Item.Properties；物品附加数据走数据组件（Item.Properties#component），覆写 use 时返回 InteractionResultHolder<ItemStack>"
+  },
+  "mc.item.ItemStack": {
+    "name": "net.minecraft.world.item.ItemStack",
+    "note": "1.20.5 起物品 NBT 已被数据组件取代：getTag/setTag/getOrCreateTag 等不再存在，改用 stack.get/set/update/remove(DataComponents.XXX)，自定义数据放 DataComponents.CUSTOM_DATA；序列化 save/parse 需要 HolderLookup.Provider"
+  },
+  "mc.item.ItemBlock": {
+    "name": "net.minecraft.world.item.BlockItem",
+    "note": "BlockItem 构造为 (Block, Item.Properties)；NeoForge 推荐用 DeferredRegister.Items#registerSimpleBlockItem 注册"
+  },
+  "mc.item.Items": "net.minecraft.world.item.Items",
+  "mc.item.CreativeModeTab": {
+    "name": "net.minecraft.world.item.CreativeModeTab",
+    "note": "自定义页签用 CreativeModeTab.builder() 构建并注册到 Registries.CREATIVE_MODE_TAB；向原版页签加物品在 Mod 总线监听 BuildCreativeModeTabContentsEvent（net.neoforged.neoforge.event）"
+  },
+  "mc.item.Rarity": "net.minecraft.world.item.Rarity",
+  "mc.item.DyeColor": "net.minecraft.world.item.DyeColor",
+  "mc.item.EquipmentSlot": {
+    "name": "net.minecraft.world.entity.EquipmentSlot",
+    "note": "盔甲部位在 1.21.1 用 ArmorItem.Type（HELMET/CHESTPLATE/LEGGINGS/BOOTS/BODY）表达，EquipmentSlot 仅用于装备栏位"
+  },
+  "mc.item.Ingredient": "net.minecraft.world.item.crafting.Ingredient",
+  "mc.world.item.Tier": {
+    "name": "net.minecraft.world.item.Tier",
+    "note": "1.21.1 工具等级仍是 Tier 接口（原版实现为 Tiers 枚举）；NeoForge 可用 net.neoforged.neoforge.common.SimpleTier 自建"
+  },
+  "mc.world.item.Tiers": "net.minecraft.world.item.Tiers",
+  "mc.world.item.TieredItem": "net.minecraft.world.item.TieredItem",
+  "mc.world.item.SwordItem": "net.minecraft.world.item.SwordItem",
+  "mc.world.item.DiggerItem": "net.minecraft.world.item.DiggerItem",
+  "mc.world.item.ArmorItem": {
+    "name": "net.minecraft.world.item.ArmorItem",
+    "note": "1.21.1 构造为 ArmorItem(Holder<ArmorMaterial>, ArmorItem.Type, Item.Properties)，盔甲材质是注册表对象（需 DeferredRegister<ArmorMaterial>）"
+  },
+  "mc.world.item.ArmorItem.Type": "net.minecraft.world.item.ArmorItem.Type",
+  "mc.world.item.ArmorMaterial": {
+    "name": "net.minecraft.world.item.ArmorMaterial",
+    "note": "1.20.5~1.21.1 的 ArmorMaterial 是注册到 Registries.ARMOR_MATERIAL 的 record，引用时用 Holder<ArmorMaterial>"
+  },
+  "mc.world.item.ArmorMaterials": "net.minecraft.world.item.ArmorMaterials",
+  "mc.block.Block": {
+    "name": "net.minecraft.world.level.block.Block",
+    "note": "方块交互在 1.20.5 起拆为 useWithoutItem（空手）与 useItemOn（手持物品，返回 ItemInteractionResult），旧 use 覆写需按语义拆分"
+  },
+  "mc.block.Blocks": "net.minecraft.world.level.block.Blocks",
+  "mc.block.state.BlockState": "net.minecraft.world.level.block.state.BlockState",
+  "mc.block.SoundType": "net.minecraft.world.level.block.SoundType",
+  "mc.blockentity.BlockEntity": {
+    "name": "net.minecraft.world.level.block.entity.BlockEntity",
+    "note": "构造为 (BlockEntityType, BlockPos, BlockState)；NBT 读写为 loadAdditional/saveAdditional(CompoundTag, HolderLookup.Provider)，getUpdateTag 同样带 Provider 参数"
+  },
+  "mc.world.level.block.entity.BlockEntityType": {
+    "name": "net.minecraft.world.level.block.entity.BlockEntityType",
+    "note": "1.21.1 用 BlockEntityType.Builder.of(工厂, 方块...).build(null) 创建并以 DeferredRegister 注册"
+  },
+  "mc.world.Level": "net.minecraft.world.level.Level",
+  "mc.world.ServerLevel": "net.minecraft.server.level.ServerLevel",
+  "mc.world.ChunkAccess": "net.minecraft.world.level.chunk.ChunkAccess",
+  "mc.world.ChunkPos": "net.minecraft.world.level.ChunkPos",
+  "mc.world.biome.Biome": "net.minecraft.world.level.biome.Biome",
+  "mc.world.level.GameRules": "net.minecraft.world.level.GameRules",
+  "mc.world.level.portal.DimensionTransition": {
+    "name": "net.minecraft.world.level.portal.DimensionTransition",
+    "note": "1.21 的跨维度传送参数对象：Entity#changeDimension(DimensionTransition)"
+  },
+  "mc.world.level.levelgen.feature.Feature": "net.minecraft.world.level.levelgen.feature.Feature",
+  "mc.world.level.levelgen.feature.PointedDripstoneFeature": "net.minecraft.world.level.levelgen.feature.PointedDripstoneFeature",
+  "mc.world.level.levelgen.feature.DripstoneClusterFeature": "net.minecraft.world.level.levelgen.feature.DripstoneClusterFeature",
+  "mc.world.level.levelgen.feature.DripstoneUtils": "net.minecraft.world.level.levelgen.feature.DripstoneUtils",
+  "mc.world.level.levelgen.feature.configurations.PointedDripstoneConfiguration": "net.minecraft.world.level.levelgen.feature.configurations.PointedDripstoneConfiguration",
+  "mc.world.level.levelgen.feature.configurations.DripstoneClusterConfiguration": "net.minecraft.world.level.levelgen.feature.configurations.DripstoneClusterConfiguration",
+  "mc.world.level.levelgen.feature.configurations.TreeConfiguration": "net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration",
+  "mc.world.level.block.state.properties.DripstoneThickness": "net.minecraft.world.level.block.state.properties.DripstoneThickness",
+  "mc.world.level.block.state.properties.BlockStateProperties": "net.minecraft.world.level.block.state.properties.BlockStateProperties",
+  "mc.world.level.lighting.LightEngine": "net.minecraft.world.level.lighting.LightEngine",
+  "mc.world.level.levelgen.presets.WorldPresets": "net.minecraft.world.level.levelgen.presets.WorldPresets",
+  "mc.entity.Entity": "net.minecraft.world.entity.Entity",
+  "mc.entity.LivingEntity": "net.minecraft.world.entity.LivingEntity",
+  "mc.entity.Mob": "net.minecraft.world.entity.Mob",
+  "mc.entity.AgeableMob": "net.minecraft.world.entity.AgeableMob",
+  "mc.entity.PathfinderMob": "net.minecraft.world.entity.PathfinderMob",
+  "mc.entity.animal.Animal": "net.minecraft.world.entity.animal.Animal",
+  "mc.entity.monster.Monster": "net.minecraft.world.entity.monster.Monster",
+  "mc.world.entity.monster.Slime": "net.minecraft.world.entity.monster.Slime",
+  "mc.world.entity.monster.MagmaCube": "net.minecraft.world.entity.monster.MagmaCube",
+  "mc.world.entity.animal.Bucketable": "net.minecraft.world.entity.animal.Bucketable",
+  "mc.entity.player.Player": "net.minecraft.world.entity.player.Player",
+  "mc.entity.player.ServerPlayer": {
+    "name": "net.minecraft.server.level.ServerPlayer",
+    "note": "打开带数据的菜单用 NeoForge 扩展 serverPlayer.openMenu(menuProvider, buf -> ...)（NetworkHooks 在 NeoForge 中不存在）"
+  },
+  "mc.entity.player.Abilities": "net.minecraft.world.entity.player.Abilities",
+  "mc.entity.item.ItemEntity": "net.minecraft.world.entity.item.ItemEntity",
+  "mc.entity.EntityType": {
+    "name": "net.minecraft.world.entity.EntityType",
+    "note": "1.21.1 用 EntityType.Builder.of(工厂, MobCategory).sized(w, h).build(字符串 id)；spawn/create 的附加数据参数为 Consumer<Entity>"
+  },
+  "mc.world.effect.InstantenousMobEffect": "net.minecraft.world.effect.InstantenousMobEffect",
+  "mc.core.BlockPos": "net.minecraft.core.BlockPos",
+  "mc.core.Direction": "net.minecraft.core.Direction",
+  "mc.core.Vec3": "net.minecraft.world.phys.Vec3",
+  "mc.core.Vec3i": "net.minecraft.core.Vec3i",
+  "mc.core.AABB": "net.minecraft.world.phys.AABB",
+  "mc.core.RayTraceResult": {
+    "name": "net.minecraft.world.phys.HitResult",
+    "note": "HitResult 按用途分为 BlockHitResult / EntityHitResult 子类"
+  },
+  "mc.core.NonNullList": "net.minecraft.core.NonNullList",
+  "mc.core.registries.Registries": {
+    "name": "net.minecraft.core.registries.Registries",
+    "note": "注册表 ResourceKey 常量（Registries.ITEM、Registries.CREATIVE_MODE_TAB 等），NeoForge 的 DeferredRegister.create 直接接收它们"
+  },
+  "mc.core.registries.BuiltInRegistries": {
+    "name": "net.minecraft.core.registries.BuiltInRegistries",
+    "note": "静态注册表实例（BuiltInRegistries.ITEM 等），NeoForge 没有 ForgeRegistries，查询/反查注册名都用它"
+  },
+  "mc.core.Registry": "net.minecraft.core.Registry",
+  "mc.core.RegistryAccess": "net.minecraft.core.RegistryAccess",
+  "mc.resources.ResourceLocation": {
+    "name": "net.minecraft.resources.ResourceLocation",
+    "note": "1.21 起构造器私有：双参用 ResourceLocation.fromNamespaceAndPath，单参用 ResourceLocation.parse，minecraft 命名空间用 withDefaultNamespace"
+  },
+  "mc.Util": "net.minecraft.Util",
+  "mc.nbt.CompoundTag": "net.minecraft.nbt.CompoundTag",
+  "mc.nbt.ListTag": "net.minecraft.nbt.ListTag",
+  "mc.nbt.Tag": "net.minecraft.nbt.Tag",
+  "mc.chat.Component": "net.minecraft.network.chat.Component",
+  "mc.chat.Style": "net.minecraft.network.chat.Style",
+  "mc.chat.ChatFormatting": "net.minecraft.ChatFormatting",
+  "mc.chat.ClickEvent": {
+    "name": "net.minecraft.network.chat.ClickEvent",
+    "note": "1.21.1 仍以 new ClickEvent(ClickEvent.Action, String) 构造"
+  },
+  "mc.chat.HoverEvent": {
+    "name": "net.minecraft.network.chat.HoverEvent",
+    "note": "1.21.1 以 new HoverEvent(HoverEvent.Action<T>, T) 构造，Action 常量带泛型"
+  },
+  "mc.util.InteractionHand": "net.minecraft.world.InteractionHand",
+  "mc.util.InteractionResult": {
+    "name": "net.minecraft.world.InteractionResult",
+    "note": "1.21.1 仍为枚举（SUCCESS/CONSUME/PASS/FAIL 等），sidedSuccess(isClientSide) 可用"
+  },
+  "mc.util.InteractionResultHolder": {
+    "name": "net.minecraft.world.InteractionResultHolder",
+    "note": "InteractionResultHolder<T> 为泛型包装，静态工厂 success/pass/fail/sidedSuccess"
+  },
+  "mc.util.Mth": "net.minecraft.util.Mth",
+  "mc.util.GsonHelper": "net.minecraft.util.GsonHelper",
+  "mc.util.RandomSource": "net.minecraft.util.RandomSource",
+  "mc.damage.DamageSource": {
+    "name": "net.minecraft.world.damagesource.DamageSource",
+    "note": "伤害类型数据驱动：用 level.damageSources().generic() 等获取，底层为 Holder<DamageType>"
+  },
+  "mc.effect.MobEffect": {
+    "name": "net.minecraft.world.effect.MobEffect",
+    "note": "药水物品类型是 net.minecraft.world.item.alchemy.Potion，与状态效果 MobEffect 区分"
+  },
+  "mc.effect.MobEffectInstance": {
+    "name": "net.minecraft.world.effect.MobEffectInstance",
+    "note": "构造签名为 MobEffectInstance(Holder<MobEffect>, ...)，MobEffects 常量本身就是 Holder；自定义效果传 DeferredHolder"
+  },
+  "mc.effect.MobEffects": {
+    "name": "net.minecraft.world.effect.MobEffects",
+    "note": "常量类型为 Holder<MobEffect>"
+  },
+  "mc.enchant.Enchantment": {
+    "name": "net.minecraft.world.item.enchantment.Enchantment",
+    "note": "1.21 起附魔数据驱动：不再子类化/直接构造 Enchantment，改为 data/<ns>/enchantment/*.json + ResourceKey/Holder 引用"
+  },
+  "mc.enchant.Enchantments": {
+    "name": "net.minecraft.world.item.enchantment.Enchantments",
+    "note": "常量类型为 ResourceKey<Enchantment>，需经 registryAccess.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(key) 取 Holder"
+  },
+  "mc.enchant.EnchantmentHelper": {
+    "name": "net.minecraft.world.item.enchantment.EnchantmentHelper",
+    "note": "API 已 Holder 化：等级查询 getItemEnchantmentLevel(Holder<Enchantment>, ItemStack)，效果遍历为 runIterationOn* 形式"
+  },
+  "mc.particles.ParticleTypes": {
+    "name": "net.minecraft.core.particles.ParticleTypes",
+    "note": "粒子参数类型为 ParticleOptions"
+  },
+  "mc.stats.Stats": "net.minecraft.stats.Stats",
+  "mc.syncher.SynchedEntityData": {
+    "name": "net.minecraft.network.syncher.SynchedEntityData",
+    "note": "1.20.5 起默认值在 defineSynchedData(SynchedEntityData.Builder) 中用 builder.define(...) 声明"
+  },
+  "mc.syncher.EntityDataAccessor": "net.minecraft.network.syncher.EntityDataAccessor",
+  "mc.syncher.EntityDataSerializers": "net.minecraft.network.syncher.EntityDataSerializers",
+  "mc.sound.SoundEvent": {
+    "name": "net.minecraft.sounds.SoundEvent",
+    "note": "构造器不公开：用 SoundEvent.createVariableRangeEvent(ResourceLocation) 或 createFixedRangeEvent 创建"
+  },
+  "mc.sound.SoundEvents": {
+    "name": "net.minecraft.sounds.SoundEvents",
+    "note": "部分常量类型为 Holder.Reference<SoundEvent>，使用时可能要 .value()"
+  },
+  "mc.sound.SoundSource": "net.minecraft.sounds.SoundSource",
+  "mc.inventory.AbstractContainerMenu": {
+    "name": "net.minecraft.world.inventory.AbstractContainerMenu",
+    "note": "需注册 MenuType：带额外数据的菜单用 IMenuTypeExtension.create((id, inv, buf) -> ...)，服务端 serverPlayer.openMenu(provider, buf -> ...) 打开，客户端在 RegisterMenuScreensEvent 中绑定界面"
+  },
+  "mc.inventory.Slot": "net.minecraft.world.inventory.Slot",
+  "mc.inventory.Container": {
+    "name": "net.minecraft.world.Container",
+    "note": "原版容器接口；对外暴露物品存储推荐 NeoForge 的 IItemHandler + Capabilities.ItemHandler.BLOCK"
+  },
+  "mc.client.Minecraft": "net.minecraft.client.Minecraft",
+  "mc.client.I18n": "net.minecraft.client.resources.language.I18n",
+  "mc.client.ClientLevel": "net.minecraft.client.multiplayer.ClientLevel",
+  "mc.client.LocalPlayer": "net.minecraft.client.player.LocalPlayer",
+  "mc.client.Screen": {
+    "name": "net.minecraft.client.gui.screens.Screen",
+    "note": "1.21.1 渲染入口为 render(GuiGraphics, int, int, float)，绘制方法在 GuiGraphics 上；键鼠回调仍是原始 int/double 参数"
+  },
+  "mc.client.AbstractContainerScreen": {
+    "name": "net.minecraft.client.gui.screens.inventory.AbstractContainerScreen",
+    "note": "renderBg/renderLabels 首参为 GuiGraphics"
+  },
+  "mc.client.gui.components.AbstractWidget": "net.minecraft.client.gui.components.AbstractWidget",
+  "mc.client.gui.GuiGraphics": {
+    "name": "net.minecraft.client.gui.GuiGraphics",
+    "note": "1.21.1 的 blit 直接接收纹理 ResourceLocation 与像素 UV，pose() 返回 PoseStack"
+  },
+  "mc.client.gui.LayeredDraw": {
+    "name": "net.minecraft.client.gui.LayeredDraw",
+    "note": "1.20.5~1.21.5 的 HUD 分层容器；NeoForge 的 RegisterGuiLayersEvent 回调类型为 LayeredDraw.Layer((guiGraphics, deltaTracker) -> ...)"
+  },
+  "mc.client.gui.Gui": "net.minecraft.client.gui.Gui",
+  "mc.client.gui.screens.Overlay": "net.minecraft.client.gui.screens.Overlay",
+  "mc.client.gui.font.GlyphRenderTypes": "net.minecraft.client.gui.font.GlyphRenderTypes",
+  "mc.client.resources.PlayerSkin": {
+    "name": "net.minecraft.client.resources.PlayerSkin",
+    "note": "玩家皮肤 record（1.20.2 引入），纹理用 skin.texture()；客户端经 AbstractClientPlayer#getSkin() 获取"
+  },
+  "mc.client.Font": "net.minecraft.client.gui.Font",
+  "mc.client.KeyMapping": {
+    "name": "net.minecraft.client.KeyMapping",
+    "note": "1.21.1 构造为 KeyMapping(名称, [InputConstants.Type,] 键码, 字符串分类)，在 Mod 总线 RegisterKeyMappingsEvent 中注册"
+  },
+  "mc.client.BlockEntityRenderer": {
+    "name": "net.minecraft.client.renderer.blockentity.BlockEntityRenderer",
+    "note": "1.21.1 render 签名为 (T, float, PoseStack, MultiBufferSource, int, int)，在 EntityRenderersEvent.RegisterRenderers 注册"
+  },
+  "mc.client.renderer.entity.EntityRenderer": {
+    "name": "net.minecraft.client.renderer.entity.EntityRenderer",
+    "note": "1.21.1 的 render 直接接收实体实例：render(T, float, float, PoseStack, MultiBufferSource, int)"
+  },
+  "mc.client.renderer.RenderType": "net.minecraft.client.renderer.RenderType",
+  "mc.client.renderer.ItemBlockRenderTypes": {
+    "name": "net.minecraft.client.renderer.ItemBlockRenderTypes",
+    "note": "NeoForge 中更推荐在方块模型 JSON 里写 \"render_type\"；代码方式 ItemBlockRenderTypes.setRenderLayer 已不推荐"
+  },
+  "mc.server.MinecraftServer": "net.minecraft.server.MinecraftServer",
+  "mc.client.player.AbstractClientPlayer": "net.minecraft.client.player.AbstractClientPlayer",
+  "mc.core.component.DataComponents": "net.minecraft.core.component.DataComponents",
+  "mc.core.component.DataComponentType": "net.minecraft.core.component.DataComponentType",
+  "mc.world.item.component.CustomData": "net.minecraft.world.item.component.CustomData",
+  "mc.world.item.alchemy.PotionContents": "net.minecraft.world.item.alchemy.PotionContents",
+  "mc.world.food.FoodProperties": {
+    "name": "net.minecraft.world.food.FoodProperties",
+    "note": "FoodProperties 是数据组件（DataComponents.FOOD）；Builder 方法为 nutrition/saturationModifier/alwaysEdible/fast"
+  },
+  "mc.world.item.CreativeModeTabs": "net.minecraft.world.item.CreativeModeTabs",
+  "mc.world.ItemInteractionResult": {
+    "name": "net.minecraft.world.ItemInteractionResult",
+    "note": "方块 useItemOn 的返回类型（SUCCESS/CONSUME/PASS_TO_DEFAULT_BLOCK_INTERACTION 等）"
+  },
+  "mc.network.FriendlyByteBuf": "net.minecraft.network.FriendlyByteBuf",
+  "mc.network.RegistryFriendlyByteBuf": {
+    "name": "net.minecraft.network.RegistryFriendlyByteBuf",
+    "note": "FriendlyByteBuf 的子类，额外携带 RegistryAccess；两者都存在，不是改名关系"
+  },
+  "mc.network.codec.StreamCodec": "net.minecraft.network.codec.StreamCodec",
+  "mc.network.codec.ByteBufCodecs": "net.minecraft.network.codec.ByteBufCodecs",
+  "mc.network.protocol.common.custom.CustomPacketPayload": "net.minecraft.network.protocol.common.custom.CustomPacketPayload",
+  "mc.network.protocol.game.GamePacketTypes": "net.minecraft.network.protocol.game.GamePacketTypes",
+  "mc.network.protocol.game.ServerGamePacketListener": "net.minecraft.network.protocol.game.ServerGamePacketListener",
+  "mc.commands.arguments.ColorArgument": "net.minecraft.commands.arguments.ColorArgument",
+  "mc.advancements.critereon.SlimePredicate": "net.minecraft.advancements.critereon.SlimePredicate",
+  "mc.advancements.critereon.BlockPredicate": "net.minecraft.advancements.critereon.BlockPredicate",
+  "mc.advancements.critereon.CollectionContentsPredicate": "net.minecraft.advancements.critereon.CollectionContentsPredicate",
+  "mc.advancements.critereon.CollectionCountsPredicate": "net.minecraft.advancements.critereon.CollectionCountsPredicate",
+  "mc.advancements.critereon.CollectionPredicate": "net.minecraft.advancements.critereon.CollectionPredicate",
+  "mc.advancements.critereon.ContextAwarePredicate": "net.minecraft.advancements.critereon.ContextAwarePredicate",
+  "mc.advancements.critereon.DamagePredicate": "net.minecraft.advancements.critereon.DamagePredicate",
+  "mc.advancements.critereon.DamageSourcePredicate": "net.minecraft.advancements.critereon.DamageSourcePredicate",
+  "mc.advancements.critereon.DistancePredicate": "net.minecraft.advancements.critereon.DistancePredicate",
+  "mc.advancements.critereon.EnchantmentPredicate": "net.minecraft.advancements.critereon.EnchantmentPredicate",
+  "mc.advancements.critereon.FluidPredicate": "net.minecraft.advancements.critereon.FluidPredicate",
+  "mc.advancements.critereon.GameTypePredicate": "net.minecraft.advancements.critereon.GameTypePredicate",
+  "mc.advancements.critereon.ItemPredicate": "net.minecraft.advancements.critereon.ItemPredicate",
+  "mc.advancements.critereon.LightPredicate": "net.minecraft.advancements.critereon.LightPredicate",
+  "mc.advancements.critereon.LocationPredicate": "net.minecraft.advancements.critereon.LocationPredicate",
+  "mc.advancements.critereon.MinMaxBounds": "net.minecraft.advancements.critereon.MinMaxBounds",
+  "mc.advancements.critereon.MobEffectsPredicate": "net.minecraft.advancements.critereon.MobEffectsPredicate",
+  "mc.advancements.critereon.NbtPredicate": "net.minecraft.advancements.critereon.NbtPredicate",
+  "mc.advancements.critereon.SingleComponentItemPredicate": "net.minecraft.advancements.critereon.SingleComponentItemPredicate",
+  "mc.advancements.critereon.SlotsPredicate": "net.minecraft.advancements.critereon.SlotsPredicate",
+  "mc.advancements.critereon.StatePropertiesPredicate": "net.minecraft.advancements.critereon.StatePropertiesPredicate",
+  "mc.advancements.critereon.TagPredicate": "net.minecraft.advancements.critereon.TagPredicate",
+  "mc.advancements.critereon.EntityEquipmentPredicate": "net.minecraft.advancements.critereon.EntityEquipmentPredicate",
+  "mc.advancements.critereon.EntityFlagsPredicate": "net.minecraft.advancements.critereon.EntityFlagsPredicate",
+  "mc.advancements.critereon.EntityPredicate": "net.minecraft.advancements.critereon.EntityPredicate",
+  "mc.advancements.critereon.EntitySubPredicate": "net.minecraft.advancements.critereon.EntitySubPredicate",
+  "mc.advancements.critereon.EntitySubPredicates": "net.minecraft.advancements.critereon.EntitySubPredicates",
+  "mc.advancements.critereon.EntityTypePredicate": "net.minecraft.advancements.critereon.EntityTypePredicate",
+  "mc.advancements.critereon.FishingHookPredicate": "net.minecraft.advancements.critereon.FishingHookPredicate",
+  "mc.advancements.critereon.LightningBoltPredicate": "net.minecraft.advancements.critereon.LightningBoltPredicate",
+  "mc.advancements.critereon.MovementPredicate": "net.minecraft.advancements.critereon.MovementPredicate",
+  "mc.advancements.critereon.PlayerPredicate": "net.minecraft.advancements.critereon.PlayerPredicate",
+  "mc.advancements.critereon.RaiderPredicate": "net.minecraft.advancements.critereon.RaiderPredicate",
+  "mc.advancements.CriteriaTriggers": "net.minecraft.advancements.CriteriaTriggers",
+  "mc.advancements.Criterion": "net.minecraft.advancements.Criterion",
+  "mc.advancements.CriterionTrigger": "net.minecraft.advancements.CriterionTrigger",
+  "mixin.Mixin": "org.spongepowered.asm.mixin.Mixin",
+  "mixin.Shadow": "org.spongepowered.asm.mixin.Shadow",
+  "mixin.Unique": "org.spongepowered.asm.mixin.Unique",
+  "mixin.Final": "org.spongepowered.asm.mixin.Final",
+  "mixin.Inject": "org.spongepowered.asm.mixin.injection.Inject",
+  "mixin.At": "org.spongepowered.asm.mixin.injection.At",
+  "mixin.Redirect": "org.spongepowered.asm.mixin.injection.Redirect",
+  "mixin.ModifyVariable": "org.spongepowered.asm.mixin.injection.ModifyVariable",
+  "mixin.CallbackInfo": "org.spongepowered.asm.mixin.injection.callback.CallbackInfo",
+  "mixin.CallbackInfoReturnable": "org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable",
+  "mixin.Accessor": "org.spongepowered.asm.mixin.gen.Accessor",
+  "mixin.Invoker": "org.spongepowered.asm.mixin.gen.Invoker",
+  "forge.Mod": "net.neoforged.fml.common.Mod",
+  "forge.Mod.EventBusSubscriber": {
+    "name": "net.neoforged.fml.common.EventBusSubscriber",
+    "note": "NeoForge 的自动订阅注解是顶层类 EventBusSubscriber（不再是 Mod 的内部类）：@EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD/GAME)；若源码写成 @Mod.EventBusSubscriber，需改为独立导入"
+  },
+  "forge.Mod.EventBusSubscriber.Bus": {
+    "name": "net.neoforged.fml.common.EventBusSubscriber.Bus"
+  },
+  "forge.SubscribeEvent": "net.neoforged.bus.api.SubscribeEvent",
+  "forge.Event": "net.neoforged.bus.api.Event",
+  "forge.EventPriority": "net.neoforged.bus.api.EventPriority",
+  "forge.MinecraftForge": {
+    "name": "net.neoforged.neoforge.common.NeoForge",
+    "note": "游戏事件总线为 NeoForge.EVENT_BUS（对应 MinecraftForge.EVENT_BUS）"
+  },
+  "forge.Dist": "net.neoforged.api.distmarker.Dist",
+  "forge.OnlyIn": "net.neoforged.api.distmarker.OnlyIn",
+  "forge.FMLEnvironment": {
+    "name": "net.neoforged.fml.loading.FMLEnvironment",
+    "note": "1.21.1 中当前运行侧用静态字段 FMLEnvironment.dist，开发/生产环境用 FMLEnvironment.production"
+  },
+  "forge.DeferredRegister": {
+    "name": "net.neoforged.neoforge.registries.DeferredRegister",
+    "note": "DeferredRegister.create(Registries.XXX, MODID) 或专用的 DeferredRegister.createItems/createBlocks；register 返回 DeferredHolder（物品/方块为 DeferredItem/DeferredBlock）；在 @Mod 构造器中 REGISTER.register(modEventBus)"
+  },
+  "forge.RegistryObject": {
+    "name": "net.neoforged.neoforge.registries.DeferredHolder",
+    "note": "RegistryObject -> DeferredHolder<R, T>：实现了原版 Holder，取值 get()/value() 均可，且可直接当 Holder 传给需要 Holder 的 API；泛型多了注册表基类型参数"
+  },
+  "forge.ServerLifecycleHooks": "net.neoforged.neoforge.server.ServerLifecycleHooks",
+  "forge.ModList": "net.neoforged.fml.ModList",
+  "forge.ForgeConfigSpec": {
+    "name": "net.neoforged.neoforge.common.ModConfigSpec",
+    "note": "ForgeConfigSpec -> ModConfigSpec（Builder 用法基本一致）；注册改为在 @Mod 构造器中 modContainer.registerConfig(ModConfig.Type.COMMON, SPEC)"
+  },
+  "forge.ForgeCapabilities": {
+    "name": "net.neoforged.neoforge.capabilities.Capabilities",
+    "note": "NeoForge 能力按目标分类：Capabilities.ItemHandler.BLOCK / .ENTITY / .ITEM 等（不是 ForgeCapabilities.ITEM_HANDLER）；查询用 level.getCapability(Capabilities.ItemHandler.BLOCK, pos, side)，提供者在 RegisterCapabilitiesEvent 中注册，不存在 LazyOptional"
+  },
+  "forge.capabilities.ICapabilityProvider": {
+    "name": "net.neoforged.neoforge.capabilities.ICapabilityProvider",
+    "note": "NeoForge 的 ICapabilityProvider<O, C, T> 是在 RegisterCapabilitiesEvent 中登记的函数式提供者 (对象, 上下文) -> 能力实例，方块实体不再实现它、也没有 getCapability 覆写"
+  },
+  "forge.items.IItemHandler": "net.neoforged.neoforge.items.IItemHandler",
+  "forge.items.ItemStackHandler": "net.neoforged.neoforge.items.ItemStackHandler",
+  "forge.energy.IEnergyStorage": "net.neoforged.neoforge.energy.IEnergyStorage",
+  "forge.energy.EnergyStorage": "net.neoforged.neoforge.energy.EnergyStorage",
+  "forge.util.INBTSerializable": {
+    "name": "net.neoforged.neoforge.common.util.INBTSerializable",
+    "note": "签名带注册表访问：serializeNBT(HolderLookup.Provider) / deserializeNBT(HolderLookup.Provider, T)"
+  },
+  "forge.fluids.FluidStack": {
+    "name": "net.neoforged.neoforge.fluids.FluidStack",
+    "note": "FluidStack 也改为数据组件（不再有 NBT tag），构造 new FluidStack(流体或 Holder, 数量)"
+  },
+  "forge.fluids.IFluidHandler": "net.neoforged.neoforge.fluids.capability.IFluidHandler",
+  "forge.fluids.FluidUtil": "net.neoforged.neoforge.fluids.FluidUtil",
+  "forge.fluids.FluidTank": "net.neoforged.neoforge.fluids.capability.templates.FluidTank",
+  "forge.lifecycle.commonSetup": {
+    "name": "net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent",
+    "note": "在 Mod 总线监听（@Mod 构造器 modEventBus.addListener(...)）；注册内容请用 DeferredRegister"
+  },
+  "forge.lifecycle.loadComplete": {
+    "name": "net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent",
+    "note": "在 Mod 总线监听"
+  },
+  "forge.lifecycle.serverStarting": {
+    "name": "net.neoforged.neoforge.event.server.ServerStartingEvent",
+    "note": "在游戏总线（NeoForge.EVENT_BUS）上用 @SubscribeEvent 监听"
+  },
+  "forge.lifecycle.serverStopping": {
+    "name": "net.neoforged.neoforge.event.server.ServerStoppingEvent",
+    "note": "在游戏总线（NeoForge.EVENT_BUS）上用 @SubscribeEvent 监听"
+  },
+  "forge.event.RegisterEvent": {
+    "name": "net.neoforged.neoforge.registries.RegisterEvent",
+    "note": "event.register(Registries.XXX, helper -> helper.register(id, 对象))，一般直接用 DeferredRegister 即可"
+  },
+  "forge.event.EntityJoinLevelEvent": "net.neoforged.neoforge.event.entity.EntityJoinLevelEvent",
+  "forge.event.PlayerEvent": "net.neoforged.neoforge.event.entity.player.PlayerEvent",
+  "forge.event.PlayerInteractEvent": "net.neoforged.neoforge.event.entity.player.PlayerInteractEvent",
+  "forge.event.LivingDeathEvent": "net.neoforged.neoforge.event.entity.living.LivingDeathEvent",
+  "forge.event.BlockEvent": "net.neoforged.neoforge.event.level.BlockEvent",
+  "forge.event.BlockBreakEvent": "net.neoforged.neoforge.event.level.BlockEvent.BreakEvent",
+  "forge.event.PlayerTickEvent": {
+    "name": "net.neoforged.neoforge.event.tick.PlayerTickEvent",
+    "note": "NeoForge 的 tick 事件按阶段拆成子类：监听 PlayerTickEvent.Pre 或 PlayerTickEvent.Post，不再判断 event.phase"
+  },
+  "forge.event.ServerTickEvent": {
+    "name": "net.neoforged.neoforge.event.tick.ServerTickEvent",
+    "note": "监听 ServerTickEvent.Pre / ServerTickEvent.Post，没有 phase 字段"
+  },
+  "forge.event.ClientTickEvent": {
+    "name": "net.neoforged.neoforge.client.event.ClientTickEvent",
+    "note": "监听 ClientTickEvent.Pre / ClientTickEvent.Post（游戏总线），没有 phase 字段"
+  },
+  "forge.event.InputEvent": "net.neoforged.neoforge.client.event.InputEvent",
+  "forge.event.ScreenEvent": "net.neoforged.neoforge.client.event.ScreenEvent",
+  "forge.event.RenderGuiOverlayEvent": {
+    "name": "net.neoforged.neoforge.client.event.RenderGuiLayerEvent",
+    "note": "对应物为 RenderGuiLayerEvent.Pre/Post（按层 id 过滤，id 常量见 VanillaGuiLayers）；自定义 HUD 层在 Mod 总线 RegisterGuiLayersEvent 中注册"
+  },
+  "forge.event.RenderLevelStageEvent": {
+    "name": "net.neoforged.neoforge.client.event.RenderLevelStageEvent",
+    "note": "1.21.1 仍是单一事件，用 event.getStage() == Stage.AFTER_XXX 区分阶段"
+  },
+  "forge.event.RegisterGuiOverlaysEvent": {
+    "name": "net.neoforged.neoforge.client.event.RegisterGuiLayersEvent",
+    "note": "RegisterGuiOverlaysEvent 的对应物：Mod 总线 RegisterGuiLayersEvent，registerAbove/registerBelow(VanillaGuiLayers.XXX, id, layer)，1.21.1 的 layer 是 LayeredDraw.Layer((guiGraphics, deltaTracker) -> ...)"
+  },
+  "forge.network.PacketDistributor": {
+    "name": "net.neoforged.neoforge.network.PacketDistributor",
+    "note": "NeoForge 的 PacketDistributor 是静态发送工具：sendToServer(payload) / sendToPlayer(serverPlayer, payload) / sendToPlayersTrackingEntity(entity, payload) 等，不再是 Forge 的 PacketTarget 写法"
+  },
+  "neoforge.client.ItemModelProvider": "net.neoforged.neoforge.client.model.generators.ItemModelProvider",
+  "neoforge.client.BlockStateProvider": "net.neoforged.neoforge.client.model.generators.BlockStateProvider",
+  "forge.event.GatherDataEvent": {
+    "name": "net.neoforged.neoforge.data.event.GatherDataEvent",
+    "note": "1.21.1 为单一事件，用 event.includeClient()/includeServer() 区分资源与数据"
+  },
+  "neoforge.event.AddReloadListenerEvent": "net.neoforged.neoforge.event.AddReloadListenerEvent",
+  "neoforge.client.RegisterClientReloadListenersEvent": "net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent",
+  "neoforge.client.RegisterShadersEvent": "net.neoforged.neoforge.client.event.RegisterShadersEvent",
+  "neoforge.client.RenderHighlightEvent": "net.neoforged.neoforge.client.event.RenderHighlightEvent",
+  "neoforge.client.RegisterDimensionSpecialEffectsEvent": "net.neoforged.neoforge.client.event.RegisterDimensionSpecialEffectsEvent",
+  "neoforge.event.VillagerTradesEvent": "net.neoforged.neoforge.event.village.VillagerTradesEvent",
+  "neoforge.event.WandererTradesEvent": "net.neoforged.neoforge.event.village.WandererTradesEvent",
+  "forge.IEventBus": "net.neoforged.bus.api.IEventBus",
+  "forge.ModContainer": {
+    "name": "net.neoforged.fml.ModContainer",
+    "note": "由加载器注入 @Mod 构造器；registerConfig/registerExtensionPoint 在它上面调用"
+  },
+  "forge.ModLoadingContext": {
+    "name": "net.neoforged.fml.ModLoadingContext",
+    "note": "1.21 起 ModLoadingContext#registerConfig 已移除，改用注入的 ModContainer#registerConfig"
+  },
+  "forge.config.ModConfig": "net.neoforged.fml.config.ModConfig",
+  "forge.config.ModConfigEvent": "net.neoforged.fml.event.config.ModConfigEvent",
+  "forge.lifecycle.clientSetup": {
+    "name": "net.neoforged.fml.event.lifecycle.FMLClientSetupEvent",
+    "note": "在 Mod 总线监听；菜单界面绑定请改用 RegisterMenuScreensEvent"
+  },
+  "forge.capabilities.RegisterCapabilitiesEvent": {
+    "name": "net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent",
+    "note": "NeoForge 的 RegisterCapabilitiesEvent 用来登记能力提供者：event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, 类型, (be, side) -> ...)，与 Forge 同名事件（注册能力类型）语义不同"
+  },
+  "forge.client.ConfigScreenHandler": {
+    "name": "net.neoforged.neoforge.client.gui.IConfigScreenFactory",
+    "note": "配置界面：modContainer.registerExtensionPoint(IConfigScreenFactory.class, (container, parent) -> new ConfigurationScreen(container, parent))"
+  },
+  "forge.client.ForgeHooksClient": "net.neoforged.neoforge.client.ClientHooks",
+  "forge.client.RenderGuiEvent": "net.neoforged.neoforge.client.event.RenderGuiEvent",
+  "forge.client.VanillaGuiOverlay": {
+    "name": "net.neoforged.neoforge.client.gui.VanillaGuiLayers",
+    "note": "原版 HUD 层 id 常量（ResourceLocation），供 RegisterGuiLayersEvent / RenderGuiLayerEvent 使用"
+  },
+  "forge.common.ForgeHooks": "net.neoforged.neoforge.common.CommonHooks",
+  "forge.common.ForgeSpawnEggItem": {
+    "name": "net.neoforged.neoforge.common.DeferredSpawnEggItem",
+    "note": "刷怪蛋：new DeferredSpawnEggItem(实体类型 Supplier, 底色, 斑点色, Item.Properties)"
+  },
+  "forge.common.IForgeMenuType": {
+    "name": "net.neoforged.neoforge.common.extensions.IMenuTypeExtension",
+    "note": "带额外数据的菜单类型：IMenuTypeExtension.create((windowId, inv, buf) -> ...)"
+  },
+  "forge.common.Tags": {
+    "name": "net.neoforged.neoforge.common.Tags",
+    "note": "通用标签常量，命名空间为 c:（Tags.Items.INGOTS_IRON 等）"
+  },
+  "forge.entity.IEntityAdditionalSpawnData": {
+    "name": "net.neoforged.neoforge.entity.IEntityWithComplexSpawn",
+    "note": "writeSpawnData/readSpawnData 参数为 RegistryFriendlyByteBuf"
+  },
+  "forge.event.BuildCreativeModeTabContentsEvent": "net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent",
+  "forge.event.EntityAttributeCreationEvent": "net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent",
+  "forge.event.EntityItemPickupEvent": {
+    "name": "net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent",
+    "note": "拾取事件分为 ItemEntityPickupEvent.Pre / Post"
+  },
+  "forge.event.EntityRenderersEvent": "net.neoforged.neoforge.client.event.EntityRenderersEvent",
+  "forge.event.ForgeEventFactory": "net.neoforged.neoforge.event.EventHooks",
+  "forge.event.ItemTooltipEvent": "net.neoforged.neoforge.event.entity.player.ItemTooltipEvent",
+  "forge.event.LevelTickEvent": {
+    "name": "net.neoforged.neoforge.event.tick.LevelTickEvent",
+    "note": "监听 LevelTickEvent.Pre / Post"
+  },
+  "forge.event.LivingTickEvent": {
+    "name": "net.neoforged.neoforge.event.tick.EntityTickEvent",
+    "note": "实体 tick 改为 EntityTickEvent.Pre / Post（对所有实体触发，需自行判断 LivingEntity）"
+  },
+  "forge.event.PlayerSleepInBedEvent": "net.neoforged.neoforge.event.entity.player.CanPlayerSleepEvent",
+  "forge.event.RegisterCommandsEvent": "net.neoforged.neoforge.event.RegisterCommandsEvent",
+  "forge.event.RegisterKeyMappingsEvent": "net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent",
+  "forge.event.RenderTickEvent": {
+    "name": "net.neoforged.neoforge.client.event.RenderFrameEvent",
+    "note": "渲染帧事件为 RenderFrameEvent.Pre / Post"
+  },
+  "forge.event.ServerChatEvent": "net.neoforged.neoforge.event.ServerChatEvent",
+  "forge.fluids.FluidType": "net.neoforged.neoforge.fluids.FluidType",
+  "forge.fluids.ForgeFlowingFluid": "net.neoforged.neoforge.fluids.BaseFlowingFluid",
+  "forge.items.ItemHandlerHelper": "net.neoforged.neoforge.items.ItemHandlerHelper",
+  "forge.items.SlotItemHandler": "net.neoforged.neoforge.items.SlotItemHandler",
+  "neoforge.attachment.AttachmentType": {
+    "name": "net.neoforged.neoforge.attachment.AttachmentType",
+    "note": "数据附件类型：AttachmentType.builder(() -> 默认值).serialize(codec).build()，注册到 NeoForgeRegistries.Keys.ATTACHMENT_TYPES"
+  },
+  "neoforge.bus.ICancellableEvent": "net.neoforged.bus.api.ICancellableEvent",
+  "neoforge.capabilities.BlockCapability": "net.neoforged.neoforge.capabilities.BlockCapability",
+  "neoforge.capabilities.EntityCapability": "net.neoforged.neoforge.capabilities.EntityCapability",
+  "neoforge.capabilities.ItemCapability": "net.neoforged.neoforge.capabilities.ItemCapability",
+  "neoforge.client.RegisterMenuScreensEvent": "net.neoforged.neoforge.client.event.RegisterMenuScreensEvent",
+  "neoforge.network.IPayloadContext": "net.neoforged.neoforge.network.handling.IPayloadContext",
+  "neoforge.network.PayloadRegistrar": "net.neoforged.neoforge.network.registration.PayloadRegistrar",
+  "neoforge.network.RegisterPayloadHandlersEvent": "net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent",
+  "neoforge.registries.DeferredBlock": "net.neoforged.neoforge.registries.DeferredBlock",
+  "neoforge.registries.DeferredItem": "net.neoforged.neoforge.registries.DeferredItem",
+  "neoforge.registries.NeoForgeRegistries": "net.neoforged.neoforge.registries.NeoForgeRegistries",
+  "neoforge.network.NeoForgeStreamCodecs": "net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs",
+  "neoforge.crafting.DataComponentIngredient": "net.neoforged.neoforge.common.crafting.DataComponentIngredient"
+}

@@ -1,0 +1,19 @@
+{
+  "mcVersion": "1.16",
+  "basedOn": "1.16.1",
+  "extras": {
+    "yarnVersion": "1.16+build.4",
+    "fabricApiVersion": "0.14.2+build.373-1.16"
+  },
+  "packFormat": 5,
+  "resourcePackFormat": [
+    5,
+    0
+  ],
+  "dataPackFormat": [
+    5,
+    0
+  ],
+  "packMetadataStyle": "legacy",
+  "itemModelDefinitions": false
+}

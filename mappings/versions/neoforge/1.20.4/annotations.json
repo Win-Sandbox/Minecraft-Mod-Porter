@@ -1,0 +1,11 @@
+{
+  "forge.Mod.EventBusSubscriber": {
+    "class": "net.neoforged.fml.common.Mod.EventBusSubscriber",
+    "attributes": {
+      "gameBus": {
+        "name": "bus",
+        "valueClass": "forge.Mod.EventBusSubscriber.Bus"
+      }
+    }
+  }
+}

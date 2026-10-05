@@ -1,0 +1,24 @@
+{
+  "!remove": [
+    "mc.world.item.SwordItem",
+    "mc.world.item.DiggerItem",
+    "mc.world.item.ArmorItem",
+    "neoforge.client.RegisterShadersEvent"
+  ],
+  "mc.nbt.CompoundTag": {
+    "name": "net.minecraft.nbt.CompoundTag",
+    "note": "1.21.5 起 getInt/getString/getCompound/getList 等返回 Optional，带默认值的读取用 getIntOr/getStringOr/getCompoundOrEmpty/getListOrEmpty；putUUID/getUUID 已移除，改用 store/read 配合 UUIDUtil.CODEC"
+  },
+  "mc.chat.ClickEvent": {
+    "name": "net.minecraft.network.chat.ClickEvent",
+    "note": "1.21.5 起 ClickEvent 改为按动作区分的 record：new ClickEvent.OpenUrl(URI)、new ClickEvent.RunCommand(String)、new ClickEvent.SuggestCommand(String)、new ClickEvent.CopyToClipboard(String) 等"
+  },
+  "mc.chat.HoverEvent": {
+    "name": "net.minecraft.network.chat.HoverEvent",
+    "note": "1.21.5 起 HoverEvent 改为按动作区分的 record：new HoverEvent.ShowText(Component)、new HoverEvent.ShowItem(ItemStack)、new HoverEvent.ShowEntity(...)"
+  },
+  "mc.client.BlockEntityRenderer": {
+    "name": "net.minecraft.client.renderer.blockentity.BlockEntityRenderer",
+    "note": "1.21.5 的 render 末尾新增 Vec3 相机位置参数：render(T, float, PoseStack, MultiBufferSource, int, int, Vec3)"
+  }
+}

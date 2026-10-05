@@ -20,5 +20,8 @@
     "minecraft": "~${mcVersion}",
     "java": ">=${javaVersion}",
     "fabric-api": "*"
+  },
+  "custom": {
+    "credits": "${credits}"
   }
 }

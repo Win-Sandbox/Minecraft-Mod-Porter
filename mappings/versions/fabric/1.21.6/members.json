@@ -1,0 +1,28 @@
+{
+  "mc.blockentity.BlockEntity": {
+    "load": {
+      "name": "readData",
+      "kind": "method",
+      "note": "1.21.6 起签名为 protected void readData(ReadView view)：用 view.getInt(\"k\", 默认值)、view.read(\"k\", CODEC) 等读取，覆写与 super 调用需人工修改"
+    },
+    "saveAdditional": {
+      "name": "writeData",
+      "kind": "method",
+      "note": "1.21.6 起签名为 protected void writeData(WriteView view)：用 view.putInt(\"k\", v)、view.put(\"k\", CODEC, 值) 等写入，覆写与 super 调用需人工修改"
+    }
+  },
+  "mc.entity.Entity": {
+    "getCommandSenderWorld": {
+      "name": "getWorld",
+      "kind": "method",
+      "note": "1.21.6 起 Entity#getEntityWorld（Mojmap getCommandSenderWorld）已删除，直接用 getWorld()"
+    }
+  },
+  "mc.item.ItemStack": {
+    "save": {
+      "name": "toNbt",
+      "kind": "method",
+      "note": "1.21.6 起 ItemStack#toNbt 已删除，没有同名方法：存档中改用 view.put(\"Item\", ItemStack.CODEC, stack)，或用 ItemStack.CODEC 自行编码，需人工改写"
+    }
+  }
+}

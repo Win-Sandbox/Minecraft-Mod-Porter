@@ -1,0 +1,9 @@
+{
+  "forge.capabilities.ICapabilityProvider": {
+    "getCapability": {
+      "name": "getCapability",
+      "kind": "method",
+      "note": "20.2 的 getCapability(cap[, side]) 返回 LazyOptional<T>，用 .orElse(...) / .ifPresent(...) 解包（与 Forge 1.20.1 相同）"
+    }
+  }
+}

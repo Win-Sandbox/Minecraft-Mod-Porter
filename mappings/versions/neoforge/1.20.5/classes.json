@@ -1,0 +1,174 @@
+{
+  "!remove": [
+    "forge.event.TickEvent",
+    "forge.client.IGuiOverlay",
+    "forge.common.TierSortingRegistry",
+    "mc.world.item.alchemy.PotionUtils"
+  ],
+  "forge.Mod": {
+    "name": "net.neoforged.fml.common.Mod",
+    "note": "构造器可声明 IEventBus、ModContainer、Dist 参数（FML 注入）；20.5 起 @Mod.EventBusSubscriber 移到顶层 net.neoforged.fml.common.EventBusSubscriber，代码里的 Mod.EventBusSubscriber.Bus.FORGE 需改为 EventBusSubscriber.Bus.GAME"
+  },
+  "forge.Mod.EventBusSubscriber": {
+    "name": "net.neoforged.fml.common.EventBusSubscriber",
+    "note": "20.5 起为顶层注解 @EventBusSubscriber(modid = ..., bus = EventBusSubscriber.Bus.MOD / GAME)；游戏总线的枚举常量由 FORGE 改名为 GAME（默认值）"
+  },
+  "forge.Mod.EventBusSubscriber.Bus": {
+    "name": "net.neoforged.fml.common.EventBusSubscriber.Bus"
+  },
+  "forge.FMLJavaModLoadingContext": {
+    "name": "net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext",
+    "note": "已弃用（forRemoval，1.21 删除）：Mod 总线用 @Mod 构造器参数 IEventBus，注册配置用构造器参数 ModContainer 的 registerConfig"
+  },
+  "forge.ModLoadingContext": {
+    "name": "net.neoforged.fml.ModLoadingContext",
+    "note": "20.5 起 ModLoadingContext.get().registerConfig(...) 已弃用（forRemoval）：改为在 @Mod 构造器声明 ModContainer container 参数并调用 container.registerConfig(ModConfig.Type.COMMON, SPEC)"
+  },
+  "forge.ModContainer": {
+    "name": "net.neoforged.fml.ModContainer",
+    "note": "20.5 起配置注册在这里：container.registerConfig(ModConfig.Type.XXX, SPEC)；扩展点用 container.registerExtensionPoint(...)"
+  },
+  "forge.event.PlayerTickEvent": {
+    "name": "net.neoforged.neoforge.event.tick.PlayerTickEvent",
+    "note": "20.5 起 TickEvent 拆分：监听 PlayerTickEvent.Pre 或 PlayerTickEvent.Post（取代 event.phase == START/END 判断），玩家用 event.getEntity()"
+  },
+  "forge.event.ServerTickEvent": {
+    "name": "net.neoforged.neoforge.event.tick.ServerTickEvent",
+    "note": "20.5 起拆为 ServerTickEvent.Pre / Post，不再有 phase 字段；服务器用 event.getServer()"
+  },
+  "forge.event.ClientTickEvent": {
+    "name": "net.neoforged.neoforge.client.event.ClientTickEvent",
+    "note": "20.5 起移到 client.event 包并拆为 ClientTickEvent.Pre / Post；原 phase == END 的逻辑放进 Post"
+  },
+  "forge.event.LevelTickEvent": {
+    "name": "net.neoforged.neoforge.event.tick.LevelTickEvent",
+    "note": "20.5 起拆为 LevelTickEvent.Pre / Post，世界用 event.getLevel()"
+  },
+  "forge.event.RenderTickEvent": {
+    "name": "net.neoforged.neoforge.client.event.RenderFrameEvent",
+    "note": "20.5 起 TickEvent.RenderTickEvent 改为 RenderFrameEvent.Pre / Post"
+  },
+  "forge.event.LivingTickEvent": {
+    "name": "net.neoforged.neoforge.event.tick.EntityTickEvent",
+    "note": "20.5 起 LivingEvent.LivingTickEvent 被 EntityTickEvent.Pre / Post 取代，覆盖所有实体：需要时自行判断 event.getEntity() instanceof LivingEntity"
+  },
+  "forge.event.RegisterGuiOverlaysEvent": {
+    "name": "net.neoforged.neoforge.client.event.RegisterGuiLayersEvent",
+    "note": "20.5 起改为 RegisterGuiLayersEvent：registerAbove(VanillaGuiLayers.HOTBAR, new ResourceLocation(MODID, \"名称\"), (guiGraphics, partialTick) -> ...)，层是原版 LayeredDraw.Layer，只收 (GuiGraphics, float)，不再有 gui/宽/高参数（宽高用 guiGraphics.guiWidth()/guiHeight()）"
+  },
+  "forge.event.RenderGuiOverlayEvent": {
+    "name": "net.neoforged.neoforge.client.event.RenderGuiLayerEvent",
+    "note": "20.5 起改为 RenderGuiLayerEvent.Pre / Post，用 event.getName() 与 VanillaGuiLayers 常量（ResourceLocation）比较"
+  },
+  "forge.client.VanillaGuiOverlay": {
+    "name": "net.neoforged.neoforge.client.gui.VanillaGuiLayers",
+    "note": "VanillaGuiOverlay 枚举改为 VanillaGuiLayers 中的 ResourceLocation 常量（HOTBAR、CROSSHAIR 等），原 VanillaGuiOverlay.X.id() 直接写 VanillaGuiLayers.X"
+  },
+  "forge.client.ConfigScreenHandler": {
+    "name": "net.neoforged.neoforge.client.gui.IConfigScreenFactory",
+    "note": "配置界面注册改为 container.registerExtensionPoint(IConfigScreenFactory.class, (mc, parent) -> new MyScreen(parent))，取代 ConfigScreenHandler.ConfigScreenFactory"
+  },
+  "forge.network.PacketDistributor": {
+    "name": "net.neoforged.neoforge.network.PacketDistributor",
+    "note": "20.5 起改为静态方法：PacketDistributor.sendToServer(payload)、sendToPlayer(serverPlayer, payload)、sendToAllPlayers(payload)、sendToPlayersTrackingEntity(entity, payload) 等"
+  },
+  "forge.entity.IEntityAdditionalSpawnData": {
+    "name": "net.neoforged.neoforge.entity.IEntityWithComplexSpawn",
+    "note": "20.5 起 writeSpawnData/readSpawnData 的参数为 RegistryFriendlyByteBuf"
+  },
+  "forge.util.INBTSerializable": {
+    "name": "net.neoforged.neoforge.common.util.INBTSerializable",
+    "note": "20.5 起签名带注册表访问：T serializeNBT(HolderLookup.Provider) / void deserializeNBT(HolderLookup.Provider, T)，实现类需补参数"
+  },
+  "forge.common.Tags": {
+    "name": "net.neoforged.neoforge.common.Tags",
+    "note": "20.5 起通用标签改用 c 命名空间（c:ingots/iron、c:ores/tin 等，与 Fabric 统一），forge:xxx 标签需改名；常量名也有调整"
+  },
+  "neoforge.network.RegisterPayloadHandlersEvent": {
+    "name": "net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent",
+    "note": "20.5 起改名为复数 RegisterPayloadHandlersEvent：event.registrar(\"版本号\") 返回 PayloadRegistrar（参数是网络版本而不是命名空间）"
+  },
+  "neoforge.network.PayloadRegistrar": {
+    "name": "net.neoforged.neoforge.network.registration.PayloadRegistrar",
+    "note": "20.5 起为具体类：playToClient / playToServer / playBidirectional(Type, StreamCodec, handler)，另有 configurationXxx / commonXxx；处理器默认在主线程执行"
+  },
+  "neoforge.network.IPayloadContext": {
+    "name": "net.neoforged.neoforge.network.handling.IPayloadContext",
+    "note": "20.5 起处理器统一收 IPayloadContext：ctx.player()（直接返回 Player）、ctx.enqueueWork(...)、ctx.reply(payload)、ctx.disconnect(...)"
+  },
+  "mc.item.ItemStack": {
+    "name": "net.minecraft.world.item.ItemStack",
+    "note": "1.20.5 起物品数据由 NBT 改为数据组件：getTag/setTag/hasTag/getOrCreateTag 等全部删除，读写用 stack.get/set/update/remove(DataComponents.XXX)，自定义数据用 DataComponents.CUSTOM_DATA 或自己注册的 DataComponentType；序列化用 save(HolderLookup.Provider) / ItemStack.parseOptional(provider, tag)"
+  },
+  "mc.blockentity.BlockEntity": {
+    "name": "net.minecraft.world.level.block.entity.BlockEntity",
+    "note": "构造需要 (BlockEntityType, BlockPos, BlockState)；1.20.5 起 NBT 方法带 HolderLookup.Provider：load -> loadAdditional(CompoundTag, Provider)，saveAdditional/getUpdateTag/saveWithoutMetadata 均新增 Provider 参数"
+  },
+  "mc.effect.MobEffects": {
+    "name": "net.minecraft.world.effect.MobEffects",
+    "note": "1.20.5 起常量类型为 Holder<MobEffect>，可直接传给 MobEffectInstance 与 hasEffect 等"
+  },
+  "mc.effect.MobEffectInstance": {
+    "name": "net.minecraft.world.effect.MobEffectInstance",
+    "note": "1.20.5 起构造器第一个参数为 Holder<MobEffect>；自定义效果传 DeferredHolder"
+  },
+  "mc.enchant.Enchantment": {
+    "name": "net.minecraft.world.item.enchantment.Enchantment",
+    "note": "1.20.5 起构造器改为 Enchantment(Enchantment.EnchantmentDefinition)，用 Enchantment.definition(可附魔物品标签, 权重, 最高等级, 最低花费, 最高花费, 铁砧花费, 槽位...) 构建，Rarity/EnchantmentCategory 已删除（附魔仍是代码注册，1.21 才数据驱动）"
+  },
+  "mc.entity.EntityType": {
+    "name": "net.minecraft.world.entity.EntityType",
+    "note": "1.20.5 起 EntityType#spawn 的 CompoundTag 参数改为 Consumer<实体> 回调；EntityType.Builder.of(...).build(id) 不变"
+  },
+  "mc.world.food.FoodProperties": {
+    "name": "net.minecraft.world.food.FoodProperties",
+    "note": "1.20.5 起为记录类并作为数据组件 DataComponents.FOOD 存在物品上：getNutrition() -> nutrition()、getSaturationModifier() -> saturation()，isMeat/isFastFood 已删除"
+  },
+  "mc.network.FriendlyByteBuf": {
+    "name": "net.minecraft.network.FriendlyByteBuf",
+    "note": "FriendlyByteBuf 仍存在（不是被改名）：1.20.5 新增子类 RegistryFriendlyByteBuf 用于需要注册表的 play 阶段编解码（如 ItemStack.STREAM_CODEC），自定义包的编解码改用 StreamCodec"
+  },
+  "mc.network.RegistryFriendlyByteBuf": {
+    "name": "net.minecraft.network.RegistryFriendlyByteBuf",
+    "note": "构造为 new RegistryFriendlyByteBuf(ByteBuf, RegistryAccess)；只在 play 阶段可用，配置阶段的包用 FriendlyByteBuf"
+  },
+  "mc.network.codec.StreamCodec": {
+    "name": "net.minecraft.network.codec.StreamCodec",
+    "note": "网络编解码抽象：StreamCodec.composite(字段codec, getter, ..., 构造器) 组合，列表用 codec.apply(ByteBufCodecs.list())"
+  },
+  "mc.network.codec.ByteBufCodecs": "net.minecraft.network.codec.ByteBufCodecs",
+  "mc.core.component.DataComponents": {
+    "name": "net.minecraft.core.component.DataComponents",
+    "note": "原版组件类型常量（CUSTOM_NAME、CUSTOM_DATA、FOOD、DAMAGE、MAX_DAMAGE、ENCHANTMENTS、POTION_CONTENTS 等）"
+  },
+  "mc.core.component.DataComponentType": {
+    "name": "net.minecraft.core.component.DataComponentType",
+    "note": "自定义组件用 NeoForge 的 DeferredRegister.createDataComponents(MODID).registerComponentType(\"名称\", b -> b.persistent(codec).networkSynchronized(streamCodec))；组件值必须不可变并实现 equals/hashCode"
+  },
+  "mc.world.item.component.CustomData": {
+    "name": "net.minecraft.world.item.component.CustomData",
+    "note": "承载任意 NBT 的组件：CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> ...) 写入，stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag() 读取"
+  },
+  "mc.world.item.alchemy.PotionContents": {
+    "name": "net.minecraft.world.item.alchemy.PotionContents",
+    "note": "取代 PotionUtils：药水数据在 DataComponents.POTION_CONTENTS 组件中"
+  },
+  "mc.client.gui.LayeredDraw": {
+    "name": "net.minecraft.client.gui.LayeredDraw",
+    "note": "1.20.5 原版 HUD 分层；NeoForge 的 RegisterGuiLayersEvent 接收 LayeredDraw.Layer（(GuiGraphics, float) 回调）"
+  },
+  "mc.world.ItemInteractionResult": {
+    "name": "net.minecraft.world.ItemInteractionResult",
+    "note": "1.20.5 方块 useItemOn 的返回类型（SUCCESS / CONSUME / PASS_TO_DEFAULT_BLOCK_INTERACTION 等）"
+  },
+  "mc.advancements.critereon.CollectionContentsPredicate": "net.minecraft.advancements.critereon.CollectionContentsPredicate",
+  "mc.advancements.critereon.CollectionCountsPredicate": "net.minecraft.advancements.critereon.CollectionCountsPredicate",
+  "mc.advancements.critereon.CollectionPredicate": "net.minecraft.advancements.critereon.CollectionPredicate",
+  "mc.advancements.critereon.EntitySubPredicates": "net.minecraft.advancements.critereon.EntitySubPredicates",
+  "mc.advancements.critereon.RaiderPredicate": "net.minecraft.advancements.critereon.RaiderPredicate",
+  "mc.advancements.critereon.SingleComponentItemPredicate": "net.minecraft.advancements.critereon.SingleComponentItemPredicate",
+  "mc.advancements.critereon.SlotsPredicate": "net.minecraft.advancements.critereon.SlotsPredicate",
+  "mc.network.protocol.game.GamePacketTypes": "net.minecraft.network.protocol.game.GamePacketTypes",
+  "neoforge.network.NeoForgeStreamCodecs": "net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs",
+  "neoforge.crafting.DataComponentIngredient": "net.neoforged.neoforge.common.crafting.DataComponentIngredient"
+}

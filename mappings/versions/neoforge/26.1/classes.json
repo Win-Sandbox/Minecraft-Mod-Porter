@@ -1,0 +1,40 @@
+{
+  "!remove": [
+    "mc.client.renderer.ItemBlockRenderTypes",
+    "neoforge.event.VillagerTradesEvent",
+    "neoforge.event.WandererTradesEvent"
+  ],
+  "mc.client.gui.GuiGraphics": {
+    "name": "net.minecraft.client.gui.GuiGraphicsExtractor",
+    "note": "26.1 起 GuiGraphics 改名 GuiGraphicsExtractor，绘制方法去掉 render/draw 前缀（drawString -> text、renderItem -> item、renderTooltip -> tooltip、hLine -> horizontalLine 等）"
+  },
+  "mc.client.Screen": {
+    "name": "net.minecraft.client.gui.screens.Screen",
+    "note": "26.1 起界面渲染改为提取渲染状态：render -> extractRenderState(GuiGraphicsExtractor, int, int, float)、renderBackground -> extractBackground，其余 renderXxx 背景方法同样改为 extractXxx"
+  },
+  "mc.client.AbstractContainerScreen": {
+    "name": "net.minecraft.client.gui.screens.inventory.AbstractContainerScreen",
+    "note": "26.1 起 renderBg 并入 Screen#extractBackground(GuiGraphicsExtractor, int, int, float)（参数顺序变化），renderLabels -> extractLabels、renderSlot -> extractSlot"
+  },
+  "mc.client.gui.components.AbstractWidget": {
+    "name": "net.minecraft.client.gui.components.AbstractWidget",
+    "note": "26.1 起 renderWidget -> extractWidgetRenderState、render -> extractRenderState"
+  },
+  "mc.world.ChunkPos": {
+    "name": "net.minecraft.world.level.ChunkPos",
+    "note": "26.1 起 ChunkPos(BlockPos) 与 ChunkPos(long) 构造器已移除：分别改用 ChunkPos.containing(blockPos) 与 ChunkPos.unpack(packed)；asLong/toLong 改名 pack"
+  },
+  "mc.world.Level": {
+    "name": "net.minecraft.world.level.Level",
+    "note": "26.1 起 random 字段为 protected（外部用 getRandom()），getDayTime 由世界时钟取代（getOverworldClockTime/getDefaultClockTime）"
+  },
+  "mc.world.item.ItemStackTemplate": {
+    "name": "net.minecraft.world.item.ItemStackTemplate",
+    "note": "26.1 引入：注册表加载前描述物品堆叠（物品 Holder + 数量 + 组件补丁）的 record，ItemStack 本身需要注册表已加载才能创建"
+  },
+  "mc.network.protocol.game.ServerboundSpectateEntityPacket": "net.minecraft.network.protocol.game.ServerboundSpectateEntityPacket",
+  "forge.fluids.FluidStack": {
+    "name": "net.neoforged.neoforge.fluids.FluidStack",
+    "note": "NeoForge 26.1 起 FluidStack 创建需要注册表已加载（早期定义用 FluidStackTemplate），getFluidType/getFluidHolder 已移除（改用 typeHolder() 等）"
+  }
+}

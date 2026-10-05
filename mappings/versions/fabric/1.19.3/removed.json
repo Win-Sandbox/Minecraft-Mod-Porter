@@ -1,0 +1,8 @@
+{
+  "!remove": {
+    "classes": [
+      "net.minecraft.entity.damage.DamageSources",
+      "net.minecraft.entity.damage.DamageTypes"
+    ]
+  }
+}

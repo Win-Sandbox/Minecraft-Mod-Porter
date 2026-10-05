@@ -1,0 +1,18 @@
+{
+  "supported": [
+    "input.events"
+  ],
+  "guidance": {
+    "input.events": "1.21.9 起 Element/Screen 的输入回调改为事件对象：keyPressed(KeyInput)/keyReleased(KeyInput)（net.minecraft.client.input，按键码用 input.getKeycode()，另有 isEnter()/isEscape()/hasShift()/hasCtrl() 等便捷方法）、charTyped(CharInput)、mouseClicked(Click click, boolean doubleClick)、mouseReleased(Click)、mouseDragged(Click, double, double)（Click 在 net.minecraft.client.gui，按钮用 click.button()）；覆写声明与 super 调用都要改为传事件对象",
+    "client.renderState": "1.21.9 起改为提交式渲染：实体 render(S, MatrixStack, OrderedRenderCommandQueue, CameraRenderState)，绘制经 queue.submitModel/submitModelPart/submitCustom/submitItem 等提交；方块实体渲染器也改为 BlockEntityRenderer<T, S extends BlockEntityRenderState>，需实现 createRenderState()、updateRenderState(T, S, float, Vec3d, ModelCommandRenderer.CrumblingOverlayCommand) 与 render(S, MatrixStack, OrderedRenderCommandQueue, CameraRenderState)",
+    "fabric.resourceLoader": "1.21.9 起 Fabric API 提供 ResourceLoader（net.fabricmc.fabric.api.resource.v1）：ResourceLoader.get(ResourceType.SERVER_DATA).registerReloader(Identifier.of(MODID, \"x\"), 重载器)，重载器无需再实现 IdentifiableResourceReloadListener；旧的 ResourceManagerHelper（v0）仍可编译但建议迁移",
+    "input.glfw": "键码常量用 org.lwjgl.glfw.GLFW.GLFW_KEY_*；键位在 ClientModInitializer 中 KeyBindingHelper.registerKeyBinding(new KeyBinding(\"key.modid.x\", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R, CATEGORY))，1.21.9 起 CATEGORY = KeyBinding.Category.create(Identifier.of(MODID, \"main\"))（只创建一次）；轮询写在 ClientTickEvents.END_CLIENT_TICK 里 while (KEY.wasPressed()) { ... }",
+    "fabric.event.WorldRenderEvents": "1.21.9 对应的 Fabric API 删除了 WorldRenderEvents（渲染改为提交式），暂时只能用 Mixin 注入 WorldRenderer；1.21.10 后续的 Fabric API 在 net.fabricmc.fabric.api.client.rendering.v1.world 包重新提供了 WorldRenderEvents",
+    "forge.event.RenderLevelStageEvent": "1.21.9 的 Fabric API 没有世界渲染事件，需 Mixin WorldRenderer；1.21.10 起可用 net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderEvents（BEFORE_ENTITIES/AFTER_ENTITIES/BEFORE_TRANSLUCENT/END_MAIN 等）",
+    "entity.registration": "实体注册：key = RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(MODID, \"x\"))，Registry.register(Registries.ENTITY_TYPE, key, EntityType.Builder.create(MyEntity::new, SpawnGroup.CREATURE).dimensions(0.8f, 1.5f).build(key))；属性用 FabricDefaultAttributeRegistry.register(TYPE, MyEntity.createMobAttributes())；渲染器 1.21.9 起用原版 EntityRendererFactories.register(TYPE, MyRenderer::new)（Fabric 的 EntityRendererRegistry 已废弃）",
+    "mc.advancements.predicates.FoodPredicate": "FoodPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.FoodPredicate 引用；反向迁移时按本数据集实际的食物谓词类人工确认（该类旧包路径未核实，不要自动猜写）。",
+    "mc.advancements.predicates.InputPredicate": "InputPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.InputPredicate 引用；反向迁移时按本数据集实际的输入谓词类人工确认（旧数据为 advancements.criterion.InputPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.entity.SheepPredicate": "SheepPredicate 是 26.2 起进度实体谓词所在新包中的类；本数据集没有该 26.2 包路径的对应类。26.2 侧按 net.minecraft.advancements.predicates.entity.SheepPredicate 引用；反向迁移时按本数据集实际的实体谓词类人工确认（旧数据为 advancements.criterion.SheepPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.DataComponentMatchers": "DataComponentMatchers 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.DataComponentMatchers 引用；反向迁移时按本数据集实际的数据组件匹配类人工确认（旧数据为 advancements.criterion.DataComponentMatchers，仍需按本数据集核对）。"
+  }
+}

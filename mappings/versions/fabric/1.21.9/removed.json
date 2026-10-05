@@ -1,0 +1,8 @@
+{
+  "classes": {
+    "net.minecraft.client.input.MouseInput": {
+      "concept": "input.events",
+      "message": "MouseInput 是 1.21.9 引入的鼠标按键信息对象，旧版本直接传 int button"
+    }
+  }
+}

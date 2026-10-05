@@ -1,0 +1,34 @@
+{
+  "mcVersion": "26.1",
+  "basedOn": "1.21.11",
+  "javaVersion": 25,
+  "packFormat": 84,
+  "forgeVersion": "26.1.0.19-beta",
+  "loaderVersionRange": "[11,)",
+  "aliases": {
+    "26.1.1": {
+      "forgeVersion": "26.1.1.15-beta",
+      "packFormat": 84,
+      "resourcePackFormat": [
+        84,
+        0
+      ],
+      "dataPackFormat": [
+        101,
+        1
+      ],
+      "packMetadataStyle": "range",
+      "itemModelDefinitions": true
+    }
+  },
+  "resourcePackFormat": [
+    84,
+    0
+  ],
+  "dataPackFormat": [
+    101,
+    1
+  ],
+  "packMetadataStyle": "range",
+  "itemModelDefinitions": true
+}

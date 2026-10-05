@@ -1,0 +1,362 @@
+{
+  "forge.Mod.EventBusSubscriber.Bus": {
+    "MOD": {
+      "name": "MOD",
+      "kind": "field"
+    },
+    "FORGE": {
+      "name": "GAME",
+      "kind": "field",
+      "note": "20.5 起游戏总线枚举常量由 FORGE 改名为 GAME"
+    }
+  },
+  "mc.nbt.CompoundTag": {
+    "putInt": {
+      "name": "putInt",
+      "kind": "method"
+    },
+    "getInt": {
+      "name": "getInt",
+      "kind": "method"
+    },
+    "putString": {
+      "name": "putString",
+      "kind": "method"
+    },
+    "putBoolean": {
+      "name": "putBoolean",
+      "kind": "method"
+    },
+    "putDouble": {
+      "name": "putDouble",
+      "kind": "method"
+    },
+    "putFloat": {
+      "name": "putFloat",
+      "kind": "method"
+    },
+    "putLong": {
+      "name": "putLong",
+      "kind": "method"
+    },
+    "putByte": {
+      "name": "putByte",
+      "kind": "method"
+    },
+    "putUUID": {
+      "name": "putUUID",
+      "kind": "method"
+    },
+    "getUUID": {
+      "name": "getUUID",
+      "kind": "method"
+    },
+    "hasUUID": {
+      "name": "hasUUID",
+      "kind": "method"
+    },
+    "put": {
+      "name": "put",
+      "kind": "method"
+    },
+    "getCompound": {
+      "name": "getCompound",
+      "kind": "method"
+    },
+    "getList": {
+      "name": "getList",
+      "kind": "method"
+    },
+    "contains": {
+      "name": "contains",
+      "kind": "method"
+    },
+    "remove": {
+      "name": "remove",
+      "kind": "method"
+    },
+    "isEmpty": {
+      "name": "isEmpty",
+      "kind": "method"
+    }
+  },
+  "mc.entity.Entity": {
+    "getDisplayName": {
+      "name": "getDisplayName",
+      "kind": "method",
+      "note": "Entity 的 getDisplayName 仍存在；仅 ItemStack 的同名方法已改为 getHoverName——请按接收者类型确认"
+    },
+    "level": {
+      "name": "level",
+      "kind": "method",
+      "note": "Entity 的 level 字段不可直接访问，读取用 level() 方法"
+    },
+    "getLevel": {
+      "name": "level",
+      "kind": "method",
+      "note": "Entity#getLevel() 已改名 level()；BlockEntity 的 getLevel 不变，ServerPlayer 的对应方法是 serverLevel()——请按接收者类型确认"
+    },
+    "discard": {
+      "name": "discard",
+      "kind": "method",
+      "note": "discard() 静默移除实体；需要死亡逻辑（掉落等）请用 kill()"
+    },
+    "isShiftKeyDown": {
+      "name": "isShiftKeyDown",
+      "kind": "method",
+      "note": "isShiftKeyDown（按住潜行键）与 isCrouching（姿态）语义不同，请确认"
+    }
+  },
+  "mc.world.Level": {
+    "isClientSide": {
+      "name": "isClientSide",
+      "kind": "field"
+    },
+    "random": {
+      "name": "random",
+      "kind": "field",
+      "note": "字段类型为 net.minecraft.util.RandomSource"
+    },
+    "removeBlock": {
+      "name": "removeBlock",
+      "kind": "method",
+      "note": "removeBlock(BlockPos, boolean isMoving) 需要第二个参数，一般传 false"
+    },
+    "getEntitiesOfClass": {
+      "name": "getEntitiesOfClass",
+      "kind": "method",
+      "note": "getEntitiesOfClass(Class, AABB[, Predicate])"
+    }
+  },
+  "mc.entity.player.Player": {
+    "displayClientMessage": {
+      "name": "displayClientMessage",
+      "kind": "method",
+      "note": "displayClientMessage(Component, boolean 是否显示在动作栏)"
+    }
+  },
+  "mc.entity.player.ServerPlayer": {
+    "getLevel": {
+      "name": "serverLevel",
+      "kind": "method",
+      "note": "ServerPlayer 取所在 ServerLevel 用 serverLevel()；Entity 的是 level()，BlockEntity 的 getLevel 不变——请按接收者类型确认"
+    },
+    "server": {
+      "name": "server",
+      "kind": "field"
+    }
+  },
+  "mc.entity.player.Abilities": {
+    "instabuild": {
+      "name": "instabuild",
+      "kind": "field"
+    },
+    "mayfly": {
+      "name": "mayfly",
+      "kind": "field"
+    },
+    "flying": {
+      "name": "flying",
+      "kind": "field"
+    },
+    "invulnerable": {
+      "name": "invulnerable",
+      "kind": "field"
+    }
+  },
+  "mc.item.ItemStack": {
+    "getTag": {
+      "name": "getTag",
+      "kind": "method",
+      "note": "物品 NBT API 已不存在：读取改用 stack.get(DataComponents.XXX)，自定义数据用 stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag()，需人工按语义迁移"
+    },
+    "setTag": {
+      "name": "setTag",
+      "kind": "method",
+      "note": "物品 NBT API 已不存在：写入改用 stack.set(DataComponents.XXX, value) 或 CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> ...)，需人工迁移"
+    },
+    "hasTag": {
+      "name": "hasTag",
+      "kind": "method",
+      "note": "物品 NBT API 已不存在：判断改用 stack.has(DataComponents.XXX)"
+    },
+    "getOrCreateTag": {
+      "name": "getOrCreateTag",
+      "kind": "method",
+      "note": "物品 NBT API 已不存在：自定义数据用 CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> ...)"
+    },
+    "getTagElement": {
+      "name": "getTagElement",
+      "kind": "method",
+      "note": "物品 NBT API 已不存在（getTagElement/addTagElement/removeTagKey 均无对应），改用数据组件"
+    },
+    "addTagElement": {
+      "name": "addTagElement",
+      "kind": "method",
+      "note": "物品 NBT API 已不存在：改用数据组件"
+    },
+    "removeTagKey": {
+      "name": "removeTagKey",
+      "kind": "method",
+      "note": "物品 NBT API 已不存在：删除组件用 stack.remove(DataComponents.XXX)"
+    },
+    "setHoverName": {
+      "name": "setHoverName",
+      "kind": "method",
+      "note": "setHoverName 已不存在：改用 stack.set(DataComponents.CUSTOM_NAME, Component)"
+    },
+    "getHoverName": {
+      "name": "getHoverName",
+      "kind": "method",
+      "note": "返回 Component，需要字符串时 .getString()"
+    },
+    "save": {
+      "name": "save",
+      "kind": "method",
+      "note": "1.20.5+ 为 save(HolderLookup.Provider[, Tag])，读取用静态 ItemStack.parse/parseOptional(HolderLookup.Provider, Tag)"
+    },
+    "sameItem": {
+      "name": "isSameItem",
+      "kind": "method",
+      "note": "比较物品用静态 ItemStack.isSameItem(a, b)；连同组件一起比较用 isSameItemSameComponents"
+    },
+    "isSameItemSameTags": {
+      "name": "isSameItemSameComponents",
+      "kind": "method",
+      "note": "isSameItemSameTags 已改名 isSameItemSameComponents（比较数据组件）"
+    },
+    "hurtAndBreak": {
+      "name": "hurtAndBreak",
+      "kind": "method",
+      "note": "1.21 签名：hurtAndBreak(int, ServerLevel, ServerPlayer, Consumer<Item>) 或 hurtAndBreak(int, LivingEntity, EquipmentSlot)；旧的 Consumer<LivingEntity> 回调形式已不存在"
+    },
+    "getEnchantmentLevel": {
+      "name": "getEnchantmentLevel",
+      "kind": "method",
+      "note": "NeoForge 扩展方法参数为 Holder<Enchantment>；Enchantments 常量是 ResourceKey，需先经注册表取 Holder"
+    }
+  },
+  "mc.item.Item": {
+    "appendHoverText": {
+      "name": "appendHoverText",
+      "kind": "method",
+      "note": "签名 appendHoverText(ItemStack, Item.TooltipContext, List<Component>, TooltipFlag)，第二参不是 Level"
+    },
+    "use": {
+      "name": "use",
+      "kind": "method",
+      "note": "签名 use(Level, Player, InteractionHand)，返回 InteractionResultHolder<ItemStack>"
+    },
+    "useOn": {
+      "name": "useOn",
+      "kind": "method",
+      "note": "参数为 UseOnContext，返回 InteractionResult"
+    },
+    "getDescriptionId#a": {
+      "name": "getDescriptionId",
+      "kind": "method"
+    },
+    "getDescriptionId#b": {
+      "name": "getDescriptionId",
+      "kind": "method"
+    }
+  },
+  "mc.block.Block": {
+    "use": {
+      "name": "useWithoutItem",
+      "kind": "method",
+      "note": "方块的 use 在 1.20.5 起拆为 useWithoutItem(BlockState, Level, BlockPos, Player, BlockHitResult) 与 useItemOn(ItemStack, BlockState, Level, BlockPos, Player, InteractionHand, BlockHitResult)，已自动改为 useWithoutItem，若原逻辑依赖手持物品请改写为 useItemOn；物品的 use 不受影响"
+    }
+  },
+  "mc.blockentity.BlockEntity": {
+    "getLevel": {
+      "name": "getLevel",
+      "kind": "method",
+      "note": "BlockEntity 的 getLevel 名称不变；Entity 为 level()、ServerPlayer 为 serverLevel()——请按接收者类型确认"
+    },
+    "load": {
+      "name": "loadAdditional",
+      "kind": "method",
+      "note": "BlockEntity#load 已改名 loadAdditional(CompoundTag, HolderLookup.Provider)：覆写与 super 调用都要改名并补 Provider 参数"
+    },
+    "saveAdditional": {
+      "name": "saveAdditional",
+      "kind": "method",
+      "note": "签名为 saveAdditional(CompoundTag, HolderLookup.Provider)，覆写需补第二个参数"
+    },
+    "getUpdateTag": {
+      "name": "getUpdateTag",
+      "kind": "method",
+      "note": "签名为 getUpdateTag(HolderLookup.Provider)"
+    }
+  },
+  "mc.entity.LivingEntity": {
+    "hasEffect": {
+      "name": "hasEffect",
+      "kind": "method",
+      "note": "参数为 Holder<MobEffect>：MobEffects 常量就是 Holder，自定义效果传 DeferredHolder"
+    },
+    "getEffect": {
+      "name": "getEffect",
+      "kind": "method",
+      "note": "参数为 Holder<MobEffect>"
+    },
+    "removeEffect": {
+      "name": "removeEffect",
+      "kind": "method",
+      "note": "参数为 Holder<MobEffect>"
+    }
+  },
+  "mc.chat.Component": {
+    "append#sibling": {
+      "name": "append",
+      "kind": "method",
+      "note": "append 定义在 MutableComponent 上；声明类型是 Component 时需改为 MutableComponent"
+    },
+    "append#text": {
+      "name": "append",
+      "kind": "method",
+      "note": "append 定义在 MutableComponent 上；声明类型是 Component 时需改为 MutableComponent"
+    }
+  },
+  "mc.client.Minecraft": {
+    "font": {
+      "name": "font",
+      "kind": "field"
+    }
+  },
+  "mc.client.player.AbstractClientPlayer": {
+    "getSkinTextureLocation": {
+      "name": "getSkin",
+      "kind": "method",
+      "note": "1.20.2 起皮肤信息为 PlayerSkin：getSkinTextureLocation() -> getSkin().texture()，此处只改了方法名，请补上 .texture()"
+    }
+  },
+  "mc.world.food.FoodProperties": {
+    "saturationMod": {
+      "name": "saturationModifier",
+      "kind": "method"
+    },
+    "alwaysEat": {
+      "name": "alwaysEdible",
+      "kind": "method"
+    }
+  },
+  "forge.event.BlockEvent": {
+    "getPos": {
+      "name": "getPos",
+      "kind": "method",
+      "note": "事件的 getPos 名称不变；只有 BlockEntity 的对应方法是 getBlockPos——请按接收者类型确认"
+    }
+  },
+  "forge.FMLEnvironment": {
+    "dist": {
+      "name": "dist",
+      "kind": "field"
+    },
+    "production": {
+      "name": "production",
+      "kind": "field"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "mc.item.Item": {
+    "name": "net.minecraft.item.Item",
+    "note": "1.21.2 起 Item.Settings 必须先设置注册键，否则构造物品时直接报错：new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(MODID, \"x\")))；翻译键与模型 id 都由该键推导。use 改为返回 ActionResult；新增 equippable/repairable/enchantable/useCooldown/useRemainder 等设置，food 可带第二参 ConsumableComponent；getTranslationKey(ItemStack) 已删除；1.21.4 起每个物品还需要物品模型定义 assets/<ns>/items/<名>.json（最简形式 {\"model\": {\"type\": \"minecraft:model\", \"model\": \"<ns>:item/<名>\"}}，方块物品指向方块模型），缺失时显示为缺失模型，染色改在其中的 tints 声明"
+  },
+  "fabric.client.ColorProviderRegistry": {
+    "name": "net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry",
+    "note": "1.21.4 起只剩 ColorProviderRegistry.BLOCK；物品染色的 ITEM 注册已删除，改在物品模型定义 assets/<ns>/items/*.json 的 tints 中声明（如 minecraft:constant、minecraft:dye 染色源）"
+  }
+}

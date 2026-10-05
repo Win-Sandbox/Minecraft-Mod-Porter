@@ -1,0 +1,21 @@
+{
+  "classes": {
+    "net.minecraft.world.item.enchantment.ItemEnchantments": {
+      "concept": "enchantment.datadriven",
+      "message": "ItemEnchantments 是 1.20.5+/1.21 的附魔组件，旧版本附魔存在 NBT 列表"
+    },
+    "net.minecraft.world.damagesource.DamageTypes": {
+      "concept": "damage.types",
+      "message": "DamageTypes 是 1.19.4+ 的伤害类型键常量"
+    },
+    "net.minecraft.world.damagesource.DamageSources": {
+      "concept": "damage.types",
+      "message": "DamageSources 是 1.19.4+ 的伤害源工厂（level.damageSources()）"
+    },
+    "net.neoforged.neoforge.attachment.IAttachmentHolder": {
+      "concept": "neoforge.attachment",
+      "message": "IAttachmentHolder 是 NeoForge 数据附件宿主接口（getData/setData）"
+    }
+  },
+  "members": {}
+}

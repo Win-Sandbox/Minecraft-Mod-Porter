@@ -1,0 +1,178 @@
+{
+  "forge.Mod.EventBusSubscriber.Bus": {
+    "MOD": {
+      "name": "MOD",
+      "kind": "field"
+    },
+    "FORGE": {
+      "name": "GAME",
+      "kind": "field",
+      "note": "20.5 起游戏总线枚举常量由 FORGE 改名为 GAME"
+    }
+  },
+  "mc.item.ItemStack": {
+    "getTag": {
+      "name": "getTag",
+      "kind": "method",
+      "note": "1.20.5 起 ItemStack 没有 NBT：读取改用 stack.get(DataComponents.XXX)，自定义数据用 stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag()，需人工按语义迁移"
+    },
+    "setTag": {
+      "name": "setTag",
+      "kind": "method",
+      "note": "1.20.5 起 ItemStack 没有 NBT：写入改用 stack.set(DataComponents.XXX, 值) 或 CustomData.set/update，需人工按语义迁移"
+    },
+    "hasTag": {
+      "name": "hasTag",
+      "kind": "method",
+      "note": "1.20.5 起 ItemStack 没有 NBT：判断组件用 stack.has(DataComponents.XXX)，需人工按语义迁移"
+    },
+    "getOrCreateTag": {
+      "name": "getOrCreateTag",
+      "kind": "method",
+      "note": "1.20.5 起 ItemStack 没有 NBT：自定义数据改用 CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> ...)，最好改为注册专用 DataComponentType"
+    },
+    "getTagElement": {
+      "name": "getTagElement",
+      "kind": "method",
+      "note": "1.20.5 起已删除（getTagElement/getOrCreateTagElement 无对应物），改用对应的数据组件"
+    },
+    "addTagElement": {
+      "name": "addTagElement",
+      "kind": "method",
+      "note": "1.20.5 起已删除，改用 stack.set(数据组件, 值)"
+    },
+    "removeTagKey": {
+      "name": "removeTagKey",
+      "kind": "method",
+      "note": "1.20.5 起已删除，删除组件用 stack.remove(DataComponents.XXX)"
+    },
+    "setHoverName": {
+      "name": "setHoverName",
+      "kind": "method",
+      "note": "1.20.5 起已删除：自定义名称改为 stack.set(DataComponents.CUSTOM_NAME, component)，需人工改写"
+    },
+    "save": {
+      "name": "save",
+      "kind": "method",
+      "note": "1.20.5 起为 save(HolderLookup.Provider)（返回 Tag）或 save(Provider, Tag)（不修改传入的 tag，必须用返回值）；读取用静态 ItemStack.parseOptional(provider, compoundTag)"
+    },
+    "sameItem": {
+      "name": "isSameItem",
+      "kind": "method",
+      "note": "静态方法 ItemStack.isSameItem(ItemStack, ItemStack) 不变；连同数据比较的 isSameItemSameTags 在 1.20.5 改名为 isSameItemSameComponents"
+    },
+    "isSameItemSameTags": {
+      "name": "isSameItemSameComponents",
+      "kind": "method",
+      "note": "1.20.5 起比较的是数据组件而不是 NBT"
+    },
+    "hurtAndBreak": {
+      "name": "hurtAndBreak",
+      "kind": "method",
+      "note": "1.20.5 起签名为 hurtAndBreak(int, LivingEntity, EquipmentSlot)（按槽位自动广播破坏）或 hurtAndBreak(int, RandomSource, ServerPlayer, Runnable)；旧的 (int, LivingEntity, e -> e.broadcastBreakEvent(hand)) 形式需人工改写，InteractionHand 可用 LivingEntity.getSlotForHand(hand) 转换"
+    }
+  },
+  "mc.blockentity.BlockEntity": {
+    "load": {
+      "name": "loadAdditional",
+      "kind": "method",
+      "note": "1.20.5 起 load 改名为 loadAdditional(CompoundTag, HolderLookup.Provider)：覆写声明与 super 调用需同步改名并补 Provider 参数"
+    },
+    "saveAdditional": {
+      "name": "saveAdditional",
+      "kind": "method",
+      "note": "1.20.5 起为 protected void saveAdditional(CompoundTag, HolderLookup.Provider)：覆写与 super 调用需补第二个参数"
+    },
+    "getUpdateTag": {
+      "name": "getUpdateTag",
+      "kind": "method",
+      "note": "1.20.5 起为 getUpdateTag(HolderLookup.Provider)，保存/同步相关方法都新增 Provider 参数"
+    }
+  },
+  "mc.entity.LivingEntity": {
+    "hasEffect": {
+      "name": "hasEffect",
+      "kind": "method",
+      "note": "1.20.5 起参数为 Holder<MobEffect>：MobEffects 常量本身就是 Holder，自定义效果传 DeferredHolder"
+    },
+    "getEffect": {
+      "name": "getEffect",
+      "kind": "method",
+      "note": "1.20.5 起参数为 Holder<MobEffect>"
+    },
+    "removeEffect": {
+      "name": "removeEffect",
+      "kind": "method",
+      "note": "1.20.5 起参数为 Holder<MobEffect>"
+    },
+    "addEffect": {
+      "name": "addEffect",
+      "kind": "method",
+      "note": "addEffect(MobEffectInstance) 不变；MobEffectInstance 构造改为接收 Holder<MobEffect>"
+    }
+  },
+  "mc.entity.Entity": {
+    "defineSynchedData": {
+      "name": "defineSynchedData",
+      "kind": "method",
+      "note": "1.20.5 起签名为 defineSynchedData(SynchedEntityData.Builder builder)：原 this.entityData.define(KEY, 值) 改为 builder.define(KEY, 值)，super 调用需传 builder"
+    }
+  },
+  "mc.item.Item": {
+    "appendHoverText": {
+      "name": "appendHoverText",
+      "kind": "method",
+      "note": "1.20.5 起签名为 appendHoverText(ItemStack, Item.TooltipContext, List<Component>, TooltipFlag)：第二个参数由 Level 改为 TooltipContext，覆写声明需人工修改"
+    }
+  },
+  "mc.block.Block": {
+    "use": {
+      "name": "useWithoutItem",
+      "kind": "method",
+      "note": "1.20.5 起方块交互拆分：空手/不关心物品时覆写 useWithoutItem(BlockState, Level, BlockPos, Player, BlockHitResult)（无 InteractionHand 参数），需要手持物品时覆写 useItemOn(ItemStack, BlockState, Level, BlockPos, Player, InteractionHand, BlockHitResult) 返回 ItemInteractionResult；请人工判断拆分"
+    }
+  },
+  "mc.world.food.FoodProperties": {
+    "saturationMod": {
+      "name": "saturationModifier",
+      "kind": "method",
+      "note": "1.20.5 起 FoodProperties.Builder#saturationMod 改名为 saturationModifier"
+    },
+    "alwaysEat": {
+      "name": "alwaysEdible",
+      "kind": "method",
+      "note": "1.20.5 起 FoodProperties.Builder#alwaysEat 改名为 alwaysEdible"
+    },
+    "meat": {
+      "name": "meat",
+      "kind": "method",
+      "note": "1.20.5 起 FoodProperties.Builder#meat 已删除：肉类改由物品标签 minecraft:meat（ItemTags.MEAT）表达，需删除此调用"
+    }
+  },
+  "forge.util.INBTSerializable": {
+    "serializeNBT": {
+      "name": "serializeNBT",
+      "kind": "method",
+      "note": "20.5 起签名为 serializeNBT(HolderLookup.Provider)，实现与调用处需补 Provider 参数"
+    },
+    "deserializeNBT": {
+      "name": "deserializeNBT",
+      "kind": "method",
+      "note": "20.5 起签名为 deserializeNBT(HolderLookup.Provider, T)，实现与调用处需补 Provider 参数"
+    }
+  },
+  "forge.ModLoadingContext": {
+    "registerConfig": {
+      "name": "registerConfig",
+      "kind": "method",
+      "note": "20.5 起 ModLoadingContext#registerConfig 已弃用：在 @Mod 构造器声明 ModContainer container 参数，改为 container.registerConfig(ModConfig.Type.XXX, SPEC)"
+    }
+  },
+  "forge.event.TickEvent": {
+    "phase": {
+      "name": "phase",
+      "kind": "field",
+      "note": "20.5 起 tick 事件拆为 Pre/Post 两个类，没有 phase 字段：START 分支的逻辑移到 XxxTickEvent.Pre 监听器，END 分支移到 Post"
+    }
+  }
+}

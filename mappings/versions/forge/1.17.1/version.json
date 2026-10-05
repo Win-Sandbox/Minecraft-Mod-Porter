@@ -20,5 +20,15 @@
   "forgeVersion": "37.1.1",
   "gradleVersion": "7.5.1",
   "loaderVersionRange": "[37,)",
-  "mappingsChannel": "official"
+  "mappingsChannel": "official",
+  "resourcePackFormat": [
+    7,
+    0
+  ],
+  "dataPackFormat": [
+    7,
+    0
+  ],
+  "packMetadataStyle": "legacy",
+  "itemModelDefinitions": false
 }

@@ -1,0 +1,6 @@
+{
+  "forge.network.PacketDistributor": {
+    "name": "net.neoforged.neoforge.network.PacketDistributor",
+    "note": "NeoForge 21.7 起客户端发包移到 net.neoforged.neoforge.client.network.ClientPacketDistributor.sendToServer(payload)，PacketDistributor 只保留服务端 sendTo* 方法"
+  }
+}

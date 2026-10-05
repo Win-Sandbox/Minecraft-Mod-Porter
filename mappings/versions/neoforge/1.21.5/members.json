@@ -1,0 +1,46 @@
+{
+  "mc.nbt.CompoundTag": {
+    "getInt": {
+      "name": "getInt",
+      "kind": "method",
+      "note": "1.21.5 起返回 Optional<Integer>；需要默认值时改用 getIntOr(key, 默认值)"
+    },
+    "getCompound": {
+      "name": "getCompound",
+      "kind": "method",
+      "note": "1.21.5 起返回 Optional<CompoundTag>；需要空标签兜底时改用 getCompoundOrEmpty(key)"
+    },
+    "getList": {
+      "name": "getList",
+      "kind": "method",
+      "note": "1.21.5 起为 getList(key) 返回 Optional<ListTag>（不再有类型参数），兜底用 getListOrEmpty(key)"
+    },
+    "putUUID": {
+      "name": "putUUID",
+      "kind": "method",
+      "note": "1.21.5 起 putUUID 已移除：改用 tag.store(key, UUIDUtil.CODEC, uuid)"
+    },
+    "getUUID": {
+      "name": "getUUID",
+      "kind": "method",
+      "note": "1.21.5 起 getUUID 已移除：改用 tag.read(key, UUIDUtil.CODEC)（返回 Optional<UUID>）"
+    },
+    "hasUUID": {
+      "name": "hasUUID",
+      "kind": "method",
+      "note": "1.21.5 起 hasUUID 已移除：用 tag.read(key, UUIDUtil.CODEC).isPresent() 判断"
+    }
+  },
+  "mc.item.Item": {
+    "appendHoverText": {
+      "name": "appendHoverText",
+      "kind": "method",
+      "note": "1.21.5 签名改为 appendHoverText(ItemStack, Item.TooltipContext, TooltipDisplay, Consumer<Component>, TooltipFlag)：往 Consumer 里 accept 行，而不是 list.add"
+    },
+    "inventoryTick": {
+      "name": "inventoryTick",
+      "kind": "method",
+      "note": "1.21.5 签名改为 inventoryTick(ItemStack, ServerLevel, Entity, EquipmentSlot)，只在服务端调用，槽位参数可能为 null"
+    }
+  }
+}

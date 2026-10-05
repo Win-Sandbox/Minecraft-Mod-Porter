@@ -25,13 +25,57 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 dependencies {
-    implementation 'com.github.javaparser:javaparser-core:3.25.8'
+    implementation 'com.github.javaparser:javaparser-core:3.28.2'
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'info.picocli:picocli:4.7.5'
 }
 
 application {
     mainClass = 'io.modporter.cli.Main'
+}
+
+// Explicit opt-in regression task. Not invoked during the no-build source update.
+// Running this later DOES compile the main and test sources.
+def safetyRegressions = [
+    'io.modporter.passes.JavaSyntaxLevelsRegressionTest',
+    'io.modporter.passes.ModernSyntaxMigrationTest',
+    'io.modporter.passes.SafetyIntegrationTest',
+    'io.modporter.mappings.MemberResolutionTest',
+    'io.modporter.passes.ReferenceMigrationTest'
+]
+def safetyTasks = safetyRegressions.collect { entry ->
+    tasks.register('regression' + entry.tokenize('.').last(), JavaExec) {
+        dependsOn testClasses
+        classpath = sourceSets.test.runtimeClasspath
+        mainClass = entry
+    }
+}
+tasks.register('safetyRegression') {
+    group = 'verification'
+    description = 'Compile and run source-migration regression entry points (opt-in).'
+    dependsOn safetyTasks
+}
+
+// Also opt-in: compiling/running these is forbidden during the source-only edit session.
+def resourceRegressions = [
+    'io.modporter.mappings.PackFormatMappingTest',
+    'io.modporter.passes.PackMetadataPassTest',
+    'io.modporter.passes.ItemModelDefinitionPassMainTest',
+    'io.modporter.passes.SettingsGradlePassMainTest',
+    'io.modporter.passes.AnnotationMigrationPassMainTest',
+    'io.modporter.passes.ItemOverrideRulesMainTest'
+]
+def resourceTasks = resourceRegressions.collect { entry ->
+    tasks.register('regression' + entry.tokenize('.').last(), JavaExec) {
+        dependsOn testClasses
+        classpath = sourceSets.test.runtimeClasspath
+        mainClass = entry
+    }
+}
+tasks.register('resourceRegression') {
+    group = 'verification'
+    description = 'Compile and run resource migration regressions (opt-in).'
+    dependsOn resourceTasks
 }
 
 jar {

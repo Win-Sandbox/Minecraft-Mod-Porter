@@ -1,0 +1,22 @@
+{
+  "mc.nbt.CompoundTag": {
+    "name": "net.minecraft.nbt.CompoundTag",
+    "note": "Yarn 本版本仍叫 CompoundTag（1.16.5+build.10 起才回填 NBT 改名为 NbtCompound）"
+  },
+  "mc.nbt.ListTag": {
+    "name": "net.minecraft.nbt.ListTag",
+    "note": "Yarn 本版本仍叫 ListTag（1.16.5+build.10 起改名 NbtList）"
+  },
+  "mc.nbt.Tag": {
+    "name": "net.minecraft.nbt.Tag",
+    "note": "NBT 元素基接口在本版本 Yarn 叫 net.minecraft.nbt.Tag（1.16.5+build.10 起改名 NbtElement）；注意不要与标签系统的 net.minecraft.tag.Tag 混淆"
+  },
+  "mc.client.KeyMapping": {
+    "name": "net.minecraft.client.options.KeyBinding",
+    "note": "Yarn 本版本包名是 net.minecraft.client.options（1.16.5+build.10 起改为 net.minecraft.client.option）"
+  },
+  "mc.client.gui.components.AbstractWidget": {
+    "name": "net.minecraft.client.gui.widget.AbstractButtonWidget",
+    "note": "Yarn 本版本叫 AbstractButtonWidget（1.16.5 起改名 ClickableWidget）；坐标是公开字段 x / y，1.19.3 起才改为 getX()/getY()/setPosition(x, y)"
+  }
+}

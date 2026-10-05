@@ -1,5 +1,8 @@
 {
-  "!remove": ["forge.ForgeCapabilities"],
+  "!remove": [
+    "forge.ForgeCapabilities",
+    "forge.fluids.FluidType"
+  ],
   "forge.fluids.FluidStack": "net.minecraftforge.fluids.FluidStack",
   "forge.fluids.FluidTank": "net.minecraftforge.fluids.capability.templates.FluidTank"
 }

@@ -1,0 +1,6 @@
+{
+  "fabric.event.WorldRenderEvents": {
+    "name": "net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderEvents",
+    "note": "1.21.10 后续 Fabric API（如 0.138.x）在新包 ...rendering.v1.world 重新提供，事件按「提取/渲染」分离：AFTER_BLOCK_OUTLINE_EXTRACTION、END_EXTRACTION、START_MAIN、BEFORE_ENTITIES、AFTER_ENTITIES、BEFORE_TRANSLUCENT、BEFORE_BLOCK_OUTLINE、END_MAIN 等，回调参数与旧版不同，需人工核对"
+  }
+}

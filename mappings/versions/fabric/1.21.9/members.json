@@ -1,0 +1,43 @@
+{
+  "mc.entity.Entity": {
+    "level": {
+      "name": "getEntityWorld",
+      "kind": "method",
+      "note": "1.21.9 起 Yarn 把 Entity#getWorld 改名 getEntityWorld；方块实体仍是 BlockEntity#getWorld()，服务端玩家可用 getServerWorld()"
+    },
+    "getLevel": {
+      "name": "getEntityWorld",
+      "kind": "method",
+      "note": "1.21.9 起 Entity 为 getEntityWorld()，BlockEntity 仍为 getWorld()，ServerPlayerEntity 取 ServerWorld 用 getServerWorld()——请按接收者类型确认"
+    },
+    "position": {
+      "name": "getEntityPos",
+      "kind": "method",
+      "note": "1.21.9 起 Yarn 把 Entity#getPos 改名 getEntityPos，返回 Vec3d"
+    },
+    "getCommandSenderWorld": {
+      "name": "getEntityWorld",
+      "kind": "method",
+      "note": "1.21.9 起实体所在世界统一为 getEntityWorld()"
+    }
+  },
+  "mc.client.player.AbstractClientPlayer": {
+    "getSkin": {
+      "name": "getSkin",
+      "kind": "method",
+      "note": "1.21.9 起 Yarn 名由 getSkinTextures 改为 getSkin（定义移到 ClientPlayerLikeEntity），返回 SkinTextures；贴图用 getSkin().body().texturePath()"
+    },
+    "getSkinTextureLocation": {
+      "name": "getSkinTexture",
+      "kind": "method",
+      "note": "没有直接的贴图方法：1.21.9 起改用 player.getSkin().body().texturePath()，需人工改写"
+    }
+  },
+  "mc.world.Level": {
+    "isClientSide": {
+      "name": "isClient",
+      "kind": "method",
+      "note": "1.21.9 起 isClient 字段为 private，改用 world.isClient() 方法"
+    }
+  }
+}

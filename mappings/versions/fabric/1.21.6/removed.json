@@ -1,0 +1,8 @@
+{
+  "classes": {
+    "net.minecraft.client.render.BlockRenderLayer": {
+      "concept": "render.pipeline",
+      "message": "BlockRenderLayer 是 1.21.6 引入的方块渲染层枚举（取代方块用的 RenderLayer 实例），旧版本用 RenderLayer.getCutout() 等"
+    }
+  }
+}

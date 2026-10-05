@@ -1,0 +1,29 @@
+{
+  "classes": {
+    "net.neoforged.neoforge.transfer.ResourceHandler": {
+      "concept": "neoforge.transfer",
+      "message": "ResourceHandler 是 NeoForge 21.9 引入的通用存储接口（取代 IItemHandler/IFluidHandler），更早版本不存在"
+    },
+    "net.neoforged.neoforge.transfer.item.ItemResource": {
+      "concept": "neoforge.transfer",
+      "message": "ItemResource 是 NeoForge 21.9 的不可变物品资源（物品+组件），更早版本直接用 ItemStack"
+    },
+    "net.neoforged.neoforge.transfer.fluid.FluidResource": {
+      "concept": "neoforge.transfer",
+      "message": "FluidResource 是 NeoForge 21.9 的不可变流体资源，更早版本用 FluidStack"
+    },
+    "net.neoforged.neoforge.transfer.transaction.Transaction": {
+      "concept": "neoforge.transfer",
+      "message": "Transaction 是 NeoForge 21.9 转移操作的事务上下文，更早版本用 simulate 布尔参数"
+    },
+    "net.neoforged.neoforge.transfer.energy.EnergyHandler": {
+      "concept": "neoforge.transfer",
+      "message": "EnergyHandler 是 NeoForge 21.9 的能量接口（取代 IEnergyStorage），更早版本用 IEnergyStorage"
+    },
+    "net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler": {
+      "concept": "neoforge.transfer",
+      "message": "ItemStacksResourceHandler 是 NeoForge 21.9 基于 ItemStack 列表的存储实现，更早版本用 ItemStackHandler"
+    }
+  },
+  "members": {}
+}

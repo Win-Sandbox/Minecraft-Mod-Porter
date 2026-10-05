@@ -1,0 +1,43 @@
+{
+  "mc.client.Minecraft": {
+    "name": "net.minecraft.client.Minecraft",
+    "note": "26.2 起界面相关成员移到 Minecraft#gui（Gui）：setScreen/screen/openChatScreen/toastManager/chatListener 等改为 minecraft.gui.setScreen(...)、minecraft.gui.screen() 等；原 Gui 上的 HUD 方法（setOverlayMessage、setTitle、getChat 等）移到 minecraft.gui.hud（Hud）；font 字段仍在 Minecraft 上"
+  },
+  "mc.entity.EntityType": {
+    "name": "net.minecraft.world.entity.EntityType",
+    "note": "26.2 起原版实体类型常量（ZOMBIE、ITEM、PLAYER 等）从 EntityType 移到新类 net.minecraft.world.entity.EntityTypes，引用处需改为 EntityTypes.XXX；EntityType.Builder 与 build(ResourceKey) 仍在 EntityType 上"
+  },
+  "mc.world.entity.EntityTypes": {
+    "name": "net.minecraft.world.entity.EntityTypes",
+    "note": "26.2 新增：原版实体类型常量集中于此（原为 EntityType 上的静态字段）"
+  },
+  "mc.item.Items": {
+    "name": "net.minecraft.world.item.Items",
+    "note": "26.2 起 16 色系列物品常量合并为 ColorCollection（如 Items.WHITE_WOOL -> Items.WOOL.white() 或 Items.WOOL.pick(DyeColor.WHITE)，床、旗帜、染料、混凝土、玻璃等同理），铜系列合并为 WeatheringCopperCollection，需人工改写引用"
+  },
+  "mc.block.Blocks": {
+    "name": "net.minecraft.world.level.block.Blocks",
+    "note": "26.2 起 16 色系列方块常量合并为 ColorCollection（如 Blocks.WHITE_WOOL -> Blocks.WOOL.white() / pick(DyeColor)），铜系列合并为 WeatheringCopperCollection，需人工改写引用"
+  },
+  "mc.effect.MobEffect": {
+    "name": "net.minecraft.world.effect.MobEffect",
+    "note": "26.2 修正拼写：isInstantenous -> isInstantaneous，applyInstantenousEffect -> applyInstantaneousEffect，InstantenousMobEffect -> InstantaneousMobEffect"
+  },
+  "mc.chat.ChatFormatting": {
+    "name": "net.minecraft.ChatFormatting",
+    "note": "26.2 起 ChatFormatting 只保留格式常量与 getByCode/stripFormatting：getName、getColor、isColor、isFormat、getById、getByName、CODEC 等已移除，相关用法需人工改写（颜色经 TextColor/Style 表达）"
+  },
+  "mc.core.BlockPos": {
+    "name": "net.minecraft.core.BlockPos",
+    "note": "26.2 起 BlockPos#getCenter/getBottomCenter 已移除，改用 Vec3.atCenterOf(pos) / Vec3.atBottomCenterOf(pos)"
+  },
+  "mc.world.ChunkPos": {
+    "name": "net.minecraft.world.level.ChunkPos",
+    "note": "26.1 起 ChunkPos 为 record：new ChunkPos(BlockPos) -> ChunkPos.containing(pos)，new ChunkPos(long) -> ChunkPos.unpack(l)，ChunkPos.asLong(...) / 实例 toLong() -> pack(...)；仅保留 (int, int) 构造器；26.2 起 ChunkPos.MAX_COORDINATE_VALUE 移到 ChunkPyramid.MAX_CHUNK_COORDINATE_VALUE（net.minecraft.world.level.chunk.status）"
+  },
+  "mc.client.gui.Hud": "net.minecraft.client.gui.Hud",
+  "mc.advancements.predicates.FoodPredicate": "net.minecraft.advancements.predicates.FoodPredicate",
+  "mc.advancements.predicates.InputPredicate": "net.minecraft.advancements.predicates.InputPredicate",
+  "mc.advancements.predicates.entity.SheepPredicate": "net.minecraft.advancements.predicates.entity.SheepPredicate",
+  "mc.advancements.predicates.DataComponentMatchers": "net.minecraft.advancements.predicates.DataComponentMatchers"
+}

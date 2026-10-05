@@ -16,13 +16,23 @@
   },
   "lifecycleStyle": "entrypoint",
   "packFormat": 6,
-  "loaderVersionRange": ">=0.19.3",
+  "loaderVersionRange": ">=0.19.5",
   "mappingsChannel": "yarn",
   "gradleVersion": "9.5.1",
   "extras": {
     "yarnVersion": "1.16.5+build.10",
     "loomVersion": "1.17-SNAPSHOT",
-    "fabricLoaderVersion": "0.19.3",
+    "fabricLoaderVersion": "0.19.5",
     "fabricApiVersion": "0.42.0+1.16"
-  }
+  },
+  "resourcePackFormat": [
+    6,
+    0
+  ],
+  "dataPackFormat": [
+    6,
+    0
+  ],
+  "packMetadataStyle": "legacy",
+  "itemModelDefinitions": false
 }

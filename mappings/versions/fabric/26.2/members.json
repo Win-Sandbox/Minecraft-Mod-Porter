@@ -1,0 +1,19 @@
+{
+  "mc.client.Minecraft": {
+    "setScreen": {
+      "name": "setScreen",
+      "kind": "method",
+      "note": "26.2 起 setScreen 移到 Minecraft#gui：改为 minecraft.gui.setScreen(screen)，需人工补 .gui"
+    }
+  },
+  "mc.effect.MobEffect": {
+    "isInstantenous": {
+      "name": "isInstantaneous",
+      "kind": "method"
+    },
+    "applyInstantenousEffect": {
+      "name": "applyInstantaneousEffect",
+      "kind": "method"
+    }
+  }
+}

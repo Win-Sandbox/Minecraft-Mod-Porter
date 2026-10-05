@@ -1,0 +1,17 @@
+{
+  "guidance": {
+    "input.events": "1.21.9 起界面输入回调使用事件对象：keyPressed/keyReleased(KeyEvent)、charTyped(CharacterEvent)、mouseClicked(MouseButtonEvent, boolean)、mouseReleased(MouseButtonEvent)、mouseDragged(MouseButtonEvent, double, double)（net.minecraft.client.input）；KeyMapping 分类改为 KeyMapping.Category（Category.register(id) 创建，RegisterKeyMappingsEvent#registerCategory 登记）；NeoForge 的 InputEvent.Key/ScreenEvent.KeyPressed 也提供 getKeyEvent()",
+    "client.renderState": "1.21.9 起实体与方块实体渲染都走「提取状态 + 提交」：EntityRenderer/BlockEntityRenderer 实现 createRenderState()、extractRenderState(...)，在 submit(state, poseStack, SubmitNodeCollector, CameraRenderState) 中向收集器提交模型/几何；原 render(…, MultiBufferSource, …) 已不存在",
+    "neoforge.transfer": "NeoForge 21.9 转移重构：存储接口统一为 ResourceHandler<ItemResource/FluidResource> 与 EnergyHandler，insert/extract 都在 Transaction 事务中进行，确认后 tx.commit()，未提交即回滚；能力键改为 Capabilities.Item/Fluid/Energy；旧 IItemHandler/IFluidHandler/IEnergyStorage 已弃用，可用各自的 of(...) 适配",
+    "proxy.sided": "没有 DistExecutor：用 FMLEnvironment.getDist() == Dist.CLIENT（FML 10 起为方法）判断，或把客户端代码放进 dist = Dist.CLIENT 的 @Mod / @EventBusSubscriber 入口类",
+    "neoforge.client.RenderHighlightEvent": "RenderHighlightEvent 在 NeoForge 21.9 移除：自定义方块轮廓改用 ExtractBlockOutlineRenderStateEvent（先提取状态，再按提交流程绘制）",
+    "forge.Mod.EventBusSubscriber.Bus": "NeoForge 20.5 起 @EventBusSubscriber 为顶层注解，bus 常量 GAME/MOD；20.2–20.4 为 @Mod 内部注解，常量 FORGE/MOD。该版本 Bus 枚举形态与源版本不同或不可用，属性值需人工确认（FORGE 在 20.5+ 改为 GAME）。",
+    "mc.advancements.predicates.FoodPredicate": "FoodPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.FoodPredicate 引用；反向迁移时按本数据集实际的食物谓词类人工确认（该类旧包路径未核实，不要自动猜写）。",
+    "mc.advancements.predicates.InputPredicate": "InputPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.InputPredicate 引用；反向迁移时按本数据集实际的输入谓词类人工确认（旧数据为 advancements.criterion.InputPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.entity.SheepPredicate": "SheepPredicate 是 26.2 起进度实体谓词所在新包中的类；本数据集没有该 26.2 包路径的对应类。26.2 侧按 net.minecraft.advancements.predicates.entity.SheepPredicate 引用；反向迁移时按本数据集实际的实体谓词类人工确认（旧数据为 advancements.criterion.SheepPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.DataComponentMatchers": "DataComponentMatchers 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.DataComponentMatchers 引用；反向迁移时按本数据集实际的数据组件匹配类人工确认（旧数据为 advancements.criterion.DataComponentMatchers，仍需按本数据集核对）。"
+  },
+  "supported": [
+    "neoforge.transfer"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "!remove": [
+    "fabric.event.PlayerBlockBreakEvents"
+  ],
+  "mc.entity.PathfinderMob": {
+    "name": "net.minecraft.entity.mob.MobEntityWithAi",
+    "note": "Yarn 1.16 仍叫 MobEntityWithAi（1.16.1 起改名 PathAwareEntity），对应 Mojmap 的 PathfinderMob"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "!remove": [
+    "neoforge.client.ItemModelProvider",
+    "neoforge.client.BlockStateProvider"
+  ],
+  "neoforge.event.AddReloadListenerEvent": {
+    "name": "net.neoforged.neoforge.event.AddServerReloadListenersEvent",
+    "note": "AddReloadListenerEvent -> AddServerReloadListenersEvent：监听器需带 ResourceLocation id 注册 event.addListener(id, listener)，可声明依赖顺序"
+  },
+  "neoforge.client.RegisterClientReloadListenersEvent": {
+    "name": "net.neoforged.neoforge.client.event.AddClientReloadListenersEvent",
+    "note": "RegisterClientReloadListenersEvent -> AddClientReloadListenersEvent：event.addListener(id, listener)"
+  },
+  "forge.event.GatherDataEvent": {
+    "name": "net.neoforged.neoforge.data.event.GatherDataEvent",
+    "note": "1.21.4 起拆分为 GatherDataEvent.Client 与 GatherDataEvent.Server 两个子事件，includeClient()/includeServer() 已移除；MDK 的 data 运行配置改为 clientData/serverData"
+  },
+  "mc.client.data.models.BlockModelGenerators": "net.minecraft.client.data.models.BlockModelGenerators"
+}

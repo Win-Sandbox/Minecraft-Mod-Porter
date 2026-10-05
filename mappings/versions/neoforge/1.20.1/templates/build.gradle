@@ -1,0 +1,52 @@
+// NeoForge 1.20.1（net.neoforged:forge 47.1.x）使用 NeoGradle 6（ForgeGradle 6 的分支，插件 id net.neoforged.gradle）。
+// 该插件只发布在 maven.neoforged.net：settings.gradle 的 pluginManagement.repositories 中需要
+// gradlePluginPortal() 与 maven { url = 'https://maven.neoforged.net/releases' }。
+// 注：NeoForged 已停止维护 1.20.1 分支，官方现行 1.20.1 MDK 改为面向 MinecraftForge。
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'net.neoforged.gradle' version '${neoGradleVersion}'
+}
+
+version = '${version}'
+group = '${group}'
+
+base {
+    archivesName = '${modid}'
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(${javaVersion})
+
+minecraft {
+    mappings channel: '${mappingsChannel}', version: '${mcVersion}'
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+            mods {
+                '${modid}' {
+                    source sourceSets.main
+                }
+            }
+        }
+        server {
+            workingDirectory project.file('run')
+            mods {
+                '${modid}' {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+repositories {
+}
+
+dependencies {
+    minecraft 'net.neoforged:forge:${mcVersion}-${forgeVersion}'
+}
+
+jar {
+    finalizedBy 'reobfJar'
+}

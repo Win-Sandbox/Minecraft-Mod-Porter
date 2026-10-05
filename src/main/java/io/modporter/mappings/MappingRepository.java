@@ -77,7 +77,11 @@ public final class MappingRepository {
     }
 
     public VersionMappings load(String loader, String mcVersion) throws IOException {
-        return load(loader, mcVersion, new HashSet<>());
+        try {
+            return load(loader, mcVersion, new HashSet<>());
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            throw new IOException("版本映射字段无效: " + loader + "/" + mcVersion + ": " + e.getMessage(), e);
+        }
     }
 
     private VersionMappings load(String loader, String mcVersion, Set<String> visiting) throws IOException {
@@ -143,6 +147,7 @@ public final class MappingRepository {
         Map<String, VersionMappings.RemovedEntry> removedClasses = new HashMap<>();
         Map<String, VersionMappings.RemovedEntry> removedMembers = new HashMap<>();
         Map<String, VersionMappings.IdiomForm> idioms = new HashMap<>();
+        Map<String, VersionMappings.AnnotationForm> annotationForms = new HashMap<>();
         Map<String, String> guidance = new HashMap<>();
         Set<String> supported = new HashSet<>();
         VersionMappings.VersionInfo info;
@@ -158,6 +163,7 @@ public final class MappingRepository {
             removedClasses.putAll(base.removedClasses);
             removedMembers.putAll(base.removedMembers);
             idioms.putAll(base.idioms);
+            annotationForms.putAll(base.annotationForms);
             guidance.putAll(base.guidance);
             supported.addAll(base.supportedConcepts);
             templateDirs.add(dir.resolve("templates"));
@@ -173,9 +179,10 @@ public final class MappingRepository {
         mergeMembers(members, dir.resolve("members.json"));
         mergeRemoved(removedClasses, removedMembers, dir.resolve("removed.json"));
         mergeIdioms(idioms, guidance, supported, dir.resolve("idioms.json"));
+        mergeAnnotations(annotationForms, dir.resolve("annotations.json"), classes);
 
         return new VersionMappings(dir, templateDirs, info, classes, members,
-                removedClasses, removedMembers, idioms, guidance, supported);
+                removedClasses, removedMembers, idioms, guidance, supported, annotationForms);
     }
 
     private static Map<String, Map<String, VersionMappings.MemberEntry>> deepCopyMembers(
@@ -214,7 +221,27 @@ public final class MappingRepository {
         if (o.has("langFormat")) info.langFormat = optString(o, "langFormat");
         if (o.has("modAnnotationStyle")) info.modAnnotationStyle = optString(o, "modAnnotationStyle");
         if (o.has("lifecycleStyle")) info.lifecycleStyle = optString(o, "lifecycleStyle");
-        if (o.has("packFormat")) info.packFormat = o.get("packFormat").getAsInt();
+        if (o.has("packFormat")) {
+            info.packFormat = PackFormat.integer(o.get("packFormat"));
+            // An old overlay overriding only packFormat must not inherit a newer split format.
+            if (!o.has("resourcePackFormat")) info.resourcePackFormat = null;
+            if (!o.has("dataPackFormat")) info.dataPackFormat = null;
+            if (!o.has("packMetadataStyle")) info.packMetadataStyle = null;
+            if (!o.has("itemModelDefinitions")) info.itemModelDefinitions = false;
+        }
+        if (o.has("resourcePackFormat")) info.resourcePackFormat = PackFormat.fromMapping(o.get("resourcePackFormat"));
+        if (o.has("dataPackFormat")) info.dataPackFormat = PackFormat.fromMapping(o.get("dataPackFormat"));
+        if (o.has("packMetadataStyle")) {
+            info.packMetadataStyle = optString(o, "packMetadataStyle");
+            if (!"legacy".equals(info.packMetadataStyle) && !"range".equals(info.packMetadataStyle))
+                throw new IllegalArgumentException("packMetadataStyle must be legacy or range");
+        }
+        if (o.has("itemModelDefinitions")) {
+            JsonElement flag = o.get("itemModelDefinitions");
+            if (!flag.isJsonPrimitive() || !flag.getAsJsonPrimitive().isBoolean())
+                throw new IllegalArgumentException("itemModelDefinitions must be boolean");
+            info.itemModelDefinitions = flag.getAsBoolean();
+        }
         if (o.has("forgeVersion")) info.forgeVersion = optString(o, "forgeVersion");
         if (o.has("loaderVersionRange")) info.loaderVersionRange = optString(o, "loaderVersionRange");
         if (o.has("mappingsChannel")) info.mappingsChannel = optString(o, "mappingsChannel");
@@ -245,8 +272,10 @@ public final class MappingRepository {
             if (e.getKey().equals("!remove")) continue;
             if (e.getValue().isJsonObject()) {
                 JsonObject v = e.getValue().getAsJsonObject();
+                if (v.has("primary") && (!v.get("primary").isJsonPrimitive()
+                        || !v.getAsJsonPrimitive("primary").isBoolean())) throw new IllegalArgumentException("primary must be boolean");
                 target.put(e.getKey(), new VersionMappings.ClassEntry(
-                        v.get("name").getAsString(), optString(v, "note")));
+                        v.get("name").getAsString(), optString(v, "note"), v.has("primary") && v.get("primary").getAsBoolean()));
             } else {
                 target.put(e.getKey(), new VersionMappings.ClassEntry(e.getValue().getAsString(), null));
             }
@@ -283,7 +312,7 @@ public final class MappingRepository {
                     memberMap.put(m.getKey(), new VersionMappings.MemberEntry(
                             v.has("name") ? v.get("name").getAsString() : m.getKey(),
                             v.has("kind") ? v.get("kind").getAsString() : "method",
-                            optString(v, "note")));
+                            optString(v, "note"), parseReceiver(v.get("receiver"))));
                 } else {
                     memberMap.put(m.getKey(), new VersionMappings.MemberEntry(
                             m.getValue().getAsString(), "method", null));
@@ -357,6 +386,96 @@ public final class MappingRepository {
             for (JsonElement e : o.getAsJsonArray("!removeSupported")) {
                 supported.remove(e.getAsString());
             }
+        }
+    }
+
+    private static VersionMappings.Receiver parseReceiver(JsonElement element) {
+        if (element == null || element.isJsonNull()) return null;
+        if (!element.isJsonObject()) throw new IllegalArgumentException("receiver must be object");
+        JsonObject o = element.getAsJsonObject();
+        for (String key : o.keySet()) if (!Set.of("kind", "owner", "path").contains(key))
+            throw new IllegalArgumentException("Unknown receiver key: " + key);
+        List<String> path = new ArrayList<>();
+        if (o.has("path")) {
+            if (!o.get("path").isJsonArray()) throw new IllegalArgumentException("receiver.path must be array");
+            for (JsonElement step : o.getAsJsonArray("path")) {
+                if (!step.isJsonPrimitive() || !step.getAsJsonPrimitive().isString()) throw new IllegalArgumentException("receiver path step must be string");
+                path.add(step.getAsString());
+            }
+        }
+        return new VersionMappings.Receiver(optString(o, "kind"), optString(o, "owner"), path);
+    }
+
+    /**
+     * annotations.json: { 注解类IR: { "class": FQCN, "attributes": {
+     *   属性IR: {"name": 本版本属性名, "valueClass": 枚举宿主类IR} } } }。
+     * "attributes" 可省略；"!remove" 删除整个注解形态或单个属性（"注解IR" 或 "注解IR#属性IR"）。
+     */
+    private static void mergeAnnotations(Map<String, VersionMappings.AnnotationForm> target,
+                                         Path file,
+                                         Map<String, VersionMappings.ClassEntry> classes) throws IOException {
+        if (!Files.isRegularFile(file)) return;
+        JsonObject o = readJson(file).getAsJsonObject();
+        if (o.has("!remove")) {
+            for (JsonElement r : o.getAsJsonArray("!remove")) {
+                if (!r.isJsonPrimitive() || !r.getAsJsonPrimitive().isString())
+                    throw new IllegalArgumentException("annotations !remove entry must be string");
+                String spec = r.getAsString();
+                int hash = spec.indexOf('#');
+                if (hash < 0) {
+                    target.remove(spec);
+                } else if (hash == 0 || hash == spec.length() - 1) {
+                    throw new IllegalArgumentException("annotations !remove spec invalid: " + spec);
+                } else {
+                    String annoIr = spec.substring(0, hash);
+                    String attrIr = spec.substring(hash + 1);
+                    VersionMappings.AnnotationForm old = target.get(annoIr);
+                    if (old != null) {
+                        Map<String, VersionMappings.AnnotationAttributeForm> copy = new HashMap<>(old.attributes);
+                        copy.remove(attrIr);
+                        target.put(annoIr, new VersionMappings.AnnotationForm(old.className, copy));
+                    }
+                }
+            }
+        }
+        for (Map.Entry<String, JsonElement> e : o.entrySet()) {
+            if (e.getKey().equals("!remove")) continue;
+            if (e.getKey().startsWith("!")) throw new IllegalArgumentException("Unknown annotations key: " + e.getKey());
+            if (!e.getValue().isJsonObject()) throw new IllegalArgumentException("annotations form must be object");
+            JsonObject v = e.getValue().getAsJsonObject();
+            for (String key : v.keySet()) if (!Set.of("class", "attributes").contains(key))
+                throw new IllegalArgumentException("Unknown annotation form key: " + key);
+            if (!v.has("class") || !v.get("class").isJsonPrimitive()
+                    || !v.getAsJsonPrimitive("class").isString())
+                throw new IllegalArgumentException("annotations class must be string");
+            Map<String, VersionMappings.AnnotationAttributeForm> attrs = new HashMap<>();
+            if (v.has("attributes")) {
+                if (!v.get("attributes").isJsonObject())
+                    throw new IllegalArgumentException("annotations attributes must be object");
+                for (Map.Entry<String, JsonElement> a : v.getAsJsonObject("attributes").entrySet()) {
+                    if (!a.getValue().isJsonObject())
+                        throw new IllegalArgumentException("annotation attribute form must be object");
+                    JsonObject av = a.getValue().getAsJsonObject();
+                    for (String key : av.keySet()) if (!Set.of("name", "valueClass").contains(key))
+                        throw new IllegalArgumentException("Unknown annotation attribute key: " + key);
+                    if (av.has("name") && (!av.get("name").isJsonPrimitive()
+                            || !av.getAsJsonPrimitive("name").isString()))
+                        throw new IllegalArgumentException("annotation attribute name must be string");
+                    if (av.has("valueClass") && !av.get("valueClass").isJsonNull()
+                            && (!av.get("valueClass").isJsonPrimitive()
+                            || !av.getAsJsonPrimitive("valueClass").isString()))
+                        throw new IllegalArgumentException("annotation attribute valueClass must be string");
+                    String valueClass = optString(av, "valueClass");
+                    if (valueClass != null && !classes.containsKey(valueClass))
+                        throw new IllegalArgumentException("annotation attribute valueClass IR not found in classes: " + valueClass);
+                    attrs.put(a.getKey(), new VersionMappings.AnnotationAttributeForm(
+                            a.getKey(),
+                            av.has("name") ? av.get("name").getAsString() : a.getKey(),
+                            valueClass));
+                }
+            }
+            target.put(e.getKey(), new VersionMappings.AnnotationForm(
+                    v.get("class").getAsString(), attrs));
         }
     }
 

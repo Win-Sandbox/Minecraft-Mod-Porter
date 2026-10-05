@@ -1,0 +1,38 @@
+{
+  "mcVersion": "1.18.1",
+  "basedOn": "1.18.2",
+  "extras": {
+    "yarnVersion": "1.18.1+build.22",
+    "fabricApiVersion": "0.46.6+1.18"
+  },
+  "aliases": {
+    "1.18": {
+      "extras": {
+        "yarnVersion": "1.18+build.1",
+        "fabricApiVersion": "0.46.3+1.18"
+      },
+      "packFormat": 8,
+      "resourcePackFormat": [
+        8,
+        0
+      ],
+      "dataPackFormat": [
+        8,
+        0
+      ],
+      "packMetadataStyle": "legacy",
+      "itemModelDefinitions": false
+    }
+  },
+  "packFormat": 8,
+  "resourcePackFormat": [
+    8,
+    0
+  ],
+  "dataPackFormat": [
+    8,
+    0
+  ],
+  "packMetadataStyle": "legacy",
+  "itemModelDefinitions": false
+}

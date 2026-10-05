@@ -1,0 +1,22 @@
+{
+  "mc.item.EquipmentSlot": {
+    "name": "net.minecraft.entity.EquipmentSlot",
+    "note": "本版本 ArmorItem 构造仍接受 EquipmentSlot（1.19.4 起才改为 ArmorItem.Type）；EquipmentSlot 同时用于属性修饰符与装备读写"
+  },
+  "mc.world.Level": {
+    "name": "net.minecraft.world.World",
+    "note": "Yarn 名 World；本版本伤害来源仍是 DamageSource 静态常量（world.getDamageSources() 在 1.19.4 才加入）"
+  },
+  "mc.world.biome.Biome": {
+    "name": "net.minecraft.world.biome.Biome",
+    "note": "本版本降水判断用 getPrecipitation()（返回 Biome.Precipitation，无坐标参数）；1.19.4 起改为 hasPrecipitation() 与 getPrecipitation(BlockPos)"
+  },
+  "mc.damage.DamageSource": {
+    "name": "net.minecraft.entity.damage.DamageSource",
+    "note": "本版本仍用 DamageSource 的静态常量与静态工厂：DamageSource.GENERIC、DamageSource.player(player)、DamageSource.mob(entity) 等；1.19.4 起改为数据驱动，经 world.getDamageSources() 获取"
+  },
+  "mc.client.Font": {
+    "name": "net.minecraft.client.font.TextRenderer",
+    "note": "Yarn 中 Font -> TextRenderer，经 MinecraftClient.getInstance().textRenderer 获取；draw / drawWithShadow 以 MatrixStack 为首参"
+  }
+}

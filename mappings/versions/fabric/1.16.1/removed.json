@@ -1,0 +1,26 @@
+{
+  "!remove": {
+    "classes": [
+      "net.fabricmc.fabric.api.biome.v1.OverworldBiomes",
+      "net.fabricmc.fabric.api.transfer.v1.storage.Storage",
+      "net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup",
+      "net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents",
+      "net.fabricmc.fabric.api.transfer.v1.item.ItemVariant",
+      "net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant",
+      "net.fabricmc.fabric.api.transfer.v1.transaction.Transaction",
+      "net.fabricmc.fabric.api.biome.v1.BiomeModificationContext",
+      "net.fabricmc.fabric.api.networking.v1.PacketSender",
+      "net.minecraft.world.TeleportTarget"
+    ]
+  },
+  "classes": {
+    "net.fabricmc.fabric.api.biomes.v1.OverworldBiomes": {
+      "concept": "worldgen",
+      "message": "fabric-biomes-v1（1.16.1 及更早）只能把自定义群系加入世界生成（OverworldBiomes.addContinentalBiome 等），没有 1.16.2 起的 BiomeModifications / BiomeSelectors"
+    },
+    "net.fabricmc.fabric.api.biomes.v1.FabricBiomes": {
+      "concept": "worldgen",
+      "message": "FabricBiomes（fabric-biomes-v1）是 1.16.1 及更早的群系登记入口（如 addSpawnBiome），1.16.2 起被 fabric-biome-api-v1 取代"
+    }
+  }
+}

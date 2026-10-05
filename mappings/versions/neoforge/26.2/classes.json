@@ -1,0 +1,95 @@
+{
+  "!remove": [
+    "mc.network.protocol.game.ServerboundSpectateEntityPacket"
+  ],
+  "mc.network.protocol.game.ServerboundSpectatorActionPacket": "net.minecraft.network.protocol.game.ServerboundSpectatorActionPacket",
+  "mc.world.entity.monster.Slime": {
+    "name": "net.minecraft.world.entity.monster.cubemob.Slime",
+    "note": "26.2 起移到 monster.cubemob 包"
+  },
+  "mc.world.entity.monster.MagmaCube": {
+    "name": "net.minecraft.world.entity.monster.cubemob.MagmaCube",
+    "note": "26.2 起移到 monster.cubemob 包"
+  },
+  "mc.world.entity.animal.Bucketable": {
+    "name": "net.minecraft.world.entity.Bucketable",
+    "note": "26.2 起移到 net.minecraft.world.entity 包"
+  },
+  "mc.world.effect.InstantenousMobEffect": {
+    "name": "net.minecraft.world.effect.InstantaneousMobEffect",
+    "note": "26.2 修正拼写：InstantenousMobEffect -> InstantaneousMobEffect"
+  },
+  "mc.commands.arguments.ColorArgument": {
+    "name": "net.minecraft.commands.arguments.TeamColorArgument",
+    "note": "26.2 起 ColorArgument 改名 TeamColorArgument（十六进制颜色参数另为 HexColorArgument）"
+  },
+  "mc.world.level.levelgen.feature.PointedDripstoneFeature": "net.minecraft.world.level.levelgen.feature.SpeleothemFeature",
+  "mc.world.level.levelgen.feature.DripstoneClusterFeature": "net.minecraft.world.level.levelgen.feature.SpeleothemClusterFeature",
+  "mc.world.level.levelgen.feature.DripstoneUtils": "net.minecraft.world.level.levelgen.feature.SpeleothemUtils",
+  "mc.world.level.levelgen.feature.configurations.PointedDripstoneConfiguration": "net.minecraft.world.level.levelgen.feature.configurations.SpeleothemConfiguration",
+  "mc.world.level.levelgen.feature.configurations.DripstoneClusterConfiguration": "net.minecraft.world.level.levelgen.feature.configurations.SpeleothemClusterConfiguration",
+  "mc.world.level.block.state.properties.DripstoneThickness": "net.minecraft.world.level.block.state.properties.SpeleothemThickness",
+  "mc.client.gui.contextualbar.ContextualBarRenderer": "net.minecraft.client.gui.contextualbar.ContextualBar",
+  "mc.client.gui.contextualbar.ExperienceBarRenderer": "net.minecraft.client.gui.contextualbar.ExperienceBar",
+  "mc.client.gui.contextualbar.JumpableVehicleBarRenderer": "net.minecraft.client.gui.contextualbar.JumpableVehicleBar",
+  "mc.client.gui.contextualbar.LocatorBarRenderer": "net.minecraft.client.gui.contextualbar.LocatorBar",
+  "mc.client.Minecraft": {
+    "name": "net.minecraft.client.Minecraft",
+    "note": "26.2 起界面管理移到 Minecraft#gui（Gui）：setScreen/screen/openChatScreen/getToastManager/getChatListener 改为 minecraft.gui.setScreen/screen()/openChatScreen/toastManager()/chatListener()"
+  },
+  "mc.client.gui.Gui": {
+    "name": "net.minecraft.client.gui.Gui",
+    "note": "26.2 起 HUD 相关方法（标题、动作栏、聊天框、Boss 条、调试层等）移到 gui.hud（net.minecraft.client.gui.Hud）"
+  },
+  "mc.client.gui.Hud": {
+    "name": "net.minecraft.client.gui.Hud",
+    "note": "26.2 引入：原 Gui 中的 HUD 部分，经 minecraft.gui.hud 访问"
+  },
+  "forge.event.PlayerInteractEvent": {
+    "name": "net.neoforged.neoforge.event.entity.player.PlayerInteractEvent",
+    "note": "NeoForge 26.2 起 PlayerInteractEvent.EntityInteractSpecific 已移除，实体交互统一用 EntityInteract"
+  },
+  "mc.advancements.critereon.BlockPredicate": "net.minecraft.advancements.predicates.BlockPredicate",
+  "mc.advancements.critereon.CollectionContentsPredicate": "net.minecraft.advancements.predicates.CollectionContentsPredicate",
+  "mc.advancements.critereon.CollectionCountsPredicate": "net.minecraft.advancements.predicates.CollectionCountsPredicate",
+  "mc.advancements.critereon.CollectionPredicate": "net.minecraft.advancements.predicates.CollectionPredicate",
+  "mc.advancements.critereon.ContextAwarePredicate": "net.minecraft.advancements.predicates.ContextAwarePredicate",
+  "mc.advancements.critereon.DamagePredicate": "net.minecraft.advancements.predicates.DamagePredicate",
+  "mc.advancements.critereon.DamageSourcePredicate": "net.minecraft.advancements.predicates.DamageSourcePredicate",
+  "mc.advancements.critereon.DistancePredicate": "net.minecraft.advancements.predicates.DistancePredicate",
+  "mc.advancements.critereon.EnchantmentPredicate": "net.minecraft.advancements.predicates.EnchantmentPredicate",
+  "mc.advancements.critereon.FluidPredicate": "net.minecraft.advancements.predicates.FluidPredicate",
+  "mc.advancements.critereon.GameTypePredicate": "net.minecraft.advancements.predicates.GameTypePredicate",
+  "mc.advancements.critereon.ItemPredicate": "net.minecraft.advancements.predicates.ItemPredicate",
+  "mc.advancements.critereon.LightPredicate": "net.minecraft.advancements.predicates.LightPredicate",
+  "mc.advancements.critereon.LocationPredicate": "net.minecraft.advancements.predicates.LocationPredicate",
+  "mc.advancements.critereon.MinMaxBounds": "net.minecraft.advancements.predicates.MinMaxBounds",
+  "mc.advancements.critereon.MobEffectsPredicate": "net.minecraft.advancements.predicates.MobEffectsPredicate",
+  "mc.advancements.critereon.NbtPredicate": "net.minecraft.advancements.predicates.NbtPredicate",
+  "mc.advancements.critereon.SingleComponentItemPredicate": "net.minecraft.advancements.predicates.SingleComponentItemPredicate",
+  "mc.advancements.critereon.SlotsPredicate": "net.minecraft.advancements.predicates.SlotsPredicate",
+  "mc.advancements.critereon.StatePropertiesPredicate": "net.minecraft.advancements.predicates.StatePropertiesPredicate",
+  "mc.advancements.critereon.TagPredicate": "net.minecraft.advancements.predicates.TagPredicate",
+  "mc.advancements.critereon.EntityEquipmentPredicate": "net.minecraft.advancements.predicates.entity.EntityEquipmentPredicate",
+  "mc.advancements.critereon.EntityFlagsPredicate": "net.minecraft.advancements.predicates.entity.EntityFlagsPredicate",
+  "mc.advancements.critereon.EntityPredicate": "net.minecraft.advancements.predicates.entity.EntityPredicate",
+  "mc.advancements.critereon.EntitySubPredicate": "net.minecraft.advancements.predicates.entity.EntitySubPredicate",
+  "mc.advancements.critereon.EntitySubPredicates": "net.minecraft.advancements.predicates.entity.EntitySubPredicates",
+  "mc.advancements.critereon.EntityTypePredicate": "net.minecraft.advancements.predicates.entity.EntityTypePredicate",
+  "mc.advancements.critereon.FishingHookPredicate": "net.minecraft.advancements.predicates.entity.FishingHookPredicate",
+  "mc.advancements.critereon.LightningBoltPredicate": "net.minecraft.advancements.predicates.entity.LightningBoltPredicate",
+  "mc.advancements.critereon.MovementPredicate": "net.minecraft.advancements.predicates.entity.MovementPredicate",
+  "mc.advancements.critereon.PlayerPredicate": "net.minecraft.advancements.predicates.entity.PlayerPredicate",
+  "mc.advancements.critereon.RaiderPredicate": "net.minecraft.advancements.predicates.entity.RaiderPredicate",
+  "mc.advancements.critereon.SlimePredicate": {
+    "name": "net.minecraft.advancements.predicates.entity.CubeMobPredicate",
+    "note": "26.2 起 SlimePredicate 改名 CubeMobPredicate 并移到 predicates.entity 包"
+  },
+  "mc.advancements.CriteriaTriggers": "net.minecraft.advancements.triggers.CriteriaTriggers",
+  "mc.advancements.Criterion": "net.minecraft.advancements.triggers.Criterion",
+  "mc.advancements.CriterionTrigger": "net.minecraft.advancements.triggers.CriterionTrigger",
+  "mc.advancements.predicates.FoodPredicate": "net.minecraft.advancements.predicates.FoodPredicate",
+  "mc.advancements.predicates.InputPredicate": "net.minecraft.advancements.predicates.InputPredicate",
+  "mc.advancements.predicates.entity.SheepPredicate": "net.minecraft.advancements.predicates.entity.SheepPredicate",
+  "mc.advancements.predicates.DataComponentMatchers": "net.minecraft.advancements.predicates.DataComponentMatchers"
+}

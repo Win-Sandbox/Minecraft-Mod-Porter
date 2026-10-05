@@ -1,0 +1,6 @@
+{
+  "forge.Mod.EventBusSubscriber": {
+    "class": "net.neoforged.fml.common.EventBusSubscriber",
+    "attributes": {}
+  }
+}

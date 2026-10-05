@@ -8,6 +8,11 @@
 - Fabric 数据集使用 **Yarn 映射**（Fabric 官方文档与绝大多数 Fabric 模组的默认选择）。
   例：`net.minecraft.entity.player.PlayerEntity`、`net.minecraft.util.Identifier`、`net.minecraft.nbt.NbtCompound`。
   若将来需要支持 Mojmap 版 Fabric，另建 `versions/fabric-mojmap/`，不要混入本目录。
+- **例外：MC 26.1 起游戏不再混淆，Yarn 停止更新**，Fabric 工具链直接使用 Mojang 官方名。
+  因此 `versions/fabric/26.*` 数据集使用官方名（`mappingsChannel: "official"`），类名与 NeoForge 同期数据集一致。
+  由于每个数据集只描述「本版本 ↔ IR」，Yarn 版本与 26.x 之间照常经 IR 互转，无需特殊处理。
+  （上文 `fabric-mojmap/` 的约定仅适用于「同一 MC 版本同时存在 Yarn 与官方名两种写法」的情况。）
+- 通用的 id 命名、来源登记与合规要求见 [DATA-RULES.md](DATA-RULES.md)。
 - Fabric 从 MC 1.14 起才存在，因此没有 1.12.x 数据集。
 - 文件结构、`basedOn`、`aliases`、`!remove` 等机制与 Forge 数据集完全一致，见 [README](../README.md)。
 
@@ -94,7 +99,20 @@ fabric.client.KeyBindingHelper
 fabric.client.BlockRenderLayerMap
 fabric.client.EntityRendererRegistry
 fabric.client.ColorProviderRegistry
+fabric.client.HudElementRegistry      net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry（1.21.6+）
+fabric.client.HudElement              net.fabricmc.fabric.api.client.rendering.v1.hud.HudElement（1.21.6+）
+fabric.client.VanillaHudElements      net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements（1.21.6+）
 ```
+
+### 资源重载
+```
+fabric.resource.ResourceLoader        net.fabricmc.fabric.api.resource.v1.ResourceLoader（1.21.9+）
+```
+
+> 以上四个 id 为汇总步骤补入：它们在 1.21.6 / 1.21.9 首次出现后，直到 26.2 的 FQCN 都没有变化；
+> 不登记 IR 时，26.x 数据集只能把它们写进 removed.json，从 26.x 转回 1.21.6–1.21.11 会被误报为「已移除」。
+> 它们与旧 API（`HudRenderCallback`、`ResourceManagerHelper`）的用法不同，因此不复用旧 id，
+> 在没有该类的版本里由 guidance 说明旧写法。
 
 ### 数据生成
 ```

@@ -1,0 +1,49 @@
+{
+  "!remove": [
+    "fabric.event.WorldRenderEvents"
+  ],
+  "mc.client.resources.PlayerSkin": {
+    "name": "net.minecraft.entity.player.SkinTextures",
+    "note": "1.21.9 起 SkinTextures 移到 net.minecraft.entity.player 包（Mojmap 同步移到 net.minecraft.world.entity.player.PlayerSkin）；皮肤贴图由 texture() 改为 body().texturePath()"
+  },
+  "mc.entity.Entity": {
+    "name": "net.minecraft.entity.Entity",
+    "note": "1.21.9 起 Yarn 改名：getWorld() -> getEntityWorld()、getPos() -> getEntityPos()；Entity#getServer() 已删除，改用 getEntityWorld().getServer()；伤害/击杀仍需 ServerWorld 参数"
+  },
+  "mc.world.Level": {
+    "name": "net.minecraft.world.World",
+    "note": "Yarn 名为 World（Mojmap Level）；1.21.9 起 isClient 字段改为 private，统一用 isClient() 方法"
+  },
+  "mc.entity.player.ServerPlayer": {
+    "name": "net.minecraft.server.network.ServerPlayerEntity",
+    "note": "Yarn 名为 ServerPlayerEntity；server 字段为 private，取服务器用 player.getServerWorld().getServer()（1.21.9 起 Entity#getServer 也已删除）"
+  },
+  "mc.client.Minecraft": {
+    "name": "net.minecraft.client.MinecraftClient",
+    "note": "Yarn 名为 MinecraftClient，实例 MinecraftClient.getInstance()；1.21.9 起 MinecraftClient.IS_SYSTEM_MAC 删除，改用 SystemKeycodes.IS_MAC_OS（net.minecraft.client.input）"
+  },
+  "mc.client.Screen": {
+    "name": "net.minecraft.client.gui.screen.Screen",
+    "note": "render(DrawContext, int, int, float) 签名不变；1.21.6 起 GUI 改为「先收集后渲染」：drawTexture/drawGuiTexture 首参改为 RenderPipeline（RenderPipelines.GUI_TEXTURED，net.minecraft.client.gl），像素 UV 参数不变；getMatrices() 返回 org.joml.Matrix3x2fStack（pushMatrix/popMatrix/translate(x, y)，没有 z）；drawText 等不再返回宽度；refreshWidgetPositions 用于重新布局；1.21.9 起输入回调改为事件对象：keyPressed(KeyInput)、charTyped(CharInput)、mouseClicked(Click, boolean doubleClick)、mouseReleased(Click)、mouseDragged(Click, double, double)"
+  },
+  "mc.client.KeyMapping": {
+    "name": "net.minecraft.client.option.KeyBinding",
+    "note": "Yarn 名为 KeyBinding；1.21.9 起分类不再是字符串：构造为 new KeyBinding(翻译键, InputUtil.Type.KEYSYM, 键码, 分类)，分类用 KeyBinding.Category.create(Identifier.of(MODID, \"main\")) 创建一次并复用（重复创建会抛异常）"
+  },
+  "mc.client.BlockEntityRenderer": {
+    "name": "net.minecraft.client.render.block.entity.BlockEntityRenderer",
+    "note": "1.21.9 起改为 BlockEntityRenderer<T, S extends BlockEntityRenderState>：实现 createRenderState()、updateRenderState(T, S, float, Vec3d, ModelCommandRenderer.CrumblingOverlayCommand) 与 render(S, MatrixStack, OrderedRenderCommandQueue, CameraRenderState)，绘制经 queue.submitXxx 提交；注册仍用 BlockEntityRendererFactories.register"
+  },
+  "fabric.client.KeyBindingHelper": {
+    "name": "net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper",
+    "note": "KeyBindingHelper.registerKeyBinding(new KeyBinding(\"key.modid.x\", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R, CATEGORY))；1.21.9 起 CATEGORY 为 KeyBinding.Category.create(Identifier.of(MODID, \"main\")) 得到的对象，不再是字符串"
+  },
+  "fabric.client.EntityRendererRegistry": {
+    "name": "net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry",
+    "note": "1.21.9 起已废弃，改用原版 EntityRendererFactories.register(MY_ENTITY, MyRenderer::new)（net.minecraft.client.render.entity）；渲染器需配套渲染状态"
+  },
+  "mc.client.input.KeyEvent": "net.minecraft.client.input.KeyInput",
+  "mc.client.input.MouseButtonEvent": "net.minecraft.client.gui.Click",
+  "mc.client.input.CharacterEvent": "net.minecraft.client.input.CharInput",
+  "fabric.resource.ResourceLoader": "net.fabricmc.fabric.api.resource.v1.ResourceLoader"
+}

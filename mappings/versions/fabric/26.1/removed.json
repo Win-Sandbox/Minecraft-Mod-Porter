@@ -1,0 +1,145 @@
+{
+  "classes": {
+    "net.minecraft.core.component.DataComponentMap": {
+      "concept": "item.components",
+      "message": "DataComponentMap 是 1.20.5+ 的组件容器，旧版本无对应物"
+    },
+    "net.minecraft.core.component.DataComponentPatch": {
+      "concept": "item.components",
+      "message": "DataComponentPatch 是 1.20.5+ 的组件差异补丁，旧版本无对应物"
+    },
+    "net.minecraft.world.item.ItemStackTemplate": {
+      "concept": "item.stackTemplate",
+      "message": "ItemStackTemplate 是 26.1 新增的不可变物品模板（注册表加载前使用），旧版本直接使用 ItemStack"
+    },
+    "net.minecraft.world.item.ItemInstance": {
+      "concept": "item.stackTemplate",
+      "message": "ItemInstance 是 26.1 中 ItemStack 与 ItemStackTemplate 的公共接口，旧版本对应参数直接用 ItemStack"
+    },
+    "net.minecraft.world.item.enchantment.ItemEnchantments": {
+      "concept": "enchantment.datadriven",
+      "message": "ItemEnchantments 是 1.20.5+/1.21 的附魔组件，旧版本附魔存于物品 NBT 列表"
+    },
+    "net.minecraft.world.item.enchantment.EnchantmentEffectComponents": {
+      "concept": "enchantment.datadriven",
+      "message": "EnchantmentEffectComponents 是 1.21 数据驱动附魔的效果组件集合，旧版本靠 Enchantment 子类覆写方法"
+    },
+    "net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry": {
+      "concept": "network.channel",
+      "message": "PayloadTypeRegistry 是 Fabric API 1.20.5+ 的载荷类型登记入口，旧版本无对应物"
+    },
+    "net.fabricmc.fabric.api.networking.v1.PacketSender": {
+      "concept": "network.channel",
+      "message": "PacketSender 是 Fabric 网络 API 的发送句柄，其它加载器用各自的通道对象"
+    },
+    "net.fabricmc.fabric.api.menu.v1.ExtendedMenuType": {
+      "concept": "gui.menu",
+      "message": "ExtendedMenuType（26.1 前名为 ExtendedScreenHandlerType）是 Fabric API 带开屏数据的菜单类型，其它加载器/版本需换写法"
+    },
+    "net.fabricmc.fabric.api.menu.v1.FabricMenuProvider": {
+      "concept": "gui.menu",
+      "message": "FabricMenuProvider（26.1 前名为 FabricScreenHandlerFactory）是 Fabric API 的菜单提供者扩展接口"
+    },
+    "net.minecraft.core.HolderLookup": {
+      "concept": "registry.builtin",
+      "message": "HolderLookup.Provider 是 1.20.5+ 序列化普遍需要的注册表访问对象，旧版本的对应方法没有该参数"
+    },
+    "net.minecraft.resources.ResourceKey": {
+      "concept": "registry.builtin",
+      "message": "ResourceKey 在 1.21.2+ 还用于 Item/Block Properties#setId 与 EntityType.Builder#build，旧版本这些位置不需要"
+    },
+    "net.minecraft.world.level.portal.TeleportTransition": {
+      "concept": "dimension",
+      "message": "TeleportTransition 是 1.21.2+ 的跨维度传送参数对象（Entity#teleport(TeleportTransition)），旧版本用 changeDimension 的旧签名"
+    },
+    "net.minecraft.world.level.block.EntityBlock": {
+      "concept": "blockentity.entityblock",
+      "message": "EntityBlock 是 1.17+ 方块提供 BlockEntity 的接口，旧版本用 hasTileEntity/createTileEntity"
+    },
+    "net.minecraft.world.level.block.entity.BlockEntityTicker": {
+      "concept": "blockentity.ticker",
+      "message": "BlockEntityTicker 是 1.17+ 的 tick 机制（EntityBlock#getTicker），旧版本用 ITickable"
+    },
+    "net.minecraft.core.UUIDUtil": {
+      "concept": "nbt.valueIo",
+      "message": "UUIDUtil.CODEC 用于 1.21.5+ 以 store/read 读写 UUID（CompoundTag#putUUID/getUUID 已移除），旧版本直接用 putUUID/getUUID"
+    },
+    "net.minecraft.tags.TagKey": {
+      "concept": "tags.oredict",
+      "message": "TagKey 是 1.18.2+ 的标签句柄，1.12 及更早用矿物词典"
+    },
+    "net.minecraft.world.damagesource.DamageTypes": {
+      "concept": "damage.types",
+      "message": "DamageTypes（伤害类型的 ResourceKey 常量）是 1.19.4+ 的机制，旧版本用 DamageSource 静态常量"
+    },
+    "net.minecraft.world.level.levelgen.placement.PlacedFeature": {
+      "concept": "worldgen",
+      "message": "PlacedFeature/ConfiguredFeature 是 1.18+ 数据驱动世界生成的核心对象，旧版本用代码式生成器"
+    },
+    "net.fabricmc.fabric.api.biome.v1.BiomeModificationContext": {
+      "concept": "worldgen",
+      "message": "BiomeModificationContext 是 Fabric 注入生物群系的上下文对象，Forge/NeoForge 侧对应 biome_modifier JSON"
+    },
+    "net.minecraft.world.clock.WorldClock": {
+      "concept": "world.clock",
+      "message": "WorldClock 是 26.1 引入的世界时钟，旧版本昼夜时间用 Level#getDayTime/setDayTime"
+    },
+    "net.minecraft.world.clock.ClockManager": {
+      "concept": "world.clock",
+      "message": "ClockManager 是 26.1 的世界时钟管理器（Level#clockManager()），旧版本用 Level#getDayTime/setDayTime"
+    },
+    "net.minecraft.client.renderer.chunk.ChunkSectionLayer": {
+      "concept": "model.registration",
+      "message": "ChunkSectionLayer 是 1.21.6+ 的地形渲染层；26.1 起按贴图透明度自动选择，Fabric 的 BlockRenderLayerMap 已删除，旧版本需手动为方块指定渲染层"
+    },
+    "net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder": {
+      "concept": "blockentity.entityblock",
+      "message": "FabricBlockEntityTypeBuilder 是 Fabric API 构建 BlockEntityType 的工具（原版构造器私有），其它加载器用各自机制"
+    },
+    "net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder": {
+      "concept": "entity.registration",
+      "message": "FabricEntityTypeBuilder 已废弃（26.2 删除），推荐原版 EntityType.Builder；其它加载器用各自的实体注册机制"
+    },
+    "net.fabricmc.fabric.api.event.player.BlockEvents": {
+      "concept": "fabric.events",
+      "message": "BlockEvents（USE_ITEM_ON / USE_WITHOUT_ITEM）是 Fabric API 新增的方块交互事件，旧版本用 UseBlockCallback，其它加载器用各自事件"
+    },
+    "net.fabricmc.fabric.api.event.player.ItemEvents": {
+      "concept": "fabric.events",
+      "message": "ItemEvents（USE_ON / USE）是 Fabric API 新增的物品交互事件，旧版本用 UseItemCallback 或覆写 Item 方法"
+    },
+    "net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup": {
+      "concept": "capability.inject",
+      "message": "BlockApiLookup 是 Fabric 侧的能力查询机制，对应 Forge 的 Capability"
+    },
+    "net.fabricmc.fabric.api.transfer.v1.storage.Storage": {
+      "concept": "capability.provider",
+      "message": "Storage<T>（Fabric Transfer API）对应 Forge 的 IItemHandler/IFluidHandler 能力，需按目标加载器重写"
+    },
+    "net.fabricmc.fabric.api.transfer.v1.item.ItemVariant": {
+      "concept": "capability.provider",
+      "message": "ItemVariant 是 Fabric Transfer API 的物品变体载体，Forge 侧直接用 ItemStack"
+    },
+    "net.fabricmc.fabric.api.transfer.v1.item.ContainerStorage": {
+      "concept": "capability.provider",
+      "message": "ContainerStorage（26.1 前名为 InventoryStorage）把原版 Container 包装为 Storage<ItemVariant>"
+    },
+    "net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant": {
+      "concept": "fluid.system",
+      "message": "FluidVariant 是 Fabric Transfer API 的流体变体载体（droplet 计量），Forge 侧用 FluidStack + mB"
+    },
+    "net.fabricmc.loader.api.entrypoint.EntrypointContainer": {
+      "concept": "fabric.entrypoint",
+      "message": "EntrypointContainer 属于 Fabric 入口点机制，其它加载器用注解式入口"
+    },
+    "org.spongepowered.asm.mixin.injection.ModifyArg": {
+      "concept": "fabric.mixin",
+      "message": "ModifyArg 等注入注解跨加载器通用，但 mixin 配置与依赖声明方式不同，需按目标加载器调整"
+    },
+    "org.spongepowered.asm.mixin.injection.ModifyConstant": {
+      "concept": "fabric.mixin",
+      "message": "ModifyConstant 等注入注解跨加载器通用，但 mixin 配置与依赖声明方式不同，需按目标加载器调整"
+    }
+  },
+  "members": {}
+}

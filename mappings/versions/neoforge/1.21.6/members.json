@@ -1,0 +1,103 @@
+{
+  "!remove": [
+    "forge.Mod.EventBusSubscriber.Bus"
+  ],
+  "mc.blockentity.BlockEntity": {
+    "load": {
+      "name": "loadAdditional",
+      "kind": "method",
+      "note": "1.21.6 起为 loadAdditional(ValueInput)：从 input 读取（getIntOr/read/child 等），不再有 CompoundTag 与 Provider 参数"
+    },
+    "saveAdditional": {
+      "name": "saveAdditional",
+      "kind": "method",
+      "note": "1.21.6 起为 saveAdditional(ValueOutput)：写入 output（putInt/store/child 等）"
+    }
+  },
+  "mc.entity.player.ServerPlayer": {
+    "getLevel": {
+      "name": "level",
+      "kind": "method",
+      "note": "1.21.6 起 ServerPlayer#serverLevel() 已移除，level() 直接返回 ServerLevel"
+    },
+    "server": {
+      "name": "server",
+      "kind": "field",
+      "note": "1.21.6 起 ServerPlayer.server 字段为私有，读取改用 getServer()（为避免回退时把所有 getServer() 误改成字段，此处不自动改写）"
+    }
+  },
+  "mc.entity.Entity": {
+    "getCommandSenderWorld": {
+      "name": "getCommandSenderWorld",
+      "kind": "method",
+      "note": "1.21.6 起 getCommandSenderWorld() 已移除，请改用 level()（为避免回退时误改 level()，此处不自动改名）"
+    }
+  },
+  "mc.item.ItemStack": {
+    "save": {
+      "name": "save",
+      "kind": "method",
+      "note": "1.21.6 起 ItemStack#save/parse 已移除：写入用 output.store(key, ItemStack.CODEC, stack)（ValueOutput）或 ItemStack.CODEC 编码，读取用 input.read(key, ItemStack.CODEC)"
+    }
+  },
+  "mc.client.gui.GuiGraphics": {
+    "renderTooltip": {
+      "name": "renderTooltip",
+      "kind": "method",
+      "note": "1.21.6 起悬浮提示改为 guiGraphics.setTooltipForNextFrame(font, 文本/物品, x, y)（在当帧结束时绘制），renderTooltip 只保留内部重载"
+    },
+    "renderComponentTooltip": {
+      "name": "renderComponentTooltip",
+      "kind": "method",
+      "note": "1.21.6 起已移除：改用 setComponentTooltipForNextFrame(font, 行列表, x, y)"
+    }
+  },
+  "forge.util.INBTSerializable": {
+    "serializeNBT": {
+      "name": "serialize",
+      "kind": "method",
+      "note": "ValueIOSerializable#serialize(ValueOutput)，无返回值，参数不再是 Provider"
+    },
+    "deserializeNBT": {
+      "name": "deserialize",
+      "kind": "method",
+      "note": "ValueIOSerializable#deserialize(ValueInput)"
+    }
+  },
+  "forge.items.ItemStackHandler": {
+    "serializeNBT": {
+      "name": "serialize",
+      "kind": "method",
+      "note": "NeoForge 21.6 起 ItemStackHandler 改为 serialize(ValueOutput)"
+    },
+    "deserializeNBT": {
+      "name": "deserialize",
+      "kind": "method",
+      "note": "NeoForge 21.6 起 ItemStackHandler 改为 deserialize(ValueInput)"
+    }
+  },
+  "forge.energy.EnergyStorage": {
+    "serializeNBT": {
+      "name": "serialize",
+      "kind": "method",
+      "note": "NeoForge 21.6 起 EnergyStorage 改为 serialize(ValueOutput)"
+    },
+    "deserializeNBT": {
+      "name": "deserialize",
+      "kind": "method",
+      "note": "NeoForge 21.6 起 EnergyStorage 改为 deserialize(ValueInput)"
+    }
+  },
+  "forge.fluids.FluidTank": {
+    "writeToNBT": {
+      "name": "serialize",
+      "kind": "method",
+      "note": "NeoForge 21.6 起 FluidTank#writeToNBT 改为 serialize(ValueOutput)"
+    },
+    "readFromNBT": {
+      "name": "deserialize",
+      "kind": "method",
+      "note": "NeoForge 21.6 起 FluidTank#readFromNBT 改为 deserialize(ValueInput)"
+    }
+  }
+}

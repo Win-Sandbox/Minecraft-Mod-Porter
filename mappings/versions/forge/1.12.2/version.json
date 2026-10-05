@@ -24,11 +24,34 @@
   "aliases": {
     "1.12.1": {
       "forgeVersion": "14.22.1.2485",
-      "loaderVersionRange": "[14.22,)"
+      "loaderVersionRange": "[14.22,)",
+      "packFormat": 3,
+      "resourcePackFormat": [
+        3,
+        0
+      ],
+      "dataPackFormat": null,
+      "packMetadataStyle": "legacy",
+      "itemModelDefinitions": false
     },
     "1.12": {
       "forgeVersion": "14.21.1.2443",
-      "loaderVersionRange": "[14.21,)"
+      "loaderVersionRange": "[14.21,)",
+      "packFormat": 3,
+      "resourcePackFormat": [
+        3,
+        0
+      ],
+      "dataPackFormat": null,
+      "packMetadataStyle": "legacy",
+      "itemModelDefinitions": false
     }
-  }
+  },
+  "resourcePackFormat": [
+    3,
+    0
+  ],
+  "dataPackFormat": null,
+  "packMetadataStyle": "legacy",
+  "itemModelDefinitions": false
 }

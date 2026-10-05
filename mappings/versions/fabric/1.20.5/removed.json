@@ -1,0 +1,47 @@
+{
+  "!remove": {
+    "classes": [
+      "net.minecraft.component.EnchantmentEffectComponentTypes",
+      "net.minecraft.world.TeleportTarget",
+      "net.fabricmc.fabric.api.loot.v2.LootTableEvents"
+    ]
+  },
+  "classes": {
+    "net.minecraft.item.ArmorMaterial": {
+      "concept": "item.materials",
+      "message": "1.20.5–1.21.1 的 ArmorMaterial 是注册表对象，以 RegistryEntry<ArmorMaterial> 传给 ArmorItem；1.21.2 起改为 net.minecraft.item.equipment 包下无需注册的 record"
+    },
+    "net.minecraft.item.ArmorMaterials": {
+      "concept": "item.materials",
+      "message": "原版盔甲材料常量（RegistryEntry<ArmorMaterial>）；1.21.2 起移到 net.minecraft.item.equipment.ArmorMaterials，常量变为 record 实例"
+    },
+    "net.minecraft.item.ToolMaterials": {
+      "concept": "item.materials",
+      "message": "ToolMaterials 是 1.21.1 及以前的原版工具材料枚举；1.21.2 起 ToolMaterial 改为 record，常量直接写在 ToolMaterial 上（ToolMaterial.IRON 等）"
+    },
+    "net.minecraft.item.SwordItem": {
+      "concept": "item.toolComponents",
+      "message": "SwordItem 存在到 1.21.4；1.21.5 起删除，改为 new Item(settings.sword(材料, 攻击伤害, 攻速))"
+    },
+    "net.minecraft.item.MiningToolItem": {
+      "concept": "item.toolComponents",
+      "message": "MiningToolItem 存在到 1.21.4；1.21.5 起删除，改用 Item.Settings#tool(...) 写入 TOOL 组件"
+    },
+    "net.minecraft.item.PickaxeItem": {
+      "concept": "item.toolComponents",
+      "message": "PickaxeItem 存在到 1.21.4；1.21.5 起删除，改为 new Item(settings.pickaxe(材料, 攻击伤害, 攻速))"
+    },
+    "net.minecraft.item.ArmorItem": {
+      "concept": "item.toolComponents",
+      "message": "ArmorItem 存在到 1.21.4；1.21.5 起删除，改为 new Item(settings.armor(ArmorMaterial, EquipmentType))"
+    },
+    "net.fabricmc.fabric.api.resource.ResourceManagerHelper": {
+      "concept": "fabric.resourceLoader",
+      "message": "ResourceManagerHelper（fabric-resource-loader-v0）用于注册重载监听器；1.21.9 起有新的 ResourceLoader（v1），1.21.11 的 Fabric API 删除了 v0"
+    },
+    "net.fabricmc.fabric.api.dimension.v1.FabricDimensions": {
+      "concept": "dimension",
+      "message": "FabricDimensions.teleport 只存在到 1.20.6，1.21 起改用 entity.teleportTo(TeleportTarget)"
+    }
+  }
+}

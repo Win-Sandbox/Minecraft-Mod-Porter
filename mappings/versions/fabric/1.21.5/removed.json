@@ -1,0 +1,10 @@
+{
+  "!remove": {
+    "classes": [
+      "net.minecraft.item.SwordItem",
+      "net.minecraft.item.MiningToolItem",
+      "net.minecraft.item.PickaxeItem",
+      "net.minecraft.item.ArmorItem"
+    ]
+  }
+}

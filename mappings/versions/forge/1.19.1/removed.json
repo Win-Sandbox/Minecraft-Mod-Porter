@@ -1,5 +1,1 @@
-{
-  "!remove": {
-    "classes": ["net.minecraftforge.fluids.FluidType"]
-  }
-}
+{}

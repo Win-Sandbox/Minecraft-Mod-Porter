@@ -1,0 +1,14 @@
+{
+  "guidance": {
+    "forge.util.INBTSerializable": "没有对应接口：自行写 fromTag(...) / toTag(CompoundTag) 方法，并在方块实体/实体的对应读写方法中调用",
+    "item.components": "本版本物品数据用 NBT：stack.getTag() / setTag() / getOrCreateTag()（类型为 net.minecraft.nbt.CompoundTag；Yarn 1.16.5+build.10 起才改名 NbtCompound）",
+    "mc.world.level.storage.ValueInput": "本版本没有 ReadView（1.21.6 引入）：读取持久化数据直接操作 CompoundTag（见 nbt.valueIo）",
+    "mc.world.level.storage.ValueOutput": "本版本没有 WriteView（1.21.6 引入）：写入持久化数据直接操作 CompoundTag（见 nbt.valueIo）",
+    "nbt.access": "本版本 CompoundTag 的读取方法直接返回值（getInt/getString/getCompound，缺省时返回 0/空串/空标签），getList(key, 类型) 需要类型参数，UUID 用 putUuid/getUuid/containsUuid；1.21.5 起返回 Optional 的写法需改回",
+    "nbt.valueIo": "本版本没有 ReadView/WriteView（1.21.6 引入）：存档直接读写 CompoundTag，方块实体为 fromTag/toTag，实体的自定义数据读写方法同样直接接收 CompoundTag；从 1.21.6+ 移植回来时把 ReadView/WriteView 的调用改回 CompoundTag 的 getX/putX",
+    "mc.advancements.predicates.FoodPredicate": "FoodPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.FoodPredicate 引用；反向迁移时按本数据集实际的食物谓词类人工确认（该类旧包路径未核实，不要自动猜写）。",
+    "mc.advancements.predicates.InputPredicate": "InputPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.InputPredicate 引用；反向迁移时按本数据集实际的输入谓词类人工确认（旧数据为 advancements.criterion.InputPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.entity.SheepPredicate": "SheepPredicate 是 26.2 起进度实体谓词所在新包中的类；本数据集没有该 26.2 包路径的对应类。26.2 侧按 net.minecraft.advancements.predicates.entity.SheepPredicate 引用；反向迁移时按本数据集实际的实体谓词类人工确认（旧数据为 advancements.criterion.SheepPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.DataComponentMatchers": "DataComponentMatchers 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.DataComponentMatchers 引用；反向迁移时按本数据集实际的数据组件匹配类人工确认（旧数据为 advancements.criterion.DataComponentMatchers，仍需按本数据集核对）。"
+  }
+}

@@ -1,0 +1,45 @@
+// NeoGradle 发布在 maven.neoforged.net：settings.gradle 的 pluginManagement.repositories 中需要有
+// gradlePluginPortal() 与 maven { url = 'https://maven.neoforged.net/releases' }，否则插件无法解析
+plugins {
+    id 'java-library'
+    id 'idea'
+    id 'net.neoforged.gradle.userdev' version '${neoGradleVersion}'
+}
+
+version = '${version}'
+group = '${group}'
+
+base {
+    archivesName = '${modid}'
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(${javaVersion})
+
+runs {
+    configureEach {
+        modSource project.sourceSets.main
+    }
+    client {
+    }
+    server {
+        programArgument '--nogui'
+    }
+    data {
+        programArguments.addAll '--mod', '${modid}', '--all',
+                '--output', file('src/generated/resources/').getAbsolutePath(),
+                '--existing', file('src/main/resources/').getAbsolutePath()
+    }
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+repositories {
+}
+
+dependencies {
+    implementation 'net.neoforged:neoforge:${forgeVersion}'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}

@@ -1,0 +1,9 @@
+{
+  "mc.world.Level": {
+    "getEntitiesOfClass": {
+      "name": "getEntities",
+      "kind": "method",
+      "note": "Yarn 本版本为 getEntities(Class, Box, Predicate)（按类筛选的重载）；1.16.2 起改名 getEntitiesByClass"
+    }
+  }
+}

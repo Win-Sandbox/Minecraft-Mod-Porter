@@ -1,0 +1,64 @@
+{
+  "forms": {
+    "resourcelocation.parse": {
+      "type": "constructor",
+      "class": "net.minecraft.util.Identifier",
+      "arity": 1
+    },
+    "resourcelocation.fromNamespaceAndPath": {
+      "type": "constructor",
+      "class": "net.minecraft.util.Identifier",
+      "arity": 2
+    }
+  },
+  "supported": [
+    "item.materials",
+    "item.toolComponents",
+    "fabric.resourceLoader"
+  ],
+  "guidance": {
+    "interaction.result": "1.20.5–1.21.1 的交互返回值分三类：通用/空手交互返回 ActionResult；手持物品右键方块（AbstractBlock#onUseWithItem）返回 ItemActionResult（Yarn 名，常量 SUCCESS/CONSUME/CONSUME_PARTIAL/PASS_TO_DEFAULT_BLOCK_INTERACTION/SKIP_DEFAULT_BLOCK_INTERACTION/FAIL）；Item#use 与 UseItemCallback 返回 TypedActionResult<ItemStack>。从 1.21.2+ 移植回来时，需要按方法把统一的 ActionResult 重新拆回这三种类型",
+    "item.materials": "1.20.5–1.21.1：工具材料实现 ToolMaterial 接口（原版为 ToolMaterials 枚举）；盔甲材料 ArmorMaterial 是注册表对象，需 Registry.registerReference(Registries.ARMOR_MATERIAL, id, new ArmorMaterial(...)) 得到 RegistryEntry<ArmorMaterial>，再 new ArmorItem(材料条目, ArmorItem.Type.HELMET, settings)。从 1.21.2+ 移植回来时要把 record 形式的材料改回注册表对象/枚举",
+    "item.toolComponents": "1.21.4 及以前，剑/镐与盔甲依赖专用子类：SwordItem(材料, settings)、PickaxeItem/AxeItem/ShovelItem/HoeItem、MiningToolItem 与 ArmorItem；攻击属性通过 settings.attributeModifiers(SwordItem.createAttributeModifiers(...)) 等设置（1.21.2 起为 ToolMaterial 的 applySwordSettings/applyToolSettings）。从 1.21.5+ 移植回来时需把 Item.Settings 的 sword()/pickaxe()/armor() 调用改回这些子类",
+    "client.renderState": "1.21.1 及以前实体渲染器直接读取实体：EntityRenderer<T>#render(T entity, float yaw, float tickDelta, MatrixStack, VertexConsumerProvider, int light)，贴图由 getTexture(T) 提供。从 1.21.2+ 移植回来时，把 updateRenderState 里拷贝到渲染状态的数据改为在 render 中直接从实体读取，并去掉渲染状态类",
+    "nbt.valueIo": "1.21.5 及以前存档直接读写 NbtCompound：BlockEntity#readNbt(NbtCompound, RegistryWrapper.WrapperLookup)/writeNbt(...)，Entity#readCustomDataFromNbt(NbtCompound)/writeCustomDataToNbt(NbtCompound)。从 1.21.6+ 移植回来时，把 ReadView/WriteView 的调用改回 NbtCompound 的 getX/putX，并补回注册表访问参数",
+    "input.events": "1.21.8 及以前界面输入回调是原始参数：keyPressed(int keyCode, int scanCode, int modifiers)、keyReleased(同上)、charTyped(char, int modifiers)、mouseClicked(double x, double y, int button)、mouseReleased(double, double, int)。从 1.21.9+ 移植回来时需要把 KeyInput/CharInput/Click 事件对象拆回这些参数",
+    "render.pipeline": "1.21.5 及以前 GUI 贴图不走渲染管线：1.21.2–1.21.5 的 drawContext.drawTexture/drawGuiTexture 首参是 RenderLayer 工厂（RenderLayer::getGuiTextured），1.21.1 及以前没有该首参；方块渲染层用 RenderLayer.getCutout() 等 RenderLayer 实例",
+    "commands.permissions": "1.21.10 及以前命令权限是整数等级：.requires(source -> source.hasPermissionLevel(2))，代码中判断 source.hasPermissionLevel(4)",
+    "fabric.resourceLoader": "注册资源/数据重载监听器用 fabric-resource-loader-v0：ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(实现 IdentifiableResourceReloadListener 的对象)",
+    "item.propertiesId": "1.21.1 及以前 Item.Settings / AbstractBlock.Settings 不需要注册键；从 1.21.2+ 移植回来时删除 registryKey(...) 与 useBlockPrefixedTranslationKey() 调用即可",
+    "nbt.access": "1.21.4 及以前 NbtCompound 的读取方法直接返回值（getInt/getString/getCompound，缺省时返回 0/空串/空标签），getList(key, 类型) 需要类型参数，UUID 用 putUuid/getUuid/containsUuid",
+    "gui.screenManager": "打开/关闭界面用 MinecraftClient.getInstance().setScreen(screen)（传 null 关闭），当前界面是 client.currentScreen 字段；标题、动作栏、聊天框等 HUD 操作在 client.inGameHud（InGameHud）上",
+    "item.stackTemplate": "1.21.11 及以前没有 ItemStackTemplate：可以直接 new ItemStack(item, count)；注册阶段需要引用物品时用静态常量或 Supplier 延迟创建",
+    "neoforge.attachment": "Fabric 对应机制是数据附件 API（net.fabricmc.fabric.api.attachment.v1）：AttachmentRegistry.<T>builder().initializer(() -> 默认值).persistent(CODEC).buildAndRegister(id)（或 createPersistent(id, CODEC)），在实体/方块实体/区块/世界上 getAttached(TYPE) / setAttached(TYPE, 值)",
+    "neoforge.transfer": "Fabric 的物品/流体存储一直是 Transfer API：Storage<ItemVariant> / Storage<FluidVariant>，查询 ItemStorage.SIDED.find(world, pos, 方向)，插入/提取须在 Transaction.openOuter() 事务中进行；NeoForge 的 IItemHandler 或 ResourceHandler 写法都需改写为该形式",
+    "villager.trades": "村民交易用 Fabric 的 TradeOfferHelper：registerVillagerOffers(VillagerProfession.FARMER, 等级, factories -> factories.add(...))，流浪商人用 registerWanderingTraderOffers",
+    "world.clock": "世界时间：world.getTimeOfDay()（昼夜时间）与 world.getTime()（累计 tick）；设置用 serverWorld.setTimeOfDay(...)",
+    "registry.imperative": "Fabric 本身就是命令式注册：Registry.register(Registries.ITEM, new Identifier(MODID, \"name\"), new Item(new Item.Settings()))，注册表实例在 net.minecraft.registry.Registries，注册代码放在 ModInitializer#onInitialize()（或写成静态常量类并在 onInitialize 中触发类加载）；1.20.5/1.20.6 仍用 new Identifier 构造",
+    "resourcelocation.factory": "1.20.5/1.20.6 仍用构造器：new Identifier(namespace, path)、new Identifier(\"ns:path\")；不可信输入用 Identifier.tryParse(\"ns:path\")。注意此版本的 Identifier.of(ns, path) 遇非法输入返回 null，与 1.21 的 of 语义不同；从 1.21+ 移植回来时应把 Identifier.of/ofVanilla 改回构造器",
+    "item.propertiesBuilder": "物品属性用原版 Item.Settings：new Item(new Item.Settings().maxCount(16).maxDamage(250))。FabricItemSettings 在 1.20.5 已删除，Fabric 的扩展方法以接口注入方式直接挂在 Item.Settings 上；预置数据组件用 .component(DataComponentTypes.XXX, 值)（组件类型接口在 Yarn 1.20.5/1.20.6 名为 DataComponentType）；工具攻击属性用 .attributeModifiers(SwordItem.createAttributeModifiers(材料, 伤害, 攻速))",
+    "block.propertiesBuilder": "方块属性用原版 AbstractBlock.Settings：new Block(AbstractBlock.Settings.create().strength(硬度, 抗性).sounds(BlockSoundGroup.STONE).luminance(s -> 15))，复制既有方块用 AbstractBlock.Settings.copy(Blocks.STONE)；FabricBlockSettings 自 1.20.5 起废弃（1.21.2 删除），尽快换成原版 Settings；挖掘等级用方块标签（minecraft:needs_iron_tool + minecraft:mineable/pickaxe）",
+    "item.components": "1.20.5 起物品数据改为数据组件（Yarn 1.20.5/1.20.6：net.minecraft.component.DataComponentType / DataComponentTypes / net.minecraft.component.type.*）：读 stack.get(DataComponentTypes.XXX)、带默认值 getOrDefault(...)、写 stack.set(...)、判断 stack.contains(...)、删除 stack.remove(...)、原地修改 stack.apply(...)；自定义 NBT 用 DataComponentTypes.CUSTOM_DATA（NbtComponent）：读 stack.getOrDefault(DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT).copyNbt()，写 NbtComponent.set(DataComponentTypes.CUSTOM_DATA, stack, nbt -> ...)；自建组件 Registry.register(Registries.DATA_COMPONENT_TYPE, new Identifier(MODID, \"x\"), DataComponentType.<T>builder().codec(CODEC).packetCodec(PACKET_CODEC).build())。旧的 getNbt/setNbt/getOrCreateNbt 没有直接对应物，必须按语义逐项迁移",
+    "item.food": "食物：new Item(new Item.Settings().food(new FoodComponent.Builder().nutrition(4).saturationModifier(0.3f).alwaysEdible().build()))；1.20.5 起 FoodComponent 位于 net.minecraft.component.type 且是数据组件（DataComponentTypes.FOOD），构建器 hunger 改名 nutrition、meat() 已删除（喂狼改用物品标签），附带效果仍用 .statusEffect(new StatusEffectInstance(...), 概率)",
+    "item.durability": "损耗耐久（1.20.5/1.20.6 签名）：装备损耗 stack.damage(amount, livingEntity, EquipmentSlot.MAINHAND)（自动广播破坏效果）；服务端通用 stack.damage(amount, random, serverPlayerEntity, () -> {损坏回调})。1.20.4 的 damage(int, LivingEntity, Consumer) 已不存在",
+    "enchantment.datadriven": "1.20.5/1.20.6 附魔尚未数据驱动：仍需继承 Enchantment 并在代码中注册（Registry.register(Registries.ENCHANTMENT, new Identifier(MODID, \"x\"), new MyEnchantment(Enchantment.properties(...)))），EnchantmentTarget 已被物品标签取代；物品上的附魔已存于 DataComponentTypes.ENCHANTMENTS（ItemEnchantmentsComponent）；等级查询 EnchantmentHelper.getLevel(Enchantment, ItemStack)。数据包 enchantment/*.json 要到 1.21",
+    "recipes.data": "合成/熔炼配方是数据包：1.20.5/1.20.6 目录仍为复数 data/<modid>/recipes/*.json（1.21 起改为单数 recipe）；也可用 Fabric 数据生成（FabricRecipeProvider）产出",
+    "tags.oredict": "矿物词典改为标签：数据包 data/<ns>/tags/items|blocks/*.json（1.20.5/1.20.6 仍是复数子目录，1.21 起为 tags/item、tags/block）。Fabric 通用标签命名空间是 c:（1.20.5 起为约定标签 v2，如 c:ingots/copper）；代码判断 stack.isIn(TAG)，标签句柄 TagKey.of(RegistryKeys.ITEM, new Identifier(ns, path))",
+    "creative.fill": "没有 fillItemCategory：向原版页签加物品用 ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries -> entries.add(MY_ITEM))；自建页签 Registry.register(Registries.ITEM_GROUP, new Identifier(MODID, \"general\"), FabricItemGroup.builder().icon(() -> new ItemStack(MY_ITEM)).displayName(Text.translatable(\"itemGroup.modid.general\")).entries((ctx, entries) -> entries.add(MY_ITEM)).build())",
+    "network.channel": "1.20.5 起 Fabric 网络 API 基于 CustomPayload：定义 record MyPayload(int x) implements CustomPayload，带 public static final CustomPayload.Id<MyPayload> ID = new CustomPayload.Id<>(new Identifier(MODID, \"my\")) 与 PacketCodec（如 PacketCodec.tuple(PacketCodecs.INTEGER, MyPayload::x, MyPayload::new)），覆写 getId()；公共初始化中 PayloadTypeRegistry.playS2C().register(MyPayload.ID, MyPayload.CODEC)（客户端发往服务端用 playC2S()）；发送 ServerPlayNetworking.send(serverPlayer, payload) / ClientPlayNetworking.send(payload)；接收 registerGlobalReceiver(MyPayload.ID, (payload, context) -> ...)。游戏阶段的缓冲区类型在 Yarn 中叫 RegistryByteBuf（Mojmap RegistryFriendlyByteBuf），PacketByteBuf 仍存在并用于配置阶段；FabricPacket/PacketType 已删除",
+    "blockentity.entityblock": "方块类实现 BlockEntityProvider 并覆写 createBlockEntity(BlockPos, BlockState)；类型注册 Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(MODID, \"x\"), BlockEntityType.Builder.create(MyBlockEntity::new, MY_BLOCK).build(null))（build 需要一个数据修复类型参数，传 null 即可），Fabric 的 FabricBlockEntityTypeBuilder 在 1.20.5 废弃；NBT 读写 readNbt/writeNbt 都带 RegistryWrapper.WrapperLookup 参数",
+    "entity.registration": "实体注册：Registry.register(Registries.ENTITY_TYPE, new Identifier(MODID, \"x\"), EntityType.Builder.create(MyEntity::new, SpawnGroup.CREATURE).dimensions(0.8f, 1.5f).build(\"x\"))（FabricEntityTypeBuilder 在 1.20.5 废弃）；属性用 FabricDefaultAttributeRegistry.register(TYPE, MyEntity.createMobAttributes())；渲染器在客户端入口 EntityRendererRegistry.register(TYPE, MyRenderer::new)",
+    "gui.menu": "注册 ScreenHandlerType：普通菜单 Registry.register(Registries.SCREEN_HANDLER, new Identifier(MODID, \"x\"), new ScreenHandlerType<>(MyScreenHandler::new, FeatureFlags.VANILLA_FEATURES))；需要开屏数据时用 Fabric 的 new ExtendedScreenHandlerType<>(MyScreenHandler::new, 数据的 PacketCodec)，工厂实现 ExtendedScreenHandlerFactory<D> 并覆写 D getScreenOpeningData(ServerPlayerEntity)（1.20.5 起不再是 writeScreenOpeningData(player, buf)）；服务端打开 player.openHandledScreen(factory)，客户端 HandledScreens.register(TYPE, MyScreen::new)",
+    "dimension": "自定义维度数据驱动：data/<modid>/dimension/*.json 与 dimension_type/*.json，代码侧 RegistryKey.of(RegistryKeys.WORLD, new Identifier(...)) 引用；1.20.5/1.20.6 跨维度传送仍可用 FabricDimensions.teleport(实体, 目标 ServerWorld, TeleportTarget)（1.21 起删除，改为 entity.teleportTo(TeleportTarget)）",
+    "gui.overlay": "HUD 绘制用 HudRenderCallback.EVENT.register((drawContext, tickDelta) -> ...)（1.20.5/1.20.6 第二参是 float tickDelta，1.21 起改为 RenderTickCounter）；修改或隐藏原版 HUD 元素只能 Mixin InGameHud",
+    "fabric.loot": "战利品表修改：1.20.5/1.20.6 仍为 fabric-loot-api-v2（net.fabricmc.fabric.api.loot.v2），LootTableEvents.MODIFY.register((key, tableBuilder, source) -> {...})，首参已改为 RegistryKey<LootTable>；1.21 起为 v3 包并新增 registries 参数",
+    "fabric.itemgroup": "创造模式物品栏：Registry.register(Registries.ITEM_GROUP, new Identifier(MODID, \"x\"), FabricItemGroup.builder().displayName(...).icon(...).entries((ctx, entries) -> entries.add(ITEM)).build())；往原版页签加物品用 ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(...)",
+    "registry.deferred": "Fabric 没有 DeferredRegister：直接 Registry.register(Registries.XXX, new Identifier(MODID, \"x\"), 对象)（1.20.5/1.20.6 用构造器）；顺序问题用「静态常量 + onInitialize 中显式引用该类」保证类加载时机",
+    "mc.client.DeltaTracker": "1.20.5/1.20.6 没有对应物：HudRenderCallback 等渲染回调的第二参直接是 float tickDelta；从 1.21+ 移植回来时把 tickCounter.getTickDelta(true) 之类的调用改为直接使用该 float 参数",
+    "fabric.item.FabricItemSettings": "1.20.5 起 FabricItemSettings 已删除：改为 new Item.Settings()；原先的 Fabric 专有设置（如 equipmentSlot、customDamage）以接口注入方式直接出现在 Item.Settings 上，调用方式不变",
+    "mc.advancements.predicates.FoodPredicate": "FoodPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.FoodPredicate 引用；反向迁移时按本数据集实际的食物谓词类人工确认（该类旧包路径未核实，不要自动猜写）。",
+    "mc.advancements.predicates.InputPredicate": "InputPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.InputPredicate 引用；反向迁移时按本数据集实际的输入谓词类人工确认（旧数据为 advancements.criterion.InputPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.entity.SheepPredicate": "SheepPredicate 是 26.2 起进度实体谓词所在新包中的类；本数据集没有该 26.2 包路径的对应类。26.2 侧按 net.minecraft.advancements.predicates.entity.SheepPredicate 引用；反向迁移时按本数据集实际的实体谓词类人工确认（旧数据为 advancements.criterion.SheepPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.DataComponentMatchers": "DataComponentMatchers 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.DataComponentMatchers 引用；反向迁移时按本数据集实际的数据组件匹配类人工确认（旧数据为 advancements.criterion.DataComponentMatchers，仍需按本数据集核对）。"
+  }
+}

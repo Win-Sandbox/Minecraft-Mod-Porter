@@ -41,7 +41,10 @@
   "mc.entity.LivingEntity": "net.minecraft.entity.LivingEntity",
   "mc.entity.Mob": "net.minecraft.entity.mob.MobEntity",
   "mc.entity.AgeableMob": "net.minecraft.entity.passive.PassiveEntity",
-  "mc.entity.PathfinderMob": "net.minecraft.entity.mob.PathAwareEntity",
+  "mc.entity.PathfinderMob": {
+    "name": "net.minecraft.entity.mob.MobEntityWithAi",
+    "note": "Yarn 1.15.2 叫 MobEntityWithAi（1.16 起改名 PathAwareEntity），对应 Mojmap 的 PathfinderMob"
+  },
   "mc.entity.animal.Animal": "net.minecraft.entity.passive.AnimalEntity",
   "mc.entity.monster.Monster": "net.minecraft.entity.mob.HostileEntity",
   "mc.entity.player.Player": "net.minecraft.entity.player.PlayerEntity",
@@ -73,14 +76,6 @@
   "mc.core.NonNullList": {
     "name": "net.minecraft.util.DefaultedList",
     "note": "Yarn 中 NonNullList 叫 DefaultedList；1.15.2 在 net.minecraft.util 包（1.16.5 起移到 net.minecraft.util.collection）"
-  },
-  "mc.core.registries.Registries": {
-    "name": "net.minecraft.util.registry.Registry",
-    "note": "1.15.2 注册表键与静态注册表实例都在 net.minecraft.util.registry.Registry（Registry.ITEM / Registry.BLOCK 等），注册用 Registry.register(Registry.ITEM, new Identifier(MODID, \"name\"), 对象)"
-  },
-  "mc.core.registries.BuiltInRegistries": {
-    "name": "net.minecraft.util.registry.Registry",
-    "note": "1.15.2 没有 BuiltInRegistries：静态注册表实例即 Registry.ITEM / Registry.BLOCK 等"
   },
   "mc.resources.ResourceLocation": {
     "name": "net.minecraft.util.Identifier",
@@ -254,5 +249,39 @@
   "mixin.CallbackInfo": "org.spongepowered.asm.mixin.injection.callback.CallbackInfo",
   "mixin.CallbackInfoReturnable": "org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable",
   "mixin.Accessor": "org.spongepowered.asm.mixin.gen.Accessor",
-  "mixin.Invoker": "org.spongepowered.asm.mixin.gen.Invoker"
+  "mixin.Invoker": "org.spongepowered.asm.mixin.gen.Invoker",
+  "mc.core.Registry": {
+    "name": "net.minecraft.util.registry.Registry",
+    "note": "注册表接口与静态注册表常量同在 net.minecraft.util.registry.Registry：注册写 Registry.register(Registry.ITEM, id, 对象)；1.19.3 起类移到 net.minecraft.registry.Registry，常量拆到 Registries（实例）与 RegistryKeys（键）"
+  },
+  "mc.client.gui.GuiComponent": {
+    "name": "net.minecraft.client.gui.DrawableHelper",
+    "note": "Yarn 名 DrawableHelper（Mojmap GuiComponent）：fill/drawTexture/drawCenteredText 等是以 MatrixStack 为首参的静态方法（Screen 继承了它们）；1.20 起整类移除，改用 DrawContext 的实例方法"
+  },
+  "mc.client.gui.components.Button": {
+    "name": "net.minecraft.client.gui.widget.ButtonWidget",
+    "note": "构造器 new ButtonWidget(x, y, width, height, String 文本, onPress)——本版本按钮文字参数是 String，1.16 起才改为 Text"
+  },
+  "mc.client.gui.components.EditBox": "net.minecraft.client.gui.widget.TextFieldWidget",
+  "mc.client.gui.components.AbstractWidget": {
+    "name": "net.minecraft.client.gui.widget.AbstractButtonWidget",
+    "note": "Yarn 本版本叫 AbstractButtonWidget（1.16.5 起改名 ClickableWidget）；坐标是公开字段 x / y，1.19.3 起才改为 getX()/getY()/setPosition(x, y)"
+  },
+  "mc.network.FriendlyByteBuf": {
+    "name": "net.minecraft.util.PacketByteBuf",
+    "note": "Yarn 1.15.2 的 PacketByteBuf 在 net.minecraft.util 包，1.16 起移到 net.minecraft.network"
+  },
+  "mc.client.player.AbstractClientPlayer": "net.minecraft.client.network.AbstractClientPlayerEntity",
+  "mc.world.item.alchemy.PotionUtils": {
+    "name": "net.minecraft.potion.PotionUtil",
+    "note": "Yarn 名 PotionUtil（Mojmap PotionUtils）：setPotion(stack, potion) / getPotion(stack) 等读写物品 NBT 中的药水；1.20.5 起被 PotionContentsComponent 数据组件取代"
+  },
+  "mc.world.food.FoodProperties": {
+    "name": "net.minecraft.item.FoodComponent",
+    "note": "Yarn 名 FoodComponent（net.minecraft.item），用 new FoodComponent.Builder().hunger(n).saturationModifier(f).build() 构造，经 Item.Settings#food 传入"
+  },
+  "mc.world.item.TooltipFlag": {
+    "name": "net.minecraft.client.item.TooltipContext",
+    "note": "Yarn 名 TooltipContext（net.minecraft.client.item，Mojmap TooltipFlag），是 appendTooltip 的第 4 个参数，isAdvanced() 判断是否为高级提示；注意 1.20.5 起 Yarn 另有 Item.TooltipContext（对应 Mojmap 的 Item.TooltipContext），两者不是同一个类"
+  }
 }

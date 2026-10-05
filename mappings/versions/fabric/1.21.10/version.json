@@ -1,0 +1,26 @@
+{
+  "mcVersion": "1.21.10",
+  "basedOn": "1.21.9",
+  "loader": "fabric",
+  "javaVersion": 21,
+  "packFormat": 69,
+  "loaderVersionRange": ">=0.17.0",
+  "mappingsChannel": "yarn",
+  "gradleVersion": "8.14",
+  "extras": {
+    "yarnVersion": "1.21.10+build.3",
+    "loomVersion": "1.11-SNAPSHOT",
+    "fabricLoaderVersion": "0.17.2",
+    "fabricApiVersion": "0.138.4+1.21.10"
+  },
+  "resourcePackFormat": [
+    69,
+    0
+  ],
+  "dataPackFormat": [
+    88,
+    0
+  ],
+  "packMetadataStyle": "range",
+  "itemModelDefinitions": true
+}

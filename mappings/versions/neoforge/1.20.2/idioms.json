@@ -1,0 +1,20 @@
+{
+  "guidance": {
+    "capability.inject": "20.2 与 Forge 1.20.1 相同：static final Capability<T> CAP = CapabilityManager.get(new CapabilityToken<>(){});，新 capability 类型在 RegisterCapabilitiesEvent 中 event.register(T.class)",
+    "capability.provider": "20.2 与 Forge 1.20.1 相同：方块实体覆写 getCapability(cap, side) 返回 LazyOptional，常量用 Capabilities.ITEM_HANDLER / ENERGY / FLUID_HANDLER（原 ForgeCapabilities）；给他人对象附加用 AttachCapabilitiesEvent",
+    "block.propertiesBuilder": "方块属性在构造时传入：new Block(BlockBehaviour.Properties.of().strength(硬度, 抗性).sound(SoundType.STONE).mapColor(MapColor.STONE))；复制既有方块属性用 BlockBehaviour.Properties.copy(Blocks.XXX)（1.20.3 起改名 ofFullCopy）；挖掘等级用方块标签",
+    "blockentity.entityblock": "没有 BlockContainer：方块实现 EntityBlock（或继承 BaseEntityBlock）并覆写 newBlockEntity(BlockPos, BlockState)；1.20.2 还不需要 codec()",
+    "fluid.block": "流体方块用 net.minecraft.world.level.block.LiquidBlock，构造传入流体的 Supplier（如 DeferredHolder）与 BlockBehaviour.Properties.copy(Blocks.WATER)",
+    "neoforge.capabilities.BlockCapability": "20.2 没有 BlockCapability：方块实体覆写 getCapability(Capability, Direction) 返回 LazyOptional.of(() -> handler)",
+    "neoforge.capabilities.EntityCapability": "20.2 没有 EntityCapability：实体覆写 getCapability(Capability, Direction) 或经 AttachCapabilitiesEvent<Entity> 附加",
+    "neoforge.capabilities.ItemCapability": "20.2 没有 ItemCapability：物品用 IItemExtension#initCapabilities 返回 ICapabilityProvider，或经 AttachCapabilitiesEvent<ItemStack> 附加",
+    "neoforge.attachment.AttachmentType": "20.2 没有数据附件：给实体/方块实体附加持久数据用 AttachCapabilitiesEvent + ICapabilitySerializable，或直接写进对象自身的 NBT",
+    "neoforge.attachment": "本版本 NeoForge 尚无数据附件（20.3 引入）：给实体/方块实体挂数据用 AttachCapabilitiesEvent 附加实现 ICapabilitySerializable 的能力提供者",
+    "neoforge.transfer": "本版本的物品/流体/能量存储接口是 IItemHandler / IFluidHandler / IEnergyStorage，通过 getCapability(能力, 方向) 取得 LazyOptional；1.21.9 的 ResourceHandler/Transaction 体系不存在，需改写回 insertItem/extractItem 调用",
+    "forge.Mod.EventBusSubscriber.Bus": "NeoForge 20.5 起 @EventBusSubscriber 为顶层注解，bus 常量 GAME/MOD；20.2–20.4 为 @Mod 内部注解，常量 FORGE/MOD。该版本 Bus 枚举形态与源版本不同或不可用，属性值需人工确认（FORGE 在 20.5+ 改为 GAME）。",
+    "mc.advancements.predicates.FoodPredicate": "FoodPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.FoodPredicate 引用；反向迁移时按本数据集实际的食物谓词类人工确认（该类旧包路径未核实，不要自动猜写）。",
+    "mc.advancements.predicates.InputPredicate": "InputPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.InputPredicate 引用；反向迁移时按本数据集实际的输入谓词类人工确认（旧数据为 advancements.criterion.InputPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.entity.SheepPredicate": "SheepPredicate 是 26.2 起进度实体谓词所在新包中的类；本数据集没有该 26.2 包路径的对应类。26.2 侧按 net.minecraft.advancements.predicates.entity.SheepPredicate 引用；反向迁移时按本数据集实际的实体谓词类人工确认（旧数据为 advancements.criterion.SheepPredicate，仍需按本数据集核对）。",
+    "mc.advancements.predicates.DataComponentMatchers": "DataComponentMatchers 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.DataComponentMatchers 引用；反向迁移时按本数据集实际的数据组件匹配类人工确认（旧数据为 advancements.criterion.DataComponentMatchers，仍需按本数据集核对）。"
+  }
+}
