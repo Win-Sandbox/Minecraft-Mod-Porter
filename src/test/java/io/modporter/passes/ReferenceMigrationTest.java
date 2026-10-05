@@ -48,6 +48,10 @@ public final class ReferenceMigrationTest {
         check(new AccessWidenerPass(ctx).transform("x.accesswidener", bad) == null, "unknown AW descriptor changed");
         check(ctx.report.count(Report.Severity.TODO) > 0, "AW missing TODO");
         check(new AccessWidenerPass(context(false)).transform("x.accesswidener", aw.replace("named", "intermediary")) == null, "runtime namespace guessed");
+        String official = aw.replace("named", "official");
+        ctx = contextWithChannel(false, "official");
+        check(new AccessWidenerPass(ctx).transform("x.accesswidener", official) != null, "official same-namespace AW rejected");
+        check(new AccessWidenerPass(context(false)).transform("x.accesswidener", official) == null, "official header accepted for Yarn data");
         check(new AccessWidenerPass(context(false)).transform("x.accesswidener", aw.replace("v2", "v1")) == null, "v1 transitive accepted");
         System.out.println("ReferenceMigrationTest: ALL PASSED");
     }
@@ -62,8 +66,13 @@ public final class ReferenceMigrationTest {
         return new PortContext(new PortRequest(Path.of("in"), Path.of("out"), "fabric", "a", "b", true),
                 new MappingResolver(mapping(reverse), mapping(!reverse)), new Report());
     }
-    private static VersionMappings mapping(boolean target) {
-        var info = new VersionMappings.VersionInfo(); info.javaVersion = 17; info.loader = "fabric"; info.mappingsChannel = "yarn";
+    private static PortContext contextWithChannel(boolean reverse, String channel) {
+        return new PortContext(new PortRequest(Path.of("in"), Path.of("out"), "fabric", "a", "b", true),
+                new MappingResolver(mapping(reverse, channel), mapping(!reverse, channel)), new Report());
+    }
+    private static VersionMappings mapping(boolean target) { return mapping(target, "yarn"); }
+    private static VersionMappings mapping(boolean target, String channel) {
+        var info = new VersionMappings.VersionInfo(); info.javaVersion = 17; info.loader = "fabric"; info.mappingsChannel = channel;
         return new VersionMappings(Path.of("."), List.of(), info,
                 Map.of("owner", new VersionMappings.ClassEntry(target ? "game.New" : "game.Old", null)),
                 Map.of("owner", Map.of("operation", new VersionMappings.MemberEntry(target ? "after" : "before", "method", null))),

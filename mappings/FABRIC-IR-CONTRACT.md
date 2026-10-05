@@ -114,6 +114,19 @@ fabric.resource.ResourceLoader        net.fabricmc.fabric.api.resource.v1.Resour
 > 它们与旧 API（`HudRenderCallback`、`ResourceManagerHelper`）的用法不同，因此不复用旧 id，
 > 在没有该类的版本里由 guidance 说明旧写法。
 
+### 流体客户端渲染（发布源码已核实的版本范围）
+```
+fabric.client.FluidRenderHandler          net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler
+fabric.client.FluidRenderHandlerRegistry  net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry（本项目1.15.2–1.21.11数据集）
+fabric.client.FluidRenderingRegistry      net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderingRegistry（本项目26.1/26.2数据集）
+```
+
+来源为每个数据集配置的 Fabric API 精确版本 POM 及流体模块 sources.jar，见
+`sources/fabric-fluid-rendering.md`。此范围不是 API 首次引入版本断言。
+新旧 Registry 不共用 IR：旧接口有 INSTANCE，新类使用静态方法且 register 新增模型参数，
+不能仅替换类名。缺失侧以 guidance 保留人工迁移；FluidRenderHandler 的 FQCN 连续存在，
+但跨版本实现方法签名并不等价，保留 note、不新增成员自动迁移规则。
+
 ### 数据生成
 ```
 fabric.datagen.FabricDataGenerator

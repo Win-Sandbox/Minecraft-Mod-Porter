@@ -47,7 +47,8 @@
 - [x] 复用 `classes.json` + `members.json`，通过 `ReferenceMapper` 和 `MixinDescriptors` 原子改写 owner/成员/参数返回类型。
 - [x] 以精确 owner 查成员，不把外部类的成员候选错套到内部类。
 - [x] Access Widener v1/v2：Yarn `named → named` 自动迁移 class/field/method，v2 transitive 规则，保留注释、空格和换行。失败保留整行。
-- [ ] AW 的 `official/intermediary`、跨命名空间：缺乏明确元数据，整文件保持原样并 TODO；不能仅凭 `mappingsChannel=official` 推断 AW namespace。
+- [x] AW `official → official` 同命名空间保守子集已接入（两侧 Fabric 且 `mappingsChannel=official`，文件 header 实际为 `official` 才逐行尝试；IR 不足时原行保留 TODO）。已补回归源码但未编译/运行；官方实例映射覆盖很低，不能宣称真实 AW 文件已自动迁移。证据见 `shared/modporter/20261005-next12/engine/{REPORT.md,aw-review/REPORT.md}`。
+- [ ] AW `intermediary`、跨命名空间与跨loader：缺独立 AW runtime namespace 元数据、intermediary 映射表及目标 header 的结构化保证，整文件保持原样并 TODO；不能仅凭 `mappingsChannel` 推断这类转换。
 - [ ] 扩充成员描述符/重载数据和更完整的 Mixin 注入形态后再放宽保守限制。
 
 ### 1.2 `pack.mcmeta` 的 `min_format` / `max_format`
@@ -148,7 +149,7 @@
 
 ### 3.1 参考知识库中还没进映射的条目
 - [x] **26.2 四项谓词类映射（静态数据闭合）**：`FoodPredicate`、`InputPredicate`、`DataComponentMatchers` 已在 Fabric/NeoForge 26.2 映射到 `advancements.predicates`，`SheepPredicate` 映射到 `advancements.predicates.entity`；官方 26.2 client.jar 一手核实，旧版本补全160条保守 guidance，全量 validator ERROR 0/WARN 0。**FoodPredicate 的旧包路径未证实**，反向仅提示人工核对，不能写死旧 FQCN；其余三项旧 `advancements.criterion` 有 Parchment 证据，但旧版本没有自动反向映射。未覆盖成员级迁移或包中其它未点名谓词；证据与范围见 `shared/modporter/20261004-merge-closure/predicates/REPORT.md`。
-- [ ] Fabric API `FluidRenderHandler`（及 `FluidRenderHandlerRegistry`）：`fabric.*` 封闭清单里没有，需要先评估要不要加进清单。
+- [x] **Fabric 流体渲染类 IR 身份及保守指导**：已由39个配置的官方 Fabric API 精确发布 POM→流体模块sources.jar核实，新增 `fabric.client.FluidRenderHandler`、旧 `FluidRenderHandlerRegistry` 与新 `FluidRenderingRegistry` 三个独立IR，覆盖所有有效Fabric版本并清理9个重复的旧Registry库存，映射validator ERROR 0/WARN 0。**只登记类身份**：旧版 `INSTANCE`、新版静态注册与新增模型参数不等价，跨26.x只给 guidance，不自动替换类/成员/实现体。证据见 `shared/modporter/20261005-next12/data/REPORT.md`。
 - [ ] 参考知识库的**方法改名**还没有逐条与我方 `members.json` 比对；目前只粗扫过类名，126 个完整类名里 118 个已对应。
 - [ ] 26.2：`SlimePredicate` → `CubeMobPredicate` 之外的 Speleothem 系列、`ChatFormatting` 被移除方法的替代 API、`valueLookupBuilder` 移除、`BlockIds` / `ItemIds` 拆分，目前只有 guidance。
 - [ ] 1.21.11：GameRules 迁包、实体与模型类的大规模子包重排、`criterion` 包中未列出的其余类、环境属性 API，目前只有 guidance。

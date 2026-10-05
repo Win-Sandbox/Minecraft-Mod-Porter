@@ -123,14 +123,16 @@
     "net.fabricmc.fabric.api.client.keybinding.KeyBindingRegistry": {
       "concept": "input.glfw",
       "message": "fabric-keybindings-v0 的旧键位注册入口（KeyBindingRegistry.INSTANCE.register(FabricKeyBinding)），已弃用：新代码用 KeyBindingHelper.registerKeyBinding(new KeyBinding(...))"
-    },
-    "net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry": {
-      "concept": "fluid.system",
-      "message": "Fabric 的流体渲染注册：FluidRenderHandlerRegistry.INSTANCE.register(still, flowing, new SimpleFluidRenderHandler(...))，Forge 侧由 FluidType 的客户端扩展提供"
     }
   },
   "members": {
-    "setRegistryName": {"concept": "registry.name", "message": "Fabric 没有 setRegistryName：注册名在 Registry.register(注册表, Identifier, 对象) 时给出"},
-    "getRegistryName": {"concept": "registry.name", "message": "Fabric 没有 getRegistryName：反查注册名用 Registry.ITEM.getId(item) / Registry.BLOCK.getId(block)"}
+    "setRegistryName": {
+      "concept": "registry.name",
+      "message": "Fabric 没有 setRegistryName：注册名在 Registry.register(注册表, Identifier, 对象) 时给出"
+    },
+    "getRegistryName": {
+      "concept": "registry.name",
+      "message": "Fabric 没有 getRegistryName：反查注册名用 Registry.ITEM.getId(item) / Registry.BLOCK.getId(block)"
+    }
   }
 }

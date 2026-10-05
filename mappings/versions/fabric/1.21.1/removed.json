@@ -200,10 +200,6 @@
       "concept": "entity.registration",
       "message": "Fabric 的生物默认属性注册：FabricDefaultAttributeRegistry.register(TYPE, MyEntity.createAttributes())，Forge 侧对应 EntityAttributeCreationEvent"
     },
-    "net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry": {
-      "concept": "fluid.system",
-      "message": "Fabric 的流体渲染注册：FluidRenderHandlerRegistry.INSTANCE.register(still, flowing, new SimpleFluidRenderHandler(...))，Forge 侧由 FluidType 的客户端扩展提供"
-    },
     "org.slf4j.Logger": {
       "concept": "logging.slf4j",
       "message": "SLF4J 日志接口：1.17 起原版类路径自带 slf4j-api（org.slf4j.Logger / LoggerFactory.getLogger(...)），1.16.5 及更早没有，降级时需改回 Log4j"
