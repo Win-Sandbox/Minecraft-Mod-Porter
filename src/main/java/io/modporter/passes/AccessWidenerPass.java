@@ -23,12 +23,19 @@ public final class AccessWidenerPass {
         if (header.length != 3 || !header[0].equals("accessWidener") || !Set.of("v1", "v2").contains(header[1])) {
             todo(path, headerIndex + 1, "无效 AW v1/v2 文件头，整文件保持原样"); return null;
         }
-        // official in mappingsChannel means Mojang source names, NOT the AW runtime namespace.
-        // Until namespace metadata is explicit, only Yarn named -> Yarn named is proved.
+        // The header namespace is safe only when the dataset explicitly names the same
+        // runtime namespace on both sides.  Fabric's Yarn `named` and official
+        // class-tweaker/AW files are both represented by mappingsChannel; intermediary
+        // is deliberately excluded because this schema does not identify its runtime
+        // namespace or provide a namespace conversion table.
+        String sourceChannel = ctx.source().info.mappingsChannel;
+        String targetChannel = ctx.target().info.mappingsChannel;
+        boolean supportedChannel = "yarn".equals(sourceChannel) || "official".equals(sourceChannel);
+        String expectedNamespace = "yarn".equals(sourceChannel) ? "named" : "official";
         if (!"fabric".equals(ctx.source().info.loader) || !"fabric".equals(ctx.target().info.loader)
-                || !"yarn".equals(ctx.source().info.mappingsChannel) || !"yarn".equals(ctx.target().info.mappingsChannel)
-                || !"named".equals(header[2])) {
-            todo(path, headerIndex + 1, "AW 命名空间未证实：仅支持 Fabric Yarn named → named；intermediary/official/跨命名空间整文件保留");
+                || !Objects.equals(sourceChannel, targetChannel)
+                || !Objects.equals(expectedNamespace, header[2]) || !supportedChannel) {
+            todo(path, headerIndex + 1, "AW 命名空间未证实：仅支持 Fabric 同命名空间 Yarn named 或 official → 同命名空间；intermediary/跨命名空间整文件保留");
             return null;
         }
         boolean changed = false;

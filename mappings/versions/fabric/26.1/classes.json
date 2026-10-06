@@ -358,5 +358,13 @@
   "fabric.client.HudElementRegistry": "net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry",
   "fabric.client.HudElement": "net.fabricmc.fabric.api.client.rendering.v1.hud.HudElement",
   "fabric.client.VanillaHudElements": "net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements",
-  "fabric.resource.ResourceLoader": "net.fabricmc.fabric.api.resource.v1.ResourceLoader"
+  "fabric.resource.ResourceLoader": "net.fabricmc.fabric.api.resource.v1.ResourceLoader",
+  "fabric.client.FluidRenderHandler": {
+    "name": "net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler",
+    "note": "26.1/26.2 发布源码：renderFluid 接收 FluidRenderer 与 FluidRenderer.Output；旧 getFluidSprites/getFluidColor/reloadTextures 不再在本接口声明。仅登记类身份，旧实现须结合 FluidModel 手工迁移。"
+  },
+  "fabric.client.FluidRenderingRegistry": {
+    "name": "net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderingRegistry",
+    "note": "仅登记本版本真实类；新旧 Registry 的接收者、静态性及参数不同，跨边界使用独立 IR 与 guidance，不自动类改名。"
+  }
 }

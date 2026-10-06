@@ -347,5 +347,13 @@
   "mc.world.item.TooltipFlag": {
     "name": "net.minecraft.client.item.TooltipContext",
     "note": "Yarn 名 TooltipContext（net.minecraft.client.item，Mojmap TooltipFlag），是 appendTooltip 的第 4 个参数，isAdvanced() 判断是否为高级提示；注意 1.20.5 起 Yarn 另有 Item.TooltipContext（对应 Mojmap 的 Item.TooltipContext），两者不是同一个类"
+  },
+  "fabric.client.FluidRenderHandler": {
+    "name": "net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler",
+    "note": "仅登记类身份；不同 Fabric API 版本的实现方法不保证签名兼容（renderFluid 返回类型及参数曾变化）。跨26.1边界还须人工处理模型与纹理接口，不能据 FQCN 未变认定实现可用。"
+  },
+  "fabric.client.FluidRenderHandlerRegistry": {
+    "name": "net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry",
+    "note": "仅登记本版本真实类；新旧 Registry 的接收者、静态性及参数不同，跨边界使用独立 IR 与 guidance，不自动类改名。"
   }
 }
