@@ -24,5 +24,11 @@
       "kind": "method",
       "note": "1.21.6 起 ItemStack#toNbt 已删除，没有同名方法：存档中改用 view.put(\"Item\", ItemStack.CODEC, stack)，或用 ItemStack.CODEC 自行编码，需人工改写"
     }
+  },
+  "mc.entity.player.ServerPlayer": {
+    "getLevel": {
+      "name": "getWorld",
+      "kind": "method"
+    }
   }
 }

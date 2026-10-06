@@ -150,12 +150,26 @@ public final class VersionMappings {
         public final String method; // staticCall 时的方法名
         /** 参数个数约束；null = 任意。用于区分同一构造器的不同参数形态（如 ResourceLocation 单参/双参）。 */
         public final Integer arity;
+        /**
+         * 参数类型约束（基本类型关键字或源侧点分 FQCN）；null = 不按参数类型区分。
+         * 用于区分同参数个数的重载形态（如 ChunkPos(BlockPos) 与 ChunkPos(long)）。
+         * 声明侧必须是「基本类型关键字」或「点分 FQCN」，与引擎解析出的实参类型精确相等才匹配；
+         * 实参类型无法证明（未知表达式/未导入简单名/本地类型遮蔽）时不改写并报告 TODO。
+         * 必须与 arity 同时声明且个数一致（MappingRepository 加载时强制）。
+         */
+        public final java.util.List<String> argTypes;
 
         public IdiomForm(String type, String className, String method, Integer arity) {
+            this(type, className, method, arity, null);
+        }
+
+        public IdiomForm(String type, String className, String method, Integer arity,
+                         java.util.List<String> argTypes) {
             this.type = type;
             this.className = className;
             this.method = method;
             this.arity = arity;
+            this.argTypes = argTypes == null ? null : java.util.List.copyOf(argTypes);
         }
     }
 

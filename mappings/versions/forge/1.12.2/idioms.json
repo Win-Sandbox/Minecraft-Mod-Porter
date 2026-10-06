@@ -302,6 +302,7 @@
     "neoforge.network.RegisterPayloadHandlersEvent": "Forge 没有 RegisterPayloadHandlersEvent：1.12.2 使用 SimpleNetworkWrapper + IMessage/IMessageHandler 注册网络通道",
     "neoforge.registries.DeferredBlock": "1.12.2 没有 DeferredRegister：改用 RegistryEvent.Register<T> 事件 + setRegistryName",
     "neoforge.registries.DeferredItem": "1.12.2 没有 DeferredRegister：改用 RegistryEvent.Register<T> 事件 + setRegistryName",
-    "neoforge.registries.NeoForgeRegistries": "Forge 1.12.2 的注册表都在 ForgeRegistries（BLOCKS/ITEMS 等）"
+    "neoforge.registries.NeoForgeRegistries": "Forge 1.12.2 的注册表都在 ForgeRegistries（BLOCKS/ITEMS 等）",
+    "mc.world.entity.ai.attributes.Attributes": "本版本官方（Mojmap）类为 net.minecraft.world.entity.ai.attributes.Attributes，常量无前缀（MAX_HEALTH、SPAWN_REINFORCEMENTS_CHANCE 等），与 1.21.1+ 官方名一致；Yarn（Fabric）侧 1.21.2 前常量带前缀且类名不同，跨加载器迁移时需人工核对"
   }
 }

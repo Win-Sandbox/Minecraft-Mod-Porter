@@ -41,7 +41,8 @@ def safetyRegressions = [
     'io.modporter.passes.ModernSyntaxMigrationTest',
     'io.modporter.passes.SafetyIntegrationTest',
     'io.modporter.mappings.MemberResolutionTest',
-    'io.modporter.passes.ReferenceMigrationTest'
+    'io.modporter.passes.ReferenceMigrationTest',
+    'io.modporter.passes.IdiomArgTypesTest'
 ]
 def safetyTasks = safetyRegressions.collect { entry ->
     tasks.register('regression' + entry.tokenize('.').last(), JavaExec) {

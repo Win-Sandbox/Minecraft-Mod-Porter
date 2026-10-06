@@ -21,6 +21,24 @@
       "class": "net.minecraft.resources.Identifier",
       "method": "fromNamespaceAndPath",
       "arity": 2
+    },
+    "chunkpos.containing": {
+      "type": "staticCall",
+      "class": "net.minecraft.world.level.ChunkPos",
+      "method": "containing",
+      "arity": 1,
+      "argTypes": [
+        "net.minecraft.core.BlockPos"
+      ]
+    },
+    "chunkpos.unpack": {
+      "type": "staticCall",
+      "class": "net.minecraft.world.level.ChunkPos",
+      "method": "unpack",
+      "arity": 1,
+      "argTypes": [
+        "long"
+      ]
     }
   },
   "guidance": {
@@ -138,7 +156,7 @@
     "forge.event.RenderLevelStageEvent": "改用 LevelRenderEvents（net.fabricmc.fabric.api.client.rendering.v1.level，26.1 前名为 WorldRenderEvents），按阶段选择 AFTER_OPAQUE_TERRAIN / COLLECT_SUBMITS / BEFORE_BLOCK_OUTLINE / END_MAIN 等",
     "client.renderState": "1.21.9 起实体与方块实体渲染为「提取状态 + 提交」：渲染器实现 createRenderState()、extractRenderState(...)，在 submit(state, PoseStack, SubmitNodeCollector, CameraRenderState) 中提交模型/几何；旧的 render(…, MultiBufferSource, …) 已不存在",
     "commands.permissions": "1.21.11 起命令权限改为 PermissionSet：CommandSourceStack#hasPermission(int) 已移除，命令节点写 .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))，代码中判断 source.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER)（net.minecraft.server.permissions）",
-    "fabric.resourceLoader": "Fabric API 的 v0 ResourceManagerHelper 已删除（1.21.11 起）：改用 ResourceLoader.get(PackType.SERVER_DATA).registerReloader(Identifier.fromNamespaceAndPath(MODID, \"x\"), 重载器)",
+    "fabric.resourceLoader": "Fabric API 的 v0 ResourceManagerHelper 已删除（1.21.11 起）：改用 ResourceLoader.get(PackType.SERVER_DATA).registerReloadListener(Identifier.fromNamespaceAndPath(MODID, \"x\"), 重载器)；与其它重载器的先后顺序用 addListenerOrdering(firstId, secondId) 声明",
     "gui.screenManager": "打开/关闭界面用 Minecraft.getInstance().setScreen(screen)（传 null 关闭），当前界面是 minecraft.screen 字段；标题/动作栏等 HUD 调用在 minecraft.gui（Gui）上",
     "input.events": "1.21.9 起界面输入回调使用事件对象：keyPressed/keyReleased(KeyEvent)、charTyped(CharacterEvent)、mouseClicked(MouseButtonEvent, boolean)、mouseReleased(MouseButtonEvent)、mouseDragged(MouseButtonEvent, double, double)（net.minecraft.client.input）；KeyMapping 的分类为 KeyMapping.Category",
     "interaction.result": "1.21.2 起 InteractionResult 是密封接口，取代 InteractionResultHolder 与 ItemInteractionResult：常量 SUCCESS、SUCCESS_SERVER、CONSUME、FAIL、PASS、TRY_WITH_EMPTY_HAND；Item#use 与 UseItemCallback 直接返回 InteractionResult，替换手中物品用 InteractionResult.SUCCESS.heldItemTransformedTo(stack)",
@@ -152,7 +170,7 @@
     "mc.world.ItemInteractionResult": "1.21.2 起 ItemInteractionResult 已并入 InteractionResult：方块 useItemOn 返回 InteractionResult，原 PASS_TO_DEFAULT_BLOCK_INTERACTION 改为 InteractionResult.TRY_WITH_EMPTY_HAND",
     "mc.world.item.alchemy.PotionUtils": "PotionUtils 在 1.20.5 移除：药水数据用数据组件 DataComponents.POTION_CONTENTS（PotionContents），如 stack.set(DataComponents.POTION_CONTENTS, new PotionContents(Potions.HEALING))",
     "nbt.access": "1.21.5 起 CompoundTag 的读取方法返回 Optional：getInt(key) 得 Optional<Integer>，带默认值用 getIntOr/getStringOr/getBooleanOr，子标签用 getCompoundOrEmpty/getListOrEmpty；UUID 等复杂值用 tag.store(key, codec, value) / tag.read(key, codec)",
-    "neoforge.attachment": "Fabric 对应机制是数据附件 API（net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry）：注册附件类型时给出初始值与持久化 Codec，在实体/方块实体/区块/世界上 getAttached(TYPE) / setAttached(TYPE, 值)",
+    "neoforge.attachment": "Fabric 对应机制是数据附件 API（net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry）：AttachmentRegistry.create(Identifier.fromNamespaceAndPath(MODID, \"x\"), builder -> builder.initializer(() -> 默认值).persistent(CODEC))（或 createPersistent(id, codec) / builder()...buildAndRegister(id)，方法名与 1.21.11 完全相同，26.x 仅类型改官方名），在实体/方块实体/区块/世界上 getAttached(TYPE) / setAttached(TYPE, 值)",
     "neoforge.transfer": "Fabric 用 Transfer API：Storage<ItemVariant> / Storage<FluidVariant>，查询 ItemStorage.SIDED.find(level, pos, 方向)，插入/提取在 Transaction.openOuter() 事务中进行；NeoForge 的 ResourceHandler / IItemHandler 写法需改写为该形式",
     "render.pipeline": "26.1 起 GUI 改为「提取渲染状态」：GuiGraphics -> GuiGraphicsExtractor，Screen#render -> extractRenderState、renderBackground -> extractBackground、AbstractContainerScreen#renderBg 并入 extractBackground、renderLabels -> extractLabels；绘制方法去掉前缀（drawString -> text、renderItem -> item 等），Mixin 目标字符串中的方法名也要同步修改",
     "villager.trades": "26.1 起村民/流浪商人交易改为数据包驱动（交易表 JSON），Fabric API 的 TradeOfferHelper 也已在 26.1 删除：添加交易改为编写数据包",

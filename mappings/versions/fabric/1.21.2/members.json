@@ -60,5 +60,135 @@
       "kind": "method",
       "note": "1.21.2 起 Yarn 名为 refreshWidgetPositions（此前为 initTabNavigation），窗口尺寸变化时重新布局控件"
     }
+  },
+  "mc.world.entity.ai.attributes.Attributes": {
+    "MAX_HEALTH": {
+      "name": "MAX_HEALTH",
+      "kind": "field"
+    },
+    "FOLLOW_RANGE": {
+      "name": "FOLLOW_RANGE",
+      "kind": "field"
+    },
+    "KNOCKBACK_RESISTANCE": {
+      "name": "KNOCKBACK_RESISTANCE",
+      "kind": "field"
+    },
+    "MOVEMENT_SPEED": {
+      "name": "MOVEMENT_SPEED",
+      "kind": "field"
+    },
+    "FLYING_SPEED": {
+      "name": "FLYING_SPEED",
+      "kind": "field"
+    },
+    "ATTACK_DAMAGE": {
+      "name": "ATTACK_DAMAGE",
+      "kind": "field"
+    },
+    "ATTACK_KNOCKBACK": {
+      "name": "ATTACK_KNOCKBACK",
+      "kind": "field"
+    },
+    "ATTACK_SPEED": {
+      "name": "ATTACK_SPEED",
+      "kind": "field"
+    },
+    "ARMOR": {
+      "name": "ARMOR",
+      "kind": "field"
+    },
+    "ARMOR_TOUGHNESS": {
+      "name": "ARMOR_TOUGHNESS",
+      "kind": "field"
+    },
+    "LUCK": {
+      "name": "LUCK",
+      "kind": "field"
+    },
+    "SPAWN_REINFORCEMENTS_CHANCE": {
+      "name": "SPAWN_REINFORCEMENTS",
+      "kind": "field"
+    },
+    "JUMP_STRENGTH": {
+      "name": "JUMP_STRENGTH",
+      "kind": "field"
+    },
+    "MAX_ABSORPTION": {
+      "name": "MAX_ABSORPTION",
+      "kind": "field"
+    },
+    "BLOCK_INTERACTION_RANGE": {
+      "name": "BLOCK_INTERACTION_RANGE",
+      "kind": "field"
+    },
+    "ENTITY_INTERACTION_RANGE": {
+      "name": "ENTITY_INTERACTION_RANGE",
+      "kind": "field"
+    },
+    "SCALE": {
+      "name": "SCALE",
+      "kind": "field"
+    },
+    "STEP_HEIGHT": {
+      "name": "STEP_HEIGHT",
+      "kind": "field"
+    },
+    "BLOCK_BREAK_SPEED": {
+      "name": "BLOCK_BREAK_SPEED",
+      "kind": "field"
+    },
+    "FALL_DAMAGE_MULTIPLIER": {
+      "name": "FALL_DAMAGE_MULTIPLIER",
+      "kind": "field"
+    },
+    "GRAVITY": {
+      "name": "GRAVITY",
+      "kind": "field"
+    },
+    "SAFE_FALL_DISTANCE": {
+      "name": "SAFE_FALL_DISTANCE",
+      "kind": "field"
+    },
+    "SUBMERGED_MINING_SPEED": {
+      "name": "SUBMERGED_MINING_SPEED",
+      "kind": "field"
+    },
+    "SWEEPING_DAMAGE_RATIO": {
+      "name": "SWEEPING_DAMAGE_RATIO",
+      "kind": "field"
+    },
+    "WATER_MOVEMENT_EFFICIENCY": {
+      "name": "WATER_MOVEMENT_EFFICIENCY",
+      "kind": "field"
+    },
+    "BURNING_TIME": {
+      "name": "BURNING_TIME",
+      "kind": "field"
+    },
+    "EXPLOSION_KNOCKBACK_RESISTANCE": {
+      "name": "EXPLOSION_KNOCKBACK_RESISTANCE",
+      "kind": "field"
+    },
+    "MINING_EFFICIENCY": {
+      "name": "MINING_EFFICIENCY",
+      "kind": "field"
+    },
+    "MOVEMENT_EFFICIENCY": {
+      "name": "MOVEMENT_EFFICIENCY",
+      "kind": "field"
+    },
+    "OXYGEN_BONUS": {
+      "name": "OXYGEN_BONUS",
+      "kind": "field"
+    },
+    "SNEAKING_SPEED": {
+      "name": "SNEAKING_SPEED",
+      "kind": "field"
+    },
+    "TEMPT_RANGE": {
+      "name": "TEMPT_RANGE",
+      "kind": "field"
+    }
   }
 }

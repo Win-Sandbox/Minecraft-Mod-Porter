@@ -166,7 +166,8 @@
   },
   "forge.lifecycle.commonSetup": {
     "name": "net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent",
-    "note": "FMLCommonSetupEvent 需通过 Mod 事件总线监听；注册类内容应改用 DeferredRegister 而不是在此事件中注册"
+    "note": "FMLCommonSetupEvent 需通过 Mod 事件总线监听；注册类内容应改用 DeferredRegister 而不是在此事件中注册",
+    "primary": true
   },
   "forge.lifecycle.loadComplete": {
     "name": "net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent",
@@ -186,7 +187,10 @@
   },
   "forge.event.AttachCapabilitiesEvent": "net.minecraftforge.event.AttachCapabilitiesEvent",
   "forge.event.EntityJoinLevelEvent": "net.minecraftforge.event.entity.EntityJoinLevelEvent",
-  "forge.event.PlayerEvent": "net.minecraftforge.event.entity.player.PlayerEvent",
+  "forge.event.PlayerEvent": {
+    "name": "net.minecraftforge.event.entity.player.PlayerEvent",
+    "primary": true
+  },
   "forge.event.PlayerInteractEvent": "net.minecraftforge.event.entity.player.PlayerInteractEvent",
   "forge.event.LivingDeathEvent": "net.minecraftforge.event.entity.living.LivingDeathEvent",
   "forge.event.LivingHurtEvent": "net.minecraftforge.event.entity.living.LivingHurtEvent",
@@ -334,5 +338,13 @@
   "mc.advancements.critereon.NbtPredicate": "net.minecraft.advancements.critereon.NbtPredicate",
   "mc.advancements.critereon.PlayerPredicate": "net.minecraft.advancements.critereon.PlayerPredicate",
   "mc.advancements.critereon.StatePropertiesPredicate": "net.minecraft.advancements.critereon.StatePropertiesPredicate",
-  "mc.advancements.critereon.EntitySubPredicate": "net.minecraft.advancements.critereon.EntitySubPredicate"
+  "mc.advancements.critereon.EntitySubPredicate": "net.minecraft.advancements.critereon.EntitySubPredicate",
+  "forge.lifecycle.init": {
+    "name": "net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent",
+    "note": "1.13 起没有独立 init 阶段：FMLInitializationEvent 的逻辑并入 FMLCommonSetupEvent；该 IR 与 forge.lifecycle.commonSetup 指向同一 FQCN，仅作为旧概念到同一真实类的标注，primary 由 forge.lifecycle.commonSetup 持有，反查以其为准"
+  },
+  "forge.event.PlayerEventFml": {
+    "name": "net.minecraftforge.event.entity.player.PlayerEvent",
+    "note": "1.13 起 fml.common.gameevent.PlayerEvent 的内容并入 net.minecraftforge.event.entity.player.PlayerEvent；该 IR 与 forge.event.PlayerEvent 指向同一 FQCN，仅作为旧概念到同一真实类的标注，primary 由 forge.event.PlayerEvent 持有，反查以其为准"
+  }
 }

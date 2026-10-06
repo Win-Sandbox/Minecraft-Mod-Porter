@@ -269,6 +269,7 @@
     "neoforge.network.RegisterPayloadHandlersEvent": "Forge 没有 RegisterPayloadHandlersEvent：改用 SimpleChannel：NetworkRegistry.newSimpleChannel(new ResourceLocation(MODID, \"main\"), 版本 supplier×3)（net.minecraftforge.fml.network.NetworkRegistry），消息为 POJO，channel.registerMessage(index, 类, encoder, decoder, handler) 注册；handler 中用 ctx.get().enqueueWork(...) 回主线程",
     "neoforge.registries.DeferredBlock": "Forge 没有 DeferredBlock：DeferredRegister<Block>.register(\"name\", ...) 返回 RegistryObject<Block>，取值用 .get()",
     "neoforge.registries.DeferredItem": "Forge 没有 DeferredItem：DeferredRegister<Item>.register(\"name\", ...) 返回 RegistryObject<Item>，取值用 .get()（ItemStack 用 new ItemStack(obj.get())）",
-    "neoforge.registries.NeoForgeRegistries": "Forge 自有注册表在 ForgeRegistries（如 ForgeRegistries.ITEMS，自定义键在 ForgeRegistries.Keys）"
+    "neoforge.registries.NeoForgeRegistries": "Forge 自有注册表在 ForgeRegistries（如 ForgeRegistries.ITEMS，自定义键在 ForgeRegistries.Keys）",
+    "mc.world.entity.ai.attributes.Attributes": "本版本官方（Mojmap）类为 net.minecraft.world.entity.ai.attributes.Attributes，常量无前缀（MAX_HEALTH、SPAWN_REINFORCEMENTS_CHANCE 等），与 1.21.1+ 官方名一致；Yarn（Fabric）侧 1.21.2 前常量带前缀且类名不同，跨加载器迁移时需人工核对"
   }
 }

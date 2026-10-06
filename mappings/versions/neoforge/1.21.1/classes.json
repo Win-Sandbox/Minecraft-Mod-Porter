@@ -545,5 +545,8 @@
   "neoforge.registries.DeferredItem": "net.neoforged.neoforge.registries.DeferredItem",
   "neoforge.registries.NeoForgeRegistries": "net.neoforged.neoforge.registries.NeoForgeRegistries",
   "neoforge.network.NeoForgeStreamCodecs": "net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs",
-  "neoforge.crafting.DataComponentIngredient": "net.neoforged.neoforge.common.crafting.DataComponentIngredient"
+  "neoforge.crafting.DataComponentIngredient": "net.neoforged.neoforge.common.crafting.DataComponentIngredient",
+  "mc.world.entity.ai.attributes.Attributes": {
+    "name": "net.minecraft.world.entity.ai.attributes.Attributes"
+  }
 }

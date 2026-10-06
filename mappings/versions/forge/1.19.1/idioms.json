@@ -9,6 +9,7 @@
     "forge.fluids.FluidType": "本版本没有 FluidType（1.19.2 引入）：1.19/1.19.1 尚无 FluidType（1.19.2 引入）：流体注册用 DeferredRegister 注册 ForgeFlowingFluid.Source/Flowing + LiquidBlock + BucketItem，属性用 FluidAttributes.builder(still, flowing) 经 ForgeFlowingFluid.Properties 关联",
     "neoforge.capabilities.BlockCapability": "Forge 不区分方块/实体/物品能力：统一用 Capability<T>（CapabilityManager.get(new CapabilityToken<>(){}) 或 CapabilityItemHandler 等常量），查询 getCapability(CAP, side) 返回 LazyOptional",
     "neoforge.capabilities.EntityCapability": "Forge 不区分方块/实体/物品能力：统一用 Capability<T>（CapabilityManager.get(new CapabilityToken<>(){}) 或 CapabilityItemHandler 等常量），查询 getCapability(CAP, side) 返回 LazyOptional",
-    "neoforge.capabilities.ItemCapability": "Forge 不区分方块/实体/物品能力：统一用 Capability<T>（CapabilityManager.get(new CapabilityToken<>(){}) 或 CapabilityItemHandler 等常量），查询 getCapability(CAP, side) 返回 LazyOptional"
+    "neoforge.capabilities.ItemCapability": "Forge 不区分方块/实体/物品能力：统一用 Capability<T>（CapabilityManager.get(new CapabilityToken<>(){}) 或 CapabilityItemHandler 等常量），查询 getCapability(CAP, side) 返回 LazyOptional",
+    "mc.world.entity.ai.attributes.Attributes": "本版本官方（Mojmap）类为 net.minecraft.world.entity.ai.attributes.Attributes，常量无前缀（MAX_HEALTH、SPAWN_REINFORCEMENTS_CHANCE 等），与 1.21.1+ 官方名一致；Yarn（Fabric）侧 1.21.2 前常量带前缀且类名不同，跨加载器迁移时需人工核对"
   }
 }

@@ -22,6 +22,12 @@ import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.expr.SingleMemberAnnotationExpr;
 import com.github.javaparser.ast.expr.ThisExpr;
+import com.github.javaparser.ast.expr.UnaryExpr;
+import com.github.javaparser.ast.expr.IntegerLiteralExpr;
+import com.github.javaparser.ast.expr.LongLiteralExpr;
+import com.github.javaparser.ast.expr.DoubleLiteralExpr;
+import com.github.javaparser.ast.expr.CharLiteralExpr;
+import com.github.javaparser.ast.expr.BooleanLiteralExpr;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.stmt.Statement;
@@ -108,6 +114,10 @@ public final class JavaSourcePass {
         final Set<String> declaredFields = new HashSet<>();
         /** 防止同一位置重复插入相同 TODO */
         final Set<String> emittedTodos = new HashSet<>();
+        /** argTypes 匹配用词法类型解析器（惰性构建） */
+        OwnerResolver ownerResolver;
+        /** argTypes 无法证明的调用位置（互斥判定后统一输出人工 TODO） */
+        final Set<Node> unprovedArgTypes = java.util.Collections.newSetFromMap(new java.util.IdentityHashMap<>());
         final Set<NameExpr> valueNames = java.util.Collections.newSetFromMap(new java.util.IdentityHashMap<>());
 
         FileState(String relPath, CompilationUnit cu) {
@@ -271,6 +281,10 @@ public final class JavaSourcePass {
     // ---- 惯用法（如 new TextComponentString(x) <-> Component.literal(x)） ----
 
     private void rewriteIdioms(FileState s) {
+        // 先按调用位置分组候选：多个同 arity 惯用法（如 ChunkPos(BlockPos)/(long) 重载）
+        // 必须在同一位置上互斥选择，不能各自独立尝试。位置归类：
+        //   constructor -> ObjectCreationExpr；staticCall -> MethodCallExpr(scope+name)。
+        Map<Node, List<IdiomCandidate>> bySite = new java.util.IdentityHashMap<>();
         for (Map.Entry<String, VersionMappings.IdiomForm> e : resolver.sourceIdioms().entrySet()) {
             String idiomId = e.getKey();
             VersionMappings.IdiomForm sourceForm = e.getValue();
@@ -278,56 +292,238 @@ public final class JavaSourcePass {
             if (targetForm == null) continue;
             if (sourceForm.type.equals(targetForm.type)
                     && sourceForm.className.equals(targetForm.className)
-                    && (sourceForm.method == null || sourceForm.method.equals(targetForm.method))) {
+                    && (sourceForm.method == null || sourceForm.method.equals(targetForm.method))
+                    && java.util.Objects.equals(sourceForm.argTypes, targetForm.argTypes)) {
                 continue; // 两版本形态一致
             }
             String sourceSimple = lastSegment(sourceForm.className);
             boolean imported = s.originalImports.contains(sourceForm.className);
-            int replaced = 0;
 
             if ("constructor".equals(sourceForm.type)) {
                 for (ObjectCreationExpr creation : s.cu.findAll(ObjectCreationExpr.class)) {
-                    String typeName = creation.getType().getNameAsString();
-                    boolean matches = (typeName.equals(sourceForm.className)
-                            || (imported && typeName.equals(sourceSimple)))
-                            && arityMatches(sourceForm, creation.getArguments().size());
-                    if (matches && emitIdiom(s, creation, creation.getArguments(), targetForm, idiomId)) {
-                        replaced++;
-                    }
+                    if (!creation.getType().getNameAsString().equals(sourceForm.className)
+                            && !(imported && creation.getType().getNameAsString().equals(sourceSimple))) continue;
+                    if (!arityMatches(sourceForm, creation.getArguments().size())) continue;
+                    bySite.computeIfAbsent(creation, k -> new ArrayList<>())
+                            .add(new IdiomCandidate(idiomId, sourceForm, targetForm));
                 }
             } else if ("staticCall".equals(sourceForm.type)) {
                 for (MethodCallExpr call : s.cu.findAll(MethodCallExpr.class)) {
                     if (!call.getNameAsString().equals(sourceForm.method)) continue;
-                    Expression scope = call.getScope().orElse(null);
-                    boolean matches = scope instanceof NameExpr ne && imported
-                            && ne.getNameAsString().equals(sourceSimple)
-                            && arityMatches(sourceForm, call.getArguments().size());
-                    if (matches && emitIdiom(s, call, call.getArguments(), targetForm, idiomId)) {
-                        replaced++;
-                    }
+                    if (!(call.getScope().orElse(null) instanceof NameExpr ne && imported
+                            && ne.getNameAsString().equals(sourceSimple))) continue;
+                    if (!arityMatches(sourceForm, call.getArguments().size())) continue;
+                    bySite.computeIfAbsent(call, k -> new ArrayList<>())
+                            .add(new IdiomCandidate(idiomId, sourceForm, targetForm));
                 }
             }
-            if (replaced > 0) {
-                // 源类导入换成目标类导入；若源类型仍被声明引用（如变量类型），提示人工处理
-                boolean stillReferenced = s.cu.findAll(ClassOrInterfaceType.class).stream()
-                        .anyMatch(t -> t.getNameAsString().equals(sourceSimple));
-                if (stillReferenced) {
-                    ctx.todo(s.relPath, null, "idiom",
-                            sourceSimple + " 仍被用作类型声明，目标版本无同名类型，请人工替换（惯用法 " + idiomId + "）");
+        }
+        // 嵌套惯用法（如 new A(new B(x))，A/B 各自命中惯用法）必须内层先改写：
+        // emitIdiom 会 clone 实参替换外层节点，若外层先改，内层原节点随 clone 进入新树，
+        // 原节点本身脱离 cu，后续对它的改写不会反映到真实输出。因此按到 CompilationUnit
+        // 的祖先深度降序（内层优先）处理，深度相同时按源码起始位置排序，保证确定性。
+        List<Map.Entry<Node, List<IdiomCandidate>>> orderedSites = new ArrayList<>(bySite.entrySet());
+        orderedSites.sort((a, b) -> {
+            int da = ancestorDepth(a.getKey());
+            int db = ancestorDepth(b.getKey());
+            if (da != db) return db - da; // 深度降序：内层（更深）先处理
+            int pa = a.getKey().getBegin().map(p -> p.line * 100000 + p.column).orElse(Integer.MAX_VALUE);
+            int pb = b.getKey().getBegin().map(p -> p.line * 100000 + p.column).orElse(Integer.MAX_VALUE);
+            return Integer.compare(pa, pb);
+        });
+        for (Map.Entry<Node, List<IdiomCandidate>> site : orderedSites) {
+            Node at = site.getKey();
+            List<Expression> arguments = argumentsOf(at);
+            List<IdiomCandidate> candidates = site.getValue();
+            List<IdiomCandidate> matched = new ArrayList<>();
+            boolean anyUnproved = false;
+            for (IdiomCandidate c : candidates) {
+                if (c.sourceForm.argTypes == null) { matched.add(c); continue; }
+                if (argTypesMatch(s, c.sourceForm, arguments, at)) matched.add(c);
+                else if (s.unprovedArgTypes.contains(at)) anyUnproved = true;
+            }
+            if (matched.size() == 1) {
+                IdiomCandidate c = matched.get(0);
+                if (emitIdiom(s, at, arguments, c.targetForm, c.idiomId)) {
+                    noteIdiomImport(s, c.sourceForm, c.idiomId);
                 } else {
-                    s.cu.getImports().removeIf(imp -> imp.getNameAsString().equals(sourceForm.className));
+                    ctx.todo(s.relPath, line(at), "idiom",
+                            "惯用法改写位置已脱离当前语法树（外层已被重写替换），请人工核对该嵌套表达式");
                 }
+            } else if (matched.isEmpty() && candidates.size() == 1 && candidates.get(0).sourceForm.argTypes != null) {
+                // 单候选且按类型匹配失败：argTypesMatch 已在不可证明时记 unproved，这里统一人工 TODO。
+                ctx.todo(s.relPath, line(at), "idiom",
+                        "惯用法实参类型与声明不符或无法证明，保留原表达式（不按参数个数猜）");
+            } else if (matched.isEmpty() && !anyUnproved && !candidates.isEmpty()) {
+                ctx.todo(s.relPath, line(at), "idiom",
+                        "惯用法实参类型与已声明的 " + candidates.size() + " 个形态均不符，不猜改写，保留原表达式");
+            } else if (matched.size() > 1) {
+                ctx.todo(s.relPath, line(at), "idiom",
+                        "惯用法实参类型同时命中多个形态，无法消歧，保留原表达式");
+            } else {
+                ctx.todo(s.relPath, line(at), "idiom",
+                        "惯用法实参类型无法证明（未知表达式/未导入简单名），保留原表达式");
             }
         }
     }
 
-    /** 惯用法形态的参数个数约束（null = 任意），用于区分同一构造器的不同参数形态。 */
+    /** 一个调用位置上的惯用法候选。 */
+    private record IdiomCandidate(String idiomId, VersionMappings.IdiomForm sourceForm,
+                                  VersionMappings.IdiomForm targetForm) {}
+
+    /** 节点到其所在 CompilationUnit 的祖先深度（CompilationUnit 本身为 0）；脱离 cu 的节点返回其能达到的深度，仍可比较。 */
+    private static int ancestorDepth(Node node) {
+        int depth = 0;
+        Node n = node;
+        while (n.getParentNode().isPresent()) {
+            n = n.getParentNode().get();
+            depth++;
+        }
+        return depth;
+    }
+
+    private static List<Expression> argumentsOf(Node at) {
+        if (at instanceof ObjectCreationExpr c) return c.getArguments();
+        if (at instanceof MethodCallExpr c) return c.getArguments();
+        throw new IllegalStateException("unknown idiom site: " + at.getClass());
+    }
+
+    /** 惯用法改写后源类导入处理（仍被声明引用时提示人工）。 */
+    private void noteIdiomImport(FileState s, VersionMappings.IdiomForm sourceForm, String idiomId) {
+        String sourceSimple = lastSegment(sourceForm.className);
+        boolean stillReferenced = s.cu.findAll(ClassOrInterfaceType.class).stream()
+                .anyMatch(t -> t.getNameAsString().equals(sourceSimple));
+        if (stillReferenced) {
+            ctx.todo(s.relPath, null, "idiom",
+                    sourceSimple + " 仍被用作类型声明，目标版本无同名类型，请人工替换（惯用法 " + idiomId + "）");
+        } else {
+            s.cu.getImports().removeIf(imp -> imp.getNameAsString().equals(sourceForm.className));
+        }
+    }
+
+    /**
+     * 按参数类型约束（sourceForm.argTypes 非空时）核对实参的书面类型。
+     * 匹配规则（保守，绝不猜）：
+     *  - argTypes 项为基本类型关键字（int/long/...）：仅字面量/一元负号字面量（书面类型精确相同），
+     *    或词法绑定（变量/参数/字段）的书面类型逐字等于该关键字（如 long packed 参数）才匹配；
+     *  - argTypes 项为点分 FQCN：实参必须是可证明来源之一——
+     *      1) 对象创建表达式且其类型经 import/全限定书写解析为该 FQCN；
+     *      2) 词法绑定（变量/参数/字段）的书面类型解析为该 FQCN（简单名经显式 import 解析）；
+     *      3) this.field 的词法字段绑定类型解析为该 FQCN。
+     *    未导入的简单名（java.lang、同包、通配 import）、复杂表达式类型视为未知。
+     *  类型可证明但不符：返回 false、不报 TODO（由调用方互斥判定）。
+     *  类型不可证明：返回 false 并把该位置记入 unprovedArgTypes，调用方据此输出人工 TODO。
+     */
+    private boolean argTypesMatch(FileState s, VersionMappings.IdiomForm sourceForm,
+                                  List<Expression> arguments, Node at) {
+        if (sourceForm.argTypes == null) return true;
+        if (arguments.size() != sourceForm.argTypes.size()) return false;
+        boolean unproved = false;
+        for (int i = 0; i < arguments.size(); i++) {
+            String want = sourceForm.argTypes.get(i);
+            Expression arg = arguments.get(i);
+            String actual = writtenTypeOfArgument(s, want, arg);
+            if (actual == null) { unproved = true; continue; }
+            if (!actual.equals(want) && !matchesViaSourceClassMapping(want, actual)) return false;
+        }
+        if (unproved) s.unprovedArgTypes.add(at);
+        return !unproved;
+    }
+
+    /**
+     * 当 argTypes 项是点分 FQCN（源版本类名）时，若实参解析出的书面类型与它不直接相等，
+     * 再尝试用 resolver.resolveClass(want) 查源→目标类映射：若结果为 MAPPED 且
+     * targetFqcn 等于实参解析出的类型，也视为匹配（两侧类名不同但确实是同一映射条目，
+     * 例如 Yarn 的 net.minecraft.util.math.BlockPos -> 官方 net.minecraft.core.BlockPos）。
+     * 基本类型关键字不经此路径（want 不含 '.'，直接返回 false）。
+     */
+    private boolean matchesViaSourceClassMapping(String want, String actual) {
+        if (want.indexOf('.') < 0) return false; // 基本类型关键字，不适用
+        ClassResolution r = resolver.resolveClass(want);
+        return r.kind == ClassResolution.Kind.MAPPED && actual.equals(r.targetFqcn);
+    }
+
+    /**
+     * 实参的书面类型（按 argTypes 项的声明种类选择证明来源）。
+     * want 为基本类型关键字：基本类型字面量的书面类型，或词法绑定的书面基本类型。
+     * want 为点分 FQCN：对象创建/词法绑定解析出的 FQCN。
+     * 返回 null = 该实参类型不可证明。
+     */
+    private String writtenTypeOfArgument(FileState s, String want, Expression arg) {
+        if (BASIC_TYPES.contains(want)) {
+            String literal = literalType(arg);
+            if (literal != null) return literal;
+            String bound = boundWrittenType(s, arg);
+            return bound != null && BASIC_TYPES.contains(bound) ? bound : null;
+        }
+        return writtenTypeOfReference(s, arg);
+    }
+
+    /** 词法绑定（变量/参数/字段）的书面类型原样字符串；非绑定或流作用域屏障返回 null。 */
+    private String boundWrittenType(FileState s, Expression arg) {
+        if (arg instanceof NameExpr name) {
+            return owners(s).bindingTypeName(name.getNameAsString(), name);
+        }
+        if (arg instanceof FieldAccessExpr field
+                && field.getScope() instanceof ThisExpr t && t.getTypeName().isEmpty()) {
+            return owners(s).bindingTypeName(field.getNameAsString(), field);
+        }
+        return null;
+    }
+
+    /** 基本类型字面量的书面类型；null = 不是可证明的基本类型字面量。 */
+    private static String literalType(Expression e) {
+        Expression unwrapped = e instanceof UnaryExpr unary && unary.getOperator() == UnaryExpr.Operator.MINUS
+                ? unary.getExpression() : e;
+        if (unwrapped instanceof IntegerLiteralExpr) return "int";
+        if (unwrapped instanceof LongLiteralExpr) return "long";
+        if (unwrapped instanceof DoubleLiteralExpr) {
+            String v = ((DoubleLiteralExpr) unwrapped).getValue();
+            return v.endsWith("f") || v.endsWith("F") ? "float" : "double";
+        }
+        if (unwrapped instanceof CharLiteralExpr) return "char";
+        if (unwrapped instanceof BooleanLiteralExpr) return "boolean";
+        return null;
+    }
+
+    /**
+     * 引用表达式的书面 FQCN（仅可证明来源）。返回 null = 类型未知。
+     * 词法绑定的简单类型名经显式 import 解析为 FQCN；未导入简单名不做 java.lang/同包猜测。
+     */
+    private String writtenTypeOfReference(FileState s, Expression arg) {
+        if (arg instanceof ObjectCreationExpr creation && creation.getAnonymousClassBody().isEmpty()) {
+            return owners(s).typeName(creation.getType(), creation);
+        }
+        if (arg instanceof NameExpr name) {
+            return owners(s).resolveBindingType(name.getNameAsString(), name);
+        }
+        if (arg instanceof FieldAccessExpr field
+                && field.getScope() instanceof ThisExpr t && t.getTypeName().isEmpty()) {
+            return owners(s).resolveBindingType(field.getNameAsString(), field);
+        }
+        return null;
+    }
+
+    /** 惰性构建当前文件的 OwnerResolver。 */
+    private OwnerResolver owners(FileState s) {
+        if (s.ownerResolver == null) s.ownerResolver = new OwnerResolver(s.cu);
+        return s.ownerResolver;
+    }
+
+    private static final java.util.Set<String> BASIC_TYPES = java.util.Set.of(
+            "boolean", "byte", "char", "short", "int", "long", "float", "double", "void");
+
     private static boolean arityMatches(VersionMappings.IdiomForm form, int argumentCount) {
         return form.arity == null || form.arity == argumentCount;
     }
 
-    private boolean emitIdiom(FileState s, Expression original, List<Expression> arguments,
+    private boolean emitIdiom(FileState s, Node original, List<Expression> arguments,
                               VersionMappings.IdiomForm targetForm, String idiomId) {
+        if (!(original instanceof Expression originalExpr)) return false;
+        // 若该节点（例如嵌套惯用法的内层实参）已因外层被先行改写而随 clone 脱离当前
+        // CompilationUnit，replace 只会改到脱离的旧树，不会反映到真实输出；此时不改写、
+        // 不记成功日志，交由调用方输出 TODO。
+        if (!isAttachedTo(originalExpr, s.cu)) return false;
         List<Expression> args = new ArrayList<>();
         for (Expression a : arguments) {
             args.add(a.clone());
@@ -346,11 +542,21 @@ public final class JavaSourcePass {
         } else {
             return false;
         }
-        int lineNo = original.getBegin().map(p -> p.line).orElse(0);
-        if (original.replace(replacement)) {
+        int lineNo = originalExpr.getBegin().map(p -> p.line).orElse(0);
+        if (originalExpr.replace(replacement)) {
             s.cu.addImport(targetForm.className);
             ctx.info(s.relPath, lineNo, "idiom", "惯用法改写 [" + idiomId + "]");
             return true;
+        }
+        return false;
+    }
+
+    /** 节点是否仍挂在给定 CompilationUnit 上（沿 parent 链能到达 target）。 */
+    private static boolean isAttachedTo(Node node, CompilationUnit target) {
+        Node n = node;
+        while (n != null) {
+            if (n == target) return true;
+            n = n.getParentNode().orElse(null);
         }
         return false;
     }
