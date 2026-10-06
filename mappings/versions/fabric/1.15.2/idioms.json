@@ -22,6 +22,22 @@
       "type": "constructor",
       "class": "net.minecraft.sound.SoundEvent",
       "arity": 1
+    },
+    "chunkpos.containing": {
+      "type": "constructor",
+      "class": "net.minecraft.util.math.ChunkPos",
+      "arity": 1,
+      "argTypes": [
+        "net.minecraft.util.math.BlockPos"
+      ]
+    },
+    "chunkpos.unpack": {
+      "type": "constructor",
+      "class": "net.minecraft.util.math.ChunkPos",
+      "arity": 1,
+      "argTypes": [
+        "long"
+      ]
     }
   },
   "supported": [],
@@ -145,7 +161,7 @@
     "forge.event.ForgeEventFactory": "没有对应物：按具体用途改为 Fabric API 事件，或用 Mixin 在原版方法处注入",
     "forge.event.GatherDataEvent": "本版本 Fabric API 没有数据生成模块：生成的 JSON 需手写或另建工具",
     "forge.event.InputEvent": "没有输入事件：键位用 KeyBindingHelper 注册 KeyBinding，并在 ClientTickEvents.END_CLIENT_TICK 中 while (KEY.wasPressed()) 轮询；更底层的输入拦截需 Mixin",
-    "forge.event.ItemTooltipEvent": "改用 ItemTooltipCallback.EVENT.register(...)（net.fabricmc.fabric.api.client.item.v1），回调参数随版本变化，需按本版本签名调整",
+    "forge.event.ItemTooltipEvent": "改用 ItemTooltipCallback.EVENT.register(...)（net.fabricmc.fabric.api.client.item.v1），本版本回调为 getTooltip(ItemStack, TooltipContext, List<Text>) 三参数（Yarn 名 TooltipContext，即 Item.TooltipContext；mixin 注入 ItemStack#getTooltip 返回前）；1.20.5 起签名改为四参数，多出独立的 TooltipType 参数",
     "forge.event.LevelTickEvent": "改用 ServerTickEvents.START_WORLD_TICK / END_WORLD_TICK（参数为 ServerWorld），客户端用 ClientTickEvents.START_WORLD_TICK / END_WORLD_TICK",
     "forge.event.LivingDeathEvent": "本版本 Fabric API 没有生物死亡事件：Mixin LivingEntity#onDeath",
     "forge.event.LivingHurtEvent": "本版本 Fabric API 没有受伤事件：Mixin LivingEntity#damage",
@@ -249,6 +265,7 @@
     "mc.advancements.predicates.InputPredicate": "InputPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.InputPredicate 引用；反向迁移时按本数据集实际的输入谓词类人工确认（旧数据为 advancements.criterion.InputPredicate，仍需按本数据集核对）。",
     "mc.advancements.predicates.entity.SheepPredicate": "SheepPredicate 是 26.2 起进度实体谓词所在新包中的类；本数据集没有该 26.2 包路径的对应类。26.2 侧按 net.minecraft.advancements.predicates.entity.SheepPredicate 引用；反向迁移时按本数据集实际的实体谓词类人工确认（旧数据为 advancements.criterion.SheepPredicate，仍需按本数据集核对）。",
     "mc.advancements.predicates.DataComponentMatchers": "DataComponentMatchers 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.DataComponentMatchers 引用；反向迁移时按本数据集实际的数据组件匹配类人工确认（旧数据为 advancements.criterion.DataComponentMatchers，仍需按本数据集核对）。",
-    "fabric.client.FluidRenderingRegistry": "本数据集使用 FluidRenderHandlerRegistry.INSTANCE；不映射26.x的 FluidRenderingRegistry。降级需恢复单例调用并重新实现纹理/颜色接口，register 的模型参数不能机械删除。"
+    "fabric.client.FluidRenderingRegistry": "本数据集使用 FluidRenderHandlerRegistry.INSTANCE；不映射26.x的 FluidRenderingRegistry。降级需恢复单例调用并重新实现纹理/颜色接口，register 的模型参数不能机械删除。",
+    "mc.world.entity.ai.attributes.Attributes": "本版本 Yarn 类名 net.minecraft.entity.attribute.EntityAttributes；常量带 GENERIC_/PLAYER_/ZOMBIE_ 前缀（GENERIC_MAX_HEALTH 等），与 1.21.2+ 去前缀名不同，跨版本需人工核对常量名"
   }
 }

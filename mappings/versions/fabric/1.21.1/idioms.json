@@ -27,6 +27,22 @@
       "class": "net.minecraft.sound.SoundEvent",
       "method": "of",
       "arity": 1
+    },
+    "chunkpos.containing": {
+      "type": "constructor",
+      "class": "net.minecraft.util.math.ChunkPos",
+      "arity": 1,
+      "argTypes": [
+        "net.minecraft.util.math.BlockPos"
+      ]
+    },
+    "chunkpos.unpack": {
+      "type": "constructor",
+      "class": "net.minecraft.util.math.ChunkPos",
+      "arity": 1,
+      "argTypes": [
+        "long"
+      ]
     }
   },
   "guidance": {
@@ -116,7 +132,7 @@
     "forge.event.PlayerEvent": "无统一父事件：登入/登出用 ServerPlayConnectionEvents.JOIN/DISCONNECT，复制（死亡重生）用 ServerPlayerEvents.COPY_FROM，其余按需 Mixin",
     "forge.event.PlayerEventFml": "同 forge.event.PlayerEvent：Fabric 按具体场景选事件（ServerPlayConnectionEvents / ServerPlayerEvents / UseItemCallback 等）",
     "forge.event.PlayerInteractEvent": "拆分为多个回调：右键方块 UseBlockCallback、右键物品 UseItemCallback、右键实体 UseEntityCallback、左键方块 AttackBlockCallback、左键实体 AttackEntityCallback（net.fabricmc.fabric.api.event.player.*），回调返回 ActionResult 控制是否拦截",
-    "forge.event.LivingDeathEvent": "Fabric API 无通用死亡事件：用 ServerLivingEntityEvents.AFTER_DEATH（较新版本提供 ALLOW_DEATH/AFTER_DEATH），或 Mixin LivingEntity#onDeath",
+    "forge.event.LivingDeathEvent": "ServerLivingEntityEvents（1.19.2 起即提供，net.fabricmc.fabric.api.entity.event.v1）的 ALLOW_DEATH / AFTER_DEATH（1.19.1 及更早 Fabric API 没有该类，需 Mixin LivingEntity#onDeath）",
     "forge.event.LivingHurtEvent": "Fabric API 无对应事件：用 ServerLivingEntityEvents.ALLOW_DAMAGE（可取消），需要改数值则 Mixin LivingEntity#damage",
     "forge.event.BlockEvent": "无统一父事件：破坏方块用 PlayerBlockBreakEvents.BEFORE/AFTER/CANCELED（net.fabricmc.fabric.api.event.player），其余场景需 Mixin",
     "forge.event.BlockBreakEvent": "改用 PlayerBlockBreakEvents.BEFORE.register((world, player, pos, state, blockEntity) -> 返回 false 即取消)",
@@ -160,7 +176,7 @@
     "forge.event.EntityRenderersEvent": "实体渲染器用 EntityRendererRegistry.register(TYPE, MyRenderer::new)，方块实体渲染器用 BlockEntityRendererFactories.register（或 Fabric 的 BlockEntityRendererRegistry），模型层用 EntityModelLayerRegistry",
     "forge.event.ForgeEventFactory": "没有对应物：按具体用途改为 Fabric API 事件，或用 Mixin 在原版方法处注入",
     "forge.event.GatherDataEvent": "改为实现 DataGeneratorEntrypoint 并在 fabric.mod.json 的 fabric-datagen 入口登记，见 fabric.datagen",
-    "forge.event.ItemTooltipEvent": "改用 ItemTooltipCallback.EVENT.register(...)（net.fabricmc.fabric.api.client.item.v1），回调参数随版本变化，需按本版本签名调整",
+    "forge.event.ItemTooltipEvent": "改用 ItemTooltipCallback.EVENT.register(...)（net.fabricmc.fabric.api.client.item.v1），本版本回调为 getTooltip(ItemStack, Item.TooltipContext, TooltipType, List<Text>) 四参数（1.20.5 起 TooltipContext 与 TooltipType 拆为两参；1.20.4 及更早只有三参数、无 TooltipType）",
     "forge.event.LevelTickEvent": "改用 ServerTickEvents.START_WORLD_TICK / END_WORLD_TICK（参数为 ServerWorld），客户端用 ClientTickEvents.START_WORLD_TICK / END_WORLD_TICK",
     "forge.event.LivingTickEvent": "没有对应事件：需 Mixin LivingEntity#tick",
     "forge.event.PlayerSleepInBedEvent": "改用 EntitySleepEvents（net.fabricmc.fabric.api.entity.event.v1）的 ALLOW_SLEEPING / START_SLEEPING 等",

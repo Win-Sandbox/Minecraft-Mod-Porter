@@ -366,5 +366,8 @@
   "fabric.client.FluidRenderingRegistry": {
     "name": "net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderingRegistry",
     "note": "仅登记本版本真实类；新旧 Registry 的接收者、静态性及参数不同，跨边界使用独立 IR 与 guidance，不自动类改名。"
+  },
+  "mc.world.entity.ai.attributes.Attributes": {
+    "name": "net.minecraft.world.entity.ai.attributes.Attributes"
   }
 }

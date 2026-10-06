@@ -96,6 +96,24 @@ final class OwnerResolver {
     boolean isValueName(NameExpr name) {
         return binding(name.getNameAsString(), name).found;
     }
+    /**
+     * 词法绑定（变量/参数/字段）的书面类型解析为 FQCN。
+     * 书面类型是点分名时原样返回；简单名经显式 import 解析；未导入简单名
+     * （java.lang/同包/通配 import）不做猜测，返回 null。流作用域屏障同样返回 null。
+     */
+    String resolveBindingType(String name, Node use) {
+        String written = bindingTypeName(name, use);
+        if (written == null) return null;
+        if (written.indexOf('.') > 0) return written;
+        if (ambiguousImports.contains(written)) return null;
+        if (cu.findAll(TypeDeclaration.class).stream().anyMatch(t -> t.getNameAsString().equals(written))) return null;
+        return imports.get(written);
+    }
+    /** 词法绑定的书面类型原样字符串（含基本类型关键字）；未绑定/屏障/无类型返回 null。 */
+    String bindingTypeName(String name, Node use) {
+        Binding b = binding(name, use);
+        return b != null && b.found && b.type != null ? b.type.asString() : null;
+    }
     boolean declaresMethod(Node at, String name) {
         TypeDeclaration<?> t = enclosingType(at);
         return t != null && t.getMethodsByName(name).size() > 0;

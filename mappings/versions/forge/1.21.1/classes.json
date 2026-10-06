@@ -86,5 +86,8 @@
   "mc.advancements.critereon.MovementPredicate": "net.minecraft.advancements.critereon.MovementPredicate",
   "mc.advancements.critereon.RaiderPredicate": "net.minecraft.advancements.critereon.RaiderPredicate",
   "mc.advancements.critereon.SingleComponentItemPredicate": "net.minecraft.advancements.critereon.SingleComponentItemPredicate",
-  "mc.advancements.critereon.SlotsPredicate": "net.minecraft.advancements.critereon.SlotsPredicate"
+  "mc.advancements.critereon.SlotsPredicate": "net.minecraft.advancements.critereon.SlotsPredicate",
+  "mc.world.entity.ai.attributes.Attributes": {
+    "name": "net.minecraft.world.entity.ai.attributes.Attributes"
+  }
 }

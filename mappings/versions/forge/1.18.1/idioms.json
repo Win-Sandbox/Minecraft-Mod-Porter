@@ -1,5 +1,6 @@
 {
   "guidance": {
-    "tags.oredict": "1.18/1.18.1 尚无 TagKey（1.18.2 引入）：数据包 Tag JSON 写法相同（data/<ns>/tags/items|blocks/*.json，通用命名空间 forge:），代码侧用 ItemTags.bind(\"forge:ingots/copper\") 得到 Tag.Named<Item>，判断用 stack.is(tag)"
+    "tags.oredict": "1.18/1.18.1 尚无 TagKey（1.18.2 引入）：数据包 Tag JSON 写法相同（data/<ns>/tags/items|blocks/*.json，通用命名空间 forge:），代码侧用 ItemTags.bind(\"forge:ingots/copper\") 得到 Tag.Named<Item>，判断用 stack.is(tag)",
+    "mc.world.entity.ai.attributes.Attributes": "本版本官方（Mojmap）类为 net.minecraft.world.entity.ai.attributes.Attributes，常量无前缀（MAX_HEALTH、SPAWN_REINFORCEMENTS_CHANCE 等），与 1.21.1+ 官方名一致；Yarn（Fabric）侧 1.21.2 前常量带前缀且类名不同，跨加载器迁移时需人工核对"
   }
 }

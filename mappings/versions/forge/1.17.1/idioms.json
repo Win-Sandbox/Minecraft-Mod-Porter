@@ -141,7 +141,7 @@
     "forge.client.IGuiOverlay": "本版本没有 IGuiOverlay（1.19 引入）：本版本 HUD 绘制监听 RenderGameOverlayEvent（ElementType 判断元素）",
     "forge.client.RenderGuiEvent": "本版本没有 RenderGuiEvent（1.19 引入）：整屏 HUD 绘制前后监听 RenderGameOverlayEvent.Pre/Post，并判断 ElementType.ALL",
     "forge.client.VanillaGuiOverlay": "本版本没有 VanillaGuiOverlay：原版 HUD 元素用 RenderGameOverlayEvent.ElementType（如 HEALTH、HOTBAR）区分，Pre 事件 setCanceled(true) 即隐藏",
-    "forge.entity.IEntityAdditionalSpawnData": "1.17.1 中该接口随 fmllegacy 迁移位置有变（1.16 在 net.minecraftforge.fml.common.registry，1.18 起在 net.minecraftforge.entity），请按 Forge 37 核对 import；实体需配合 NetworkHooks.getEntitySpawningPacket(this) 使用",
+    "forge.entity.IEntityAdditionalSpawnData": "1.17.1 中该接口位于 net.minecraftforge.fmllegacy.common.registry.IEntityAdditionalSpawnData（经 Forge 1.17.1-37.1.1 sources.jar 核实；1.16.5 位于 net.minecraftforge.fml.common.registry，1.18 起迁至 net.minecraftforge.entity）；实体需配合 NetworkHooks.getEntitySpawningPacket(this) 使用",
     "forge.event.BuildCreativeModeTabContentsEvent": "本版本没有 BuildCreativeModeTabContentsEvent：物品页签在物品属性上指定（见 fabric.itemgroup），变体：getSubItems/getSubBlocks 已移除：1.17.1 覆写 Item#fillItemCategory(CreativeModeTab, NonNullList<ItemStack>) 提供变体",
     "forge.event.PlayerEventFml": "1.13 起 FML 的玩家事件（PlayerLoggedInEvent、PlayerLoggedOutEvent、PlayerRespawnEvent、PlayerChangedDimensionEvent、ItemCraftedEvent、ItemSmeltedEvent 等）并入 net.minecraftforge.event.entity.player.PlayerEvent 的同名内部类，仍在 MinecraftForge.EVENT_BUS 上监听；改 import 即可，玩家用 event.getPlayer()",
     "forge.event.RegisterGuiOverlaysEvent": "本版本没有 RegisterGuiOverlaysEvent（1.19 引入）：本版本 HUD 绘制监听 RenderGameOverlayEvent（ElementType 判断元素）",
@@ -154,7 +154,7 @@
     "mc.advancements.critereon.ContextAwarePredicate": "本版本没有 ContextAwarePredicate（1.20 引入）：触发器的玩家条件类型是 EntityPredicate.Composite（MCP 1.16: EntityPredicate.AndPredicate）",
     "mc.advancements.critereon.EntitySubPredicate": "本版本没有 EntitySubPredicate（1.19 引入）：玩家/闪电/鱼钩等实体子条件是 EntityPredicate 上的独立字段（player、lightning_bolt、fishing_hook）",
     "mc.advancements.critereon.EntitySubPredicates": "本版本没有 EntitySubPredicates（1.20.5 引入）：实体子条件以 EntitySubPredicate 的静态工厂或 JSON type 字段声明",
-    "mc.advancements.critereon.GameTypePredicate": "本版本没有 GameTypePredicate（1.20.5 引入）：游戏模式条件用 PlayerPredicate 的 gamemode 字段（GameType）",
+    "mc.advancements.critereon.GameTypePredicate": "本版本没有 GameTypePredicate（1.21 正式版引入，1.20.6 官方映射中尚不存在）：游戏模式条件用 PlayerPredicate 的 gamemode 字段（GameType）",
     "mc.advancements.critereon.LightningBoltPredicate": "本版本闪电谓词的官方类名疑为拼写不同的 LighthingBoltPredicate（net.minecraft.advancements.critereon，新版才更正为 LightningBoltPredicate），请核对本版本 jar 后手动改 import",
     "mc.advancements.critereon.MovementPredicate": "本版本没有 MovementPredicate（1.21 引入）：移动/速度条件无对应物，可用 DistancePredicate 或自定义触发器",
     "mc.advancements.critereon.RaiderPredicate": "本版本没有 RaiderPredicate（1.20.5 引入）：袭击者条件需用 EntityTypePredicate + 实体标签或 NBT 条件表达",
@@ -231,6 +231,7 @@
     "neoforge.network.RegisterPayloadHandlersEvent": "Forge 没有 RegisterPayloadHandlersEvent：改用 SimpleChannel：NetworkRegistry.newSimpleChannel(new ResourceLocation(MODID, \"main\"), ...)，1.17.1 相关类位于 net.minecraftforge.fmllegacy.network（NetworkRegistry / simple.SimpleChannel，1.18 起才移至 net.minecraftforge.network）；消息为 POJO + encoder/decoder/handler 三函数注册",
     "neoforge.registries.DeferredBlock": "Forge 没有 DeferredBlock：DeferredRegister<Block>.register(\"name\", ...) 返回 RegistryObject<Block>，取值用 .get()",
     "neoforge.registries.DeferredItem": "Forge 没有 DeferredItem：DeferredRegister<Item>.register(\"name\", ...) 返回 RegistryObject<Item>，取值用 .get()（ItemStack 用 new ItemStack(obj.get())）",
-    "neoforge.registries.NeoForgeRegistries": "Forge 自有注册表在 ForgeRegistries（如 ForgeRegistries.ITEMS，自定义键在 ForgeRegistries.Keys）"
+    "neoforge.registries.NeoForgeRegistries": "Forge 自有注册表在 ForgeRegistries（如 ForgeRegistries.ITEMS，自定义键在 ForgeRegistries.Keys）",
+    "mc.world.entity.ai.attributes.Attributes": "本版本官方（Mojmap）类为 net.minecraft.world.entity.ai.attributes.Attributes，常量无前缀（MAX_HEALTH、SPAWN_REINFORCEMENTS_CHANCE 等），与 1.21.1+ 官方名一致；Yarn（Fabric）侧 1.21.2 前常量带前缀且类名不同，跨加载器迁移时需人工核对"
   }
 }

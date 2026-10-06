@@ -16,6 +16,7 @@
     "mc.client.renderer.ItemBlockRenderTypes": "1.14.4 没有此类（1.15 引入 RenderTypeLookup）：方块渲染层由方块覆写 getRenderLayer() 返回 BlockRenderLayer.CUTOUT 等决定",
     "mc.client.renderer.RenderPipelines": "本版本没有 RenderPipelines：本版本没有 RenderType/RenderPipeline：渲染状态直接用 GlStateManager 设置（绑定纹理、混合、深度），顶点用 Tessellator/BufferBuilder",
     "mc.client.renderer.RenderType": "1.14.4 没有 RenderType（1.15 渲染重构引入）：方块层用 BlockRenderLayer，自定义渲染直接调用 GlStateManager 设置状态",
-    "mc.client.renderer.rendertype.RenderTypes": "本版本没有 RenderTypes：本版本没有 RenderType/RenderPipeline：渲染状态直接用 GlStateManager 设置（绑定纹理、混合、深度），顶点用 Tessellator/BufferBuilder"
+    "mc.client.renderer.rendertype.RenderTypes": "本版本没有 RenderTypes：本版本没有 RenderType/RenderPipeline：渲染状态直接用 GlStateManager 设置（绑定纹理、混合、深度），顶点用 Tessellator/BufferBuilder",
+    "mc.world.entity.ai.attributes.Attributes": "本版本官方（Mojmap）类为 net.minecraft.world.entity.ai.attributes.Attributes，常量无前缀（MAX_HEALTH、SPAWN_REINFORCEMENTS_CHANCE 等），与 1.21.1+ 官方名一致；Yarn（Fabric）侧 1.21.2 前常量带前缀且类名不同，跨加载器迁移时需人工核对"
   }
 }

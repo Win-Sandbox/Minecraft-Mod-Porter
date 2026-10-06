@@ -71,5 +71,8 @@
   "fabric.event.UseItemCallback": {
     "name": "net.fabricmc.fabric.api.event.player.UseItemCallback",
     "note": "1.21.2 起回调返回 ActionResult（不再是 TypedActionResult<ItemStack>），替换手中物品用 ActionResult.SUCCESS.withNewHandStack(...)"
+  },
+  "mc.world.entity.ai.attributes.Attributes": {
+    "name": "net.minecraft.entity.attribute.EntityAttributes"
   }
 }
