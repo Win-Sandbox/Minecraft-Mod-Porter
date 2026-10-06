@@ -7,14 +7,6 @@
     "net.minecraftforge.network.ChannelBuilder": {
       "concept": "network.channel",
       "message": "ChannelBuilder 是新版 Forge（1.20.2+ 网络重构）的通道构建器，旧版本用 NetworkRegistry.newSimpleChannel / SimpleNetworkWrapper"
-    },
-    "net.minecraftforge.client.event.AddGuiOverlayLayersEvent": {
-      "concept": "gui.overlay",
-      "message": "AddGuiOverlayLayersEvent 是 Forge 1.20.5+ 的 HUD 分层注册事件，旧版本用 RegisterGuiOverlaysEvent/RenderGuiOverlayEvent（更早为 RenderGameOverlayEvent）"
-    },
-    "net.minecraftforge.client.gui.overlay.ForgeLayeredDraw": {
-      "concept": "gui.overlay",
-      "message": "ForgeLayeredDraw 是 Forge 1.20.5+ 的 HUD 分层容器，旧版本无对应物"
     }
   },
   "members": {}

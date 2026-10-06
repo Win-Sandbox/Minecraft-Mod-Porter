@@ -39,5 +39,11 @@
       "kind": "method",
       "note": "1.21.9 起 isClient 字段为 private，改用 world.isClient() 方法"
     }
+  },
+  "mc.entity.player.ServerPlayer": {
+    "getLevel": {
+      "name": "getEntityWorld",
+      "kind": "method"
+    }
   }
 }

@@ -138,7 +138,7 @@
     "mc.advancements.critereon.CollectionCountsPredicate": "本版本没有 CollectionCountsPredicate（1.20.5 引入）：集合条件用 ItemPredicate 的 enchantments / nbt 字段表达",
     "mc.advancements.critereon.CollectionPredicate": "本版本没有 CollectionPredicate（1.20.5 引入）：集合条件用 ItemPredicate 的 enchantments / nbt 字段表达",
     "mc.advancements.critereon.EntitySubPredicates": "本版本没有 EntitySubPredicates（1.20.5 引入）：实体子条件以 EntitySubPredicate 的静态工厂或 JSON type 字段声明",
-    "mc.advancements.critereon.GameTypePredicate": "本版本没有 GameTypePredicate（1.20.5 引入）：游戏模式条件用 PlayerPredicate 的 gamemode 字段（GameType）",
+    "mc.advancements.critereon.GameTypePredicate": "本版本没有 GameTypePredicate（1.21 正式版引入，1.20.6 官方映射中尚不存在）：游戏模式条件用 PlayerPredicate 的 gamemode 字段（GameType）",
     "mc.advancements.critereon.LightningBoltPredicate": "本版本闪电谓词的官方类名疑为拼写不同的 LighthingBoltPredicate（net.minecraft.advancements.critereon，新版才更正为 LightningBoltPredicate），请核对本版本 jar 后手动改 import",
     "mc.advancements.critereon.MovementPredicate": "本版本没有 MovementPredicate（1.21 引入）：移动/速度条件无对应物，可用 DistancePredicate 或自定义触发器",
     "mc.advancements.critereon.RaiderPredicate": "本版本没有 RaiderPredicate（1.20.5 引入）：袭击者条件需用 EntityTypePredicate + 实体标签或 NBT 条件表达",
@@ -203,7 +203,8 @@
     "neoforge.network.RegisterPayloadHandlersEvent": "Forge 没有 RegisterPayloadHandlersEvent：改用 SimpleChannel：NetworkRegistry.newSimpleChannel(new ResourceLocation(MODID, \"main\"), ...)（net.minecraftforge.network.NetworkRegistry，1.20.1 与 1.19.2 用法相同），消息为 POJO + encoder/decoder/handler 三函数注册",
     "neoforge.registries.DeferredBlock": "Forge 没有 DeferredBlock：DeferredRegister<Block>.register(\"name\", ...) 返回 RegistryObject<Block>，取值用 .get()",
     "neoforge.registries.DeferredItem": "Forge 没有 DeferredItem：DeferredRegister<Item>.register(\"name\", ...) 返回 RegistryObject<Item>，取值用 .get()（ItemStack 用 new ItemStack(obj.get())）",
-    "neoforge.registries.NeoForgeRegistries": "Forge 自有注册表在 ForgeRegistries（如 ForgeRegistries.ITEMS，自定义键在 ForgeRegistries.Keys）"
+    "neoforge.registries.NeoForgeRegistries": "Forge 自有注册表在 ForgeRegistries（如 ForgeRegistries.ITEMS，自定义键在 ForgeRegistries.Keys）",
+    "mc.world.entity.ai.attributes.Attributes": "本版本官方（Mojmap）类为 net.minecraft.world.entity.ai.attributes.Attributes，常量无前缀（MAX_HEALTH、SPAWN_REINFORCEMENTS_CHANCE 等），与 1.21.1+ 官方名一致；Yarn（Fabric）侧 1.21.2 前常量带前缀且类名不同，跨加载器迁移时需人工核对"
   },
   "supported": [
     "logging.slf4j"

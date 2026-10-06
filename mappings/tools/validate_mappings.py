@@ -28,7 +28,7 @@
   E-idConflict  同一官方名 FQCN 在不同数据集里对应不同 IR id
   E-guidance    （非 Forge）guidance 未覆盖「全部 concept ∪ 本 loader 内本数据集缺失的类 IR」
   E-fabricIr    Fabric 数据集使用了 FABRIC-IR-CONTRACT 第 2 节清单以外的 fabric.* / mixin.* id
-  E-neoforgeIr  NeoForge 数据集使用了 NEOFORGE-IR-CONTRACT 第 2.1 节清单以外的 neoforge.* id
+  E-neoforgeIr  NeoForge 或 Forge 数据集使用了 NEOFORGE-IR-CONTRACT 第 2.1 节清单以外的 neoforge.* id
   W-mcId        新 mc.* id 不符合 DATA-RULES 第 1 条（可能是历史 id，仅提示）
   W-deadRemoved removed.json 中的类在同一数据集 classes.json 中已有映射（该条目不会生效）
   W-concept     removed 条目的 concept 在某目标版本既不 supported 也无 guidance（将回退到 message）
@@ -364,10 +364,30 @@ class Repo:
     def _merge_idioms(ds, o, where, has_base):
         if not o:
             return
+        BASIC_TYPES = {"boolean", "byte", "char", "short", "int", "long", "float", "double", "void"}
         for k, val in (o.get("forms") or {}).items():
             if "type" not in val or "class" not in val:
                 add("ERROR", "E-json", where + "/idioms.json", f"form {k} 缺少 type/class")
                 continue
+            unknown = set(val.keys()) - {"type", "class", "method", "arity", "argTypes"}
+            if unknown:
+                add("ERROR", "E-json", where + "/idioms.json", f"form {k} 存在未知字段: {sorted(unknown)}")
+                continue
+            arg_types = val.get("argTypes")
+            if arg_types is not None:
+                if not isinstance(arg_types, list) or not arg_types:
+                    add("ERROR", "E-json", where + "/idioms.json", f"form {k}.argTypes 必须是非空数组")
+                    continue
+                bad = [t for t in arg_types
+                       if not isinstance(t, str)
+                       or (t not in BASIC_TYPES and not re.fullmatch(r"[a-z][a-zA-Z0-9$]*(\.[a-zA-Z0-9_$]+)+", t))]
+                if bad:
+                    add("ERROR", "E-json", where + "/idioms.json", f"form {k}.argTypes 含非法条目: {bad}")
+                    continue
+                arity = val.get("arity")
+                if not isinstance(arity, int) or arity != len(arg_types):
+                    add("ERROR", "E-json", where + "/idioms.json", f"form {k}.argTypes 必须与 arity 一致")
+                    continue
             ds.forms[k] = val
         for k, val in (o.get("guidance") or {}).items():
             ds.guidance[k] = val
@@ -657,7 +677,8 @@ def main():
             for ir in ds.classes:
                 if (ir.startswith("fabric.") or ir.startswith("mixin.")) and ir not in closed:
                     add("ERROR", "E-fabricIr", where, f"{ir} 不在 FABRIC-IR-CONTRACT 第 2 节清单中")
-        if loader == "neoforge":
+        if loader in ("neoforge", "forge"):
+            # Forge 数据集复用 neoforge.* id 同样受封闭清单约束（NEOFORGE-IR-CONTRACT 2.2/2.3）
             for ir in ds.classes:
                 if ir.startswith("neoforge.") and ir not in neo_closed:
                     add("ERROR", "E-neoforgeIr", where, f"{ir} 不在 NEOFORGE-IR-CONTRACT 第 2.1 节清单中")
@@ -761,7 +782,9 @@ def main():
         with open(args.json, "w", encoding="utf-8") as f:
             json.dump([it.__dict__ for it in issues], f, ensure_ascii=False, indent=1)
     errors = sum(1 for it in issues if it.level == "ERROR")
-    print(f"== 合计：ERROR {errors}，WARN {len(issues) - errors} ==")
+    warns = sum(1 for it in issues if it.level == "WARN")
+    infos = sum(1 for it in issues if it.level == "INFO")
+    print(f"== 合计：ERROR {errors}，WARN {warns}，INFO {infos} ==")
     return 1 if errors else 0
 
 

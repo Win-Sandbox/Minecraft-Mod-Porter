@@ -351,6 +351,9 @@ public final class MappingRepository {
         }
     }
 
+    private static final java.util.Set<String> BASIC_TYPES = java.util.Set.of(
+            "boolean", "byte", "char", "short", "int", "long", "float", "double", "void");
+
     /**
      * idioms.json: {"forms": {idiomId: {"type":..,"class":..,"method":..}},
      *               "guidance": {concept: text}, "supported": [conceptId, ...],
@@ -365,11 +368,32 @@ public final class MappingRepository {
         if (o.has("forms")) {
             for (Map.Entry<String, JsonElement> e : o.getAsJsonObject("forms").entrySet()) {
                 JsonObject v = e.getValue().getAsJsonObject();
+                for (String key : v.keySet()) if (!Set.of("type", "class", "method", "arity", "argTypes").contains(key))
+                    throw new IllegalArgumentException("Unknown idiom form key: " + e.getKey() + "." + key);
+                List<String> argTypes = null;
+                if (v.has("argTypes")) {
+                    if (!v.get("argTypes").isJsonArray())
+                        throw new IllegalArgumentException("idiom argTypes must be array: " + e.getKey());
+                    argTypes = new ArrayList<>();
+                    for (JsonElement t : v.getAsJsonArray("argTypes")) {
+                        if (!t.isJsonPrimitive() || !t.getAsJsonPrimitive().isString())
+                            throw new IllegalArgumentException("idiom argTypes entry must be string: " + e.getKey());
+                        String s = t.getAsString();
+                        if (!BASIC_TYPES.contains(s) && !s.matches("[a-z][a-zA-Z0-9$]*(\\.[a-zA-Z0-9_$]+)+"))
+                            throw new IllegalArgumentException("idiom argTypes entry must be a basic type or dotted FQCN: " + s);
+                        argTypes.add(s);
+                    }
+                    Integer arity = v.has("arity") && v.get("arity").isJsonPrimitive()
+                            ? v.get("arity").getAsInt() : null;
+                    if (arity == null || arity != argTypes.size())
+                        throw new IllegalArgumentException("idiom argTypes requires a matching arity: " + e.getKey());
+                }
                 idioms.put(e.getKey(), new VersionMappings.IdiomForm(
                         v.get("type").getAsString(),
                         v.get("class").getAsString(),
                         optString(v, "method"),
-                        v.has("arity") ? v.get("arity").getAsInt() : null));
+                        v.has("arity") ? v.get("arity").getAsInt() : null,
+                        argTypes));
             }
         }
         if (o.has("guidance")) {

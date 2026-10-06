@@ -21,6 +21,22 @@
       "class": "net.minecraft.resources.ResourceLocation",
       "method": "fromNamespaceAndPath",
       "arity": 2
+    },
+    "chunkpos.containing": {
+      "type": "constructor",
+      "class": "net.minecraft.world.level.ChunkPos",
+      "arity": 1,
+      "argTypes": [
+        "net.minecraft.core.BlockPos"
+      ]
+    },
+    "chunkpos.unpack": {
+      "type": "constructor",
+      "class": "net.minecraft.world.level.ChunkPos",
+      "arity": 1,
+      "argTypes": [
+        "long"
+      ]
     }
   },
   "guidance": {

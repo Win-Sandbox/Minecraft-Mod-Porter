@@ -19,6 +19,22 @@
       "type": "constructor",
       "class": "net.minecraft.resources.ResourceLocation",
       "arity": 2
+    },
+    "chunkpos.containing": {
+      "type": "constructor",
+      "class": "net.minecraft.world.level.ChunkPos",
+      "arity": 1,
+      "argTypes": [
+        "net.minecraft.core.BlockPos"
+      ]
+    },
+    "chunkpos.unpack": {
+      "type": "constructor",
+      "class": "net.minecraft.world.level.ChunkPos",
+      "arity": 1,
+      "argTypes": [
+        "long"
+      ]
     }
   },
   "guidance": {
@@ -112,9 +128,9 @@
     "mc.advancements.critereon.CollectionCountsPredicate": "本版本没有 CollectionCountsPredicate（1.20.5 随物品数据组件引入）：本版本的物品/实体断言基于 NBT 与旧字段，需按本版本 ItemPredicate / EntityPredicate 的构造方式人工改写",
     "mc.advancements.critereon.CollectionPredicate": "本版本没有 CollectionPredicate（1.20.5 随物品数据组件引入）：本版本的物品/实体断言基于 NBT 与旧字段，需按本版本 ItemPredicate / EntityPredicate 的构造方式人工改写",
     "mc.advancements.critereon.EntitySubPredicates": "本版本没有 EntitySubPredicates（1.20.5 随物品数据组件引入）：本版本的物品/实体断言基于 NBT 与旧字段，需按本版本 ItemPredicate / EntityPredicate 的构造方式人工改写",
-    "mc.advancements.critereon.GameTypePredicate": "本版本没有 GameTypePredicate（1.20.6 之后才引入）：对应条件需用本版本 EntityPredicate / PlayerPredicate 已有字段表达，或直接写在进度 JSON 中",
+    "mc.advancements.critereon.GameTypePredicate": "本版本没有 GameTypePredicate（1.21 正式版引入，1.20.6 官方映射中尚不存在）：对应条件需用本版本 EntityPredicate / PlayerPredicate 已有字段表达，或直接写在进度 JSON 中",
     "mc.advancements.critereon.LightningBoltPredicate": "1.20.1 的官方映射中该类拼写为 LighthingBoltPredicate（同包），按此类名改写引用",
-    "mc.advancements.critereon.MovementPredicate": "本版本没有 MovementPredicate（1.20.6 之后才引入）：对应条件需用本版本 EntityPredicate / PlayerPredicate 已有字段表达，或直接写在进度 JSON 中",
+    "mc.advancements.critereon.MovementPredicate": "本版本没有 MovementPredicate（1.21 正式版引入，1.20.6 官方映射中尚不存在）：对应条件需用本版本 EntityPredicate / PlayerPredicate 已有字段表达，或直接写在进度 JSON 中",
     "mc.advancements.critereon.RaiderPredicate": "本版本没有 RaiderPredicate（1.20.5 随物品数据组件引入）：本版本的物品/实体断言基于 NBT 与旧字段，需按本版本 ItemPredicate / EntityPredicate 的构造方式人工改写",
     "mc.advancements.critereon.SingleComponentItemPredicate": "本版本没有 SingleComponentItemPredicate（1.20.5 随物品数据组件引入）：本版本的物品/实体断言基于 NBT 与旧字段，需按本版本 ItemPredicate / EntityPredicate 的构造方式人工改写",
     "mc.advancements.critereon.SlotsPredicate": "本版本没有 SlotsPredicate（1.20.5 随物品数据组件引入）：本版本的物品/实体断言基于 NBT 与旧字段，需按本版本 ItemPredicate / EntityPredicate 的构造方式人工改写",
@@ -148,6 +164,7 @@
     "mc.advancements.predicates.FoodPredicate": "FoodPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.FoodPredicate 引用；反向迁移时按本数据集实际的食物谓词类人工确认（该类旧包路径未核实，不要自动猜写）。",
     "mc.advancements.predicates.InputPredicate": "InputPredicate 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.InputPredicate 引用；反向迁移时按本数据集实际的输入谓词类人工确认（旧数据为 advancements.criterion.InputPredicate，仍需按本数据集核对）。",
     "mc.advancements.predicates.entity.SheepPredicate": "SheepPredicate 是 26.2 起进度实体谓词所在新包中的类；本数据集没有该 26.2 包路径的对应类。26.2 侧按 net.minecraft.advancements.predicates.entity.SheepPredicate 引用；反向迁移时按本数据集实际的实体谓词类人工确认（旧数据为 advancements.criterion.SheepPredicate，仍需按本数据集核对）。",
-    "mc.advancements.predicates.DataComponentMatchers": "DataComponentMatchers 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.DataComponentMatchers 引用；反向迁移时按本数据集实际的数据组件匹配类人工确认（旧数据为 advancements.criterion.DataComponentMatchers，仍需按本数据集核对）。"
+    "mc.advancements.predicates.DataComponentMatchers": "DataComponentMatchers 是 26.2 起进度谓词所在新包中的类；本数据集没有该包路径。26.2 侧按 net.minecraft.advancements.predicates.DataComponentMatchers 引用；反向迁移时按本数据集实际的数据组件匹配类人工确认（旧数据为 advancements.criterion.DataComponentMatchers，仍需按本数据集核对）。",
+    "mc.world.entity.ai.attributes.Attributes": "本版本官方（Mojmap）类为 net.minecraft.world.entity.ai.attributes.Attributes，常量无前缀（MAX_HEALTH、SPAWN_REINFORCEMENTS_CHANCE 等），与 1.21.1+ 官方名一致；Yarn（Fabric）侧 1.21.2 前常量带前缀且类名不同，跨加载器迁移时需人工核对"
   }
 }

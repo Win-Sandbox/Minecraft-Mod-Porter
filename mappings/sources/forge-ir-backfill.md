@@ -37,9 +37,25 @@
 - `mc.core.registries.Registries` / `BuiltInRegistries`：1.19.3 才从 `Registry` 拆出；1.14.4–1.19.2 改为映射 `mc.core.Registry`，两者写 guidance。
 - `logging.slf4j`：1.17.1+ 数据集 `supported`。
 
-## 3. 待核实
+## 3. 待核实 / 已核实
 
-- 1.17.1：TierSortingRegistry 是否已存在；IEntityAdditionalSpawnData 的包（写成 guidance）。
+### 3.1 已核实（附一手证据来源）
+
+- **1.17.1：`forge.entity.IEntityAdditionalSpawnData` 的包。** 已用 Forge 1.17.1-37.1.1 `sources.jar`
+  核实：该接口位于 `net.minecraftforge.fmllegacy.common.registry.IEntityAdditionalSpawnData`
+  （不是旧文本含糊写的 `net.minecraftforge.fml.common.registry`）。1.16.5 侧位于
+  `net.minecraftforge.fml.common.registry`（该版本 classes.json 现有映射与此一致），1.18 起迁至
+  `net.minecraftforge.entity`（1.18.2/1.19.2/1.19.4/1.20.1 classes.json 现有映射与此一致）。
+  证据：`https://maven.minecraftforge.net/net/minecraftforge/forge/1.17.1-37.1.1/forge-1.17.1-37.1.1-sources.jar`
+  （`net/minecraftforge/fmllegacy/common/registry/IEntityAdditionalSpawnData.java`），
+  本地留档于 `evidence/forge-1.17.1-37.1.1-IEntityAdditionalSpawnData.java` 与
+  `evidence/forge-1.17.1-sources-jar-listing-head.txt`（含下载 URL 与 SHA256）。
+  `mappings/versions/forge/1.17.1/idioms.json` 的 `guidance["forge.entity.IEntityAdditionalSpawnData"]`
+  已据此修正（由 `apply.py` 完成，幂等）。
+
+### 3.2 待核实（保留，未改动文档外内容）
+
+- 1.17.1：TierSortingRegistry 是否已存在。
 - 1.14.4 / 1.15.2：VillagerTradesEvent、WandererTradesEvent 是否已存在。
 - 1.16.5：ForgeSpawnEggItem 是否已存在（目前写 guidance）；model.generators 生成器类。
 - 1.21.1：RenderGuiEvent、TierSortingRegistry 是否已移除；EntityItemPickupEvent、IEntityAdditionalSpawnData、ConfigScreenHandler、ForgeSpawnEggItem 是否仍在原包。

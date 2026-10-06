@@ -1,6 +1,7 @@
 {
   "guidance": {
     "damage.types": "1.19.3 伤害仍是 DamageSource 静态常量（DamageSource.GENERIC 等），1.19.4 起才数据驱动化",
-    "mc.world.item.ArmorItem.Type": "本版本没有 ArmorItem.Type（1.19.4 引入）：ArmorItem 构造接收 EquipmentSlot（HEAD/CHEST/LEGS/FEET）"
+    "mc.world.item.ArmorItem.Type": "本版本没有 ArmorItem.Type（1.19.4 引入）：ArmorItem 构造接收 EquipmentSlot（HEAD/CHEST/LEGS/FEET）",
+    "mc.world.entity.ai.attributes.Attributes": "本版本官方（Mojmap）类为 net.minecraft.world.entity.ai.attributes.Attributes，常量无前缀（MAX_HEALTH、SPAWN_REINFORCEMENTS_CHANCE 等），与 1.21.1+ 官方名一致；Yarn（Fabric）侧 1.21.2 前常量带前缀且类名不同，跨加载器迁移时需人工核对"
   }
 }

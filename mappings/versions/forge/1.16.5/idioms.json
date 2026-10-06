@@ -142,7 +142,6 @@
     "forge.client.IGuiOverlay": "本版本没有 IGuiOverlay（1.19 引入）：本版本 HUD 绘制监听 RenderGameOverlayEvent（ElementType 判断元素）",
     "forge.client.RenderGuiEvent": "本版本没有 RenderGuiEvent（1.19 引入）：整屏 HUD 绘制前后监听 RenderGameOverlayEvent.Pre/Post，并判断 ElementType.ALL",
     "forge.client.VanillaGuiOverlay": "本版本没有 VanillaGuiOverlay：原版 HUD 元素用 RenderGameOverlayEvent.ElementType（如 HEALTH、HOTBAR）区分，Pre 事件 setCanceled(true) 即隐藏",
-    "forge.common.ForgeSpawnEggItem": "本版本没有 ForgeSpawnEggItem：原版 SpawnEggItem 构造时就需要 EntityType 实例，需保证实体类型先于物品注册（或在物品注册事件中手动构造）",
     "forge.common.TierSortingRegistry": "本版本挖掘等级用 Block.Properties.harvestTool(ToolType.PICKAXE).harvestLevel(n) 与 IItemTier#getHarvestLevel() 整数比较",
     "forge.event.BuildCreativeModeTabContentsEvent": "本版本没有 BuildCreativeModeTabContentsEvent：物品页签在物品属性上指定（见 fabric.itemgroup），变体：getSubItems/getSubBlocks 已移除：1.16.5 覆写 Item#fillItemGroup(ItemGroup, NonNullList<ItemStack>) 提供变体",
     "forge.event.EntityRenderersEvent": "本版本没有 EntityRenderersEvent（1.17 引入）：在 FMLClientSetupEvent 中 RenderingRegistry.registerEntityRenderingHandler(EntityType, 渲染工厂)，方块实体渲染器用 ClientRegistry 绑定",
@@ -264,6 +263,7 @@
     "neoforge.network.RegisterPayloadHandlersEvent": "Forge 没有 RegisterPayloadHandlersEvent：改用 SimpleChannel：NetworkRegistry.newSimpleChannel(new ResourceLocation(MODID, \"main\"), 版本 supplier×3)（net.minecraftforge.fml.network.NetworkRegistry），消息为 POJO，channel.registerMessage(index, 类, encoder, decoder, handler) 注册；handler 中用 ctx.get().enqueueWork(...) 回主线程",
     "neoforge.registries.DeferredBlock": "Forge 没有 DeferredBlock：DeferredRegister<Block>.register(\"name\", ...) 返回 RegistryObject<Block>，取值用 .get()",
     "neoforge.registries.DeferredItem": "Forge 没有 DeferredItem：DeferredRegister<Item>.register(\"name\", ...) 返回 RegistryObject<Item>，取值用 .get()（ItemStack 用 new ItemStack(obj.get())）",
-    "neoforge.registries.NeoForgeRegistries": "Forge 自有注册表在 ForgeRegistries（如 ForgeRegistries.ITEMS，自定义键在 ForgeRegistries.Keys）"
+    "neoforge.registries.NeoForgeRegistries": "Forge 自有注册表在 ForgeRegistries（如 ForgeRegistries.ITEMS，自定义键在 ForgeRegistries.Keys）",
+    "mc.world.entity.ai.attributes.Attributes": "本版本官方（Mojmap）类为 net.minecraft.world.entity.ai.attributes.Attributes，常量无前缀（MAX_HEALTH、SPAWN_REINFORCEMENTS_CHANCE 等），与 1.21.1+ 官方名一致；Yarn（Fabric）侧 1.21.2 前常量带前缀且类名不同，跨加载器迁移时需人工核对"
   }
 }

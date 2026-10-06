@@ -153,34 +153,34 @@
 - [ ] 参考知识库的**方法改名**还没有逐条与我方 `members.json` 比对；目前只粗扫过类名，126 个完整类名里 118 个已对应。
 - [ ] 26.2：`SlimePredicate` → `CubeMobPredicate` 之外的 Speleothem 系列、`ChatFormatting` 被移除方法的替代 API、`valueLookupBuilder` 移除、`BlockIds` / `ItemIds` 拆分，目前只有 guidance。
 - [ ] 1.21.11：GameRules 迁包、实体与模型类的大规模子包重排、`criterion` 包中未列出的其余类、环境属性 API，目前只有 guidance。
-- [ ] 1.21.2：`EntityAttributes` 去掉 `GENERIC_` 前缀，常量级改名需要字段映射。
-- [ ] 1.19 / 1.19.1：聊天签名带来的 `ClientReceiveMessageEvents` 等回调参数差异。
-- [ ] Fabric：`ItemTooltipCallback` 各版本的参数形式；`ServerLivingEntityEvents` 各常量首次出现的版本。
-- [ ] Fabric 26.1：`ResourceLoader#registerReloader` 的参数形式，以及 `AttachmentRegistry` 的方法名是否跟随迁移。
-- [ ] `ChunkPos` 构造器 → 静态工厂（26.1）：`(BlockPos)` 和 `(long)` 都是单参数构造器，idiom 只能按参数个数区分，需要引擎支持按参数类型匹配。
+- [x] 1.21.2 `EntityAttributes` 字段改名已落地（2026-10-06）：新类 IR `mc.world.entity.ai.attributes.Attributes`；Fabric 1.21.1 写 31 个 Yarn 旧名、1.21.2 写去前缀新名并新增 `TEMPT_RANGE`（1.21.4–1.21.11 继承），成员条目不带 note（带 note 会让引擎保留原文不改名）；26.1 与 Forge/NeoForge 用官方名、成员走 IR 名默认；其余版本补 guidance。证据为 Yarn v2 tiny 与官方映射。更早 Fabric 版本 Yarn 名不单调（如 1.17.1–1.20.4 `HORSE_JUMP_STRENGTH`），只给 guidance，未自动改。Java 未编译未运行。
+- [x] **1.19 / 1.19.1 聊天回调差异已核实并补 guidance**：官方 Fabric API 发布源码证实 ClientReceiveMessageEvents 直到 1.19.3 才出现；1.19/1.19.1 服务端 ServerMessageEvents 的聊天消息包装/ChatType 参数以及 game message 的 server/overlay 参数有差异。1.19.2 数据集（含别名 1.19/1.19.1）的 ServerChatEvent guidance 已说明，实际 lambda 适配仍需人工处理。
+- [x] **Fabric API 事件参数和引入版本已核实并补 guidance**：ItemTooltipCallback 1.15.2–1.20.4 为三参，1.20.5 起四参（26.x 官方名）；ServerLivingEntityEvents 自 1.19.2 起有 ALLOW_DAMAGE/ALLOW_DEATH/AFTER_DEATH，MOB_CONVERSION 1.20.1 起、AFTER_DAMAGE 1.21.1 起；10 个数据集共 15 条 guidance 已按证据更新。未自动改写回调 lambda。
+- [x] **Fabric 26.1 ResourceLoader / AttachmentRegistry 方法名已核实**：官方 Fabric API 模块源码证实 ResourceLoader 的 26.x 名字是 `registerReloadListener` 与 `addListenerOrdering`，guidance 已修；AttachmentRegistry 1.21.11→26.1 方法名不变，26.x 多一个 syncWith 三参重载，guidance 已补准确方法名与官方 Identifier 工厂。注意 1.21.2 的模块版本线回落，不能按 MC 版本单调推断可用重载；参数/回调语义变化仍需人工核对。
+- [ ] `ChunkPos` 构造器 → 静态工厂（26.1）：**引擎与数据已就绪**（2026-10-06）——`idioms.json` 支持 `argTypes`；`rewriteIdioms` 按位置互斥、内层优先；参数类型证明不了就保留原代码并标 TODO。另修正：源/目标两侧类名不同（Fabric Yarn `net.minecraft.util.math.BlockPos` → 官方 `net.minecraft.core.BlockPos`）时按类映射换算后再比对。`chunkpos.containing`/`chunkpos.unpack` 已写入 Fabric 9 个旧版本 + 26.1、NeoForge 1.20.1/1.20.4/1.21.1 + 26.1（官方 26.1/26.2 client.jar 证实只剩 `(int,int)` 构造器、新增 `containing(BlockPos)`/`unpack(long)`）。**未验收**：Java 未编译、`IdiomArgTypesTest` 未运行。
 
 ### 3.2 待核实（目前写成 guidance，没有写死映射）
-- [ ] Forge 1.17.1：`TierSortingRegistry` 是否已存在；`IEntityAdditionalSpawnData` 所在的包。
-- [ ] Forge 1.14.4 / 1.15.2：`VillagerTradesEvent` / `WandererTradesEvent` 是否已存在。
-- [ ] Forge 1.16.5：`ForgeSpawnEggItem`、model generators 是否已存在。
-- [ ] Forge 1.21.1：`RenderGuiEvent`、`TierSortingRegistry` 是否已移除；`EntityItemPickupEvent`、`ConfigScreenHandler` 等是否仍在原包。
-- [ ] 1.17.1–1.20.1：闪电谓词的官方类名是否就拼作 `LighthingBoltPredicate`（目前只在 1.21.1 映射）。
-- [ ] NeoForge：`GameTypePredicate`、`MovementPredicate` 的确切引入版本。
-- [ ] Fabric 1.16 / 1.16.1 早期 API 构建是否已包含 `TradeOfferHelper`。
+- [x] Forge 1.17.1：`TierSortingRegistry` 存在（官方 1.17.x 源码）；`IEntityAdditionalSpawnData` 位于 `net.minecraftforge.fmllegacy.common.registry`（1.17.1-37.1.1 sources.jar），guidance 已修正。
+- [x] Forge 1.14.4 / 1.15.2：`VillagerTradesEvent`/`WandererTradesEvent` 均已存在（官方 1.14.x/1.15.x 分支），现有映射正确。
+- [x] Forge 1.16.5：`ForgeSpawnEggItem` 已存在（36.2.39 sources.jar 证实），2026-10-06 已补类映射、删去“本版本没有”的旧 guidance；同目录别名 1.16.4（Forge 35.1.37）没有此类，映射 note 已注明。model generators 由 `neoforge.client.BlockStateProvider`/`ItemModelProvider` 覆盖。
+- [x] Forge 1.21.1：官方 52.1.0 sources.jar 中 `RenderGuiEvent`/`RenderGuiOverlayEvent`/`RegisterGuiOverlaysEvent`/`IGuiOverlay`/`VanillaGuiOverlay` 文件只剩注释（已移除）；`TierSortingRegistry` 不存在；Forge 1.20.6–1.21.4 也没有 `AddGuiOverlayLayersEvent`/`ForgeLayeredDraw`（NeoForge API），2026-10-06 已改正 16 处误导 guidance 并删去两条误登 removed 库存。`EntityItemPickupEvent`、`ConfigScreenHandler` 仍在原包。
+- [x] 1.17.1–1.20.5 官方类名确为 `LighthingBoltPredicate`（拼写错误），1.21 起为 `LightningBoltPredicate`；现有 guidance 与证据一致。
+- [x] NeoForge：`GameTypePredicate`/`MovementPredicate` 均在 1.21 正式版引入（1.20.6 官方映射无），guidance 已修正。
+- [x] Fabric 1.16 / 1.16.1：项目所用 Fabric API 0.42.0+1.16 已含 `TradeOfferHelper`（首次出现于 0.21.0+build.407-1.16），现有 guidance 无需改。
 - [ ] NeoForge 1.20.3 的构建模板：官方没有 MDK，现在沿用 NeoGradle 7.0.116，兼容性未核实。
 - [ ] NeoForge 1.20.1 的构建模板：原 MDK 已被替换，Gradle 8.8 配 NeoGradle 6 的写法未核实。
 - [ ] Fabric 1.21.9 `SkinTextures` 的 `body().texturePath()`、`KeyInput` / `Click` 的记录组件名：Yarn 中没有命名，未逐字核实。
 - [ ] Forge IR 回补按要求没有逐条大规模核实，详见 `mappings/sources/forge-ir-backfill.md`。
 
 ### 3.3 回补引入的退化：1.12 生命周期事件不再自动改名
-- [ ] 为了消除「多个 IR 指向同一个 FQCN」（引擎反查时的结果取决于 HashMap 顺序），Forge 1.14.4+ 不再映射 `forge.lifecycle.init` 和 `forge.event.PlayerEventFml`，改为写 guidance。
-**2026-10-04 修订（本轮再修正）**：removed.json 是无映射库存，不是“确已移除”证明；两侧同 FQCN 且同 concept 的库存、或目标 classes.json 显式含该 FQCN 时保留 MAPPED，目标缺精确记录或不同 concept 则 UNKNOWN 并在存在 guidance 时打 TODO，避免把仍可用的 SLF4J/Capability API 误报 REMOVED；仍需真实样例运行验证。多个 IR 映射到同一 FQCN 的组必须在组内恰有一个 `primary: true`，否则该 FQCN 反查（内部类解析、Mixin/AW owner 判定）返回 UNKNOWN 并保留 TODO；不会构造任意逆映射。1.12 的 `FMLInitializationEvent` 迁移仅指导/TODO，与 README 中「Semantic Migration」描述不一致。
+- [x] **Forge 1.12 生命周期事件重复 IR 退化已静态恢复**：7个 Forge 版本为 `forge.lifecycle.commonSetup`/`forge.event.PlayerEvent` 标记唯一 `primary:true`，恢复旧 `forge.lifecycle.init`/`forge.event.PlayerEventFml` 同FQCN标注；validator ERROR 0、WARN 0、INFO 24。未编译/未运行 Java。详见本轮第3类交付报告。
   - 解决：引擎允许多个 IR 合法地映射到同一个 FQCN（`VersionMappings.irByFqcn` 改为确定性的优先级，比如在 classes.json 里加 `"primary": true`），然后恢复这两条映射；或者修改 README 的描述。
 
 ### 3.4 其它数据层待办
 - [x] `templates/settings.gradle` 支持已接入（`SettingsGradlePass` + 1.20.1/1.20.3/1.20.4 模板 + `DefaultPortEngine` 集成，缺失模板不生成，Kotlin DSL 不生成冲突 Groovy）。
 - [x] **Settings 仓库迁移静态安全闭合（P1）**：需求取自目标 settings 模板的真实仓库声明，缺模板为 UNKNOWN（原样保留/不生成 + TODO）；已有文件在 pluginManagement/repositories 范围识别 Portal 与 NeoForge Maven，缺项补齐，注释不算仓库。已补回归源码；Groovy 非完整语法解析，等价 URL/复杂写法和 Java 运行验证仍未覆盖。
-- [ ] 部分 `neoforge.*` id 在 Forge 中有同名类，已经一并映射；需要在 `NEOFORGE-IR-CONTRACT.md` 里把这种做法写成规则。
+- [x] 部分 `neoforge.*` id 在 Forge 中有同名类，已经一并映射：规则已写在 `NEOFORGE-IR-CONTRACT.md` 2.2 节（9 个复用 id 与清单一致）；2026-10-06 起 `validate_mappings.py` 的 `E-neoforgeIr` 封闭清单校验也覆盖 Forge 数据集（构造越界 id 已验证能报错）。
+- [ ] Forge 侧这 9 个复用条目没有 note（契约 2.2 第 3 条）。**不要直接给 classes.json 加 note**：引擎会把目标类的 note 在每个相关 import 处输出成 TODO，“与 NeoForge 共用”这类说明会变成大量无用 TODO。若要满足契约，应改成只供文档/校验使用的字段，或在契约里注明 Forge 侧免 note。2026-10-06 已修正 1.17.1 `IEntityAdditionalSpawnData` 的 guidance（官方 sources.jar 证实位于 `net.minecraftforge.fmllegacy.common.registry`）并更新 `forge-ir-backfill.md` 第 3 节；该节其余 4 条仍待核实。
 
 ---
 
